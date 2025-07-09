@@ -1,0 +1,44 @@
+import { record, safeParser, string, unknown } from 'valibot';
+
+const valiRecordParser = safeParser(record(string(), unknown()));
+
+/**
+ * Checks if value is an object.
+ * @param value -
+ * @returns -
+ */
+export function isRecord(value: unknown): value is Record<string, unknown> {
+	return Array.isArray(value) === false && valiRecordParser(value).success;
+}
+
+/**
+ * Checks if object has key.
+ * @param object -
+ * @param key -
+ * @returns -
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function hasOwn<const O extends Record<string, any>>(
+	object: O,
+	key: string | number | symbol,
+): key is keyof O {
+	return Object.hasOwn(object, key);
+}
+
+/**
+ * Checks if value is iterator.
+ * @param value -
+ * @returns -
+ */
+export function isIterableIterator(
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	value: any,
+): value is IterableIterator<unknown> {
+	return (
+		value !== null &&
+		typeof value === 'object' &&
+		Symbol.iterator in value &&
+		typeof value[Symbol.iterator] === 'function' &&
+		typeof value.next === 'function'
+	);
+}

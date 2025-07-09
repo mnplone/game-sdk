@@ -1,0 +1,9 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"extends": [
+		"./node_modules/@kirick/lint/configs/oxlint/correctness.json",
+		"./node_modules/@kirick/lint/configs/oxlint/perf.json",
+		"./node_modules/@kirick/lint/configs/oxlint/restriction.json"
+	],
+	"ignorePatterns": ["dist"]
+}
