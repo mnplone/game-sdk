@@ -1,35 +1,25 @@
-import {
-	array,
-	literal,
-	number,
-	object,
-	optional,
-	picklist,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import { normalizeFieldId } from '../../utils/table.js';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('bus.select'),
-		user_id: number(),
-		field_ids_move: pipe(
-			array(number()),
-			transform((value) => new Set(value)),
+	v.object({
+		id: v.string(),
+		type: v.literal('bus.select'),
+		user_id: v.number(),
+		field_ids_move: v.pipe(
+			v.array(v.number()),
+			v.transform((value) => new Set(value)),
 		),
 	}),
-	object({
-		id: string(),
-		type: literal('bus.move'),
-		user_id: number(),
-		selection: object({
-			stop_id: picklist([0, 1, -1]),
-			field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('bus.move'),
+		user_id: v.number(),
+		selection: v.object({
+			stop_id: v.picklist([0, 1, -1]),
+			field_id: v.number(),
 			auto: bit(false),
 		}),
 		move_reversed: bit(false),
@@ -69,13 +59,13 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('chooseBusStop'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('chooseBusStop'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'bus.select' as const,
@@ -84,17 +74,17 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('busStopChoosed'),
-			user_id: number(),
-			stop: picklist([0, 1, -1]),
-			mean_position: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('busStopChoosed'),
+			user_id: v.number(),
+			stop: v.picklist([0, 1, -1]),
+			mean_position: v.number(),
 			move_reverse: bit(false),
 			auto_selected: bit(false),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'bus.move' as const,

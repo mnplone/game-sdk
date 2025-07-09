@@ -1,26 +1,16 @@
-import {
-	array,
-	type InferOutput,
-	object,
-	optional,
-	pipe,
-	record,
-	string,
-	transform,
-	union,
-} from 'valibot';
+import * as v from 'valibot';
 import { isRecord } from '../utils/guards.js';
 import { valiSchemas, valiV1Schemas } from './events.all.js';
 
-export const valiM1DemoRawPacketEventsSchema = array(
-	union([
+export const valiM1DemoRawPacketEventsSchema = v.array(
+	v.union([
 		...valiSchemas,
-		pipe(
-			object({
-				id: string(),
-				type: string(),
+		v.pipe(
+			v.object({
+				id: v.string(),
+				type: v.string(),
 			}),
-			transform(({ type, ...value_rest }) => {
+			v.transform(({ type, ...value_rest }) => {
 				return {
 					type: '_unknown' as const,
 					type_received: type,
@@ -31,7 +21,7 @@ export const valiM1DemoRawPacketEventsSchema = array(
 	]),
 );
 
-export type M1DemoRawPacketEvents = InferOutput<
+export type M1DemoRawPacketEvents = v.InferOutput<
 	typeof valiM1DemoRawPacketEventsSchema
 >;
 export type M1DemoRawPacketEvent = M1DemoRawPacketEvents[number];
@@ -41,14 +31,14 @@ export type M1DemoPacketEventType = M1DemoRawPacketEvent['type'];
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-const valiM1DemoRawPacketV1EventElementSchema = union([
+const valiM1DemoRawPacketV1EventElementSchema = v.union([
 	...valiV1Schemas,
-	pipe(
-		object({
-			_id: optional(string()),
-			type: string(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.string(),
 		}),
-		transform(({ _id, type, ...value_rest }) => {
+		v.transform(({ _id, type, ...value_rest }) => {
 			return {
 				id: _id,
 				type: '_unknown' as const,
@@ -59,12 +49,12 @@ const valiM1DemoRawPacketV1EventElementSchema = union([
 	),
 ]);
 
-export const valiM1DemoRawPacketV1EventsSchema = pipe(
-	union([
-		array(valiM1DemoRawPacketV1EventElementSchema),
-		record(string(), valiM1DemoRawPacketV1EventElementSchema),
+export const valiM1DemoRawPacketV1EventsSchema = v.pipe(
+	v.union([
+		v.array(valiM1DemoRawPacketV1EventElementSchema),
+		v.record(v.string(), valiM1DemoRawPacketV1EventElementSchema),
 	]),
-	transform((value) => {
+	v.transform((value) => {
 		if (isRecord(value)) {
 			return Object.entries(value).map(([_id, event]) => {
 				return {
@@ -76,7 +66,7 @@ export const valiM1DemoRawPacketV1EventsSchema = pipe(
 
 		return value;
 	}),
-	transform((value) => {
+	v.transform((value) => {
 		const events_new /* : Exclude<(typeof value)[number], { type: 'double_spended' }>[] */ =
 			[];
 

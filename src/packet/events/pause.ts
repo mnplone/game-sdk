@@ -1,35 +1,35 @@
-import { literal, object, optional, pipe, string, transform } from 'valibot';
+import * as v from 'valibot';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('pause.set'),
+	v.object({
+		id: v.string(),
+		type: v.literal('pause.set'),
 	}),
-	object({
-		id: string(),
-		type: literal('pause.end'),
+	v.object({
+		id: v.string(),
+		type: v.literal('pause.end'),
 	}),
 ];
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('pauseActive'),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('pauseActive'),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'pause.set' as const,
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('pauseRemoved'),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('pauseRemoved'),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'pause.end' as const,

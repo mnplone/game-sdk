@@ -1,19 +1,4 @@
-import {
-	array,
-	exactOptional,
-	type InferOutput,
-	literal,
-	never,
-	number,
-	object,
-	optional,
-	picklist,
-	pipe,
-	transform,
-	undefined_,
-	union,
-	variant,
-} from 'valibot';
+import * as v from 'valibot';
 import { bit } from '../../../utils/valibot.js';
 
 /**
@@ -27,21 +12,21 @@ function createStockItemProtoId(monopoly_id: number, index_in_group: number) {
 	return -(0b1_0000_0000 | (monopoly_id << 3) | index_in_group);
 }
 
-export const valiM1DemoPacketSetupConfigFieldsSchema = pipe(
-	array(
-		union([
+export const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(
+	v.array(
+		v.union([
 			// ALWAYS corners
-			object({
-				is_corner: pipe(
-					literal(1),
-					transform(() => true as const),
+			v.object({
+				is_corner: v.pipe(
+					v.literal(1),
+					v.transform(() => true as const),
 				),
-				type: picklist(['start', 'jail']),
+				type: v.picklist(['start', 'jail']),
 			}),
 			// MAYBE corners
-			object({
+			v.object({
 				is_corner: bit(false),
-				type: picklist([
+				type: v.picklist([
 					'chance',
 					'jackpot',
 					'jail.goto',
@@ -51,18 +36,18 @@ export const valiM1DemoPacketSetupConfigFieldsSchema = pipe(
 				]),
 			}),
 			// NEVER corners
-			object({
-				is_corner: pipe(
-					undefined_(),
-					transform(() => false as const),
+			v.object({
+				is_corner: v.pipe(
+					v.undefined_(),
+					v.transform(() => false as const),
 				),
-				type: literal('company'),
-				monopoly_id: number(),
+				type: v.literal('company'),
+				monopoly_id: v.number(),
 				is_last: bit(false),
 			}),
 		]),
 	),
-	transform((value) => {
+	v.transform((value) => {
 		const indexes_by_group = new Map<number, number>();
 
 		return value.map((field) => {
@@ -83,7 +68,7 @@ export const valiM1DemoPacketSetupConfigFieldsSchema = pipe(
 	}),
 );
 
-export type M1DemoPacketSetupConfigField = InferOutput<
+export type M1DemoPacketSetupConfigField = v.InferOutput<
 	typeof valiM1DemoPacketSetupConfigFieldsSchema
 >[0];
 
@@ -91,24 +76,24 @@ export type M1DemoPacketSetupConfigField = InferOutput<
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1ConfigFieldsSchema = pipe(
-	array(
-		variant('type', [
+export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
+	v.array(
+		v.variant('type', [
 			// ALWAYS corners
 			// separate types into object because typescript cannot extract types from union using if
-			object({
-				design: literal('corner'),
-				type: literal('start'),
+			v.object({
+				design: v.literal('corner'),
+				type: v.literal('start'),
 			}),
-			object({
-				design: literal('corner'),
-				type: literal('jail'),
+			v.object({
+				design: v.literal('corner'),
+				type: v.literal('jail'),
 			}),
 			// MAYBE corners
-			object({
-				design: optional(literal('corner')),
-				type: literal('special'),
-				action: picklist([
+			v.object({
+				design: v.optional(v.literal('corner')),
+				type: v.literal('special'),
+				action: v.picklist([
 					'chance',
 					'goToJail',
 					'jackpot',
@@ -118,10 +103,10 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = pipe(
 				]),
 			}),
 			// NEVER corners
-			object({
-				design: exactOptional(never()),
-				type: literal('field'),
-				group: number(),
+			v.object({
+				design: v.exactOptional(v.never()),
+				type: v.literal('field'),
+				group: v.number(),
 				is_last: bit(false),
 			}),
 		]),
@@ -158,7 +143,7 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = pipe(
 		// 	}),
 		// ]),
 	),
-	transform((value) => {
+	v.transform((value) => {
 		const indexes_by_group = new Map<number, number>();
 
 		return value.map((field) => {

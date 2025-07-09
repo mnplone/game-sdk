@@ -1,4 +1,37 @@
-import { array, boolean, exactOptional, getDotPath, intersect, isValiError, literal, never, nullable, number, object, optional, parser, picklist, pipe, record, safeParser, strictObject, string, transform, tuple, undefined_, union, unknown, variant } from "valibot";
+import * as v$33 from "valibot";
+import * as v$32 from "valibot";
+import * as v$31 from "valibot";
+import * as v$30 from "valibot";
+import * as v$29 from "valibot";
+import * as v$28 from "valibot";
+import * as v$27 from "valibot";
+import * as v$26 from "valibot";
+import * as v$25 from "valibot";
+import * as v$24 from "valibot";
+import * as v$23 from "valibot";
+import * as v$22 from "valibot";
+import * as v$21 from "valibot";
+import * as v$20 from "valibot";
+import * as v$19 from "valibot";
+import * as v$18 from "valibot";
+import * as v$17 from "valibot";
+import * as v$16 from "valibot";
+import * as v$15 from "valibot";
+import * as v$14 from "valibot";
+import * as v$13 from "valibot";
+import * as v$12 from "valibot";
+import * as v$11 from "valibot";
+import * as v$10 from "valibot";
+import * as v$9 from "valibot";
+import * as v$8 from "valibot";
+import * as v$7 from "valibot";
+import * as v$6 from "valibot";
+import * as v$5 from "valibot";
+import * as v$4 from "valibot";
+import * as v$3 from "valibot";
+import * as v$2 from "valibot";
+import * as v$1 from "valibot";
+import * as v from "valibot";
 
 //#region rolldown:runtime
 var __defProp = Object.defineProperty;
@@ -18,38 +51,38 @@ __export(auction_exports, {
 	valiV1Schemas: () => valiV1Schemas$19
 });
 const valiSchemas$19 = [
-	object({
-		id: string(),
-		type: literal("auction.put"),
-		user_id: number(),
-		field_id: number(),
-		bid: number()
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("auction.put"),
+		user_id: v$33.number(),
+		field_id: v$33.number(),
+		bid: v$33.number()
 	}),
-	object({
-		id: string(),
-		type: literal("auction.bid"),
-		user_id: number(),
-		bid: number()
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("auction.bid"),
+		user_id: v$33.number(),
+		bid: v$33.number()
 	}),
-	object({
-		id: string(),
-		type: literal("auction.reject"),
-		user_id: number()
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("auction.reject"),
+		user_id: v$33.number()
 	}),
-	object({
-		id: string(),
-		type: literal("auction.win"),
-		user_id: number(),
-		field_id: number(),
-		user_id_seller: optional(number()),
-		price: number()
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("auction.win"),
+		user_id: v$33.number(),
+		field_id: v$33.number(),
+		user_id_seller: v$33.optional(v$33.number()),
+		price: v$33.number()
 	}),
-	object({
-		id: string(),
-		type: literal("auction.cancel"),
-		field_id: number(),
-		user_id_seller: optional(number()),
-		price: optional(number())
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("auction.cancel"),
+		field_id: v$33.number(),
+		user_id_seller: v$33.optional(v$33.number()),
+		price: v$33.optional(v$33.number())
 	})
 ];
 const enrichments$18 = {
@@ -77,13 +110,13 @@ const enrichments$18 = {
 	}
 };
 const valiV1Schemas$19 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("toAuction"),
-		user_id: number(),
-		field: number(),
-		bet: number()
-	}), transform((value) => {
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("toAuction"),
+		user_id: v$33.number(),
+		field: v$33.number(),
+		bet: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.put",
@@ -92,12 +125,12 @@ const valiV1Schemas$19 = [
 			bid: value.bet
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("auctionAccept"),
-		user_id: number(),
-		bet: number()
-	}), transform((value) => {
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("auctionAccept"),
+		user_id: v$33.number(),
+		bet: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.bid",
@@ -105,25 +138,25 @@ const valiV1Schemas$19 = [
 			bid: value.bet
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("auctionDecline"),
-		user_id: number()
-	}), transform((value) => {
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("auctionDecline"),
+		user_id: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.reject",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("auctionWinner"),
-		user_id: number(),
-		user_id_seller: optional(number()),
-		field: number(),
-		money: number()
-	}), transform((value) => {
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("auctionWinner"),
+		user_id: v$33.number(),
+		user_id_seller: v$33.optional(v$33.number()),
+		field: v$33.number(),
+		money: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.win",
@@ -133,13 +166,13 @@ const valiV1Schemas$19 = [
 			price: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("auctionFail"),
-		field: number(),
-		user_id_seller: optional(number()),
-		money: optional(number())
-	}), transform((value) => {
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("auctionFail"),
+		field: v$33.number(),
+		user_id_seller: v$33.optional(v$33.number()),
+		money: v$33.optional(v$33.number())
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.cancel",
@@ -159,29 +192,29 @@ __export(bank_exports, {
 	valiV1Schemas: () => valiV1Schemas$18
 });
 const valiSchemas$18 = [
-	object({
-		id: string(),
-		type: literal("bank.income"),
-		user_id: number(),
-		amount: number()
+	v$32.object({
+		id: v$32.string(),
+		type: v$32.literal("bank.income"),
+		user_id: v$32.number(),
+		amount: v$32.number()
 	}),
-	object({
-		id: string(),
-		type: literal("bank.fee"),
-		user_id: number(),
-		amount: number()
+	v$32.object({
+		id: v$32.string(),
+		type: v$32.literal("bank.fee"),
+		user_id: v$32.number(),
+		amount: v$32.number()
 	}),
-	object({
-		id: string(),
-		type: literal("bank.fee.pay"),
-		user_id: number(),
-		amount: number()
+	v$32.object({
+		id: v$32.string(),
+		type: v$32.literal("bank.fee.pay"),
+		user_id: v$32.number(),
+		amount: v$32.number()
 	}),
-	object({
-		id: string(),
-		type: literal("bank.return"),
-		user_id: number(),
-		amount: number()
+	v$32.object({
+		id: v$32.string(),
+		type: v$32.literal("bank.return"),
+		user_id: v$32.number(),
+		amount: v$32.number()
 	})
 ];
 const enrichments$17 = {
@@ -199,12 +232,12 @@ const enrichments$17 = {
 	}
 };
 const valiV1Schemas$18 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("cash_plus"),
-		user_id: number(),
-		money: number()
-	}), transform((value) => {
+	v$32.pipe(v$32.object({
+		_id: v$32.optional(v$32.string()),
+		type: v$32.literal("cash_plus"),
+		user_id: v$32.number(),
+		money: v$32.number()
+	}), v$32.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.income",
@@ -212,16 +245,16 @@ const valiV1Schemas$18 = [
 			amount: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: picklist([
+	v$32.pipe(v$32.object({
+		_id: v$32.optional(v$32.string()),
+		type: v$32.picklist([
 			"cash_minus",
 			"tax_income",
 			"tax_luxury"
 		]),
-		user_id: number(),
-		money: number()
-	}), transform((value) => {
+		user_id: v$32.number(),
+		money: v$32.number()
+	}), v$32.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.fee",
@@ -229,12 +262,12 @@ const valiV1Schemas$18 = [
 			amount: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("feePaid"),
-		user_id: number(),
-		money: number()
-	}), transform((value) => {
+	v$32.pipe(v$32.object({
+		_id: v$32.optional(v$32.string()),
+		type: v$32.literal("feePaid"),
+		user_id: v$32.number(),
+		money: v$32.number()
+	}), v$32.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.fee.pay",
@@ -242,12 +275,12 @@ const valiV1Schemas$18 = [
 			amount: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("insuranceReturn"),
-		user_id: number(),
-		money: number()
-	}), transform((value) => {
+	v$32.pipe(v$32.object({
+		_id: v$32.optional(v$32.string()),
+		type: v$32.literal("insuranceReturn"),
+		user_id: v$32.number(),
+		money: v$32.number()
+	}), v$32.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.return",
@@ -278,18 +311,18 @@ function normalizeFieldId(setup, field_id) {
 * @returns -
 */
 function bit(default_value) {
-	return pipe(optional(picklist([0, 1]), default_value ? 1 : 0), transform((value) => value === 1));
+	return v$31.pipe(v$31.optional(v$31.picklist([0, 1]), default_value ? 1 : 0), v$31.transform((value) => value === 1));
 }
 function parse(schema, value) {
-	return parser$1(schema)(value);
+	return parser(schema)(value);
 }
-function parser$1(schema) {
-	const fn = parser(schema);
+function parser(schema) {
+	const fn = v$31.parser(schema);
 	return (value) => {
 		try {
 			return fn(value);
 		} catch (error) {
-			if (isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
+			if (v$31.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${v$31.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
 			throw error;
 		}
 	};
@@ -303,22 +336,22 @@ __export(bus_exports, {
 	valiSchemas: () => valiSchemas$17,
 	valiV1Schemas: () => valiV1Schemas$17
 });
-const valiSchemas$17 = [object({
-	id: string(),
-	type: literal("bus.select"),
-	user_id: number(),
-	field_ids_move: pipe(array(number()), transform((value) => new Set(value)))
-}), object({
-	id: string(),
-	type: literal("bus.move"),
-	user_id: number(),
-	selection: object({
-		stop_id: picklist([
+const valiSchemas$17 = [v$30.object({
+	id: v$30.string(),
+	type: v$30.literal("bus.select"),
+	user_id: v$30.number(),
+	field_ids_move: v$30.pipe(v$30.array(v$30.number()), v$30.transform((value) => new Set(value)))
+}), v$30.object({
+	id: v$30.string(),
+	type: v$30.literal("bus.move"),
+	user_id: v$30.number(),
+	selection: v$30.object({
+		stop_id: v$30.picklist([
 			0,
 			1,
 			-1
 		]),
-		field_id: number(),
+		field_id: v$30.number(),
 		auto: bit(false)
 	}),
 	move_reversed: bit(false)
@@ -342,30 +375,30 @@ const enrichments$16 = {
 		player.position = options.event.selection.field_id;
 	}
 };
-const valiV1Schemas$17 = [pipe(object({
-	_id: optional(string()),
-	type: literal("chooseBusStop"),
-	user_id: number()
-}), transform((value) => {
+const valiV1Schemas$17 = [v$30.pipe(v$30.object({
+	_id: v$30.optional(v$30.string()),
+	type: v$30.literal("chooseBusStop"),
+	user_id: v$30.number()
+}), v$30.transform((value) => {
 	return {
 		id: value._id,
 		type: "bus.select",
 		user_id: value.user_id,
 		field_ids_move: new Set()
 	};
-})), pipe(object({
-	_id: optional(string()),
-	type: literal("busStopChoosed"),
-	user_id: number(),
-	stop: picklist([
+})), v$30.pipe(v$30.object({
+	_id: v$30.optional(v$30.string()),
+	type: v$30.literal("busStopChoosed"),
+	user_id: v$30.number(),
+	stop: v$30.picklist([
 		0,
 		1,
 		-1
 	]),
-	mean_position: number(),
+	mean_position: v$30.number(),
 	move_reverse: bit(false),
 	auto_selected: bit(false)
-}), transform((value) => {
+}), v$30.transform((value) => {
 	return {
 		id: value._id,
 		type: "bus.move",
@@ -381,15 +414,15 @@ const valiV1Schemas$17 = [pipe(object({
 
 //#endregion
 //#region src/packet/status/turn.ts
-const valiM1DemoContractSchema = pipe(tuple([object({
-	user_id: number(),
-	field_ids: array(number()),
-	cash: number()
-}), object({
-	user_id: number(),
-	field_ids: array(number()),
-	cash: number()
-})]), transform(([initiator, responder]) => {
+const valiM1DemoContractSchema = v$29.pipe(v$29.tuple([v$29.object({
+	user_id: v$29.number(),
+	field_ids: v$29.array(v$29.number()),
+	cash: v$29.number()
+}), v$29.object({
+	user_id: v$29.number(),
+	field_ids: v$29.array(v$29.number()),
+	cash: v$29.number()
+})]), v$29.transform(([initiator, responder]) => {
 	return {
 		initiator: {
 			user_id: initiator.user_id,
@@ -403,11 +436,11 @@ const valiM1DemoContractSchema = pipe(tuple([object({
 		}
 	};
 }));
-const valiM1DemoPacketStatusTurnSchema = object({
-	user_id: nullable(number()),
-	action: object({
-		user_id: nullable(number()),
-		list: pipe(array(picklist([
+const valiM1DemoPacketStatusTurnSchema = v$29.object({
+	user_id: v$29.nullable(v$29.number()),
+	action: v$29.object({
+		user_id: v$29.nullable(v$29.number()),
+		list: v$29.pipe(v$29.array(v$29.picklist([
 			"auction.put",
 			"auction.bid",
 			"auction.reject",
@@ -436,43 +469,43 @@ const valiM1DemoPacketStatusTurnSchema = object({
 			"wormhole.jump",
 			"wormhole.reject",
 			"restart"
-		])), transform((value) => new Set(value)))
+		])), v$29.transform((value) => new Set(value)))
 	}),
 	move_reversed: bit(false),
-	auction: optional(object({
-		field_id: number(),
-		bid: number(),
-		user_ids_rejected: pipe(array(number()), transform((value) => new Set(value)))
+	auction: v$29.optional(v$29.object({
+		field_id: v$29.number(),
+		bid: v$29.number(),
+		user_ids_rejected: v$29.pipe(v$29.array(v$29.number()), v$29.transform((value) => new Set(value)))
 	})),
-	contract: optional(valiM1DemoContractSchema),
-	contracts_sent: optional(number()),
-	jackpot: optional(object({ superprize: number() })),
-	payment: optional(object({
-		to_user_id: optional(number()),
-		amount: number()
+	contract: v$29.optional(valiM1DemoContractSchema),
+	contracts_sent: v$29.optional(v$29.number()),
+	jackpot: v$29.optional(v$29.object({ superprize: v$29.number() })),
+	payment: v$29.optional(v$29.object({
+		to_user_id: v$29.optional(v$29.number()),
+		amount: v$29.number()
 	})),
-	field_ids_move: optional(pipe(array(object({
-		field_id: number(),
-		data: union([object({ stop: number() }), object({ field_id: number() })])
-	})), transform((value) => new Map(value.map((item) => [item.field_id, item.data]))))),
-	field_ids_level_built: optional(pipe(array(number()), transform((value) => new Set(value)))),
-	field_ids_mortgaged: optional(pipe(array(number()), transform((value) => new Set(value))))
+	field_ids_move: v$29.optional(v$29.pipe(v$29.array(v$29.object({
+		field_id: v$29.number(),
+		data: v$29.union([v$29.object({ stop: v$29.number() }), v$29.object({ field_id: v$29.number() })])
+	})), v$29.transform((value) => new Map(value.map((item) => [item.field_id, item.data]))))),
+	field_ids_level_built: v$29.optional(v$29.pipe(v$29.array(v$29.number()), v$29.transform((value) => new Set(value)))),
+	field_ids_mortgaged: v$29.optional(v$29.pipe(v$29.array(v$29.number()), v$29.transform((value) => new Set(value))))
 });
 
 //#endregion
 //#region src/packet/status/fields.ts
-const valiM1DemoPacketStatusFieldsSchema = pipe(array(pipe(object({
-	field_id: number(),
-	owner_user_id: number(),
-	level: number(),
-	mortgage: optional(object({ round_until: optional(number()) }))
-}), transform((value) => value))), transform((value) => new Map(value.map((field) => [field.field_id, field]))));
-const valiM1DemoPacketV1StatusFieldsSchema = pipe(record(string(), object({
-	owner: number(),
-	level: number(),
-	mortgaged: boolean(),
-	mortgage_lose_round: optional(number())
-})), transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
+const valiM1DemoPacketStatusFieldsSchema = v$28.pipe(v$28.array(v$28.pipe(v$28.object({
+	field_id: v$28.number(),
+	owner_user_id: v$28.number(),
+	level: v$28.number(),
+	mortgage: v$28.optional(v$28.object({ round_until: v$28.optional(v$28.number()) }))
+}), v$28.transform((value) => value))), v$28.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
+const valiM1DemoPacketV1StatusFieldsSchema = v$28.pipe(v$28.record(v$28.string(), v$28.object({
+	owner: v$28.number(),
+	level: v$28.number(),
+	mortgaged: v$28.boolean(),
+	mortgage_lose_round: v$28.optional(v$28.number())
+})), v$28.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
 	const field_id = Number.parseInt(field_id_string);
 	return [field_id, {
 		field_id,
@@ -509,113 +542,113 @@ function crc32(data) {
 
 //#endregion
 //#region src/packet/setup/config/chance.ts
-const valiM1DemoPacketSetupConfigMechanicsChanceSchema = strictObject({ cards: array(union([
-	strictObject({
-		type: literal("income"),
-		text_id: number(),
-		range: strictObject({
-			min: number(),
-			max: number(),
-			step: number()
+const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v$27.strictObject({ cards: v$27.array(v$27.union([
+	v$27.strictObject({
+		type: v$27.literal("income"),
+		text_id: v$27.number(),
+		range: v$27.strictObject({
+			min: v$27.number(),
+			max: v$27.number(),
+			step: v$27.number()
 		})
 	}),
-	strictObject({
-		type: literal("expense"),
-		text_id: number(),
-		range: strictObject({
-			min: number(),
-			max: number(),
-			step: number()
+	v$27.strictObject({
+		type: v$27.literal("expense"),
+		text_id: v$27.number(),
+		range: v$27.strictObject({
+			min: v$27.number(),
+			max: v$27.number(),
+			step: v$27.number()
 		})
 	}),
-	strictObject({
-		type: literal("repair"),
-		text_id: number(),
-		cost: strictObject({
-			small: number(),
-			big: number()
+	v$27.strictObject({
+		type: v$27.literal("repair"),
+		text_id: v$27.number(),
+		cost: v$27.strictObject({
+			small: v$27.number(),
+			big: v$27.number()
 		})
 	}),
-	strictObject({
-		type: literal("go-to-jail"),
-		text_id: number()
+	v$27.strictObject({
+		type: v$27.literal("go-to-jail"),
+		text_id: v$27.number()
 	}),
-	strictObject({
-		type: literal("teleport"),
-		text_id: number()
+	v$27.strictObject({
+		type: v$27.literal("teleport"),
+		text_id: v$27.number()
 	}),
-	strictObject({
-		type: literal("skip-move"),
-		text_id: number()
+	v$27.strictObject({
+		type: v$27.literal("skip-move"),
+		text_id: v$27.number()
 	}),
-	strictObject({
-		type: literal("insurance"),
-		text_id: number(),
-		price: number()
+	v$27.strictObject({
+		type: v$27.literal("insurance"),
+		text_id: v$27.number(),
+		price: v$27.number()
 	}),
-	strictObject({
-		type: literal("birthday"),
-		text_id: number(),
-		amount: number()
+	v$27.strictObject({
+		type: v$27.literal("birthday"),
+		text_id: v$27.number(),
+		amount: v$27.number()
 	}),
-	strictObject({
-		type: literal("reverse"),
-		text_id: number()
+	v$27.strictObject({
+		type: v$27.literal("reverse"),
+		text_id: v$27.number()
 	}),
-	strictObject({
-		type: literal("disaster"),
-		text_id: number()
+	v$27.strictObject({
+		type: v$27.literal("disaster"),
+		text_id: v$27.number()
 	})
 ])) });
-const valiM1DemoPacketV1ConfigChanceCardsSchema = pipe(array(union([
-	strictObject({
-		type: literal("cash_in"),
-		text: string(),
-		range: tuple([number(), number()]),
-		rangeStep: number()
+const valiM1DemoPacketV1ConfigChanceCardsSchema = v$27.pipe(v$27.array(v$27.union([
+	v$27.strictObject({
+		type: v$27.literal("cash_in"),
+		text: v$27.string(),
+		range: v$27.tuple([v$27.number(), v$27.number()]),
+		rangeStep: v$27.number()
 	}),
-	strictObject({
-		type: literal("cash_out"),
-		text: string(),
-		range: tuple([number(), number()]),
-		rangeStep: number()
+	v$27.strictObject({
+		type: v$27.literal("cash_out"),
+		text: v$27.string(),
+		range: v$27.tuple([v$27.number(), v$27.number()]),
+		rangeStep: v$27.number()
 	}),
-	strictObject({
-		type: literal("repair"),
-		text: string(),
-		costs: tuple([number(), number()])
+	v$27.strictObject({
+		type: v$27.literal("repair"),
+		text: v$27.string(),
+		costs: v$27.tuple([v$27.number(), v$27.number()])
 	}),
-	strictObject({
-		type: literal("jail"),
-		text: string()
+	v$27.strictObject({
+		type: v$27.literal("jail"),
+		text: v$27.string()
 	}),
-	strictObject({
-		type: literal("teleport"),
-		text: string()
+	v$27.strictObject({
+		type: v$27.literal("teleport"),
+		text: v$27.string()
 	}),
-	strictObject({
-		type: literal("move_skip"),
-		text: string()
+	v$27.strictObject({
+		type: v$27.literal("move_skip"),
+		text: v$27.string()
 	}),
-	strictObject({
-		type: literal("insurance"),
-		text: string(),
-		sum: number()
+	v$27.strictObject({
+		type: v$27.literal("insurance"),
+		text: v$27.string(),
+		sum: v$27.number()
 	}),
-	strictObject({
-		type: literal("birthday"),
-		text: string(),
-		sum: number()
+	v$27.strictObject({
+		type: v$27.literal("birthday"),
+		text: v$27.string(),
+		sum: v$27.number()
 	}),
-	strictObject({
-		type: literal("reverse"),
-		text: string()
+	v$27.strictObject({
+		type: v$27.literal("reverse"),
+		text: v$27.string()
 	}),
-	strictObject({
-		type: literal("fields_disaster"),
-		text: string()
+	v$27.strictObject({
+		type: v$27.literal("fields_disaster"),
+		text: v$27.string()
 	})
-])), transform((value) => {
+])), v$27.transform((value) => {
 	const chance_cards_new = [];
 	for (const element$1 of value) switch (element$1.type) {
 		case "cash_in":
@@ -704,14 +737,14 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = pipe(array(union([
 function createStockItemProtoId(monopoly_id, index_in_group) {
 	return -(256 | monopoly_id << 3 | index_in_group);
 }
-const valiM1DemoPacketSetupConfigFieldsSchema = pipe(array(union([
-	object({
-		is_corner: pipe(literal(1), transform(() => true)),
-		type: picklist(["start", "jail"])
+const valiM1DemoPacketSetupConfigFieldsSchema = v$26.pipe(v$26.array(v$26.union([
+	v$26.object({
+		is_corner: v$26.pipe(v$26.literal(1), v$26.transform(() => true)),
+		type: v$26.picklist(["start", "jail"])
 	}),
-	object({
+	v$26.object({
 		is_corner: bit(false),
-		type: picklist([
+		type: v$26.picklist([
 			"chance",
 			"jackpot",
 			"jail.goto",
@@ -720,13 +753,13 @@ const valiM1DemoPacketSetupConfigFieldsSchema = pipe(array(union([
 			"wormhole"
 		])
 	}),
-	object({
-		is_corner: pipe(undefined_(), transform(() => false)),
-		type: literal("company"),
-		monopoly_id: number(),
+	v$26.object({
+		is_corner: v$26.pipe(v$26.undefined_(), v$26.transform(() => false)),
+		type: v$26.literal("company"),
+		monopoly_id: v$26.number(),
 		is_last: bit(false)
 	})
-])), transform((value) => {
+])), v$26.transform((value) => {
 	const indexes_by_group = new Map();
 	return value.map((field) => {
 		if (field.type === "company") {
@@ -741,20 +774,20 @@ const valiM1DemoPacketSetupConfigFieldsSchema = pipe(array(union([
 		return field;
 	});
 }));
-const valiM1DemoPacketV1ConfigFieldsSchema = pipe(array(
-	variant("type", [
-		object({
-			design: literal("corner"),
-			type: literal("start")
+const valiM1DemoPacketV1ConfigFieldsSchema = v$26.pipe(v$26.array(
+	v$26.variant("type", [
+		v$26.object({
+			design: v$26.literal("corner"),
+			type: v$26.literal("start")
 		}),
-		object({
-			design: literal("corner"),
-			type: literal("jail")
+		v$26.object({
+			design: v$26.literal("corner"),
+			type: v$26.literal("jail")
 		}),
-		object({
-			design: optional(literal("corner")),
-			type: literal("special"),
-			action: picklist([
+		v$26.object({
+			design: v$26.optional(v$26.literal("corner")),
+			type: v$26.literal("special"),
+			action: v$26.picklist([
 				"chance",
 				"goToJail",
 				"jackpot",
@@ -763,10 +796,10 @@ const valiM1DemoPacketV1ConfigFieldsSchema = pipe(array(
 				"wormhole"
 			])
 		}),
-		object({
-			design: exactOptional(never()),
-			type: literal("field"),
-			group: number(),
+		v$26.object({
+			design: v$26.exactOptional(v$26.never()),
+			type: v$26.literal("field"),
+			group: v$26.number(),
 			is_last: bit(false)
 		})
 	])
@@ -802,7 +835,7 @@ const valiM1DemoPacketV1ConfigFieldsSchema = pipe(array(
 	// 		is_last: bit(false),
 	// 	}),
 	// ]),
-), transform((value) => {
+), v$26.transform((value) => {
 	const indexes_by_group = new Map();
 	return value.map((field) => {
 		if (field.type === "start" || field.type === "jail") {
@@ -855,45 +888,45 @@ const valiM1DemoPacketV1ConfigFieldsSchema = pipe(array(
 
 //#endregion
 //#region src/packet/setup/config/monopolies.ts
-const valiM1DemoPacketSetupConfigMonopoliesSchema = pipe(record(string(), union([
-	object({
-		buy_price: number(),
-		rent_by_level: array(number()),
-		level_cost: number(),
-		last_field: optional(object({
-			buy_price: number(),
-			rent_by_level: array(number())
+const valiM1DemoPacketSetupConfigMonopoliesSchema = v$25.pipe(v$25.record(v$25.string(), v$25.union([
+	v$25.object({
+		buy_price: v$25.number(),
+		rent_by_level: v$25.array(v$25.number()),
+		level_cost: v$25.number(),
+		last_field: v$25.optional(v$25.object({
+			buy_price: v$25.number(),
+			rent_by_level: v$25.array(v$25.number())
 		}))
 	}),
-	object({
-		buy_price: number(),
-		rent_by_count: array(number())
+	v$25.object({
+		buy_price: v$25.number(),
+		rent_by_count: v$25.array(v$25.number())
 	}),
-	object({
-		buy_price: number(),
-		dice_multipliers: array(number())
+	v$25.object({
+		buy_price: v$25.number(),
+		dice_multipliers: v$25.array(v$25.number())
 	})
-])), transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
-const valiM1DemoPacketV1ConfigGroupsSchema = pipe(record(string(), union([
-	object({
-		buy: number(),
-		levels: array(number()),
-		buy_last: optional(number()),
-		levels_last: optional(array(number())),
-		levelUpCost: number()
+])), v$25.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
+const valiM1DemoPacketV1ConfigGroupsSchema = v$25.pipe(v$25.record(v$25.string(), v$25.union([
+	v$25.object({
+		buy: v$25.number(),
+		levels: v$25.array(v$25.number()),
+		buy_last: v$25.optional(v$25.number()),
+		levels_last: v$25.optional(v$25.array(v$25.number())),
+		levelUpCost: v$25.number()
 	}),
-	object({
-		buy: number(),
-		levels: array(number()),
-		levelUpCost: literal(false)
+	v$25.object({
+		buy: v$25.number(),
+		levels: v$25.array(v$25.number()),
+		levelUpCost: v$25.literal(false)
 	}),
-	object({
-		buy: number(),
-		levels: literal(false),
-		coeffs: array(number()),
-		levelUpCost: literal(false)
+	v$25.object({
+		buy: v$25.number(),
+		levels: v$25.literal(false),
+		coeffs: v$25.array(v$25.number()),
+		levelUpCost: v$25.literal(false)
 	})
-])), transform((value) => new Map(Object.entries(value).map(([monopoly_id_string, group]) => {
+])), v$25.transform((value) => new Map(Object.entries(value).map(([monopoly_id_string, group]) => {
 	let monopoly;
 	if ("coeffs" in group) monopoly = {
 		buy_price: group.buy,
@@ -917,121 +950,121 @@ const valiM1DemoPacketV1ConfigGroupsSchema = pipe(record(string(), union([
 
 //#endregion
 //#region src/packet/setup/config.ts
-const valiM1DemoPacketSetipConfigRestartVariantSchema = object({
-	round_from: number(),
-	round_to: number(),
-	count: number(),
-	price: number()
+const valiM1DemoPacketSetipConfigRestartVariantSchema = v$24.object({
+	round_from: v$24.number(),
+	round_to: v$24.number(),
+	count: v$24.number(),
+	price: v$24.number()
 });
-const valiM1DemoPacketSetupConfigSchema = object({
-	version: number(),
-	board_size: tuple([number(), number()]),
-	timers: object({ roll_dices: number() }),
+const valiM1DemoPacketSetupConfigSchema = v$24.object({
+	version: v$24.number(),
+	board_size: v$24.tuple([v$24.number(), v$24.number()]),
+	timers: v$24.object({ roll_dices: v$24.number() }),
 	fields: valiM1DemoPacketSetupConfigFieldsSchema,
 	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
-	mechanics: object({
-		auction: optional(object({ bid_increment: number() })),
-		chance: optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
-		field_level: optional(object({
-			sell_multiplier: optional(number(), 1),
+	mechanics: v$24.object({
+		auction: v$24.optional(v$24.object({ bid_increment: v$24.number() })),
+		chance: v$24.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		field_level: v$24.optional(v$24.object({
+			sell_multiplier: v$24.optional(v$24.number(), 1),
 			build_uneven: bit(false),
 			build_without_monopoly: bit(false)
 		})),
-		jackpot: optional(object({
-			bet: number(),
-			multipliers: array(number()),
-			superprize: object({ chance: number() })
+		jackpot: v$24.optional(v$24.object({
+			bet: v$24.number(),
+			multipliers: v$24.array(v$24.number()),
+			superprize: v$24.object({ chance: v$24.number() })
 		})),
-		jail: object({
-			release_fee: number(),
-			double_roll_attempt_limit: optional(number(), 3)
+		jail: v$24.object({
+			release_fee: v$24.number(),
+			double_roll_attempt_limit: v$24.optional(v$24.number(), 3)
 		}),
-		loan: optional(object({
-			amount: number(),
-			repay_multiplier: number(),
-			duration: number(),
-			cooldown: object({
-				match_start: number(),
-				repay: number()
+		loan: v$24.optional(v$24.object({
+			amount: v$24.number(),
+			repay_multiplier: v$24.number(),
+			duration: v$24.number(),
+			cooldown: v$24.object({
+				match_start: v$24.number(),
+				repay: v$24.number()
 			})
 		})),
-		mortgage: optional(object({
-			duration: optional(number()),
-			multiplier: number(),
-			buyback_multiplier: number(),
-			auction_multiplier: optional(number())
+		mortgage: v$24.optional(v$24.object({
+			duration: v$24.optional(v$24.number()),
+			multiplier: v$24.number(),
+			buyback_multiplier: v$24.number(),
+			auction_multiplier: v$24.optional(v$24.number())
 		})),
-		restart: optional(object({ variants: array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
-		start: object({
-			income_amount: number(),
-			bonus_amount: optional(number(), 0)
+		restart: v$24.optional(v$24.object({ variants: v$24.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+		start: v$24.object({
+			income_amount: v$24.number(),
+			bonus_amount: v$24.optional(v$24.number(), 0)
 		}),
-		time_rules: array(union([
-			object({
-				type: literal("start.none"),
-				time: number()
+		time_rules: v$24.array(v$24.union([
+			v$24.object({
+				type: v$24.literal("start.none"),
+				time: v$24.number()
 			}),
-			object({
-				type: literal("start.tax"),
-				time: number(),
-				sum: number()
+			v$24.object({
+				type: v$24.literal("start.tax"),
+				time: v$24.number(),
+				sum: v$24.number()
 			}),
-			object({
-				type: literal("rent.tax"),
-				time: number(),
-				rate: number()
+			v$24.object({
+				type: v$24.literal("rent.tax"),
+				time: v$24.number(),
+				rate: v$24.number()
 			})
 		])),
-		wormhole: optional(object({
-			exits_free_count: optional(number(), 3),
-			exits_extra_price: number(),
+		wormhole: v$24.optional(v$24.object({
+			exits_free_count: v$24.optional(v$24.number(), 3),
+			exits_extra_price: v$24.number(),
 			move_direct: bit(false)
 		}))
 	})
 });
-const valiM1DemoPacketV1ConfigSchema = pipe(
-	object({
-		version: number(),
-		size: tuple([number(), number()]),
+const valiM1DemoPacketV1ConfigSchema = v$24.pipe(
+	v$24.object({
+		version: v$24.number(),
+		size: v$24.tuple([v$24.number(), v$24.number()]),
 		fields: valiM1DemoPacketV1ConfigFieldsSchema,
 		groups: valiM1DemoPacketV1ConfigGroupsSchema,
-		TIME_FOR_ROLL_DICES: number(),
-		AUCTION_BET_STEP: optional(number()),
-		chance_cards: optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
-		coeff_level_down: optional(number(), 1),
+		TIME_FOR_ROLL_DICES: v$24.number(),
+		AUCTION_BET_STEP: v$24.optional(v$24.number()),
+		chance_cards: v$24.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+		coeff_level_down: v$24.optional(v$24.number(), 1),
 		UNEVEN_LEVEL_CHANGE: bit(false),
 		LEVEL_CHANGE_NO_MNPL: bit(false),
-		JACKPOT_BET: optional(number()),
-		JACKPOT_COEFFS: optional(array(number())),
-		JACKPOT_SUPERPRIZE_CHANCE: optional(number()),
-		jailFee: number(),
-		UNJAIL_TRIES_LIMIT: optional(number(), 3),
-		CREDIT_SUM: optional(number()),
-		CREDIT_INTEREST: optional(number()),
-		CREDIT_PERCENT: optional(number()),
-		CREDIT_ROUNDS: optional(number()),
-		CREDIT_COOLDOWN_ROUNDS: optional(number()),
-		START_CREDIT_COOLDOWN_ROUNDS: optional(number()),
-		MORTGAGE_ROUND_LIMIT: optional(number()),
-		coeff_mortgage: number(),
-		coeff_unmortgage: number(),
-		auction_mortgaged: optional(number()),
-		restart_variants: optional(array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
-		roundCash: number(),
-		START_BONUS_SUM: optional(number(), 0),
-		roundTaxes: array(object({
-			game_time: number(),
-			tax: number()
+		JACKPOT_BET: v$24.optional(v$24.number()),
+		JACKPOT_COEFFS: v$24.optional(v$24.array(v$24.number())),
+		JACKPOT_SUPERPRIZE_CHANCE: v$24.optional(v$24.number()),
+		jailFee: v$24.number(),
+		UNJAIL_TRIES_LIMIT: v$24.optional(v$24.number(), 3),
+		CREDIT_SUM: v$24.optional(v$24.number()),
+		CREDIT_INTEREST: v$24.optional(v$24.number()),
+		CREDIT_PERCENT: v$24.optional(v$24.number()),
+		CREDIT_ROUNDS: v$24.optional(v$24.number()),
+		CREDIT_COOLDOWN_ROUNDS: v$24.optional(v$24.number()),
+		START_CREDIT_COOLDOWN_ROUNDS: v$24.optional(v$24.number()),
+		MORTGAGE_ROUND_LIMIT: v$24.optional(v$24.number()),
+		coeff_mortgage: v$24.number(),
+		coeff_unmortgage: v$24.number(),
+		auction_mortgaged: v$24.optional(v$24.number()),
+		restart_variants: v$24.optional(v$24.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
+		roundCash: v$24.number(),
+		START_BONUS_SUM: v$24.optional(v$24.number(), 0),
+		roundTaxes: v$24.array(v$24.object({
+			game_time: v$24.number(),
+			tax: v$24.number()
 		})),
-		incomeTaxes: array(object({
-			game_time: number(),
-			tax_rate: number()
+		incomeTaxes: v$24.array(v$24.object({
+			game_time: v$24.number(),
+			tax_rate: v$24.number()
 		})),
-		WORMHOLE_DIRECTLY: optional(bit(false)),
-		WORMHOLE_EXTRA_DESTINATION_COST: optional(number())
+		WORMHOLE_DIRECTLY: v$24.optional(bit(false)),
+		WORMHOLE_EXTRA_DESTINATION_COST: v$24.optional(v$24.number())
 	}),
 	// transforming config in-place because it is a whole product
-	transform((value) => {
+	v$24.transform((value) => {
 		return {
 			version: value.version,
 			board_size: value.size,
@@ -1104,42 +1137,42 @@ const valiM1DemoPacketV1ConfigSchema = pipe(
 
 //#endregion
 //#region src/packet/status/player.ts
-const valiM1DemoPacketStatusPlayersSchema = pipe(array(pipe(object({
-	user_id: number(),
-	status: number(),
-	position: number(),
-	cash: number(),
-	score: number(),
-	jail: optional(object({ roll_double_attempts: number() })),
-	loan: union([strictObject({
-		taken: pipe(literal(0), transform(() => false)),
-		unlock_round: number()
-	}), strictObject({
-		taken: pipe(literal(1), transform(() => true)),
-		debt: number(),
-		return_round: number()
+const valiM1DemoPacketStatusPlayersSchema = v$23.pipe(v$23.array(v$23.pipe(v$23.object({
+	user_id: v$23.number(),
+	status: v$23.number(),
+	position: v$23.number(),
+	cash: v$23.number(),
+	score: v$23.number(),
+	jail: v$23.optional(v$23.object({ roll_double_attempts: v$23.number() })),
+	loan: v$23.union([v$23.strictObject({
+		taken: v$23.pipe(v$23.literal(0), v$23.transform(() => false)),
+		unlock_round: v$23.number()
+	}), v$23.strictObject({
+		taken: v$23.pipe(v$23.literal(1), v$23.transform(() => true)),
+		debt: v$23.number(),
+		return_round: v$23.number()
 	})]),
-	restart: optional(object({ variant: nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) }))
-}), transform((value) => value))), transform((value) => new Map(value.map((player) => [player.user_id, player]))));
-const valiM1DemoPacketV1StatusPlayersSchema = array(pipe(object({
-	user_id: number(),
-	vip: optional(boolean(), false),
-	cards_equipped: optional(record(string(), object({
-		thing_id: number(),
-		coeff_rent: number()
+	restart: v$23.optional(v$23.object({ variant: v$23.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) }))
+}), v$23.transform((value) => value))), v$23.transform((value) => new Map(value.map((player) => [player.user_id, player]))));
+const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
+	user_id: v$23.number(),
+	vip: v$23.optional(v$23.boolean(), false),
+	cards_equipped: v$23.optional(v$23.record(v$23.string(), v$23.object({
+		thing_id: v$23.number(),
+		coeff_rent: v$23.number()
 	}))),
-	can_use_credit: optional(boolean(), false),
-	status: number(),
-	position: number(),
-	money: number(),
-	score: number(),
-	jailed: boolean(),
-	unjailAttempts: number(),
-	credit_nextTakeRound: number(),
-	credit_payRound: union([literal(false), number()]),
-	credit_toPay: number(),
-	restart: optional(union([pipe(literal(0), transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema]))
-}), transform((value) => {
+	can_use_credit: v$23.optional(v$23.boolean(), false),
+	status: v$23.number(),
+	position: v$23.number(),
+	money: v$23.number(),
+	score: v$23.number(),
+	jailed: v$23.boolean(),
+	unjailAttempts: v$23.number(),
+	credit_nextTakeRound: v$23.number(),
+	credit_payRound: v$23.union([v$23.literal(false), v$23.number()]),
+	credit_toPay: v$23.number(),
+	restart: v$23.optional(v$23.union([v$23.pipe(v$23.literal(0), v$23.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema]))
+}), v$23.transform((value) => {
 	return {
 		user_id: value.user_id,
 		_setup: value.cards_equipped ? {
@@ -1177,17 +1210,17 @@ const valiM1DemoPacketV1StatusPlayersSchema = array(pipe(object({
 
 //#endregion
 //#region src/packet/status.ts
-const valiM1DemoPacketStatusSchema = object({
-	round: number(),
+const valiM1DemoPacketStatusSchema = v$22.object({
+	round: v$22.number(),
 	players: valiM1DemoPacketStatusPlayersSchema,
 	fields: valiM1DemoPacketStatusFieldsSchema,
 	turn: valiM1DemoPacketStatusTurnSchema,
-	timer: optional(union([object({
-		ts_expires: number(),
-		is_extra: boolean()
-	}), object({
-		expires_in: number(),
-		is_extra: boolean()
+	timer: v$22.optional(v$22.union([v$22.object({
+		ts_expires: v$22.number(),
+		is_extra: v$22.boolean()
+	}), v$22.object({
+		expires_in: v$22.number(),
+		is_extra: v$22.boolean()
 	})]))
 });
 const action_list_mapping = {
@@ -1227,15 +1260,15 @@ const extra_actions_mapping = [
 	["pause.end", "pauseRemove"]
 ];
 const packetv1_action_mapping = Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
-const valiM1DemoPacketV1StatusActiontypeSchema = array(picklist(Object.keys(action_list_mapping)));
-const valiM1DemoPacketV1ContractSchema = pipe(object({
-	from: number(),
-	to: number(),
-	out_fields: array(number()),
-	out_money: number(),
-	in_fields: array(number()),
-	in_money: number()
-}), transform((value) => ({
+const valiM1DemoPacketV1StatusActiontypeSchema = v$22.array(v$22.picklist(Object.keys(action_list_mapping)));
+const valiM1DemoPacketV1ContractSchema = v$22.pipe(v$22.object({
+	from: v$22.number(),
+	to: v$22.number(),
+	out_fields: v$22.array(v$22.number()),
+	out_money: v$22.number(),
+	in_fields: v$22.array(v$22.number()),
+	in_money: v$22.number()
+}), v$22.transform((value) => ({
 	initiator: {
 		user_id: value.from,
 		field_ids: new Set(value.out_fields),
@@ -1247,43 +1280,43 @@ const valiM1DemoPacketV1ContractSchema = pipe(object({
 		cash: value.in_money
 	}
 })));
-const valiM1DemoPacketV1StatusSchema = pipe(
-	object({
-		round: number(),
+const valiM1DemoPacketV1StatusSchema = v$22.pipe(
+	v$22.object({
+		round: v$22.number(),
 		players: valiM1DemoPacketV1StatusPlayersSchema,
 		fields: valiM1DemoPacketV1StatusFieldsSchema,
-		player_ownerOfMove: nullable(number()),
-		action_player: nullable(number()),
+		player_ownerOfMove: v$22.nullable(v$22.number()),
+		action_player: v$22.nullable(v$22.number()),
 		action_type: valiM1DemoPacketV1StatusActiontypeSchema,
-		current_move: optional(object({
-			dices: optional(tuple([
-				number(),
-				optional(number()),
-				optional(number())
+		current_move: v$22.optional(v$22.object({
+			dices: v$22.optional(v$22.tuple([
+				v$22.number(),
+				v$22.optional(v$22.number()),
+				v$22.optional(v$22.number())
 			])),
-			move_reverse: optional(boolean(), false),
-			pay: optional(number()),
-			moneyToPay: optional(number()),
-			payTo: optional(number()),
-			players_auctionStatus: optional(pipe(record(string(), number()), transform((value) => new Set(Object.entries(value).filter(([_, status]) => status === 0).map(([user_id_string]) => Number.parseInt(user_id_string)))))),
-			field: optional(number()),
-			bet: optional(number()),
-			contract: optional(valiM1DemoPacketV1ContractSchema),
-			contracts: optional(number()),
-			jackpot_superprize_money: optional(number()),
-			wormhole_destinations: optional(array(number())),
-			levelUpped: optional(array(number())),
-			mortgaged: optional(array(number()))
+			move_reverse: v$22.optional(v$22.boolean(), false),
+			pay: v$22.optional(v$22.number()),
+			moneyToPay: v$22.optional(v$22.number()),
+			payTo: v$22.optional(v$22.number()),
+			players_auctionStatus: v$22.optional(v$22.pipe(v$22.record(v$22.string(), v$22.number()), v$22.transform((value) => new Set(Object.entries(value).filter(([_, status]) => status === 0).map(([user_id_string]) => Number.parseInt(user_id_string)))))),
+			field: v$22.optional(v$22.number()),
+			bet: v$22.optional(v$22.number()),
+			contract: v$22.optional(valiM1DemoPacketV1ContractSchema),
+			contracts: v$22.optional(v$22.number()),
+			jackpot_superprize_money: v$22.optional(v$22.number()),
+			wormhole_destinations: v$22.optional(v$22.array(v$22.number())),
+			levelUpped: v$22.optional(v$22.array(v$22.number())),
+			mortgaged: v$22.optional(v$22.array(v$22.number()))
 		})),
-		timeout_ts: number(),
-		timeout_is_additional: boolean()
+		timeout_ts: v$22.number(),
+		timeout_is_additional: v$22.boolean()
 	}),
-	transform((value) => {
+	v$22.transform((value) => {
 		for (const [index, player] of value.players.entries()) if (player._setup) player._setup.index = index;
 		return value;
 	}),
 	// eslint-disable-next-line complexity, max-lines-per-function
-	transform((value) => {
+	v$22.transform((value) => {
 		const { player_ownerOfMove, action_player, action_type, current_move, timeout_ts, timeout_is_additional,...value_rest } = value;
 		const action_list = transformActionsList(action_type);
 		const payment_amount = current_move?.pay ?? current_move?.moneyToPay;
@@ -1362,33 +1395,33 @@ __export(contract_exports, {
 	valiV1Schemas: () => valiV1Schemas$16
 });
 const valiSchemas$16 = [
-	object({
-		id: string(),
-		type: literal("contract.send"),
-		user_id: number(),
-		user_id_to: number()
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.send"),
+		user_id: v$21.number(),
+		user_id_to: v$21.number()
 	}),
-	object({
-		id: string(),
-		type: literal("contract.accept"),
-		user_id: number(),
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.accept"),
+		user_id: v$21.number(),
 		contract: valiM1DemoContractSchema
 	}),
-	object({
-		id: string(),
-		type: literal("contract.reject"),
-		user_id: number(),
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.reject"),
+		user_id: v$21.number(),
 		timeout: bit(false)
 	})
 ];
 const enrichments$15 = {};
 const valiV1Schemas$16 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("contract"),
-		user_id: number(),
-		to: number()
-	}), transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract"),
+		user_id: v$21.number(),
+		to: v$21.number()
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.send",
@@ -1396,21 +1429,21 @@ const valiV1Schemas$16 = [
 			user_id_to: value.to
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("contract_details")
-	}), transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_details")
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: value.type
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("contract_accepted"),
-		user_id: number(),
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_accepted"),
+		user_id: v$21.number(),
 		contract: valiM1DemoPacketV1ContractSchema
-	}), transform((value) => {
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.accept",
@@ -1418,12 +1451,12 @@ const valiV1Schemas$16 = [
 			contract: value.contract
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("contract_declined"),
-		user_id: number(),
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_declined"),
+		user_id: v$21.number(),
 		by_timeout: bit(false)
-	}), transform((value) => {
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.reject",
@@ -1442,55 +1475,55 @@ __export(jackpot_exports, {
 	valiV1Schemas: () => valiV1Schemas$15
 });
 const valiSchemas$15 = [
-	object({
-		id: string(),
-		type: literal("jackpot"),
-		user_id: number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot"),
+		user_id: v$20.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jackpot.pay"),
-		user_id: number(),
-		amount: number(),
-		jackpot_size: number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot.pay"),
+		user_id: v$20.number(),
+		amount: v$20.number(),
+		jackpot_size: v$20.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jackpot.play"),
-		user_id: number(),
-		dice_bet: array(number()),
-		dice_rolled: number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot.play"),
+		user_id: v$20.number(),
+		dice_bet: v$20.array(v$20.number()),
+		dice_rolled: v$20.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jackpot.win"),
-		user_id: number(),
-		amount: number(),
-		dice_rolled: optional(number())
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot.win"),
+		user_id: v$20.number(),
+		amount: v$20.number(),
+		dice_rolled: v$20.optional(v$20.number())
 	}),
-	object({
-		id: string(),
-		type: literal("jackpot.lose"),
-		user_id: number(),
-		amount: optional(number()),
-		dice_rolled: optional(number())
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot.lose"),
+		user_id: v$20.number(),
+		amount: v$20.optional(v$20.number()),
+		dice_rolled: v$20.optional(v$20.number())
 	}),
-	object({
-		id: string(),
-		type: literal("jackpot.superprize.win"),
-		user_id: number(),
-		amount: number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot.superprize.win"),
+		user_id: v$20.number(),
+		amount: v$20.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jackpot.superprize.increase"),
-		user_id: number(),
-		superprize: number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot.superprize.increase"),
+		user_id: v$20.number(),
+		superprize: v$20.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jackpot.reject"),
-		user_id: number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jackpot.reject"),
+		user_id: v$20.number()
 	})
 ];
 const enrichments$14 = {
@@ -1512,24 +1545,24 @@ const enrichments$14 = {
 	}
 };
 const valiV1Schemas$15 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot"),
-		user_id: number()
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot"),
+		user_id: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot_paid"),
-		user_id: number(),
-		money: number(),
-		jackpot_money: number()
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot_paid"),
+		user_id: v$20.number(),
+		money: v$20.number(),
+		jackpot_money: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.pay",
@@ -1538,13 +1571,13 @@ const valiV1Schemas$15 = [
 			jackpot_size: value.jackpot_money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot_play"),
-		user_id: number(),
-		dices_betted: array(number()),
-		dice_rolled: number()
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot_play"),
+		user_id: v$20.number(),
+		dices_betted: v$20.array(v$20.number()),
+		dice_rolled: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.play",
@@ -1553,13 +1586,13 @@ const valiV1Schemas$15 = [
 			dice_rolled: value.dice_rolled
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot_win"),
-		user_id: number(),
-		money: number(),
-		dice_rolled: optional(number())
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot_win"),
+		user_id: v$20.number(),
+		money: v$20.number(),
+		dice_rolled: v$20.optional(v$20.number())
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.win",
@@ -1568,13 +1601,13 @@ const valiV1Schemas$15 = [
 			dice_rolled: value.dice_rolled
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot_lose"),
-		user_id: number(),
-		money: optional(number()),
-		dice_rolled: optional(number())
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot_lose"),
+		user_id: v$20.number(),
+		money: v$20.optional(v$20.number()),
+		dice_rolled: v$20.optional(v$20.number())
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.lose",
@@ -1583,12 +1616,12 @@ const valiV1Schemas$15 = [
 			dice_rolled: value.dice_rolled
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot_superprize_win"),
-		user_id: number(),
-		money: number()
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot_superprize_win"),
+		user_id: v$20.number(),
+		money: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.superprize.win",
@@ -1596,12 +1629,12 @@ const valiV1Schemas$15 = [
 			amount: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot_superprize_funded"),
-		user_id: number(),
-		jackpot_superprize_money: number()
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot_superprize_funded"),
+		user_id: v$20.number(),
+		jackpot_superprize_money: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.superprize.increase",
@@ -1609,11 +1642,11 @@ const valiV1Schemas$15 = [
 			superprize: value.jackpot_superprize_money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("jackpot_declined"),
-		user_id: number()
-	}), transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("jackpot_declined"),
+		user_id: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.reject",
@@ -1631,31 +1664,31 @@ __export(jail_exports, {
 	valiV1Schemas: () => valiV1Schemas$14
 });
 const valiSchemas$14 = [
-	object({
-		id: string(),
-		type: literal("jail.put"),
-		user_id: number()
+	v$19.object({
+		id: v$19.string(),
+		type: v$19.literal("jail.put"),
+		user_id: v$19.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jail.put.double"),
-		user_id: number()
+	v$19.object({
+		id: v$19.string(),
+		type: v$19.literal("jail.put.double"),
+		user_id: v$19.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jail.visit"),
-		user_id: number()
+	v$19.object({
+		id: v$19.string(),
+		type: v$19.literal("jail.visit"),
+		user_id: v$19.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jail.release.pay"),
-		user_id: number()
+	v$19.object({
+		id: v$19.string(),
+		type: v$19.literal("jail.release.pay"),
+		user_id: v$19.number()
 	}),
-	object({
-		id: string(),
-		type: literal("jail.release"),
-		user_id: number(),
-		position_after: optional(number())
+	v$19.object({
+		id: v$19.string(),
+		type: v$19.literal("jail.release"),
+		user_id: v$19.number(),
+		position_after: v$19.optional(v$19.number())
 	})
 ];
 const enrichments$13 = {
@@ -1676,56 +1709,56 @@ const enrichments$13 = {
 	}
 };
 const valiV1Schemas$14 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("goToJail"),
-		user_id: number()
-	}), transform((value) => {
+	v$19.pipe(v$19.object({
+		_id: v$19.optional(v$19.string()),
+		type: v$19.literal("goToJail"),
+		user_id: v$19.number()
+	}), v$19.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.put",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("goToJailByCombo"),
-		user_id: number()
-	}), transform((value) => {
+	v$19.pipe(v$19.object({
+		_id: v$19.optional(v$19.string()),
+		type: v$19.literal("goToJailByCombo"),
+		user_id: v$19.number()
+	}), v$19.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.put.double",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("goToJailVisiting"),
-		user_id: number()
-	}), transform((value) => {
+	v$19.pipe(v$19.object({
+		_id: v$19.optional(v$19.string()),
+		type: v$19.literal("goToJailVisiting"),
+		user_id: v$19.number()
+	}), v$19.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.visit",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payForUnjail"),
-		user_id: number()
-	}), transform((value) => {
+	v$19.pipe(v$19.object({
+		_id: v$19.optional(v$19.string()),
+		type: v$19.literal("payForUnjail"),
+		user_id: v$19.number()
+	}), v$19.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.release.pay",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("unjailedByFee"),
-		user_id: number(),
-		mean_position: optional(number())
-	}), transform((value) => {
+	v$19.pipe(v$19.object({
+		_id: v$19.optional(v$19.string()),
+		type: v$19.literal("unjailedByFee"),
+		user_id: v$19.number(),
+		mean_position: v$19.optional(v$19.number())
+	}), v$19.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.release",
@@ -1743,16 +1776,16 @@ __export(level_exports, {
 	valiSchemas: () => valiSchemas$13,
 	valiV1Schemas: () => valiV1Schemas$13
 });
-const valiSchemas$13 = [object({
-	id: string(),
-	type: literal("level.build"),
-	user_id: number(),
-	field_id: number()
-}), object({
-	id: string(),
-	type: literal("level.sell"),
-	user_id: number(),
-	field_id: number()
+const valiSchemas$13 = [v$18.object({
+	id: v$18.string(),
+	type: v$18.literal("level.build"),
+	user_id: v$18.number(),
+	field_id: v$18.number()
+}), v$18.object({
+	id: v$18.string(),
+	type: v$18.literal("level.sell"),
+	user_id: v$18.number(),
+	field_id: v$18.number()
 })];
 const enrichments$12 = {
 	"level.build"(options) {
@@ -1780,24 +1813,24 @@ const enrichments$12 = {
 		player.cash += monopoly.level_cost;
 	}
 };
-const valiV1Schemas$13 = [pipe(object({
-	_id: optional(string()),
-	type: literal("levelUp"),
-	user_id: number(),
-	field: number()
-}), transform((value) => {
+const valiV1Schemas$13 = [v$18.pipe(v$18.object({
+	_id: v$18.optional(v$18.string()),
+	type: v$18.literal("levelUp"),
+	user_id: v$18.number(),
+	field: v$18.number()
+}), v$18.transform((value) => {
 	return {
 		id: value._id,
 		type: "level.build",
 		user_id: value.user_id,
 		field_id: value.field
 	};
-})), pipe(object({
-	_id: optional(string()),
-	type: literal("levelDown"),
-	user_id: number(),
-	field: number()
-}), transform((value) => {
+})), v$18.pipe(v$18.object({
+	_id: v$18.optional(v$18.string()),
+	type: v$18.literal("levelDown"),
+	user_id: v$18.number(),
+	field: v$18.number()
+}), v$18.transform((value) => {
 	return {
 		id: value._id,
 		type: "level.sell",
@@ -1815,22 +1848,22 @@ __export(loan_exports, {
 	valiV1Schemas: () => valiV1Schemas$12
 });
 const valiSchemas$12 = [
-	object({
-		id: string(),
-		type: literal("loan.take"),
-		user_id: number()
+	v$17.object({
+		id: v$17.string(),
+		type: v$17.literal("loan.take"),
+		user_id: v$17.number()
 	}),
-	object({
-		id: string(),
-		type: literal("loan.deadline"),
-		user_id: number(),
-		amount: number()
+	v$17.object({
+		id: v$17.string(),
+		type: v$17.literal("loan.deadline"),
+		user_id: v$17.number(),
+		amount: v$17.number()
 	}),
-	object({
-		id: string(),
-		type: literal("loan.repay"),
-		user_id: number(),
-		amount: number()
+	v$17.object({
+		id: v$17.string(),
+		type: v$17.literal("loan.repay"),
+		user_id: v$17.number(),
+		amount: v$17.number()
 	})
 ];
 const enrichments$11 = {
@@ -1855,23 +1888,23 @@ const enrichments$11 = {
 	}
 };
 const valiV1Schemas$12 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("credit_taken"),
-		user_id: number()
-	}), transform((value) => {
+	v$17.pipe(v$17.object({
+		_id: v$17.optional(v$17.string()),
+		type: v$17.literal("credit_taken"),
+		user_id: v$17.number()
+	}), v$17.transform((value) => {
 		return {
 			id: value._id,
 			type: "loan.take",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("credit_timeToPay"),
-		user_id: number(),
-		sum: number()
-	}), transform((value) => {
+	v$17.pipe(v$17.object({
+		_id: v$17.optional(v$17.string()),
+		type: v$17.literal("credit_timeToPay"),
+		user_id: v$17.number(),
+		sum: v$17.number()
+	}), v$17.transform((value) => {
 		return {
 			id: value._id,
 			type: "loan.deadline",
@@ -1879,12 +1912,12 @@ const valiV1Schemas$12 = [
 			amount: value.sum
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: picklist(["credit_paid", "credit_payed"]),
-		user_id: number(),
-		sum: number()
-	}), transform((value) => {
+	v$17.pipe(v$17.object({
+		_id: v$17.optional(v$17.string()),
+		type: v$17.picklist(["credit_paid", "credit_payed"]),
+		user_id: v$17.number(),
+		sum: v$17.number()
+	}), v$17.transform((value) => {
 		return {
 			id: value._id,
 			type: "loan.repay",
@@ -1902,30 +1935,30 @@ __export(m1_exports, {
 	valiSchemas: () => valiSchemas$11,
 	valiV1Schemas: () => valiV1Schemas$11
 });
-const valiSchemas$11 = [object({
-	id: string(),
-	type: literal("m1.move"),
-	user_id: number(),
-	rule: pipe(picklist([0, 1]), transform((value) => value === 0 ? "free" : "enemy_owned")),
-	field_id: number(),
+const valiSchemas$11 = [v$16.object({
+	id: v$16.string(),
+	type: v$16.literal("m1.move"),
+	user_id: v$16.number(),
+	rule: v$16.pipe(v$16.picklist([0, 1]), v$16.transform((value) => value === 0 ? "free" : "enemy_owned")),
+	field_id: v$16.number(),
 	move_reversed: bit(false)
-}), object({
-	id: string(),
-	type: literal("m1.fail"),
-	user_id: number()
+}), v$16.object({
+	id: v$16.string(),
+	type: v$16.literal("m1.fail"),
+	user_id: v$16.number()
 })];
 const enrichments$10 = { "m1.move"(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.position = options.event.field_id;
 } };
-const valiV1Schemas$11 = [pipe(object({
-	_id: optional(string()),
-	type: literal("mrMonopoly"),
-	user_id: number(),
-	field_type: pipe(picklist([0, 1]), transform((value) => value === 0 ? "free" : "enemy_owned")),
-	field_id: number(),
+const valiV1Schemas$11 = [v$16.pipe(v$16.object({
+	_id: v$16.optional(v$16.string()),
+	type: v$16.literal("mrMonopoly"),
+	user_id: v$16.number(),
+	field_type: v$16.pipe(v$16.picklist([0, 1]), v$16.transform((value) => value === 0 ? "free" : "enemy_owned")),
+	field_id: v$16.number(),
 	move_reverse: bit(false)
-}), transform((value) => {
+}), v$16.transform((value) => {
 	return {
 		id: value._id,
 		type: "m1.move",
@@ -1934,11 +1967,11 @@ const valiV1Schemas$11 = [pipe(object({
 		field_id: value.field_id,
 		move_reversed: value.move_reverse
 	};
-})), pipe(object({
-	_id: optional(string()),
-	type: literal("mrMonopolyFailed"),
-	user_id: number()
-}), transform((value) => {
+})), v$16.pipe(v$16.object({
+	_id: v$16.optional(v$16.string()),
+	type: v$16.literal("mrMonopolyFailed"),
+	user_id: v$16.number()
+}), v$16.transform((value) => {
 	return {
 		id: value._id,
 		type: "m1.fail",
@@ -1955,23 +1988,23 @@ __export(mortgage_exports, {
 	valiV1Schemas: () => valiV1Schemas$10
 });
 const valiSchemas$10 = [
-	object({
-		id: string(),
-		type: literal("mortgage.put"),
-		user_id: number(),
-		field_id: number()
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("mortgage.put"),
+		user_id: v$15.number(),
+		field_id: v$15.number()
 	}),
-	object({
-		id: string(),
-		type: literal("mortgage.buyback"),
-		user_id: number(),
-		field_id: number()
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("mortgage.buyback"),
+		user_id: v$15.number(),
+		field_id: v$15.number()
 	}),
-	object({
-		id: string(),
-		type: literal("mortgage.expire"),
-		user_id: number(),
-		field_id: number()
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("mortgage.expire"),
+		user_id: v$15.number(),
+		field_id: v$15.number()
 	})
 ];
 const enrichments$9 = {
@@ -2009,12 +2042,12 @@ const enrichments$9 = {
 	}
 };
 const valiV1Schemas$10 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("mortgage"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("mortgage"),
+		user_id: v$15.number(),
+		field: v$15.number()
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "mortgage.put",
@@ -2022,12 +2055,12 @@ const valiV1Schemas$10 = [
 			field_id: value.field
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("unmortgage"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("unmortgage"),
+		user_id: v$15.number(),
+		field: v$15.number()
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "mortgage.buyback",
@@ -2035,11 +2068,11 @@ const valiV1Schemas$10 = [
 			field_id: value.field
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("mortgage_limit"),
-		field: number()
-	}), transform((value) => {
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("mortgage_limit"),
+		field: v$15.number()
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "mortgage.expire",
@@ -2057,51 +2090,51 @@ __export(other_exports, {
 	valiSchemas: () => valiSchemas$9,
 	valiV1Schemas: () => valiV1Schemas$9
 });
-const valiChanceDataSchema = union([
-	strictObject({ amount: number() }),
-	strictObject({
-		field_id: number(),
+const valiChanceDataSchema = v$14.union([
+	v$14.strictObject({ amount: v$14.number() }),
+	v$14.strictObject({
+		field_id: v$14.number(),
 		move_reversed: bit(false)
 	}),
-	undefined_()
+	v$14.undefined_()
 ]);
 const valiSchemas$9 = [
-	object({
-		id: string(),
-		type: literal("bankrupt"),
-		user_id: number(),
-		user_id_bankrupt: number()
+	v$14.object({
+		id: v$14.string(),
+		type: v$14.literal("bankrupt"),
+		user_id: v$14.number(),
+		user_id_bankrupt: v$14.number()
 	}),
-	object({
-		id: string(),
-		type: literal("chance"),
-		user_id: number(),
-		chance_index: number(),
+	v$14.object({
+		id: v$14.string(),
+		type: v$14.literal("chance"),
+		user_id: v$14.number(),
+		chance_index: v$14.number(),
 		data: valiChanceDataSchema
 	}),
-	object({
-		id: string(),
-		type: literal("game-over")
+	v$14.object({
+		id: v$14.string(),
+		type: v$14.literal("game-over")
 	}),
-	object({
-		id: string(),
-		type: literal("leave"),
-		user_id: number(),
+	v$14.object({
+		id: v$14.string(),
+		type: v$14.literal("leave"),
+		user_id: v$14.number(),
 		kicked: bit(false)
 	}),
-	object({
-		id: string(),
-		type: literal("message"),
-		user_id: number(),
-		private: optional(object({ user_id: optional(number()) })),
+	v$14.object({
+		id: v$14.string(),
+		type: v$14.literal("message"),
+		user_id: v$14.number(),
+		private: v$14.optional(v$14.object({ user_id: v$14.optional(v$14.number()) })),
 		is_forced: bit(false),
-		text: string()
+		text: v$14.string()
 	}),
-	object({
-		id: string(),
-		type: literal("restart"),
-		user_id: number(),
-		restart_price: number()
+	v$14.object({
+		id: v$14.string(),
+		type: v$14.literal("restart"),
+		user_id: v$14.number(),
+		restart_price: v$14.number()
 	})
 ];
 const enrichments$8 = { chance(options) {
@@ -2134,12 +2167,12 @@ function unescapeHtml(text) {
 	return element.textContent;
 }
 const valiV1Schemas$9 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("bankrupted"),
-		user_id: number(),
-		to: number()
-	}), transform((value) => {
+	v$14.pipe(v$14.object({
+		_id: v$14.optional(v$14.string()),
+		type: v$14.literal("bankrupted"),
+		user_id: v$14.number(),
+		to: v$14.number()
+	}), v$14.transform((value) => {
 		return {
 			id: value._id,
 			type: "bankrupt",
@@ -2147,15 +2180,15 @@ const valiV1Schemas$9 = [
 			user_id_bankrupt: value.to
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("chance"),
-		user_id: number(),
-		chance_id: number(),
-		money: optional(number()),
-		move_reverse: optional(bit(false)),
-		mean_position: optional(number())
-	}), transform((value) => {
+	v$14.pipe(v$14.object({
+		_id: v$14.optional(v$14.string()),
+		type: v$14.literal("chance"),
+		user_id: v$14.number(),
+		chance_id: v$14.number(),
+		money: v$14.optional(v$14.number()),
+		move_reverse: v$14.optional(bit(false)),
+		mean_position: v$14.optional(v$14.number())
+	}), v$14.transform((value) => {
 		let data;
 		if (typeof value.mean_position === "number") data = {
 			move_reversed: value.move_reverse ?? false,
@@ -2170,21 +2203,21 @@ const valiV1Schemas$9 = [
 			data
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("gameOver")
-	}), transform((value) => {
+	v$14.pipe(v$14.object({
+		_id: v$14.optional(v$14.string()),
+		type: v$14.literal("gameOver")
+	}), v$14.transform((value) => {
 		return {
 			id: value._id,
 			type: "game-over"
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("leave"),
-		user_id: number(),
+	v$14.pipe(v$14.object({
+		_id: v$14.optional(v$14.string()),
+		type: v$14.literal("leave"),
+		user_id: v$14.number(),
 		is_kicked: bit(false)
-	}), transform((value) => {
+	}), v$14.transform((value) => {
 		return {
 			id: value._id,
 			type: "leave",
@@ -2192,18 +2225,18 @@ const valiV1Schemas$9 = [
 			kicked: value.is_kicked
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("message"),
-		user_id: number(),
-		private: optional(object({
-			user: optional(number()),
-			team: optional(unknown())
+	v$14.pipe(v$14.object({
+		_id: v$14.optional(v$14.string()),
+		type: v$14.literal("message"),
+		user_id: v$14.number(),
+		private: v$14.optional(v$14.object({
+			user: v$14.optional(v$14.number()),
+			team: v$14.optional(v$14.unknown())
 		})),
 		forced: bit(false),
-		text: string(),
+		text: v$14.string(),
 		is_unsafe: bit(false)
-	}), transform((value) => {
+	}), v$14.transform((value) => {
 		return {
 			id: value._id,
 			type: "message",
@@ -2213,12 +2246,12 @@ const valiV1Schemas$9 = [
 			text: value.is_unsafe ? value.text : unescapeHtml(value.text)
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("restart"),
-		user_id: number(),
-		money: number()
-	}), transform((value) => {
+	v$14.pipe(v$14.object({
+		_id: v$14.optional(v$14.string()),
+		type: v$14.literal("restart"),
+		user_id: v$14.number(),
+		money: v$14.number()
+	}), v$14.transform((value) => {
 		return {
 			id: value._id,
 			type: "restart",
@@ -2235,25 +2268,25 @@ __export(pause_exports, {
 	valiSchemas: () => valiSchemas$8,
 	valiV1Schemas: () => valiV1Schemas$8
 });
-const valiSchemas$8 = [object({
-	id: string(),
-	type: literal("pause.set")
-}), object({
-	id: string(),
-	type: literal("pause.end")
+const valiSchemas$8 = [v$13.object({
+	id: v$13.string(),
+	type: v$13.literal("pause.set")
+}), v$13.object({
+	id: v$13.string(),
+	type: v$13.literal("pause.end")
 })];
-const valiV1Schemas$8 = [pipe(object({
-	_id: optional(string()),
-	type: literal("pauseActive")
-}), transform((value) => {
+const valiV1Schemas$8 = [v$13.pipe(v$13.object({
+	_id: v$13.optional(v$13.string()),
+	type: v$13.literal("pauseActive")
+}), v$13.transform((value) => {
 	return {
 		id: value._id,
 		type: "pause.set"
 	};
-})), pipe(object({
-	_id: optional(string()),
-	type: literal("pauseRemoved")
-}), transform((value) => {
+})), v$13.pipe(v$13.object({
+	_id: v$13.optional(v$13.string()),
+	type: v$13.literal("pauseRemoved")
+}), v$13.transform((value) => {
 	return {
 		id: value._id,
 		type: "pause.end"
@@ -2269,24 +2302,24 @@ __export(purchase_exports, {
 	valiV1Schemas: () => valiV1Schemas$7
 });
 const valiSchemas$7 = [
-	object({
-		id: string(),
-		type: literal("purchase.offer"),
-		user_id: number(),
-		field_id: number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("purchase.offer"),
+		user_id: v$12.number(),
+		field_id: v$12.number()
 	}),
-	object({
-		id: string(),
-		type: literal("purchase"),
-		user_id: number(),
-		field_id: number(),
-		price: number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("purchase"),
+		user_id: v$12.number(),
+		field_id: v$12.number(),
+		price: v$12.number()
 	}),
-	object({
-		id: string(),
-		type: literal("purchase.reject"),
-		user_id: number(),
-		field_id: number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("purchase.reject"),
+		user_id: v$12.number(),
+		field_id: v$12.number()
 	})
 ];
 const enrichments$7 = { purchase(options) {
@@ -2299,12 +2332,12 @@ const enrichments$7 = { purchase(options) {
 	});
 } };
 const valiV1Schemas$7 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("canBuy"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("canBuy"),
+		user_id: v$12.number(),
+		field: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "purchase.offer",
@@ -2312,13 +2345,13 @@ const valiV1Schemas$7 = [
 			field_id: value.field
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("buy"),
-		user_id: number(),
-		field: number(),
-		money: number()
-	}), transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("buy"),
+		user_id: v$12.number(),
+		field: v$12.number(),
+		money: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "purchase",
@@ -2327,12 +2360,12 @@ const valiV1Schemas$7 = [
 			price: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("noBuy"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("noBuy"),
+		user_id: v$12.number(),
+		field: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "purchase.reject",
@@ -2351,49 +2384,49 @@ __export(rent_exports, {
 	valiV1Schemas: () => valiV1Schemas$6
 });
 const valiSchemas$6 = [
-	object({
-		id: string(),
-		type: literal("rent.pay"),
-		user_id: number(),
-		field_id: number(),
-		amount: number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("rent.pay"),
+		user_id: v$11.number(),
+		field_id: v$11.number(),
+		amount: v$11.number()
 	}),
-	object({
-		id: string(),
-		type: literal("rent.pay.complete"),
-		user_id: number(),
-		field_id: number(),
-		amount: number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("rent.pay.complete"),
+		user_id: v$11.number(),
+		field_id: v$11.number(),
+		amount: v$11.number()
 	}),
-	object({
-		id: string(),
-		type: literal("rent.pay.cancel"),
-		user_id: number(),
-		user_id_receiver: number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("rent.pay.cancel"),
+		user_id: v$11.number(),
+		user_id_receiver: v$11.number()
 	}),
-	object({
-		id: string(),
-		type: literal("rent.zero"),
-		user_id: number(),
-		field_id: number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("rent.zero"),
+		user_id: v$11.number(),
+		field_id: v$11.number()
 	}),
-	object({
-		id: string(),
-		type: literal("rent.zero.self"),
-		user_id: number(),
-		field_id: number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("rent.zero.self"),
+		user_id: v$11.number(),
+		field_id: v$11.number()
 	}),
-	object({
-		id: string(),
-		type: literal("rent.zero.teammate"),
-		user_id: number(),
-		field_id: number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("rent.zero.teammate"),
+		user_id: v$11.number(),
+		field_id: v$11.number()
 	}),
-	object({
-		id: string(),
-		type: literal("rent.zero.mortgaged"),
-		user_id: number(),
-		field_id: number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("rent.zero.mortgaged"),
+		user_id: v$11.number(),
+		field_id: v$11.number()
 	})
 ];
 const enrichments$6 = { "rent.pay.complete"(options) {
@@ -2405,13 +2438,13 @@ const enrichments$6 = { "rent.pay.complete"(options) {
 	player_receiver.cash += amount;
 } };
 const valiV1Schemas$6 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payRent"),
-		user_id: number(),
-		field: number(),
-		money: number()
-	}), transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("payRent"),
+		user_id: v$11.number(),
+		field: v$11.number(),
+		money: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay",
@@ -2420,13 +2453,13 @@ const valiV1Schemas$6 = [
 			amount: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payRentSuccess"),
-		user_id: number(),
-		field: number(),
-		money: number()
-	}), transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("payRentSuccess"),
+		user_id: v$11.number(),
+		field: v$11.number(),
+		money: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay.complete",
@@ -2435,12 +2468,12 @@ const valiV1Schemas$6 = [
 			amount: value.money
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payRentFail"),
-		user_id: number(),
-		to: number()
-	}), transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("payRentFail"),
+		user_id: v$11.number(),
+		to: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay.cancel",
@@ -2448,12 +2481,12 @@ const valiV1Schemas$6 = [
 			user_id_receiver: value.to
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payRentZero"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("payRentZero"),
+		user_id: v$11.number(),
+		field: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero",
@@ -2461,12 +2494,12 @@ const valiV1Schemas$6 = [
 			field_id: value.field
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payRentToSelf"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("payRentToSelf"),
+		user_id: v$11.number(),
+		field: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero.self",
@@ -2474,12 +2507,12 @@ const valiV1Schemas$6 = [
 			field_id: value.field
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payRentToTeammate"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("payRentToTeammate"),
+		user_id: v$11.number(),
+		field: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero.teammate",
@@ -2487,12 +2520,12 @@ const valiV1Schemas$6 = [
 			field_id: value.field
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("payRentCancelledMortgaged"),
-		user_id: number(),
-		field: number()
-	}), transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("payRentCancelledMortgaged"),
+		user_id: v$11.number(),
+		field: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero.mortgaged",
@@ -2511,27 +2544,27 @@ __export(roll_dices_exports, {
 	valiV1Schemas: () => valiV1Schemas$5
 });
 const valiSchemas$5 = [
-	object({
-		id: string(),
-		type: literal("roll-dices"),
-		user_id: number(),
-		dices: tuple([
-			number(),
-			optional(number()),
-			optional(number())
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("roll-dices"),
+		user_id: v$10.number(),
+		dices: v$10.tuple([
+			v$10.number(),
+			v$10.optional(v$10.number()),
+			v$10.optional(v$10.number())
 		]),
 		move_reversed: bit(false),
 		double_spent: bit(false)
 	}),
-	object({
-		id: string(),
-		type: literal("roll-dices.jail.success"),
-		user_id: number()
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("roll-dices.jail.success"),
+		user_id: v$10.number()
 	}),
-	object({
-		id: string(),
-		type: literal("roll-dices.jail.fail"),
-		user_id: number()
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("roll-dices.jail.fail"),
+		user_id: v$10.number()
 	})
 ];
 const enrichments$5 = {
@@ -2551,17 +2584,17 @@ const enrichments$5 = {
 	}
 };
 const valiV1Schemas$5 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("rollDices"),
-		user_id: number(),
-		dices: tuple([
-			number(),
-			optional(number()),
-			optional(number())
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("rollDices"),
+		user_id: v$10.number(),
+		dices: v$10.tuple([
+			v$10.number(),
+			v$10.optional(v$10.number()),
+			v$10.optional(v$10.number())
 		]),
 		move_reverse: bit(false)
-	}), transform((value) => {
+	}), v$10.transform((value) => {
 		return {
 			id: value._id,
 			type: "roll-dices",
@@ -2571,31 +2604,31 @@ const valiV1Schemas$5 = [
 			double_spent: false
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("double_spended")
-	}), transform((value) => {
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("double_spended")
+	}), v$10.transform((value) => {
 		return {
 			id: value._id,
 			type: value.type
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("rollDicesForUnjailSuccess"),
-		user_id: number()
-	}), transform((value) => {
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("rollDicesForUnjailSuccess"),
+		user_id: v$10.number()
+	}), v$10.transform((value) => {
 		return {
 			id: value._id,
 			type: "roll-dices.jail.success",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("rollDicesForUnjailFail"),
-		user_id: number()
-	}), transform((value) => {
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("rollDicesForUnjailFail"),
+		user_id: v$10.number()
+	}), v$10.transform((value) => {
 		return {
 			id: value._id,
 			type: "roll-dices.jail.fail",
@@ -2637,14 +2670,14 @@ __export(start_exports, {
 	valiSchemas: () => valiSchemas$4,
 	valiV1Schemas: () => valiV1Schemas$4
 });
-const valiSchemas$4 = [object({
-	id: string(),
-	type: literal("start.income"),
-	user_id: number()
-}), object({
-	id: string(),
-	type: literal("start.bonus"),
-	user_id: number()
+const valiSchemas$4 = [v$9.object({
+	id: v$9.string(),
+	type: v$9.literal("start.income"),
+	user_id: v$9.number()
+}), v$9.object({
+	id: v$9.string(),
+	type: v$9.literal("start.bonus"),
+	user_id: v$9.number()
 })];
 const enrichments$4 = {
 	"start.income"(options) {
@@ -2656,21 +2689,21 @@ const enrichments$4 = {
 		player.cash += options.setup.config.mechanics.start.bonus_amount;
 	}
 };
-const valiV1Schemas$4 = [pipe(object({
-	_id: optional(string()),
-	type: literal("startBypass"),
-	user_id: number()
-}), transform((value) => {
+const valiV1Schemas$4 = [v$9.pipe(v$9.object({
+	_id: v$9.optional(v$9.string()),
+	type: v$9.literal("startBypass"),
+	user_id: v$9.number()
+}), v$9.transform((value) => {
 	return {
 		id: value._id,
 		type: "start.income",
 		user_id: value.user_id
 	};
-})), pipe(object({
-	_id: optional(string()),
-	type: literal("start_bonus"),
-	user_id: number()
-}), transform((value) => {
+})), v$9.pipe(v$9.object({
+	_id: v$9.optional(v$9.string()),
+	type: v$9.literal("start_bonus"),
+	user_id: v$9.number()
+}), v$9.transform((value) => {
 	return {
 		id: value._id,
 		type: "start.bonus",
@@ -2686,27 +2719,27 @@ __export(tournament_exports, {
 	valiSchemas: () => valiSchemas$3,
 	valiV1Schemas: () => valiV1Schemas$3
 });
-const valiSchemas$3 = [object({
-	id: string(),
-	type: literal("tournament.drop"),
-	user_ids: array(number())
+const valiSchemas$3 = [v$8.object({
+	id: v$8.string(),
+	type: v$8.literal("tournament.drop"),
+	user_ids: v$8.array(v$8.number())
 })];
 const enrichments$3 = {};
-const valiV1Schemas$3 = [pipe(object({
-	_id: optional(string()),
-	type: literal("tournament_drop"),
-	user_id: number()
-}), transform((value) => {
+const valiV1Schemas$3 = [v$8.pipe(v$8.object({
+	_id: v$8.optional(v$8.string()),
+	type: v$8.literal("tournament_drop"),
+	user_id: v$8.number()
+}), v$8.transform((value) => {
 	return {
 		id: value._id,
 		type: "tournament.drop",
 		user_ids: [value.user_id]
 	};
-})), pipe(object({
-	_id: optional(string()),
-	type: literal("tournament_drop_multi"),
-	user_ids: array(number())
-}), transform((value) => {
+})), v$8.pipe(v$8.object({
+	_id: v$8.optional(v$8.string()),
+	type: v$8.literal("tournament_drop_multi"),
+	user_ids: v$8.array(v$8.number())
+}), v$8.transform((value) => {
 	return {
 		id: value._id,
 		type: "tournament.drop",
@@ -2722,38 +2755,38 @@ __export(triple_exports, {
 	valiSchemas: () => valiSchemas$2,
 	valiV1Schemas: () => valiV1Schemas$2
 });
-const valiSchemas$2 = [object({
-	id: string(),
-	type: literal("triple"),
-	user_id: number()
-}), object({
-	id: string(),
-	type: literal("triple.move"),
-	user_id: number(),
-	field_id: number(),
+const valiSchemas$2 = [v$7.object({
+	id: v$7.string(),
+	type: v$7.literal("triple"),
+	user_id: v$7.number()
+}), v$7.object({
+	id: v$7.string(),
+	type: v$7.literal("triple.move"),
+	user_id: v$7.number(),
+	field_id: v$7.number(),
 	move_reversed: bit(false)
 })];
 const enrichments$2 = { "triple.move"(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.position = options.event.field_id;
 } };
-const valiV1Schemas$2 = [pipe(object({
-	_id: optional(string()),
-	type: literal("chooseFieldToMove"),
-	user_id: number()
-}), transform((value) => {
+const valiV1Schemas$2 = [v$7.pipe(v$7.object({
+	_id: v$7.optional(v$7.string()),
+	type: v$7.literal("chooseFieldToMove"),
+	user_id: v$7.number()
+}), v$7.transform((value) => {
 	return {
 		id: value._id,
 		type: "triple",
 		user_id: value.user_id
 	};
-})), pipe(object({
-	_id: optional(string()),
-	type: literal("fieldToMoveChoosed"),
-	user_id: number(),
-	field_id: number(),
+})), v$7.pipe(v$7.object({
+	_id: v$7.optional(v$7.string()),
+	type: v$7.literal("fieldToMoveChoosed"),
+	user_id: v$7.number(),
+	field_id: v$7.number(),
 	move_reverse: bit(false)
-}), transform((value) => {
+}), v$7.transform((value) => {
 	return {
 		id: value._id,
 		type: "triple.move",
@@ -2772,27 +2805,27 @@ __export(wormhole_exports, {
 	valiV1Schemas: () => valiV1Schemas$1
 });
 const valiSchemas$1 = [
-	object({
-		id: string(),
-		type: literal("wormhole"),
-		user_id: number()
+	v$6.object({
+		id: v$6.string(),
+		type: v$6.literal("wormhole"),
+		user_id: v$6.number()
 	}),
-	object({
-		id: string(),
-		type: literal("wormhole.open"),
-		user_id: number(),
-		exits_count: number()
+	v$6.object({
+		id: v$6.string(),
+		type: v$6.literal("wormhole.open"),
+		user_id: v$6.number(),
+		exits_count: v$6.number()
 	}),
-	object({
-		id: string(),
-		type: literal("wormhole.reject"),
-		user_id: number()
+	v$6.object({
+		id: v$6.string(),
+		type: v$6.literal("wormhole.reject"),
+		user_id: v$6.number()
 	}),
-	object({
-		id: string(),
-		type: literal("wormhole.move"),
-		user_id: number(),
-		field_id: number(),
+	v$6.object({
+		id: v$6.string(),
+		type: v$6.literal("wormhole.move"),
+		user_id: v$6.number(),
+		field_id: v$6.number(),
 		move_reversed: bit(false)
 	})
 ];
@@ -2808,23 +2841,23 @@ const enrichments$1 = {
 	}
 };
 const valiV1Schemas$1 = [
-	pipe(object({
-		_id: optional(string()),
-		type: literal("wormhole"),
-		user_id: number()
-	}), transform((value) => {
+	v$6.pipe(v$6.object({
+		_id: v$6.optional(v$6.string()),
+		type: v$6.literal("wormhole"),
+		user_id: v$6.number()
+	}), v$6.transform((value) => {
 		return {
 			id: value._id,
 			type: "wormhole",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("wormhole_opened"),
-		user_id: number(),
-		destinations_count: number()
-	}), transform((value) => {
+	v$6.pipe(v$6.object({
+		_id: v$6.optional(v$6.string()),
+		type: v$6.literal("wormhole_opened"),
+		user_id: v$6.number(),
+		destinations_count: v$6.number()
+	}), v$6.transform((value) => {
 		return {
 			id: value._id,
 			type: "wormhole.open",
@@ -2832,24 +2865,24 @@ const valiV1Schemas$1 = [
 			exits_count: value.destinations_count
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("wormhole_declined"),
-		user_id: number()
-	}), transform((value) => {
+	v$6.pipe(v$6.object({
+		_id: v$6.optional(v$6.string()),
+		type: v$6.literal("wormhole_declined"),
+		user_id: v$6.number()
+	}), v$6.transform((value) => {
 		return {
 			id: value._id,
 			type: "wormhole.reject",
 			user_id: value.user_id
 		};
 	})),
-	pipe(object({
-		_id: optional(string()),
-		type: literal("wormhole_used"),
-		user_id: number(),
-		field_id: number(),
+	v$6.pipe(v$6.object({
+		_id: v$6.optional(v$6.string()),
+		type: v$6.literal("wormhole_used"),
+		user_id: v$6.number(),
+		field_id: v$6.number(),
 		move_reverse: bit(false)
-	}), transform((value) => {
+	}), v$6.transform((value) => {
 		return {
 			id: value._id,
 			type: "wormhole.move",
@@ -2920,7 +2953,7 @@ function getEntrichment(event) {
 
 //#endregion
 //#region src/utils/guards.ts
-const valiRecordParser = safeParser(record(string(), unknown()));
+const valiRecordParser = v$5.safeParser(v$5.record(v$5.string(), v$5.unknown()));
 /**
 * Checks if value is an object.
 * @param value -
@@ -2932,20 +2965,20 @@ function isRecord(value) {
 
 //#endregion
 //#region src/packet/events.ts
-const valiM1DemoRawPacketEventsSchema = array(union([...valiSchemas, pipe(object({
-	id: string(),
-	type: string()
-}), transform(({ type,...value_rest }) => {
+const valiM1DemoRawPacketEventsSchema = v$4.array(v$4.union([...valiSchemas, v$4.pipe(v$4.object({
+	id: v$4.string(),
+	type: v$4.string()
+}), v$4.transform(({ type,...value_rest }) => {
 	return {
 		type: "_unknown",
 		type_received: type,
 		...value_rest
 	};
 }))]));
-const valiM1DemoRawPacketV1EventElementSchema = union([...valiV1Schemas, pipe(object({
-	_id: optional(string()),
-	type: string()
-}), transform(({ _id, type,...value_rest }) => {
+const valiM1DemoRawPacketV1EventElementSchema = v$4.union([...valiV1Schemas, v$4.pipe(v$4.object({
+	_id: v$4.optional(v$4.string()),
+	type: v$4.string()
+}), v$4.transform(({ _id, type,...value_rest }) => {
 	return {
 		id: _id,
 		type: "_unknown",
@@ -2953,7 +2986,7 @@ const valiM1DemoRawPacketV1EventElementSchema = union([...valiV1Schemas, pipe(ob
 		...value_rest
 	};
 }))]);
-const valiM1DemoRawPacketV1EventsSchema = pipe(union([array(valiM1DemoRawPacketV1EventElementSchema), record(string(), valiM1DemoRawPacketV1EventElementSchema)]), transform((value) => {
+const valiM1DemoRawPacketV1EventsSchema = v$4.pipe(v$4.union([v$4.array(valiM1DemoRawPacketV1EventElementSchema), v$4.record(v$4.string(), valiM1DemoRawPacketV1EventElementSchema)]), v$4.transform((value) => {
 	if (isRecord(value)) return Object.entries(value).map(([_id, event]) => {
 		return {
 			_id,
@@ -2961,7 +2994,7 @@ const valiM1DemoRawPacketV1EventsSchema = pipe(union([array(valiM1DemoRawPacketV
 		};
 	});
 	return value;
-}), transform((value) => {
+}), v$4.transform((value) => {
 	const events_new = [];
 	for (const { id,...event_rest } of value) {
 		if (typeof id !== "string") throw new TypeError("Validation error: field \"id\" is required");
@@ -2981,17 +3014,17 @@ const valiM1DemoRawPacketV1EventsSchema = pipe(union([array(valiM1DemoRawPacketV
 
 //#endregion
 //#region src/packet/setup/player.ts
-const valiM1DemoPacketSetupPlayerSchema = pipe(object({
-	user_id: number(),
+const valiM1DemoPacketSetupPlayerSchema = v$3.pipe(v$3.object({
+	user_id: v$3.number(),
 	is_vip: bit(false),
 	is_loan_available: bit(false),
-	equipment: object({ cards: pipe(array(object({
-		field_id: number(),
-		item_proto_id: number(),
-		item_id: optional(number()),
-		rent_multiplier: number()
-	})), transform((value) => new Map(value.map((card) => [card.field_id, card])))) })
-}), transform((value) => {
+	equipment: v$3.object({ cards: v$3.pipe(v$3.array(v$3.object({
+		field_id: v$3.number(),
+		item_proto_id: v$3.number(),
+		item_id: v$3.optional(v$3.number()),
+		rent_multiplier: v$3.number()
+	})), v$3.transform((value) => new Map(value.map((card) => [card.field_id, card])))) })
+}), v$3.transform((value) => {
 	return {
 		...value,
 		index: -1
@@ -3000,14 +3033,14 @@ const valiM1DemoPacketSetupPlayerSchema = pipe(object({
 
 //#endregion
 //#region src/packet/setup.ts
-const valiM1DemoPacketSetupSchema = object({
+const valiM1DemoPacketSetupSchema = v$2.object({
 	config: valiM1DemoPacketSetupConfigSchema,
-	flags: object({
-		game_mode: number(),
-		game_submode: number(),
+	flags: v$2.object({
+		game_mode: v$2.number(),
+		game_submode: v$2.number(),
 		game_2x2: bit(false)
 	}),
-	players: pipe(array(valiM1DemoPacketSetupPlayerSchema), transform((value) => {
+	players: v$2.pipe(v$2.array(valiM1DemoPacketSetupPlayerSchema), v$2.transform((value) => {
 		const value_map = new Map();
 		for (const [index, player] of value.entries()) {
 			player.index = index;
@@ -3019,36 +3052,36 @@ const valiM1DemoPacketSetupSchema = object({
 
 //#endregion
 //#region src/packet/time.ts
-const valiM1DemoPacketTimeSchema = pipe(object({
-	ts_start: number(),
-	ts_now: number(),
-	inactive: number(),
-	ts_inactive: optional(number())
-}), transform((value) => {
+const valiM1DemoPacketTimeSchema = v$1.pipe(v$1.object({
+	ts_start: v$1.number(),
+	ts_now: v$1.number(),
+	inactive: v$1.number(),
+	ts_inactive: v$1.optional(v$1.number())
+}), v$1.transform((value) => {
 	return {
 		...value,
 		delta: Date.now() - value.ts_now
 	};
 }));
-const valiM1DemoPacketV1TimeSchema = union([
-	object({ time: valiM1DemoPacketTimeSchema }),
-	pipe(object({ status: optional(object({ time: valiM1DemoPacketTimeSchema })) }), transform((value) => {
+const valiM1DemoPacketV1TimeSchema = v$1.union([
+	v$1.object({ time: valiM1DemoPacketTimeSchema }),
+	v$1.pipe(v$1.object({ status: v$1.optional(v$1.object({ time: valiM1DemoPacketTimeSchema })) }), v$1.transform((value) => {
 		if (!value.status) {
 			console.error("There is no time in the packet.", value);
 			throw new Error("There is no time in the packet.");
 		}
 		return { time: value.status.time };
 	})),
-	pipe(object({
-		current_time: number(),
-		game_started: optional(number()),
-		ts_start: optional(number()),
-		status: optional(object({ pause_data: optional(object({
-			total_time: number(),
-			is_active: boolean(),
-			pause_started_at: optional(number())
+	v$1.pipe(v$1.object({
+		current_time: v$1.number(),
+		game_started: v$1.optional(v$1.number()),
+		ts_start: v$1.optional(v$1.number()),
+		status: v$1.optional(v$1.object({ pause_data: v$1.optional(v$1.object({
+			total_time: v$1.number(),
+			is_active: v$1.boolean(),
+			pause_started_at: v$1.optional(v$1.number())
 		})) }))
-	}), transform((value) => {
+	}), v$1.transform((value) => {
 		const ts_now = value.current_time * 1e3;
 		const ts_start = value.ts_start ?? value.game_started;
 		if (!ts_start) throw new Error("No timestamp of the start of the game found in packet.");
@@ -3071,22 +3104,22 @@ const valiM1DemoPacketV1TimeSchema = union([
 
 //#endregion
 //#region src/packet.ts
-const valiM1DemoRawPacketSchema = object({
-	setup: optional(valiM1DemoPacketSetupSchema),
+const valiM1DemoRawPacketSchema = v.object({
+	setup: v.optional(valiM1DemoPacketSetupSchema),
 	events: valiM1DemoRawPacketEventsSchema,
-	status: optional(valiM1DemoPacketStatusSchema),
+	status: v.optional(valiM1DemoPacketStatusSchema),
 	time: valiM1DemoPacketTimeSchema
 });
-const valiM1DemoRawPacketV1Schema = intersect([valiM1DemoPacketV1TimeSchema, pipe(object({
-	config: optional(valiM1DemoPacketV1ConfigSchema),
-	flags: optional(object({
-		game_mode: number(),
-		game_submode: number(),
+const valiM1DemoRawPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v.pipe(v.object({
+	config: v.optional(valiM1DemoPacketV1ConfigSchema),
+	flags: v.optional(v.object({
+		game_mode: v.number(),
+		game_submode: v.number(),
 		game_2x2: bit(false)
 	})),
 	events: valiM1DemoRawPacketV1EventsSchema,
-	status: optional(valiM1DemoPacketV1StatusSchema)
-}), transform((value) => {
+	status: v.optional(valiM1DemoPacketV1StatusSchema)
+}), v.transform((value) => {
 	const { config, flags, status,...value_rest } = value;
 	let status_new;
 	if (status) {

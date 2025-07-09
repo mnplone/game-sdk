@@ -1,33 +1,21 @@
-import {
-	array,
-	type InferOutput,
-	nullable,
-	number,
-	object,
-	optional,
-	picklist,
-	pipe,
-	transform,
-	tuple,
-	union,
-} from 'valibot';
+import * as v from 'valibot';
 import type { SetElement } from '../../utils/types.js';
 import { bit } from '../../utils/valibot.js';
 
-export const valiM1DemoContractSchema = pipe(
-	tuple([
-		object({
-			user_id: number(),
-			field_ids: array(number()),
-			cash: number(),
+export const valiM1DemoContractSchema = v.pipe(
+	v.tuple([
+		v.object({
+			user_id: v.number(),
+			field_ids: v.array(v.number()),
+			cash: v.number(),
 		}),
-		object({
-			user_id: number(),
-			field_ids: array(number()),
-			cash: number(),
+		v.object({
+			user_id: v.number(),
+			field_ids: v.array(v.number()),
+			cash: v.number(),
 		}),
 	]),
-	transform(([initiator, responder]) => {
+	v.transform(([initiator, responder]) => {
 		return {
 			initiator: {
 				user_id: initiator.user_id,
@@ -42,17 +30,17 @@ export const valiM1DemoContractSchema = pipe(
 		};
 	}),
 );
-export type M1DemoContract = InferOutput<typeof valiM1DemoContractSchema>;
+export type M1DemoContract = v.InferOutput<typeof valiM1DemoContractSchema>;
 
-export const valiM1DemoPacketStatusTurnSchema = object({
+export const valiM1DemoPacketStatusTurnSchema = v.object({
 	/** User ID of the player whose turn it is. */
-	user_id: nullable(number()),
-	action: object({
+	user_id: v.nullable(v.number()),
+	action: v.object({
 		/** User ID of the player from which action is expected. */
-		user_id: nullable(number()),
-		list: pipe(
-			array(
-				picklist([
+		user_id: v.nullable(v.number()),
+		list: v.pipe(
+			v.array(
+				v.picklist([
 					// Auction
 					'auction.put',
 					'auction.bid',
@@ -111,73 +99,73 @@ export const valiM1DemoPacketStatusTurnSchema = object({
 					'restart',
 				]),
 			),
-			transform((value) => new Set(value)),
+			v.transform((value) => new Set(value)),
 		),
 	}),
 	move_reversed: bit(false),
-	auction: optional(
-		object({
-			field_id: number(),
-			bid: number(),
-			user_ids_rejected: pipe(
-				array(number()),
-				transform((value) => new Set(value)),
+	auction: v.optional(
+		v.object({
+			field_id: v.number(),
+			bid: v.number(),
+			user_ids_rejected: v.pipe(
+				v.array(v.number()),
+				v.transform((value) => new Set(value)),
 			),
 		}),
 	),
-	contract: optional(valiM1DemoContractSchema),
-	contracts_sent: optional(number()),
-	jackpot: optional(
-		object({
-			superprize: number(),
+	contract: v.optional(valiM1DemoContractSchema),
+	contracts_sent: v.optional(v.number()),
+	jackpot: v.optional(
+		v.object({
+			superprize: v.number(),
 		}),
 	),
-	payment: optional(
-		object({
-			to_user_id: optional(number()),
-			amount: number(),
+	payment: v.optional(
+		v.object({
+			to_user_id: v.optional(v.number()),
+			amount: v.number(),
 		}),
 	),
 	/** Fields on which player can move in this action. */
-	field_ids_move: optional(
-		pipe(
-			array(
-				object({
-					field_id: number(),
-					data: union([
+	field_ids_move: v.optional(
+		v.pipe(
+			v.array(
+				v.object({
+					field_id: v.number(),
+					data: v.union([
 						// bus, taxi
-						object({
-							stop: number(),
+						v.object({
+							stop: v.number(),
 						}),
 						// triple, wormhole
-						object({
-							field_id: number(),
+						v.object({
+							field_id: v.number(),
 						}),
 					]),
 				}),
 			),
-			transform(
+			v.transform(
 				(value) => new Map(value.map((item) => [item.field_id, item.data])),
 			),
 		),
 	),
 	/** Fields on which player already built a level this turn. */
-	field_ids_level_built: optional(
-		pipe(
-			array(number()),
-			transform((value) => new Set(value)),
+	field_ids_level_built: v.optional(
+		v.pipe(
+			v.array(v.number()),
+			v.transform((value) => new Set(value)),
 		),
 	),
 	/** Fields which player already mortgaged this turn. */
-	field_ids_mortgaged: optional(
-		pipe(
-			array(number()),
-			transform((value) => new Set(value)),
+	field_ids_mortgaged: v.optional(
+		v.pipe(
+			v.array(v.number()),
+			v.transform((value) => new Set(value)),
 		),
 	),
 });
 
-export type M1DemoPacketStatusTurn = InferOutput<
+export type M1DemoPacketStatusTurn = v.InferOutput<
 	typeof valiM1DemoPacketStatusTurnSchema
 >;
 export type M1DemoPacketStatusTurnActionListElement = SetElement<

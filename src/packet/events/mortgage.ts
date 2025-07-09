@@ -1,32 +1,24 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('mortgage.put'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('mortgage.put'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('mortgage.buyback'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('mortgage.buyback'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('mortgage.expire'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('mortgage.expire'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
 ];
 
@@ -108,14 +100,14 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('mortgage'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('mortgage'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'mortgage.put' as const,
@@ -124,14 +116,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('unmortgage'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('unmortgage'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'mortgage.buyback' as const,
@@ -140,13 +132,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('mortgage_limit'),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('mortgage_limit'),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'mortgage.expire' as const,

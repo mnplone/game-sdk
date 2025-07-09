@@ -1,19 +1,4 @@
-import {
-	array,
-	boolean,
-	type InferOutput,
-	nullable,
-	number,
-	object,
-	optional,
-	picklist,
-	pipe,
-	record,
-	string,
-	transform,
-	tuple,
-	union,
-} from 'valibot';
+import * as v from 'valibot';
 import {
 	valiM1DemoPacketStatusFieldsSchema,
 	valiM1DemoPacketV1StatusFieldsSchema,
@@ -30,9 +15,9 @@ import {
 } from './status/turn.js';
 // import { normalizeFieldId } from '@/js/table/.tools.js';
 
-export const valiM1DemoPacketStatusSchema = object({
+export const valiM1DemoPacketStatusSchema = v.object({
 	/** Round number. */
-	round: number(),
+	round: v.number(),
 	/** Players. */
 	players: valiM1DemoPacketStatusPlayersSchema,
 	/** Current information about fields. */
@@ -44,25 +29,25 @@ export const valiM1DemoPacketStatusSchema = object({
 	 *
 	 * If match set up with no timers, this object is not defined.
 	 */
-	timer: optional(
-		union([
-			object({
+	timer: v.optional(
+		v.union([
+			v.object({
 				/** Unix timestamp when timer for an action expires, in **milliseconds**. */
-				ts_expires: number(),
+				ts_expires: v.number(),
 				/** If timer is extra timer. */
-				is_extra: boolean(),
+				is_extra: v.boolean(),
 			}),
-			object({
+			v.object({
 				/** When match paused, time left in **milliseconds**. */
-				expires_in: number(),
+				expires_in: v.number(),
 				/** If timer is extra timer. */
-				is_extra: boolean(),
+				is_extra: v.boolean(),
 			}),
 		]),
 	),
 });
 
-export type M1DemoPacketStatus = InferOutput<
+export type M1DemoPacketStatus = v.InferOutput<
 	typeof valiM1DemoPacketStatusSchema
 >;
 export type M1DemoPacketStatusTimer = M1DemoPacketStatus['timer'];
@@ -150,25 +135,25 @@ export const packetv1_action_mapping = Object.fromEntries([
 	keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]
 >;
 
-const valiM1DemoPacketV1StatusActiontypeSchema = array(
-	picklist(
+const valiM1DemoPacketV1StatusActiontypeSchema = v.array(
+	v.picklist(
 		Object.keys(action_list_mapping) as (keyof typeof action_list_mapping)[],
 	),
 );
-type M1DemoPacketV1StatusActiontype = InferOutput<
+type M1DemoPacketV1StatusActiontype = v.InferOutput<
 	typeof valiM1DemoPacketV1StatusActiontypeSchema
 >;
 
-export const valiM1DemoPacketV1ContractSchema = pipe(
-	object({
-		from: number(),
-		to: number(),
-		out_fields: array(number()),
-		out_money: number(),
-		in_fields: array(number()),
-		in_money: number(),
+export const valiM1DemoPacketV1ContractSchema = v.pipe(
+	v.object({
+		from: v.number(),
+		to: v.number(),
+		out_fields: v.array(v.number()),
+		out_money: v.number(),
+		in_fields: v.array(v.number()),
+		in_money: v.number(),
 	}),
-	transform(
+	v.transform(
 		(value) =>
 			({
 				initiator: {
@@ -185,30 +170,30 @@ export const valiM1DemoPacketV1ContractSchema = pipe(
 	),
 );
 
-export const valiM1DemoPacketV1StatusSchema = pipe(
-	object({
+export const valiM1DemoPacketV1StatusSchema = v.pipe(
+	v.object({
 		/** Round number. */
-		round: number(),
+		round: v.number(),
 		players: valiM1DemoPacketV1StatusPlayersSchema,
 		fields: valiM1DemoPacketV1StatusFieldsSchema,
 		// turn
-		player_ownerOfMove: nullable(number()),
-		action_player: nullable(number()),
+		player_ownerOfMove: v.nullable(v.number()),
+		action_player: v.nullable(v.number()),
 		action_type: valiM1DemoPacketV1StatusActiontypeSchema,
-		current_move: optional(
-			object({
-				dices: optional(
-					tuple([number(), optional(number()), optional(number())]),
+		current_move: v.optional(
+			v.object({
+				dices: v.optional(
+					v.tuple([v.number(), v.optional(v.number()), v.optional(v.number())]),
 				),
-				move_reverse: optional(boolean(), false),
-				pay: optional(number()),
-				moneyToPay: optional(number()),
-				payTo: optional(number()),
+				move_reverse: v.optional(v.boolean(), false),
+				pay: v.optional(v.number()),
+				moneyToPay: v.optional(v.number()),
+				payTo: v.optional(v.number()),
 				// auction
-				players_auctionStatus: optional(
-					pipe(
-						record(string(), number()),
-						transform(
+				players_auctionStatus: v.optional(
+					v.pipe(
+						v.record(v.string(), v.number()),
+						v.transform(
 							(value) =>
 								new Set(
 									Object.entries(value)
@@ -218,25 +203,25 @@ export const valiM1DemoPacketV1StatusSchema = pipe(
 						),
 					),
 				),
-				field: optional(number()),
-				bet: optional(number()),
+				field: v.optional(v.number()),
+				bet: v.optional(v.number()),
 				// contract
-				contract: optional(valiM1DemoPacketV1ContractSchema),
-				contracts: optional(number()),
+				contract: v.optional(valiM1DemoPacketV1ContractSchema),
+				contracts: v.optional(v.number()),
 				// jackpot
-				jackpot_superprize_money: optional(number()),
+				jackpot_superprize_money: v.optional(v.number()),
 				// wormhole
-				wormhole_destinations: optional(array(number())),
+				wormhole_destinations: v.optional(v.array(v.number())),
 				// other
-				levelUpped: optional(array(number())),
-				mortgaged: optional(array(number())),
+				levelUpped: v.optional(v.array(v.number())),
+				mortgaged: v.optional(v.array(v.number())),
 			}),
 		),
 		// timeout
-		timeout_ts: number(),
-		timeout_is_additional: boolean(),
+		timeout_ts: v.number(),
+		timeout_is_additional: v.boolean(),
 	}),
-	transform((value) => {
+	v.transform((value) => {
 		for (const [index, player] of value.players.entries()) {
 			if (player._setup) {
 				player._setup.index = index;
@@ -246,7 +231,7 @@ export const valiM1DemoPacketV1StatusSchema = pipe(
 		return value;
 	}),
 	// eslint-disable-next-line complexity, max-lines-per-function
-	transform((value) => {
+	v.transform((value) => {
 		const {
 			// turn
 			player_ownerOfMove,

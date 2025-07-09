@@ -1,69 +1,60 @@
-import {
-	array,
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('jackpot'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jackpot.pay'),
-		user_id: number(),
-		amount: number(),
-		jackpot_size: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot.pay'),
+		user_id: v.number(),
+		amount: v.number(),
+		jackpot_size: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jackpot.play'),
-		user_id: number(),
-		dice_bet: array(number()),
-		dice_rolled: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot.play'),
+		user_id: v.number(),
+		dice_bet: v.array(v.number()),
+		dice_rolled: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jackpot.win'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot.win'),
+		user_id: v.number(),
 		/** Amount of money that player won. */
-		amount: number(),
+		amount: v.number(),
 		/** Dice value rolled. Exists only on Jackpot V2. */
-		dice_rolled: optional(number()),
+		dice_rolled: v.optional(v.number()),
 	}),
-	object({
-		id: string(),
-		type: literal('jackpot.lose'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot.lose'),
+		user_id: v.number(),
 		/** Amount of money that player lost. Exists only on Jackpot V1. */
-		amount: optional(number()),
+		amount: v.optional(v.number()),
 		/** Dice value rolled. Exists only on Jackpot V2. */
-		dice_rolled: optional(number()),
+		dice_rolled: v.optional(v.number()),
 	}),
-	object({
-		id: string(),
-		type: literal('jackpot.superprize.win'),
-		user_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot.superprize.win'),
+		user_id: v.number(),
+		amount: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jackpot.superprize.increase'),
-		user_id: number(),
-		superprize: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot.superprize.increase'),
+		user_id: v.number(),
+		superprize: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jackpot.reject'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jackpot.reject'),
+		user_id: v.number(),
 	}),
 ];
 
@@ -89,13 +80,13 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot' as const,
@@ -103,15 +94,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot_paid'),
-			user_id: number(),
-			money: number(),
-			jackpot_money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot_paid'),
+			user_id: v.number(),
+			money: v.number(),
+			jackpot_money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot.pay' as const,
@@ -121,15 +112,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot_play'),
-			user_id: number(),
-			dices_betted: array(number()),
-			dice_rolled: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot_play'),
+			user_id: v.number(),
+			dices_betted: v.array(v.number()),
+			dice_rolled: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot.play' as const,
@@ -139,15 +130,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot_win'),
-			user_id: number(),
-			money: number(),
-			dice_rolled: optional(number()),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot_win'),
+			user_id: v.number(),
+			money: v.number(),
+			dice_rolled: v.optional(v.number()),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot.win' as const,
@@ -157,15 +148,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot_lose'),
-			user_id: number(),
-			money: optional(number()),
-			dice_rolled: optional(number()),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot_lose'),
+			user_id: v.number(),
+			money: v.optional(v.number()),
+			dice_rolled: v.optional(v.number()),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot.lose' as const,
@@ -175,14 +166,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot_superprize_win'),
-			user_id: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot_superprize_win'),
+			user_id: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot.superprize.win' as const,
@@ -191,14 +182,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot_superprize_funded'),
-			user_id: number(),
-			jackpot_superprize_money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot_superprize_funded'),
+			user_id: v.number(),
+			jackpot_superprize_money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot.superprize.increase' as const,
@@ -207,13 +198,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('jackpot_declined'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('jackpot_declined'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jackpot.reject' as const,

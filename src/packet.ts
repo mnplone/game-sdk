@@ -1,12 +1,4 @@
-import {
-	type InferOutput,
-	intersect,
-	number,
-	object,
-	optional,
-	pipe,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import {
 	valiM1DemoRawPacketEventsSchema,
 	valiM1DemoRawPacketV1EventsSchema,
@@ -23,39 +15,39 @@ import {
 } from './packet/time.js';
 import { bit } from './utils/valibot.js';
 
-export const valiM1DemoRawPacketSchema = object({
+export const valiM1DemoRawPacketSchema = v.object({
 	/** Various information about the match which is never changes. */
-	setup: optional(valiM1DemoPacketSetupSchema),
+	setup: v.optional(valiM1DemoPacketSetupSchema),
 	/** Events happened before game went to the "status". */
 	events: valiM1DemoRawPacketEventsSchema,
 	/** Current status of the match. */
-	status: optional(valiM1DemoPacketStatusSchema),
+	status: v.optional(valiM1DemoPacketStatusSchema),
 	/** Information about match time. */
 	time: valiM1DemoPacketTimeSchema,
 });
 
-export type M1DemoRawPacket = InferOutput<typeof valiM1DemoRawPacketSchema>;
+export type M1DemoRawPacket = v.InferOutput<typeof valiM1DemoRawPacketSchema>;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoRawPacketV1Schema = intersect([
+export const valiM1DemoRawPacketV1Schema = v.intersect([
 	valiM1DemoPacketV1TimeSchema,
-	pipe(
-		object({
-			config: optional(valiM1DemoPacketV1ConfigSchema),
-			flags: optional(
-				object({
-					game_mode: number(),
-					game_submode: number(),
+	v.pipe(
+		v.object({
+			config: v.optional(valiM1DemoPacketV1ConfigSchema),
+			flags: v.optional(
+				v.object({
+					game_mode: v.number(),
+					game_submode: v.number(),
 					game_2x2: bit(false),
 				}),
 			),
 			events: valiM1DemoRawPacketV1EventsSchema,
-			status: optional(valiM1DemoPacketV1StatusSchema),
+			status: v.optional(valiM1DemoPacketV1StatusSchema),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			const { config, flags, status, ...value_rest } = value;
 
 			let status_new;
@@ -115,7 +107,7 @@ export const valiM1DemoRawPacketV1Schema = intersect([
 ]);
 
 // [ hand type checking zone ]
-type _M1DemoRawPacketV1 = InferOutput<typeof valiM1DemoRawPacketV1Schema>;
+type _M1DemoRawPacketV1 = v.InferOutput<typeof valiM1DemoRawPacketV1Schema>;
 type _M1DemoRawPacketV1Setup = _M1DemoRawPacketV1['setup'];
 type _M1DemoRawPacketV1Event = _M1DemoRawPacketV1['events'][number];
 type _M1DemoRawPacketV1Status = _M1DemoRawPacketV1['status'];

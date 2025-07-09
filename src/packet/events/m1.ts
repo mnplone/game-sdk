@@ -1,32 +1,23 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	picklist,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('m1.move'),
-		user_id: number(),
-		rule: pipe(
-			picklist([0, 1]),
-			transform((value) => (value === 0 ? 'free' : 'enemy_owned')),
+	v.object({
+		id: v.string(),
+		type: v.literal('m1.move'),
+		user_id: v.number(),
+		rule: v.pipe(
+			v.picklist([0, 1]),
+			v.transform((value) => (value === 0 ? 'free' : 'enemy_owned')),
 		),
-		field_id: number(),
+		field_id: v.number(),
 		move_reversed: bit(false),
 	}),
-	object({
-		id: string(),
-		type: literal('m1.fail'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('m1.fail'),
+		user_id: v.number(),
 	}),
 ];
 
@@ -38,19 +29,19 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('mrMonopoly'),
-			user_id: number(),
-			field_type: pipe(
-				picklist([0, 1]),
-				transform((value) => (value === 0 ? 'free' : 'enemy_owned')),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('mrMonopoly'),
+			user_id: v.number(),
+			field_type: v.pipe(
+				v.picklist([0, 1]),
+				v.transform((value) => (value === 0 ? 'free' : 'enemy_owned')),
 			),
-			field_id: number(),
+			field_id: v.number(),
 			move_reverse: bit(false),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'm1.move' as const,
@@ -61,13 +52,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('mrMonopolyFailed'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('mrMonopolyFailed'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'm1.fail' as const,

@@ -1,24 +1,16 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('start.income'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('start.income'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('start.bonus'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('start.bonus'),
+		user_id: v.number(),
 	}),
 ];
 
@@ -34,13 +26,13 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('startBypass'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('startBypass'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'start.income' as const,
@@ -48,13 +40,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('start_bonus'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('start_bonus'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'start.bonus' as const,

@@ -1,39 +1,31 @@
-import {
-	array,
-	type InferOutput,
-	number,
-	object,
-	optional,
-	pipe,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { MapElement } from '../../utils/types.js';
 import { bit } from '../../utils/valibot.js';
 
-export const valiM1DemoPacketSetupPlayerSchema = pipe(
-	object({
-		user_id: number(),
+export const valiM1DemoPacketSetupPlayerSchema = v.pipe(
+	v.object({
+		user_id: v.number(),
 		is_vip: bit(false),
 		is_loan_available: bit(false),
-		equipment: object({
-			cards: pipe(
-				array(
-					object({
-						field_id: number(),
-						item_proto_id: number(),
+		equipment: v.object({
+			cards: v.pipe(
+				v.array(
+					v.object({
+						field_id: v.number(),
+						item_proto_id: v.number(),
 						// DO NOT send item_id from the server in Packet V2.
 						// it is for Packet V1 only, which does not have item_proto_id
-						item_id: optional(number()),
-						rent_multiplier: number(),
+						item_id: v.optional(v.number()),
+						rent_multiplier: v.number(),
 					}),
 				),
-				transform(
+				v.transform(
 					(value) => new Map(value.map((card) => [card.field_id, card])),
 				),
 			),
 		}),
 	}),
-	transform((value) => {
+	v.transform((value) => {
 		return {
 			...value,
 			index: -1,
@@ -41,7 +33,7 @@ export const valiM1DemoPacketSetupPlayerSchema = pipe(
 	}),
 );
 
-export type M1DemoPacketSetupPlayer = InferOutput<
+export type M1DemoPacketSetupPlayer = v.InferOutput<
 	typeof valiM1DemoPacketSetupPlayerSchema
 >;
 export type M1DemoPacketSetupPlayerEquippedCard = MapElement<

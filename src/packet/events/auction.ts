@@ -1,47 +1,39 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('auction.put'),
-		user_id: number(),
-		field_id: number(),
-		bid: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('auction.put'),
+		user_id: v.number(),
+		field_id: v.number(),
+		bid: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('auction.bid'),
-		user_id: number(),
-		bid: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('auction.bid'),
+		user_id: v.number(),
+		bid: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('auction.reject'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('auction.reject'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('auction.win'),
-		user_id: number(),
-		field_id: number(),
-		user_id_seller: optional(number()),
-		price: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('auction.win'),
+		user_id: v.number(),
+		field_id: v.number(),
+		user_id_seller: v.optional(v.number()),
+		price: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('auction.cancel'),
-		field_id: number(),
-		user_id_seller: optional(number()),
-		price: optional(number()),
+	v.object({
+		id: v.string(),
+		type: v.literal('auction.cancel'),
+		field_id: v.number(),
+		user_id_seller: v.optional(v.number()),
+		price: v.optional(v.number()),
 	}),
 ];
 
@@ -79,15 +71,15 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('toAuction'),
-			user_id: number(),
-			field: number(),
-			bet: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('toAuction'),
+			user_id: v.number(),
+			field: v.number(),
+			bet: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'auction.put' as const,
@@ -97,14 +89,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('auctionAccept'),
-			user_id: number(),
-			bet: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('auctionAccept'),
+			user_id: v.number(),
+			bet: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'auction.bid' as const,
@@ -113,13 +105,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('auctionDecline'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('auctionDecline'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'auction.reject' as const,
@@ -127,16 +119,16 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('auctionWinner'),
-			user_id: number(),
-			user_id_seller: optional(number()),
-			field: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('auctionWinner'),
+			user_id: v.number(),
+			user_id_seller: v.optional(v.number()),
+			field: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'auction.win' as const,
@@ -147,15 +139,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('auctionFail'),
-			field: number(),
-			user_id_seller: optional(number()),
-			money: optional(number()),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('auctionFail'),
+			field: v.number(),
+			user_id_seller: v.optional(v.number()),
+			money: v.optional(v.number()),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'auction.cancel' as const,

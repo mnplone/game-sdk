@@ -1,26 +1,18 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('level.build'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('level.build'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('level.sell'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('level.sell'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
 ];
 
@@ -77,14 +69,14 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('levelUp'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('levelUp'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'level.build' as const,
@@ -93,14 +85,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('levelDown'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('levelDown'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'level.sell' as const,

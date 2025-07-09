@@ -1,58 +1,50 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('rent.pay'),
-		user_id: number(),
-		field_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('rent.pay'),
+		user_id: v.number(),
+		field_id: v.number(),
+		amount: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('rent.pay.complete'),
-		user_id: number(),
-		field_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('rent.pay.complete'),
+		user_id: v.number(),
+		field_id: v.number(),
+		amount: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('rent.pay.cancel'),
-		user_id: number(),
-		user_id_receiver: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('rent.pay.cancel'),
+		user_id: v.number(),
+		user_id_receiver: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('rent.zero'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('rent.zero'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('rent.zero.self'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('rent.zero.self'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('rent.zero.teammate'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('rent.zero.teammate'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('rent.zero.mortgaged'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('rent.zero.mortgaged'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
 ];
 
@@ -72,15 +64,15 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payRent'),
-			user_id: number(),
-			field: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payRent'),
+			user_id: v.number(),
+			field: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'rent.pay' as const,
@@ -90,15 +82,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payRentSuccess'),
-			user_id: number(),
-			field: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payRentSuccess'),
+			user_id: v.number(),
+			field: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'rent.pay.complete' as const,
@@ -108,14 +100,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payRentFail'),
-			user_id: number(),
-			to: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payRentFail'),
+			user_id: v.number(),
+			to: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'rent.pay.cancel' as const,
@@ -124,14 +116,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payRentZero'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payRentZero'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'rent.zero' as const,
@@ -140,14 +132,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payRentToSelf'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payRentToSelf'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'rent.zero.self' as const,
@@ -156,14 +148,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payRentToTeammate'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payRentToTeammate'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'rent.zero.teammate' as const,
@@ -172,14 +164,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payRentCancelledMortgaged'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payRentCancelledMortgaged'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'rent.zero.mortgaged' as const,

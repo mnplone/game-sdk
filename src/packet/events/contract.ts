@@ -1,34 +1,26 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 // import { type EventEnrichOptions } from '../events.all.js';
 import { valiM1DemoContractSchema } from '../status/turn.js';
 import { valiM1DemoPacketV1ContractSchema } from '../status.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('contract.send'),
-		user_id: number(),
-		user_id_to: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.send'),
+		user_id: v.number(),
+		user_id_to: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('contract.accept'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.accept'),
+		user_id: v.number(),
 		contract: valiM1DemoContractSchema,
 	}),
-	object({
-		id: string(),
-		type: literal('contract.reject'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.reject'),
+		user_id: v.number(),
 		timeout: bit(false),
 	}),
 ];
@@ -41,14 +33,14 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('contract'),
-			user_id: number(),
-			to: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract'),
+			user_id: v.number(),
+			to: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'contract.send' as const,
@@ -57,26 +49,26 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('contract_details'),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_details'),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: value.type,
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('contract_accepted'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_accepted'),
+			user_id: v.number(),
 			contract: valiM1DemoPacketV1ContractSchema,
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'contract.accept' as const,
@@ -85,14 +77,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('contract_declined'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_declined'),
+			user_id: v.number(),
 			by_timeout: bit(false),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'contract.reject' as const,

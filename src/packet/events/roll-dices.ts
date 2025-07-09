@@ -1,36 +1,31 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-	tuple,
-} from 'valibot';
+import * as v from 'valibot';
 import { normalizeFieldId } from '../../utils/table.js';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions, ExtractEvent } from '../events.all.js';
 import type { M1DemoPacketSetup } from '../setup.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('roll-dices'),
-		user_id: number(),
-		dices: tuple([number(), optional(number()), optional(number())]),
+	v.object({
+		id: v.string(),
+		type: v.literal('roll-dices'),
+		user_id: v.number(),
+		dices: v.tuple([
+			v.number(),
+			v.optional(v.number()),
+			v.optional(v.number()),
+		]),
 		move_reversed: bit(false),
 		double_spent: bit(false),
 	}),
-	object({
-		id: string(),
-		type: literal('roll-dices.jail.success'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('roll-dices.jail.success'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('roll-dices.jail.fail'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('roll-dices.jail.fail'),
+		user_id: v.number(),
 	}),
 ];
 
@@ -75,15 +70,19 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('rollDices'),
-			user_id: number(),
-			dices: tuple([number(), optional(number()), optional(number())]),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('rollDices'),
+			user_id: v.number(),
+			dices: v.tuple([
+				v.number(),
+				v.optional(v.number()),
+				v.optional(v.number()),
+			]),
 			move_reverse: bit(false),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'roll-dices' as const,
@@ -94,25 +93,25 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('double_spended'),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('double_spended'),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: value.type,
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('rollDicesForUnjailSuccess'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('rollDicesForUnjailSuccess'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'roll-dices.jail.success' as const,
@@ -120,13 +119,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('rollDicesForUnjailFail'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('rollDicesForUnjailFail'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'roll-dices.jail.fail' as const,

@@ -1,6 +1,6 @@
-import { record, safeParser, string, unknown } from 'valibot';
+import * as v from 'valibot';
 
-const valiRecordParser = safeParser(record(string(), unknown()));
+const valiRecordParser = v.safeParser(v.record(v.string(), v.unknown()));
 
 /**
  * Checks if value is an object.

@@ -1,15 +1,4 @@
-import {
-	array,
-	type InferOutput,
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	transform,
-	tuple,
-	union,
-} from 'valibot';
+import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import {
 	valiM1DemoPacketSetupConfigMechanicsChanceSchema,
@@ -24,128 +13,128 @@ import {
 	valiM1DemoPacketV1ConfigGroupsSchema,
 } from './config/monopolies.js';
 
-export const valiM1DemoPacketSetipConfigRestartVariantSchema = object({
-	round_from: number(),
-	round_to: number(),
-	count: number(),
-	price: number(),
+export const valiM1DemoPacketSetipConfigRestartVariantSchema = v.object({
+	round_from: v.number(),
+	round_to: v.number(),
+	count: v.number(),
+	price: v.number(),
 });
 
-export const valiM1DemoPacketSetupConfigSchema = object({
+export const valiM1DemoPacketSetupConfigSchema = v.object({
 	/** Version of the config. */
-	version: number(),
-	board_size: tuple([number(), number()]),
-	timers: object({
-		roll_dices: number(),
+	version: v.number(),
+	board_size: v.tuple([v.number(), v.number()]),
+	timers: v.object({
+		roll_dices: v.number(),
 	}),
 	fields: valiM1DemoPacketSetupConfigFieldsSchema,
 	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
-	mechanics: object({
-		auction: optional(
-			object({
-				bid_increment: number(),
+	mechanics: v.object({
+		auction: v.optional(
+			v.object({
+				bid_increment: v.number(),
 			}),
 		),
-		chance: optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
-		field_level: optional(
-			object({
+		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		field_level: v.optional(
+			v.object({
 				/** Price multiplier when selling a level (house) on the field, applies to the level buy price. */
-				sell_multiplier: optional(number(), 1),
+				sell_multiplier: v.optional(v.number(), 1),
 				/** When true, player can build uneven levels on the field. */
 				build_uneven: bit(false),
 				/** When true, player can build levels on the field without owning the whole monopoly. */
 				build_without_monopoly: bit(false),
 			}),
 		),
-		jackpot: optional(
-			object({
+		jackpot: v.optional(
+			v.object({
 				// FIXME make it work with older jackpot
-				bet: number(),
-				multipliers: array(number()),
-				superprize: object({
-					// start_sum: number(),
-					chance: number(),
-					// bet_share: number(),
+				bet: v.number(),
+				multipliers: v.array(v.number()),
+				superprize: v.object({
+					// start_sum: v.number(),
+					chance: v.number(),
+					// bet_share: v.number(),
 				}),
 			}),
 		),
-		jail: object({
-			release_fee: number(),
-			double_roll_attempt_limit: optional(number(), 3),
+		jail: v.object({
+			release_fee: v.number(),
+			double_roll_attempt_limit: v.optional(v.number(), 3),
 		}),
-		loan: optional(
-			object({
+		loan: v.optional(
+			v.object({
 				/** Loan amount. */
-				amount: number(),
+				amount: v.number(),
 				/** Interest rate in total. */
-				repay_multiplier: number(),
+				repay_multiplier: v.number(),
 				/** Number of rounds to pay back the loan. */
-				duration: number(),
-				cooldown: object({
+				duration: v.number(),
+				cooldown: v.object({
 					/** On what round can player take a loan. */
-					match_start: number(),
+					match_start: v.number(),
 					/** How many rounds player should wait before taking another loan after repaying the previous one. */
-					repay: number(),
+					repay: v.number(),
 				}),
 			}),
 		),
-		mortgage: optional(
-			object({
+		mortgage: v.optional(
+			v.object({
 				/** Limits mortgage duration in rounds. After this rounds, player will lose the field. */
-				duration: optional(number()),
+				duration: v.optional(v.number()),
 				/** Price multiplier when mortgaging the field, applies to the field buy price. */
-				multiplier: number(),
+				multiplier: v.number(),
 				/** Price multiplier when buying back the field, applies to the mortgage price. */
-				buyback_multiplier: number(),
+				buyback_multiplier: v.number(),
 				/** Price multiplier when auctioning the mortgaged field, applies to company price minus mortgage price. */
-				auction_multiplier: optional(number()),
+				auction_multiplier: v.optional(v.number()),
 			}),
 		),
-		restart: optional(
-			object({
-				variants: array(valiM1DemoPacketSetipConfigRestartVariantSchema),
+		restart: v.optional(
+			v.object({
+				variants: v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
 			}),
 		),
-		start: object({
-			income_amount: number(),
-			bonus_amount: optional(number(), 0),
+		start: v.object({
+			income_amount: v.number(),
+			bonus_amount: v.optional(v.number(), 0),
 		}),
 		/** Rules of the match that are based on the match time. */
-		time_rules: array(
-			union([
-				object({
-					type: literal('start.none'),
+		time_rules: v.array(
+			v.union([
+				v.object({
+					type: v.literal('start.none'),
 					/** Match time in **milliseconds**. */
-					time: number(),
+					time: v.number(),
 				}),
-				object({
-					type: literal('start.tax'),
+				v.object({
+					type: v.literal('start.tax'),
 					/** Match time in **milliseconds**. */
-					time: number(),
+					time: v.number(),
 					/** Sum player should pay when passing "Start". If `0`, player just will not receive money for passing "Start". */
-					sum: number(),
+					sum: v.number(),
 				}),
-				object({
-					type: literal('rent.tax'),
+				v.object({
+					type: v.literal('rent.tax'),
 					/** Match time in **milliseconds**. */
-					time: number(),
+					time: v.number(),
 					/** Income tax rate. */
-					rate: number(),
+					rate: v.number(),
 				}),
 			]),
 		),
-		wormhole: optional(
-			object({
+		wormhole: v.optional(
+			v.object({
 				// FIXME make it work with older wormhole
-				exits_free_count: optional(number(), 3),
-				exits_extra_price: number(),
+				exits_free_count: v.optional(v.number(), 3),
+				exits_extra_price: v.number(),
 				move_direct: bit(false),
 			}),
 		),
 	}),
 });
 
-export type M1DemoPacketSetupConfig = InferOutput<
+export type M1DemoPacketSetupConfig = v.InferOutput<
 	typeof valiM1DemoPacketSetupConfigSchema
 >;
 
@@ -153,69 +142,69 @@ export type M1DemoPacketSetupConfig = InferOutput<
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1ConfigSchema = pipe(
-	object({
-		version: number(),
-		size: tuple([number(), number()]),
+export const valiM1DemoPacketV1ConfigSchema = v.pipe(
+	v.object({
+		version: v.number(),
+		size: v.tuple([v.number(), v.number()]),
 		fields: valiM1DemoPacketV1ConfigFieldsSchema,
 		groups: valiM1DemoPacketV1ConfigGroupsSchema,
 		// timers
-		TIME_FOR_ROLL_DICES: number(),
+		TIME_FOR_ROLL_DICES: v.number(),
 		// mechanics: auction
-		AUCTION_BET_STEP: optional(number()),
+		AUCTION_BET_STEP: v.optional(v.number()),
 		// mechanics: chance
-		chance_cards: optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+		chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
 		// mechanics: field_level
-		coeff_level_down: optional(number(), 1),
+		coeff_level_down: v.optional(v.number(), 1),
 		UNEVEN_LEVEL_CHANGE: bit(false),
 		LEVEL_CHANGE_NO_MNPL: bit(false),
 		// mechanics: jackpot
-		JACKPOT_BET: optional(number()),
-		JACKPOT_COEFFS: optional(array(number())),
-		// JACKPOT_SUPERPRIZE_START: optional(number()),
-		JACKPOT_SUPERPRIZE_CHANCE: optional(number()),
-		// JACKPOT_SUPERPRIZE_SHARE: optional(number()),
+		JACKPOT_BET: v.optional(v.number()),
+		JACKPOT_COEFFS: v.optional(v.array(v.number())),
+		// JACKPOT_SUPERPRIZE_START: v.optional(v.number()),
+		JACKPOT_SUPERPRIZE_CHANCE: v.optional(v.number()),
+		// JACKPOT_SUPERPRIZE_SHARE: v.optional(v.number()),
 		// mechanics: jail
-		jailFee: number(),
-		UNJAIL_TRIES_LIMIT: optional(number(), 3),
+		jailFee: v.number(),
+		UNJAIL_TRIES_LIMIT: v.optional(v.number(), 3),
 		// mechanics: loan
-		CREDIT_SUM: optional(number()),
-		CREDIT_INTEREST: optional(number()),
-		CREDIT_PERCENT: optional(number()),
-		CREDIT_ROUNDS: optional(number()),
-		CREDIT_COOLDOWN_ROUNDS: optional(number()),
-		START_CREDIT_COOLDOWN_ROUNDS: optional(number()),
+		CREDIT_SUM: v.optional(v.number()),
+		CREDIT_INTEREST: v.optional(v.number()),
+		CREDIT_PERCENT: v.optional(v.number()),
+		CREDIT_ROUNDS: v.optional(v.number()),
+		CREDIT_COOLDOWN_ROUNDS: v.optional(v.number()),
+		START_CREDIT_COOLDOWN_ROUNDS: v.optional(v.number()),
 		// mechanics: mortgage
-		MORTGAGE_ROUND_LIMIT: optional(number()),
-		coeff_mortgage: number(),
-		coeff_unmortgage: number(),
-		auction_mortgaged: optional(number()),
+		MORTGAGE_ROUND_LIMIT: v.optional(v.number()),
+		coeff_mortgage: v.number(),
+		coeff_unmortgage: v.number(),
+		auction_mortgaged: v.optional(v.number()),
 		// mechanics: restart
-		restart_variants: optional(
-			array(valiM1DemoPacketSetipConfigRestartVariantSchema),
+		restart_variants: v.optional(
+			v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
 		),
 		// mechanics: start_bonus
-		roundCash: number(),
-		START_BONUS_SUM: optional(number(), 0),
+		roundCash: v.number(),
+		START_BONUS_SUM: v.optional(v.number(), 0),
 		// mechanics: timer_rules
-		roundTaxes: array(
-			object({
-				game_time: number(),
-				tax: number(),
+		roundTaxes: v.array(
+			v.object({
+				game_time: v.number(),
+				tax: v.number(),
 			}),
 		),
-		incomeTaxes: array(
-			object({
-				game_time: number(),
-				tax_rate: number(),
+		incomeTaxes: v.array(
+			v.object({
+				game_time: v.number(),
+				tax_rate: v.number(),
 			}),
 		),
 		// mechanics: wormhole
-		WORMHOLE_DIRECTLY: optional(bit(false)),
-		WORMHOLE_EXTRA_DESTINATION_COST: optional(number()),
+		WORMHOLE_DIRECTLY: v.optional(bit(false)),
+		WORMHOLE_EXTRA_DESTINATION_COST: v.optional(v.number()),
 	}),
 	// transforming config in-place because it is a whole product
-	transform((value) => {
+	v.transform((value) => {
 		return {
 			version: value.version,
 			board_size: value.size,

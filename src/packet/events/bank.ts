@@ -1,39 +1,30 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	picklist,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('bank.income'),
-		user_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('bank.income'),
+		user_id: v.number(),
+		amount: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('bank.fee'),
-		user_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('bank.fee'),
+		user_id: v.number(),
+		amount: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('bank.fee.pay'),
-		user_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('bank.fee.pay'),
+		user_id: v.number(),
+		amount: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('bank.return'),
-		user_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('bank.return'),
+		user_id: v.number(),
+		amount: v.number(),
 	}),
 ];
 
@@ -53,14 +44,14 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('cash_plus'),
-			user_id: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('cash_plus'),
+			user_id: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'bank.income' as const,
@@ -69,14 +60,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: picklist(['cash_minus', 'tax_income', 'tax_luxury']),
-			user_id: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.picklist(['cash_minus', 'tax_income', 'tax_luxury']),
+			user_id: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'bank.fee' as const,
@@ -85,14 +76,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('feePaid'),
-			user_id: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('feePaid'),
+			user_id: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'bank.fee.pay' as const,
@@ -101,14 +92,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('insuranceReturn'),
-			user_id: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('insuranceReturn'),
+			user_id: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'bank.return' as const,

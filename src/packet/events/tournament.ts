@@ -1,33 +1,24 @@
-import {
-	array,
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 // import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('tournament.drop'),
-		user_ids: array(number()),
+	v.object({
+		id: v.string(),
+		type: v.literal('tournament.drop'),
+		user_ids: v.array(v.number()),
 	}),
 ];
 
 export const enrichments = {};
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('tournament_drop'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('tournament_drop'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'tournament.drop' as const,
@@ -35,13 +26,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('tournament_drop_multi'),
-			user_ids: array(number()),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('tournament_drop_multi'),
+			user_ids: v.array(v.number()),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'tournament.drop' as const,

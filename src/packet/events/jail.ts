@@ -1,40 +1,32 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('jail.put'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jail.put'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jail.put.double'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jail.put.double'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jail.visit'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jail.visit'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jail.release.pay'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('jail.release.pay'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('jail.release'),
-		user_id: number(),
-		position_after: optional(number()),
+	v.object({
+		id: v.string(),
+		type: v.literal('jail.release'),
+		user_id: v.number(),
+		position_after: v.optional(v.number()),
 	}),
 ];
 
@@ -74,13 +66,13 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('goToJail'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('goToJail'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jail.put' as const,
@@ -88,13 +80,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('goToJailByCombo'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('goToJailByCombo'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jail.put.double' as const,
@@ -102,13 +94,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('goToJailVisiting'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('goToJailVisiting'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jail.visit' as const,
@@ -116,13 +108,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('payForUnjail'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payForUnjail'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jail.release.pay' as const,
@@ -130,14 +122,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('unjailedByFee'),
-			user_id: number(),
-			mean_position: optional(number()),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('unjailedByFee'),
+			user_id: v.number(),
+			mean_position: v.optional(v.number()),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jail.release' as const,

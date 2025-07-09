@@ -1,55 +1,46 @@
-import {
-	array,
-	boolean,
-	type InferOutput,
-	number,
-	object,
-	optional,
-	pipe,
-	record,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { MapElement } from '../../utils/types.js';
 
-export const valiM1DemoPacketStatusFieldsSchema = pipe(
-	array(
-		pipe(
-			object({
-				field_id: number(),
-				owner_user_id: number(),
-				level: number(),
-				mortgage: optional(
-					object({
-						round_until: optional(number()),
+export const valiM1DemoPacketStatusFieldsSchema = v.pipe(
+	v.array(
+		v.pipe(
+			v.object({
+				field_id: v.number(),
+				owner_user_id: v.number(),
+				level: v.number(),
+				mortgage: v.optional(
+					v.object({
+						round_until: v.optional(v.number()),
 					}),
 				),
 			}),
-			transform((value) => value),
+			v.transform((value) => value),
 		),
 	),
-	transform((value) => new Map(value.map((field) => [field.field_id, field]))),
+	v.transform(
+		(value) => new Map(value.map((field) => [field.field_id, field])),
+	),
 );
 
 export type M1DemoPacketStatusField = MapElement<
-	InferOutput<typeof valiM1DemoPacketStatusFieldsSchema>
+	v.InferOutput<typeof valiM1DemoPacketStatusFieldsSchema>
 >;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1StatusFieldsSchema = pipe(
-	record(
-		string(),
-		object({
-			owner: number(),
-			level: number(),
-			mortgaged: boolean(),
-			mortgage_lose_round: optional(number()),
+export const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(
+	v.record(
+		v.string(),
+		v.object({
+			owner: v.number(),
+			level: v.number(),
+			mortgaged: v.boolean(),
+			mortgage_lose_round: v.optional(v.number()),
 		}),
 	),
-	transform(
+	v.transform(
 		(value) =>
 			new Map(
 				Object.entries(value).map(([field_id_string, field]) => {
@@ -74,5 +65,5 @@ export const valiM1DemoPacketV1StatusFieldsSchema = pipe(
 );
 
 type _M1DemoPacketV1StatusField = MapElement<
-	InferOutput<typeof valiM1DemoPacketV1StatusFieldsSchema>
+	v.InferOutput<typeof valiM1DemoPacketV1StatusFieldsSchema>
 >;

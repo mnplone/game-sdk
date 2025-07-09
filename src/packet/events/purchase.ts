@@ -1,33 +1,25 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('purchase.offer'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('purchase.offer'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('purchase'),
-		user_id: number(),
-		field_id: number(),
-		price: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('purchase'),
+		user_id: v.number(),
+		field_id: v.number(),
+		price: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('purchase.reject'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('purchase.reject'),
+		user_id: v.number(),
+		field_id: v.number(),
 	}),
 ];
 
@@ -45,14 +37,14 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('canBuy'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('canBuy'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'purchase.offer' as const,
@@ -61,15 +53,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('buy'),
-			user_id: number(),
-			field: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('buy'),
+			user_id: v.number(),
+			field: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'purchase' as const,
@@ -79,14 +71,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('noBuy'),
-			user_id: number(),
-			field: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('noBuy'),
+			user_id: v.number(),
+			field: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'purchase.reject' as const,

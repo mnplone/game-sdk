@@ -1,125 +1,112 @@
-import {
-	array,
-	boolean,
-	type InferOutput,
-	literal,
-	nullable,
-	number,
-	object,
-	optional,
-	pipe,
-	record,
-	strictObject,
-	string,
-	transform,
-	union,
-} from 'valibot';
+import * as v from 'valibot';
 import type { MapElement } from '../../utils/types.js';
 import { valiM1DemoPacketSetipConfigRestartVariantSchema } from '../setup/config.js';
 
-export const valiM1DemoPacketStatusPlayersSchema = pipe(
-	array(
-		pipe(
-			object({
+export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
+	v.array(
+		v.pipe(
+			v.object({
 				/** User ID of the player. */
-				user_id: number(),
+				user_id: v.number(),
 				/**
 				 * Player status:
 				 * - `0`: players is active;
 				 * - `-1`: player is eliminated.
 				 */
-				status: number(),
+				status: v.number(),
 				/** Player's position on the board. */
-				position: number(),
+				position: v.number(),
 				/** Player's cash. */
-				cash: number(),
+				cash: v.number(),
 				/** Player's score: how much rent they have collected. */
-				score: number(),
+				score: v.number(),
 				/** Player's jail status */
-				jail: optional(
-					object({
-						roll_double_attempts: number(),
+				jail: v.optional(
+					v.object({
+						roll_double_attempts: v.number(),
 					}),
 				),
-				loan: union([
-					strictObject({
-						taken: pipe(
-							literal(0),
-							transform(() => false as const),
+				loan: v.union([
+					v.strictObject({
+						taken: v.pipe(
+							v.literal(0),
+							v.transform(() => false as const),
 						),
-						unlock_round: number(),
+						unlock_round: v.number(),
 					}),
-					strictObject({
-						taken: pipe(
-							literal(1),
-							transform(() => true as const),
+					v.strictObject({
+						taken: v.pipe(
+							v.literal(1),
+							v.transform(() => true as const),
 						),
-						debt: number(),
-						return_round: number(),
+						debt: v.number(),
+						return_round: v.number(),
 					}),
 				]),
-				restart: optional(
-					object({
-						variant: nullable(valiM1DemoPacketSetipConfigRestartVariantSchema),
+				restart: v.optional(
+					v.object({
+						variant: v.nullable(
+							valiM1DemoPacketSetipConfigRestartVariantSchema,
+						),
 					}),
 				),
 			}),
-			transform((value) => value),
+			v.transform((value) => value),
 		),
 	),
-	transform(
+	v.transform(
 		(value) => new Map(value.map((player) => [player.user_id, player])),
 	),
 );
 
 export type M1DemoPacketStatusPlayer = MapElement<
-	InferOutput<typeof valiM1DemoPacketStatusPlayersSchema>
+	v.InferOutput<typeof valiM1DemoPacketStatusPlayersSchema>
 >;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1StatusPlayersSchema = array(
-	pipe(
-		object({
-			user_id: number(),
+export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
+	v.pipe(
+		v.object({
+			user_id: v.number(),
 			// setup
-			vip: optional(boolean(), false),
-			cards_equipped: optional(
-				record(
-					string(),
-					object({
-						thing_id: number(),
-						coeff_rent: number(),
+			vip: v.optional(v.boolean(), false),
+			cards_equipped: v.optional(
+				v.record(
+					v.string(),
+					v.object({
+						thing_id: v.number(),
+						coeff_rent: v.number(),
 					}),
 				),
 			),
-			can_use_credit: optional(boolean(), false),
+			can_use_credit: v.optional(v.boolean(), false),
 			// status
-			status: number(),
-			position: number(),
-			money: number(),
-			score: number(),
+			status: v.number(),
+			position: v.number(),
+			money: v.number(),
+			score: v.number(),
 			// jail
-			jailed: boolean(),
-			unjailAttempts: number(),
+			jailed: v.boolean(),
+			unjailAttempts: v.number(),
 			// loan
-			credit_nextTakeRound: number(),
-			credit_payRound: union([literal(false), number()]),
-			credit_toPay: number(),
+			credit_nextTakeRound: v.number(),
+			credit_payRound: v.union([v.literal(false), v.number()]),
+			credit_toPay: v.number(),
 			// restart
-			restart: optional(
-				union([
-					pipe(
-						literal(0),
-						transform(() => null),
+			restart: v.optional(
+				v.union([
+					v.pipe(
+						v.literal(0),
+						v.transform(() => null),
 					),
 					valiM1DemoPacketSetipConfigRestartVariantSchema,
 				]),
 			),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				user_id: value.user_id,
 				_setup: value.cards_equipped
@@ -181,6 +168,6 @@ export const valiM1DemoPacketV1StatusPlayersSchema = array(
 	),
 );
 
-type _M1DemoPacketV1StatusPlayer = InferOutput<
+type _M1DemoPacketV1StatusPlayer = v.InferOutput<
 	typeof valiM1DemoPacketV1StatusPlayersSchema
 >[number];

@@ -1,32 +1,23 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	picklist,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('loan.take'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('loan.take'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('loan.deadline'),
-		user_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('loan.deadline'),
+		user_id: v.number(),
+		amount: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('loan.repay'),
-		user_id: number(),
-		amount: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('loan.repay'),
+		user_id: v.number(),
+		amount: v.number(),
 	}),
 ];
 
@@ -55,13 +46,13 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('credit_taken'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('credit_taken'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'loan.take' as const,
@@ -69,14 +60,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('credit_timeToPay'),
-			user_id: number(),
-			sum: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('credit_timeToPay'),
+			user_id: v.number(),
+			sum: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'loan.deadline' as const,
@@ -85,14 +76,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: picklist(['credit_paid', 'credit_payed']),
-			user_id: number(),
-			sum: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.picklist(['credit_paid', 'credit_payed']),
+			user_id: v.number(),
+			sum: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'loan.repay' as const,

@@ -1,81 +1,70 @@
-import {
-	array,
-	type InferOutput,
-	literal,
-	number,
-	pipe,
-	strictObject,
-	string,
-	transform,
-	tuple,
-	union,
-} from 'valibot';
+import * as v from 'valibot';
 import { crc32 } from '@/utils/crc.js';
 
-export const valiM1DemoPacketSetupConfigMechanicsChanceSchema = strictObject({
-	cards: array(
-		union([
-			strictObject({
-				type: literal('income'),
-				text_id: number(),
-				range: strictObject({
-					min: number(),
-					max: number(),
-					step: number(),
+export const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({
+	cards: v.array(
+		v.union([
+			v.strictObject({
+				type: v.literal('income'),
+				text_id: v.number(),
+				range: v.strictObject({
+					min: v.number(),
+					max: v.number(),
+					step: v.number(),
 				}),
 			}),
-			strictObject({
-				type: literal('expense'),
-				text_id: number(),
-				range: strictObject({
-					min: number(),
-					max: number(),
-					step: number(),
+			v.strictObject({
+				type: v.literal('expense'),
+				text_id: v.number(),
+				range: v.strictObject({
+					min: v.number(),
+					max: v.number(),
+					step: v.number(),
 				}),
 			}),
-			strictObject({
-				type: literal('repair'),
-				text_id: number(),
-				cost: strictObject({
-					small: number(),
-					big: number(),
+			v.strictObject({
+				type: v.literal('repair'),
+				text_id: v.number(),
+				cost: v.strictObject({
+					small: v.number(),
+					big: v.number(),
 				}),
 			}),
-			strictObject({
-				type: literal('go-to-jail'),
-				text_id: number(),
+			v.strictObject({
+				type: v.literal('go-to-jail'),
+				text_id: v.number(),
 			}),
-			strictObject({
-				type: literal('teleport'),
-				text_id: number(),
+			v.strictObject({
+				type: v.literal('teleport'),
+				text_id: v.number(),
 			}),
-			strictObject({
-				type: literal('skip-move'),
-				text_id: number(),
+			v.strictObject({
+				type: v.literal('skip-move'),
+				text_id: v.number(),
 			}),
-			strictObject({
-				type: literal('insurance'),
-				text_id: number(),
-				price: number(),
+			v.strictObject({
+				type: v.literal('insurance'),
+				text_id: v.number(),
+				price: v.number(),
 			}),
-			strictObject({
-				type: literal('birthday'),
-				text_id: number(),
-				amount: number(),
+			v.strictObject({
+				type: v.literal('birthday'),
+				text_id: v.number(),
+				amount: v.number(),
 			}),
-			strictObject({
-				type: literal('reverse'),
-				text_id: number(),
+			v.strictObject({
+				type: v.literal('reverse'),
+				text_id: v.number(),
 			}),
-			strictObject({
-				type: literal('disaster'),
-				text_id: number(),
+			v.strictObject({
+				type: v.literal('disaster'),
+				text_id: v.number(),
 			}),
 		]),
 	),
 });
 
-export type M1DemoPacketSetupConfigChanceCard = InferOutput<
+export type M1DemoPacketSetupConfigChanceCard = v.InferOutput<
 	typeof valiM1DemoPacketSetupConfigMechanicsChanceSchema
 >['cards'][0];
 export type M1DemoPacketSetupConfigChanceCardType =
@@ -85,60 +74,60 @@ export type M1DemoPacketSetupConfigChanceCardType =
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1ConfigChanceCardsSchema = pipe(
-	array(
-		union([
-			strictObject({
-				type: literal('cash_in'),
-				text: string(),
-				range: tuple([number(), number()]),
-				rangeStep: number(),
+export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
+	v.array(
+		v.union([
+			v.strictObject({
+				type: v.literal('cash_in'),
+				text: v.string(),
+				range: v.tuple([v.number(), v.number()]),
+				rangeStep: v.number(),
 			}),
-			strictObject({
-				type: literal('cash_out'),
-				text: string(),
-				range: tuple([number(), number()]),
-				rangeStep: number(),
+			v.strictObject({
+				type: v.literal('cash_out'),
+				text: v.string(),
+				range: v.tuple([v.number(), v.number()]),
+				rangeStep: v.number(),
 			}),
-			strictObject({
-				type: literal('repair'),
-				text: string(),
-				costs: tuple([number(), number()]),
+			v.strictObject({
+				type: v.literal('repair'),
+				text: v.string(),
+				costs: v.tuple([v.number(), v.number()]),
 			}),
-			strictObject({
-				type: literal('jail'),
-				text: string(),
+			v.strictObject({
+				type: v.literal('jail'),
+				text: v.string(),
 			}),
-			strictObject({
-				type: literal('teleport'),
-				text: string(),
+			v.strictObject({
+				type: v.literal('teleport'),
+				text: v.string(),
 			}),
-			strictObject({
-				type: literal('move_skip'),
-				text: string(),
+			v.strictObject({
+				type: v.literal('move_skip'),
+				text: v.string(),
 			}),
-			strictObject({
-				type: literal('insurance'),
-				text: string(),
-				sum: number(),
+			v.strictObject({
+				type: v.literal('insurance'),
+				text: v.string(),
+				sum: v.number(),
 			}),
-			strictObject({
-				type: literal('birthday'),
-				text: string(),
-				sum: number(),
+			v.strictObject({
+				type: v.literal('birthday'),
+				text: v.string(),
+				sum: v.number(),
 			}),
-			strictObject({
-				type: literal('reverse'),
-				text: string(),
+			v.strictObject({
+				type: v.literal('reverse'),
+				text: v.string(),
 			}),
-			strictObject({
-				type: literal('fields_disaster'),
-				text: string(),
+			v.strictObject({
+				type: v.literal('fields_disaster'),
+				text: v.string(),
 			}),
 		]),
 	),
-	transform((value) => {
-		const chance_cards_new: InferOutput<
+	v.transform((value) => {
+		const chance_cards_new: v.InferOutput<
 			typeof valiM1DemoPacketSetupConfigMechanicsChanceSchema
 		>['cards'] = [];
 

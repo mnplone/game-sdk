@@ -1,75 +1,62 @@
-import {
-	type InferOutput,
-	literal,
-	number,
-	object,
-	optional,
-	pipe,
-	strictObject,
-	string,
-	transform,
-	undefined_,
-	union,
-	unknown,
-} from 'valibot';
+import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
-const valiChanceDataSchema = union([
+const valiChanceDataSchema = v.union([
 	// cash_in, cash_out, repair, insurance, birthday
-	strictObject({
-		amount: number(),
+	v.strictObject({
+		amount: v.number(),
 	}),
 	// teleport
-	strictObject({
-		field_id: number(),
+	v.strictObject({
+		field_id: v.number(),
 		move_reversed: bit(false),
 	}),
 	// jail, move_skip, fields_disaster, reverse
-	undefined_(),
+	v.undefined_(),
 ]);
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('bankrupt'),
-		user_id: number(),
-		user_id_bankrupt: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('bankrupt'),
+		user_id: v.number(),
+		user_id_bankrupt: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('chance'),
-		user_id: number(),
-		chance_index: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('chance'),
+		user_id: v.number(),
+		chance_index: v.number(),
 		data: valiChanceDataSchema,
 	}),
-	object({
-		id: string(),
-		type: literal('game-over'),
+	v.object({
+		id: v.string(),
+		type: v.literal('game-over'),
 	}),
-	object({
-		id: string(),
-		type: literal('leave'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('leave'),
+		user_id: v.number(),
 		kicked: bit(false),
 	}),
-	object({
-		id: string(),
-		type: literal('message'),
-		user_id: number(),
-		private: optional(
-			object({
-				user_id: optional(number()),
+	v.object({
+		id: v.string(),
+		type: v.literal('message'),
+		user_id: v.number(),
+		private: v.optional(
+			v.object({
+				user_id: v.optional(v.number()),
 			}),
 		),
 		is_forced: bit(false),
-		text: string(),
+		text: v.string(),
 	}),
-	object({
-		id: string(),
-		type: literal('restart'),
-		user_id: number(),
-		restart_price: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('restart'),
+		user_id: v.number(),
+		restart_price: v.number(),
 	}),
 ];
 
@@ -125,14 +112,14 @@ function unescapeHtml(text: string) {
 }
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('bankrupted'),
-			user_id: number(),
-			to: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('bankrupted'),
+			user_id: v.number(),
+			to: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'bankrupt' as const,
@@ -141,20 +128,20 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('chance'),
-			user_id: number(),
-			chance_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('chance'),
+			user_id: v.number(),
+			chance_id: v.number(),
 			// cash_in, cash_out, repair, insurance, birthday
-			money: optional(number()),
+			money: v.optional(v.number()),
 			// teleport
-			move_reverse: optional(bit(false)),
-			mean_position: optional(number()),
+			move_reverse: v.optional(bit(false)),
+			mean_position: v.optional(v.number()),
 		}),
-		transform((value) => {
-			let data: InferOutput<typeof valiChanceDataSchema>;
+		v.transform((value) => {
+			let data: v.InferOutput<typeof valiChanceDataSchema>;
 			// More complex structures first.
 			// teleport
 			if (typeof value.mean_position === 'number') {
@@ -179,26 +166,26 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('gameOver'),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('gameOver'),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'game-over' as const,
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('leave'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('leave'),
+			user_id: v.number(),
 			is_kicked: bit(false),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'leave' as const,
@@ -207,22 +194,22 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('message'),
-			user_id: number(),
-			private: optional(
-				object({
-					user: optional(number()),
-					team: optional(unknown()),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('message'),
+			user_id: v.number(),
+			private: v.optional(
+				v.object({
+					user: v.optional(v.number()),
+					team: v.optional(v.unknown()),
 				}),
 			),
 			forced: bit(false),
-			text: string(),
+			text: v.string(),
 			is_unsafe: bit(false),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'message' as const,
@@ -237,14 +224,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('restart'),
-			user_id: number(),
-			money: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('restart'),
+			user_id: v.number(),
+			money: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'restart' as const,

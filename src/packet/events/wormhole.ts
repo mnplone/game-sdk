@@ -1,38 +1,29 @@
-import {
-	literal,
-	number,
-	object,
-	optional,
-	// picklist,
-	pipe,
-	string,
-	transform,
-} from 'valibot';
+import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
-	object({
-		id: string(),
-		type: literal('wormhole'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('wormhole'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('wormhole.open'),
-		user_id: number(),
-		exits_count: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('wormhole.open'),
+		user_id: v.number(),
+		exits_count: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('wormhole.reject'),
-		user_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('wormhole.reject'),
+		user_id: v.number(),
 	}),
-	object({
-		id: string(),
-		type: literal('wormhole.move'),
-		user_id: number(),
-		field_id: number(),
+	v.object({
+		id: v.string(),
+		type: v.literal('wormhole.move'),
+		user_id: v.number(),
+		field_id: v.number(),
 		move_reversed: bit(false),
 	}),
 ];
@@ -54,13 +45,13 @@ export const enrichments = {
 };
 
 export const valiV1Schemas = [
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('wormhole'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('wormhole'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'wormhole' as const,
@@ -68,14 +59,14 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('wormhole_opened'),
-			user_id: number(),
-			destinations_count: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('wormhole_opened'),
+			user_id: v.number(),
+			destinations_count: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'wormhole.open' as const,
@@ -84,13 +75,13 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('wormhole_declined'),
-			user_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('wormhole_declined'),
+			user_id: v.number(),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'wormhole.reject' as const,
@@ -98,15 +89,15 @@ export const valiV1Schemas = [
 			};
 		}),
 	),
-	pipe(
-		object({
-			_id: optional(string()),
-			type: literal('wormhole_used'),
-			user_id: number(),
-			field_id: number(),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('wormhole_used'),
+			user_id: v.number(),
+			field_id: v.number(),
 			move_reverse: bit(false),
 		}),
-		transform((value) => {
+		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'wormhole.move' as const,
