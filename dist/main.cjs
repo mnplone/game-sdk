@@ -298,18 +298,18 @@ function normalizeFieldId(setup, field_id) {
 * @returns -
 */
 function bit(default_value) {
-	return valibot.pipe(valibot.optional(valibot.picklist([0, 1]), default_value ? 1 : 0), valibot.transform((value) => value === 1));
+	return (0, valibot.pipe)((0, valibot.optional)((0, valibot.picklist)([0, 1]), default_value ? 1 : 0), (0, valibot.transform)((value) => value === 1));
 }
 function parse(schema, value) {
 	return parser(schema)(value);
 }
 function parser(schema) {
-	const fn = valibot.parser(schema);
+	const fn = (0, valibot.parser)(schema);
 	return (value) => {
 		try {
 			return fn(value);
 		} catch (error) {
-			if (valibot.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${valibot.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
+			if ((0, valibot.isValiError)(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${(0, valibot.getDotPath)(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
 			throw error;
 		}
 	};

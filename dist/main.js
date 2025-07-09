@@ -1,5 +1,4 @@
-import * as v from "valibot";
-import { array, boolean, exactOptional, intersect, literal, never, nullable, number, object, optional, picklist, pipe, record, safeParser, strictObject, string, transform, tuple, undefined_, union, unknown, variant } from "valibot";
+import { array, boolean, exactOptional, getDotPath, intersect, isValiError, literal, never, nullable, number, object, optional, parser, picklist, pipe, record, safeParser, strictObject, string, transform, tuple, undefined_, union, unknown, variant } from "valibot";
 
 //#region rolldown:runtime
 var __defProp = Object.defineProperty;
@@ -279,18 +278,18 @@ function normalizeFieldId(setup, field_id) {
 * @returns -
 */
 function bit(default_value) {
-	return v.pipe(v.optional(v.picklist([0, 1]), default_value ? 1 : 0), v.transform((value) => value === 1));
+	return pipe(optional(picklist([0, 1]), default_value ? 1 : 0), transform((value) => value === 1));
 }
 function parse(schema, value) {
-	return parser(schema)(value);
+	return parser$1(schema)(value);
 }
-function parser(schema) {
-	const fn = v.parser(schema);
+function parser$1(schema) {
+	const fn = parser(schema);
 	return (value) => {
 		try {
 			return fn(value);
 		} catch (error) {
-			if (v.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${v.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
+			if (isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
 			throw error;
 		}
 	};

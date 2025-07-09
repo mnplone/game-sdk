@@ -1,49 +1,3 @@
-import * as valibot49 from "valibot";
-import * as valibot50 from "valibot";
-import * as valibot51 from "valibot";
-import * as valibot52 from "valibot";
-import * as valibot53 from "valibot";
-import * as valibot54 from "valibot";
-import * as valibot55 from "valibot";
-import * as valibot56 from "valibot";
-import * as valibot57 from "valibot";
-import * as valibot58 from "valibot";
-import * as valibot59 from "valibot";
-import * as valibot60 from "valibot";
-import * as valibot61 from "valibot";
-import * as valibot62 from "valibot";
-import * as valibot63 from "valibot";
-import * as valibot64 from "valibot";
-import * as valibot65 from "valibot";
-import * as valibot66 from "valibot";
-import * as valibot67 from "valibot";
-import * as valibot68 from "valibot";
-import * as valibot69 from "valibot";
-import * as valibot70 from "valibot";
-import * as valibot71 from "valibot";
-import * as valibot72 from "valibot";
-import * as valibot73 from "valibot";
-import * as valibot74 from "valibot";
-import * as valibot75 from "valibot";
-import * as valibot76 from "valibot";
-import * as valibot77 from "valibot";
-import * as valibot78 from "valibot";
-import * as valibot79 from "valibot";
-import * as valibot80 from "valibot";
-import * as valibot81 from "valibot";
-import * as valibot82 from "valibot";
-import * as valibot83 from "valibot";
-import * as valibot84 from "valibot";
-import * as valibot85 from "valibot";
-import * as valibot86 from "valibot";
-import * as valibot87 from "valibot";
-import * as valibot88 from "valibot";
-import * as valibot89 from "valibot";
-import * as valibot90 from "valibot";
-import * as valibot91 from "valibot";
-import * as valibot92 from "valibot";
-import * as valibot93 from "valibot";
-import * as valibot94 from "valibot";
 import * as valibot0 from "valibot";
 import * as valibot1 from "valibot";
 import * as valibot2 from "valibot";
@@ -69,6 +23,115 @@ import * as valibot21 from "valibot";
 import * as valibot22 from "valibot";
 import * as valibot23 from "valibot";
 import * as valibot24 from "valibot";
+import * as valibot25 from "valibot";
+import * as valibot26 from "valibot";
+import * as valibot27 from "valibot";
+import * as valibot28 from "valibot";
+import * as valibot29 from "valibot";
+import * as valibot30 from "valibot";
+import * as valibot31 from "valibot";
+import * as valibot32 from "valibot";
+import * as valibot33 from "valibot";
+import * as valibot34 from "valibot";
+import * as valibot35 from "valibot";
+import * as valibot36 from "valibot";
+import * as valibot37 from "valibot";
+import * as valibot38 from "valibot";
+import * as valibot39 from "valibot";
+import * as valibot40 from "valibot";
+import * as valibot41 from "valibot";
+import * as valibot42 from "valibot";
+import * as valibot43 from "valibot";
+import * as valibot44 from "valibot";
+import * as valibot45 from "valibot";
+import * as valibot93 from "valibot";
+import * as valibot94 from "valibot";
+import * as valibot95 from "valibot";
+import * as valibot96 from "valibot";
+import * as valibot97 from "valibot";
+import * as valibot98 from "valibot";
+import * as valibot99 from "valibot";
+import * as valibot100 from "valibot";
+import * as valibot101 from "valibot";
+import * as valibot102 from "valibot";
+import * as valibot103 from "valibot";
+import * as valibot104 from "valibot";
+import * as valibot105 from "valibot";
+import * as valibot106 from "valibot";
+import * as valibot107 from "valibot";
+import * as valibot108 from "valibot";
+import * as valibot109 from "valibot";
+import * as valibot110 from "valibot";
+import * as valibot111 from "valibot";
+import * as valibot112 from "valibot";
+import * as valibot113 from "valibot";
+import * as valibot114 from "valibot";
+import * as valibot115 from "valibot";
+import * as valibot116 from "valibot";
+import * as valibot117 from "valibot";
+import * as valibot497 from "valibot";
+import * as valibot498 from "valibot";
+import * as valibot499 from "valibot";
+import * as valibot500 from "valibot";
+import * as valibot501 from "valibot";
+import * as valibot502 from "valibot";
+import * as valibot503 from "valibot";
+import * as valibot504 from "valibot";
+import * as valibot505 from "valibot";
+import * as valibot506 from "valibot";
+import * as valibot507 from "valibot";
+import * as valibot508 from "valibot";
+import * as valibot509 from "valibot";
+import * as valibot510 from "valibot";
+import * as valibot511 from "valibot";
+import * as valibot512 from "valibot";
+import * as valibot513 from "valibot";
+import * as valibot514 from "valibot";
+import * as valibot515 from "valibot";
+import * as valibot516 from "valibot";
+import * as valibot517 from "valibot";
+import * as valibot518 from "valibot";
+import * as valibot519 from "valibot";
+import * as valibot147 from "valibot";
+import * as valibot148 from "valibot";
+import * as valibot149 from "valibot";
+import * as valibot150 from "valibot";
+import * as valibot151 from "valibot";
+import * as valibot152 from "valibot";
+import * as valibot153 from "valibot";
+import * as valibot154 from "valibot";
+import * as valibot155 from "valibot";
+import * as valibot156 from "valibot";
+import * as valibot157 from "valibot";
+import * as valibot158 from "valibot";
+import * as valibot159 from "valibot";
+import * as valibot160 from "valibot";
+import * as valibot161 from "valibot";
+import * as valibot162 from "valibot";
+import * as valibot163 from "valibot";
+import * as valibot164 from "valibot";
+import * as valibot165 from "valibot";
+import * as valibot166 from "valibot";
+import * as valibot167 from "valibot";
+import * as valibot168 from "valibot";
+import * as valibot169 from "valibot";
+import * as valibot170 from "valibot";
+import * as valibot171 from "valibot";
+import * as valibot172 from "valibot";
+import * as valibot173 from "valibot";
+import * as valibot174 from "valibot";
+import * as valibot175 from "valibot";
+import * as valibot176 from "valibot";
+import * as valibot177 from "valibot";
+import * as valibot178 from "valibot";
+import * as valibot179 from "valibot";
+import * as valibot180 from "valibot";
+import * as valibot181 from "valibot";
+import * as valibot182 from "valibot";
+import * as valibot183 from "valibot";
+import * as valibot184 from "valibot";
+import * as valibot185 from "valibot";
+import * as valibot186 from "valibot";
 import * as valibot187 from "valibot";
 import * as valibot188 from "valibot";
 import * as valibot189 from "valibot";
@@ -92,28 +155,32 @@ import * as valibot206 from "valibot";
 import * as valibot207 from "valibot";
 import * as valibot208 from "valibot";
 import * as valibot209 from "valibot";
-import * as valibot142 from "valibot";
-import * as valibot143 from "valibot";
-import * as valibot144 from "valibot";
-import * as valibot145 from "valibot";
-import * as valibot146 from "valibot";
-import * as valibot147 from "valibot";
-import * as valibot148 from "valibot";
-import * as valibot149 from "valibot";
-import * as valibot150 from "valibot";
-import * as valibot151 from "valibot";
-import * as valibot152 from "valibot";
-import * as valibot153 from "valibot";
-import * as valibot154 from "valibot";
-import * as valibot155 from "valibot";
-import * as valibot156 from "valibot";
-import * as valibot157 from "valibot";
-import * as valibot158 from "valibot";
-import * as valibot159 from "valibot";
-import * as valibot160 from "valibot";
-import * as valibot161 from "valibot";
-import * as valibot162 from "valibot";
-import * as valibot163 from "valibot";
+import * as valibot210 from "valibot";
+import * as valibot211 from "valibot";
+import * as valibot212 from "valibot";
+import * as valibot213 from "valibot";
+import * as valibot214 from "valibot";
+import * as valibot215 from "valibot";
+import * as valibot216 from "valibot";
+import * as valibot217 from "valibot";
+import * as valibot218 from "valibot";
+import * as valibot219 from "valibot";
+import * as valibot220 from "valibot";
+import * as valibot221 from "valibot";
+import * as valibot222 from "valibot";
+import * as valibot223 from "valibot";
+import * as valibot224 from "valibot";
+import * as valibot225 from "valibot";
+import * as valibot226 from "valibot";
+import * as valibot227 from "valibot";
+import * as valibot228 from "valibot";
+import * as valibot229 from "valibot";
+import * as valibot230 from "valibot";
+import * as valibot231 from "valibot";
+import * as valibot232 from "valibot";
+import * as valibot233 from "valibot";
+import * as valibot234 from "valibot";
+import * as valibot235 from "valibot";
 import * as valibot236 from "valibot";
 import * as valibot237 from "valibot";
 import * as valibot238 from "valibot";
@@ -204,148 +271,6 @@ import * as valibot322 from "valibot";
 import * as valibot323 from "valibot";
 import * as valibot324 from "valibot";
 import * as valibot325 from "valibot";
-import * as valibot326 from "valibot";
-import * as valibot327 from "valibot";
-import * as valibot328 from "valibot";
-import * as valibot329 from "valibot";
-import * as valibot330 from "valibot";
-import * as valibot331 from "valibot";
-import * as valibot332 from "valibot";
-import * as valibot333 from "valibot";
-import * as valibot334 from "valibot";
-import * as valibot335 from "valibot";
-import * as valibot336 from "valibot";
-import * as valibot337 from "valibot";
-import * as valibot338 from "valibot";
-import * as valibot339 from "valibot";
-import * as valibot340 from "valibot";
-import * as valibot341 from "valibot";
-import * as valibot342 from "valibot";
-import * as valibot343 from "valibot";
-import * as valibot344 from "valibot";
-import * as valibot345 from "valibot";
-import * as valibot346 from "valibot";
-import * as valibot347 from "valibot";
-import * as valibot348 from "valibot";
-import * as valibot349 from "valibot";
-import * as valibot350 from "valibot";
-import * as valibot351 from "valibot";
-import * as valibot352 from "valibot";
-import * as valibot353 from "valibot";
-import * as valibot354 from "valibot";
-import * as valibot355 from "valibot";
-import * as valibot356 from "valibot";
-import * as valibot357 from "valibot";
-import * as valibot358 from "valibot";
-import * as valibot359 from "valibot";
-import * as valibot360 from "valibot";
-import * as valibot361 from "valibot";
-import * as valibot362 from "valibot";
-import * as valibot363 from "valibot";
-import * as valibot364 from "valibot";
-import * as valibot365 from "valibot";
-import * as valibot366 from "valibot";
-import * as valibot367 from "valibot";
-import * as valibot368 from "valibot";
-import * as valibot369 from "valibot";
-import * as valibot370 from "valibot";
-import * as valibot371 from "valibot";
-import * as valibot372 from "valibot";
-import * as valibot373 from "valibot";
-import * as valibot374 from "valibot";
-import * as valibot375 from "valibot";
-import * as valibot376 from "valibot";
-import * as valibot377 from "valibot";
-import * as valibot378 from "valibot";
-import * as valibot379 from "valibot";
-import * as valibot380 from "valibot";
-import * as valibot381 from "valibot";
-import * as valibot382 from "valibot";
-import * as valibot383 from "valibot";
-import * as valibot384 from "valibot";
-import * as valibot385 from "valibot";
-import * as valibot386 from "valibot";
-import * as valibot387 from "valibot";
-import * as valibot388 from "valibot";
-import * as valibot389 from "valibot";
-import * as valibot390 from "valibot";
-import * as valibot391 from "valibot";
-import * as valibot392 from "valibot";
-import * as valibot393 from "valibot";
-import * as valibot394 from "valibot";
-import * as valibot395 from "valibot";
-import * as valibot396 from "valibot";
-import * as valibot397 from "valibot";
-import * as valibot398 from "valibot";
-import * as valibot399 from "valibot";
-import * as valibot400 from "valibot";
-import * as valibot401 from "valibot";
-import * as valibot402 from "valibot";
-import * as valibot403 from "valibot";
-import * as valibot404 from "valibot";
-import * as valibot405 from "valibot";
-import * as valibot406 from "valibot";
-import * as valibot407 from "valibot";
-import * as valibot408 from "valibot";
-import * as valibot409 from "valibot";
-import * as valibot410 from "valibot";
-import * as valibot411 from "valibot";
-import * as valibot412 from "valibot";
-import * as valibot413 from "valibot";
-import * as valibot414 from "valibot";
-import * as valibot415 from "valibot";
-import * as valibot416 from "valibot";
-import * as valibot417 from "valibot";
-import * as valibot418 from "valibot";
-import * as valibot419 from "valibot";
-import * as valibot420 from "valibot";
-import * as valibot421 from "valibot";
-import * as valibot422 from "valibot";
-import * as valibot423 from "valibot";
-import * as valibot424 from "valibot";
-import * as valibot425 from "valibot";
-import * as valibot426 from "valibot";
-import * as valibot427 from "valibot";
-import * as valibot428 from "valibot";
-import * as valibot429 from "valibot";
-import * as valibot430 from "valibot";
-import * as valibot431 from "valibot";
-import * as valibot432 from "valibot";
-import * as valibot433 from "valibot";
-import * as valibot434 from "valibot";
-import * as valibot435 from "valibot";
-import * as valibot436 from "valibot";
-import * as valibot437 from "valibot";
-import * as valibot438 from "valibot";
-import * as valibot439 from "valibot";
-import * as valibot440 from "valibot";
-import * as valibot441 from "valibot";
-import * as valibot442 from "valibot";
-import * as valibot443 from "valibot";
-import * as valibot444 from "valibot";
-import * as valibot445 from "valibot";
-import * as valibot446 from "valibot";
-import * as valibot447 from "valibot";
-import * as valibot164 from "valibot";
-import * as valibot165 from "valibot";
-import * as valibot166 from "valibot";
-import * as valibot167 from "valibot";
-import * as valibot168 from "valibot";
-import * as valibot169 from "valibot";
-import * as valibot170 from "valibot";
-import * as valibot171 from "valibot";
-import * as valibot172 from "valibot";
-import * as valibot173 from "valibot";
-import * as valibot174 from "valibot";
-import * as valibot175 from "valibot";
-import * as valibot176 from "valibot";
-import * as valibot774 from "valibot";
-import * as valibot775 from "valibot";
-import * as valibot776 from "valibot";
-import * as valibot777 from "valibot";
-import * as valibot778 from "valibot";
-import * as valibot779 from "valibot";
-import * as valibot780 from "valibot";
 import * as valibot781 from "valibot";
 import * as valibot782 from "valibot";
 import * as valibot783 from "valibot";
@@ -368,11 +293,154 @@ import * as valibot799 from "valibot";
 import * as valibot800 from "valibot";
 import * as valibot801 from "valibot";
 import * as valibot802 from "valibot";
-import * as valibot803 from "valibot";
-import * as valibot804 from "valibot";
-import * as valibot805 from "valibot";
-import * as valibot806 from "valibot";
-import * as valibot807 from "valibot";
+import * as valibot546 from "valibot";
+import * as valibot547 from "valibot";
+import * as valibot548 from "valibot";
+import * as valibot549 from "valibot";
+import * as valibot550 from "valibot";
+import * as valibot551 from "valibot";
+import * as valibot552 from "valibot";
+import * as valibot553 from "valibot";
+import * as valibot554 from "valibot";
+import * as valibot555 from "valibot";
+import * as valibot556 from "valibot";
+import * as valibot557 from "valibot";
+import * as valibot558 from "valibot";
+import * as valibot559 from "valibot";
+import * as valibot560 from "valibot";
+import * as valibot561 from "valibot";
+import * as valibot562 from "valibot";
+import * as valibot563 from "valibot";
+import * as valibot564 from "valibot";
+import * as valibot565 from "valibot";
+import * as valibot566 from "valibot";
+import * as valibot567 from "valibot";
+import * as valibot568 from "valibot";
+import * as valibot569 from "valibot";
+import * as valibot570 from "valibot";
+import * as valibot571 from "valibot";
+import * as valibot572 from "valibot";
+import * as valibot573 from "valibot";
+import * as valibot574 from "valibot";
+import * as valibot575 from "valibot";
+import * as valibot576 from "valibot";
+import * as valibot577 from "valibot";
+import * as valibot578 from "valibot";
+import * as valibot579 from "valibot";
+import * as valibot580 from "valibot";
+import * as valibot581 from "valibot";
+import * as valibot582 from "valibot";
+import * as valibot583 from "valibot";
+import * as valibot584 from "valibot";
+import * as valibot585 from "valibot";
+import * as valibot586 from "valibot";
+import * as valibot587 from "valibot";
+import * as valibot588 from "valibot";
+import * as valibot589 from "valibot";
+import * as valibot590 from "valibot";
+import * as valibot591 from "valibot";
+import * as valibot592 from "valibot";
+import * as valibot593 from "valibot";
+import * as valibot594 from "valibot";
+import * as valibot595 from "valibot";
+import * as valibot596 from "valibot";
+import * as valibot597 from "valibot";
+import * as valibot598 from "valibot";
+import * as valibot599 from "valibot";
+import * as valibot600 from "valibot";
+import * as valibot601 from "valibot";
+import * as valibot602 from "valibot";
+import * as valibot603 from "valibot";
+import * as valibot604 from "valibot";
+import * as valibot605 from "valibot";
+import * as valibot606 from "valibot";
+import * as valibot607 from "valibot";
+import * as valibot608 from "valibot";
+import * as valibot609 from "valibot";
+import * as valibot610 from "valibot";
+import * as valibot611 from "valibot";
+import * as valibot612 from "valibot";
+import * as valibot613 from "valibot";
+import * as valibot614 from "valibot";
+import * as valibot615 from "valibot";
+import * as valibot616 from "valibot";
+import * as valibot617 from "valibot";
+import * as valibot618 from "valibot";
+import * as valibot619 from "valibot";
+import * as valibot620 from "valibot";
+import * as valibot621 from "valibot";
+import * as valibot622 from "valibot";
+import * as valibot623 from "valibot";
+import * as valibot624 from "valibot";
+import * as valibot625 from "valibot";
+import * as valibot626 from "valibot";
+import * as valibot627 from "valibot";
+import * as valibot628 from "valibot";
+import * as valibot629 from "valibot";
+import * as valibot630 from "valibot";
+import * as valibot631 from "valibot";
+import * as valibot632 from "valibot";
+import * as valibot633 from "valibot";
+import * as valibot634 from "valibot";
+import * as valibot635 from "valibot";
+import * as valibot636 from "valibot";
+import * as valibot637 from "valibot";
+import * as valibot638 from "valibot";
+import * as valibot639 from "valibot";
+import * as valibot640 from "valibot";
+import * as valibot641 from "valibot";
+import * as valibot642 from "valibot";
+import * as valibot643 from "valibot";
+import * as valibot644 from "valibot";
+import * as valibot645 from "valibot";
+import * as valibot646 from "valibot";
+import * as valibot647 from "valibot";
+import * as valibot648 from "valibot";
+import * as valibot649 from "valibot";
+import * as valibot650 from "valibot";
+import * as valibot651 from "valibot";
+import * as valibot652 from "valibot";
+import * as valibot653 from "valibot";
+import * as valibot654 from "valibot";
+import * as valibot655 from "valibot";
+import * as valibot656 from "valibot";
+import * as valibot657 from "valibot";
+import * as valibot658 from "valibot";
+import * as valibot659 from "valibot";
+import * as valibot660 from "valibot";
+import * as valibot661 from "valibot";
+import * as valibot662 from "valibot";
+import * as valibot663 from "valibot";
+import * as valibot664 from "valibot";
+import * as valibot665 from "valibot";
+import * as valibot666 from "valibot";
+import * as valibot667 from "valibot";
+import * as valibot668 from "valibot";
+import * as valibot669 from "valibot";
+import * as valibot670 from "valibot";
+import * as valibot671 from "valibot";
+import * as valibot672 from "valibot";
+import * as valibot673 from "valibot";
+import * as valibot674 from "valibot";
+import * as valibot675 from "valibot";
+import * as valibot676 from "valibot";
+import * as valibot677 from "valibot";
+import * as valibot678 from "valibot";
+import * as valibot679 from "valibot";
+import * as valibot680 from "valibot";
+import * as valibot681 from "valibot";
+import * as valibot682 from "valibot";
+import * as valibot683 from "valibot";
+import * as valibot684 from "valibot";
+import * as valibot685 from "valibot";
+import * as valibot686 from "valibot";
+import * as valibot687 from "valibot";
+import * as valibot688 from "valibot";
+import * as valibot689 from "valibot";
+import * as valibot690 from "valibot";
+import * as valibot691 from "valibot";
+import * as valibot692 from "valibot";
+import * as valibot693 from "valibot";
 import * as valibot694 from "valibot";
 import * as valibot695 from "valibot";
 import * as valibot696 from "valibot";
@@ -450,191 +518,302 @@ import * as valibot767 from "valibot";
 import * as valibot768 from "valibot";
 import * as valibot769 from "valibot";
 import * as valibot770 from "valibot";
-import * as valibot771 from "valibot";
-import * as valibot772 from "valibot";
-import * as valibot773 from "valibot";
-import * as valibot448 from "valibot";
-import * as valibot449 from "valibot";
-import * as valibot450 from "valibot";
-import * as valibot451 from "valibot";
-import * as valibot452 from "valibot";
-import * as valibot453 from "valibot";
-import * as valibot454 from "valibot";
-import * as valibot455 from "valibot";
-import * as valibot456 from "valibot";
-import * as valibot457 from "valibot";
-import * as valibot458 from "valibot";
-import * as valibot459 from "valibot";
-import * as valibot460 from "valibot";
-import * as valibot461 from "valibot";
-import * as valibot462 from "valibot";
-import * as valibot463 from "valibot";
-import * as valibot464 from "valibot";
-import * as valibot465 from "valibot";
-import * as valibot466 from "valibot";
-import * as valibot467 from "valibot";
-import * as valibot468 from "valibot";
-import * as valibot469 from "valibot";
-import * as valibot470 from "valibot";
-import * as valibot471 from "valibot";
-import * as valibot472 from "valibot";
-import * as valibot473 from "valibot";
-import * as valibot474 from "valibot";
-import * as valibot475 from "valibot";
-import * as valibot476 from "valibot";
-import * as valibot477 from "valibot";
-import * as valibot478 from "valibot";
-import * as valibot479 from "valibot";
-import * as valibot480 from "valibot";
-import * as valibot481 from "valibot";
-import * as valibot482 from "valibot";
-import * as valibot483 from "valibot";
-import * as valibot484 from "valibot";
-import * as valibot485 from "valibot";
-import * as valibot486 from "valibot";
-import * as valibot487 from "valibot";
-import * as valibot488 from "valibot";
-import * as valibot489 from "valibot";
-import * as valibot490 from "valibot";
-import * as valibot491 from "valibot";
-import * as valibot492 from "valibot";
-import * as valibot493 from "valibot";
-import * as valibot494 from "valibot";
-import * as valibot495 from "valibot";
-import * as valibot496 from "valibot";
-import * as valibot497 from "valibot";
-import * as valibot498 from "valibot";
-import * as valibot499 from "valibot";
-import * as valibot500 from "valibot";
-import * as valibot501 from "valibot";
-import * as valibot502 from "valibot";
-import * as valibot503 from "valibot";
-import * as valibot504 from "valibot";
-import * as valibot505 from "valibot";
-import * as valibot506 from "valibot";
-import * as valibot507 from "valibot";
-import * as valibot508 from "valibot";
-import * as valibot509 from "valibot";
-import * as valibot510 from "valibot";
-import * as valibot511 from "valibot";
-import * as valibot512 from "valibot";
-import * as valibot513 from "valibot";
-import * as valibot514 from "valibot";
-import * as valibot515 from "valibot";
-import * as valibot516 from "valibot";
-import * as valibot517 from "valibot";
-import * as valibot518 from "valibot";
-import * as valibot519 from "valibot";
-import * as valibot520 from "valibot";
-import * as valibot521 from "valibot";
-import * as valibot522 from "valibot";
-import * as valibot523 from "valibot";
-import * as valibot524 from "valibot";
-import * as valibot525 from "valibot";
-import * as valibot526 from "valibot";
-import * as valibot527 from "valibot";
-import * as valibot528 from "valibot";
-import * as valibot529 from "valibot";
-import * as valibot530 from "valibot";
-import * as valibot531 from "valibot";
-import * as valibot532 from "valibot";
-import * as valibot533 from "valibot";
-import * as valibot534 from "valibot";
-import * as valibot535 from "valibot";
-import * as valibot536 from "valibot";
-import * as valibot537 from "valibot";
-import * as valibot538 from "valibot";
-import * as valibot539 from "valibot";
-import * as valibot540 from "valibot";
-import * as valibot541 from "valibot";
-import * as valibot542 from "valibot";
-import * as valibot543 from "valibot";
-import * as valibot544 from "valibot";
-import * as valibot545 from "valibot";
-import * as valibot546 from "valibot";
-import * as valibot547 from "valibot";
-import * as valibot548 from "valibot";
-import * as valibot549 from "valibot";
-import * as valibot550 from "valibot";
-import * as valibot551 from "valibot";
-import * as valibot552 from "valibot";
-import * as valibot553 from "valibot";
-import * as valibot554 from "valibot";
-import * as valibot555 from "valibot";
-import * as valibot556 from "valibot";
-import * as valibot557 from "valibot";
-import * as valibot558 from "valibot";
-import * as valibot559 from "valibot";
-import * as valibot560 from "valibot";
-import * as valibot561 from "valibot";
-import * as valibot562 from "valibot";
-import * as valibot563 from "valibot";
-import * as valibot564 from "valibot";
-import * as valibot565 from "valibot";
-import * as valibot566 from "valibot";
-import * as valibot567 from "valibot";
-import * as valibot568 from "valibot";
-import * as valibot569 from "valibot";
-import * as valibot570 from "valibot";
-import * as valibot571 from "valibot";
-import * as valibot844 from "valibot";
-import * as valibot845 from "valibot";
-import * as valibot846 from "valibot";
-import * as valibot847 from "valibot";
-import * as valibot848 from "valibot";
-import * as valibot849 from "valibot";
-import * as valibot850 from "valibot";
-import * as valibot851 from "valibot";
+import * as valibot803 from "valibot";
+import * as valibot804 from "valibot";
+import * as valibot805 from "valibot";
+import * as valibot806 from "valibot";
+import * as valibot807 from "valibot";
+import * as valibot808 from "valibot";
+import * as valibot809 from "valibot";
+import * as valibot810 from "valibot";
+import * as valibot811 from "valibot";
+import * as valibot812 from "valibot";
+import * as valibot813 from "valibot";
+import * as valibot814 from "valibot";
+import * as valibot815 from "valibot";
+import * as valibot816 from "valibot";
+import * as valibot817 from "valibot";
+import * as valibot818 from "valibot";
+import * as valibot819 from "valibot";
+import * as valibot820 from "valibot";
+import * as valibot821 from "valibot";
+import * as valibot822 from "valibot";
+import * as valibot823 from "valibot";
+import * as valibot824 from "valibot";
+import * as valibot825 from "valibot";
+import * as valibot826 from "valibot";
+import * as valibot827 from "valibot";
+import * as valibot828 from "valibot";
+import * as valibot829 from "valibot";
+import * as valibot830 from "valibot";
+import * as valibot831 from "valibot";
+import * as valibot832 from "valibot";
+import * as valibot833 from "valibot";
+import * as valibot834 from "valibot";
+import * as valibot835 from "valibot";
+import * as valibot836 from "valibot";
+import * as valibot1166 from "valibot";
+import * as valibot1167 from "valibot";
+import * as valibot1168 from "valibot";
+import * as valibot1169 from "valibot";
+import * as valibot1170 from "valibot";
+import * as valibot1171 from "valibot";
+import * as valibot1172 from "valibot";
+import * as valibot1173 from "valibot";
+import * as valibot1174 from "valibot";
+import * as valibot1175 from "valibot";
+import * as valibot1176 from "valibot";
+import * as valibot1177 from "valibot";
+import * as valibot1178 from "valibot";
+import * as valibot1179 from "valibot";
+import * as valibot1180 from "valibot";
+import * as valibot1181 from "valibot";
+import * as valibot1182 from "valibot";
+import * as valibot1183 from "valibot";
+import * as valibot1184 from "valibot";
+import * as valibot1185 from "valibot";
+import * as valibot1186 from "valibot";
+import * as valibot1187 from "valibot";
+import * as valibot1188 from "valibot";
+import * as valibot1189 from "valibot";
+import * as valibot1190 from "valibot";
+import * as valibot1191 from "valibot";
+import * as valibot1192 from "valibot";
+import * as valibot1193 from "valibot";
+import * as valibot1194 from "valibot";
+import * as valibot1195 from "valibot";
+import * as valibot1196 from "valibot";
+import * as valibot1197 from "valibot";
+import * as valibot1198 from "valibot";
+import * as valibot1199 from "valibot";
+import * as valibot1200 from "valibot";
+import * as valibot1201 from "valibot";
+import * as valibot1202 from "valibot";
+import * as valibot1203 from "valibot";
+import * as valibot1204 from "valibot";
+import * as valibot1205 from "valibot";
+import * as valibot1206 from "valibot";
+import * as valibot1207 from "valibot";
+import * as valibot1208 from "valibot";
+import * as valibot1209 from "valibot";
+import * as valibot1210 from "valibot";
+import * as valibot1211 from "valibot";
+import * as valibot1212 from "valibot";
+import * as valibot1213 from "valibot";
+import * as valibot1214 from "valibot";
+import * as valibot1215 from "valibot";
+import * as valibot1216 from "valibot";
+import * as valibot1217 from "valibot";
+import * as valibot1218 from "valibot";
+import * as valibot1219 from "valibot";
+import * as valibot1220 from "valibot";
+import * as valibot1221 from "valibot";
+import * as valibot1222 from "valibot";
+import * as valibot1223 from "valibot";
+import * as valibot1224 from "valibot";
+import * as valibot1225 from "valibot";
+import * as valibot1226 from "valibot";
+import * as valibot1227 from "valibot";
+import * as valibot1228 from "valibot";
+import * as valibot1229 from "valibot";
+import * as valibot1230 from "valibot";
+import * as valibot1231 from "valibot";
+import * as valibot1232 from "valibot";
+import * as valibot1233 from "valibot";
+import * as valibot1234 from "valibot";
+import * as valibot1235 from "valibot";
+import * as valibot1236 from "valibot";
+import * as valibot1237 from "valibot";
+import * as valibot1238 from "valibot";
+import * as valibot1239 from "valibot";
+import * as valibot1240 from "valibot";
+import * as valibot1241 from "valibot";
+import * as valibot1242 from "valibot";
+import * as valibot1243 from "valibot";
+import * as valibot1244 from "valibot";
+import * as valibot1245 from "valibot";
+import * as valibot920 from "valibot";
+import * as valibot921 from "valibot";
+import * as valibot922 from "valibot";
+import * as valibot923 from "valibot";
+import * as valibot924 from "valibot";
+import * as valibot925 from "valibot";
+import * as valibot926 from "valibot";
+import * as valibot927 from "valibot";
+import * as valibot928 from "valibot";
+import * as valibot929 from "valibot";
+import * as valibot930 from "valibot";
+import * as valibot931 from "valibot";
+import * as valibot932 from "valibot";
+import * as valibot933 from "valibot";
+import * as valibot934 from "valibot";
+import * as valibot935 from "valibot";
+import * as valibot936 from "valibot";
+import * as valibot937 from "valibot";
+import * as valibot938 from "valibot";
+import * as valibot939 from "valibot";
+import * as valibot940 from "valibot";
+import * as valibot941 from "valibot";
+import * as valibot942 from "valibot";
+import * as valibot943 from "valibot";
+import * as valibot944 from "valibot";
+import * as valibot945 from "valibot";
+import * as valibot946 from "valibot";
+import * as valibot947 from "valibot";
+import * as valibot948 from "valibot";
+import * as valibot949 from "valibot";
+import * as valibot950 from "valibot";
+import * as valibot951 from "valibot";
+import * as valibot952 from "valibot";
+import * as valibot953 from "valibot";
+import * as valibot954 from "valibot";
+import * as valibot955 from "valibot";
+import * as valibot956 from "valibot";
+import * as valibot957 from "valibot";
+import * as valibot958 from "valibot";
+import * as valibot959 from "valibot";
+import * as valibot960 from "valibot";
+import * as valibot961 from "valibot";
+import * as valibot962 from "valibot";
+import * as valibot963 from "valibot";
+import * as valibot964 from "valibot";
+import * as valibot965 from "valibot";
+import * as valibot966 from "valibot";
+import * as valibot967 from "valibot";
+import * as valibot968 from "valibot";
+import * as valibot969 from "valibot";
+import * as valibot970 from "valibot";
+import * as valibot971 from "valibot";
+import * as valibot972 from "valibot";
+import * as valibot973 from "valibot";
+import * as valibot974 from "valibot";
+import * as valibot975 from "valibot";
+import * as valibot976 from "valibot";
+import * as valibot977 from "valibot";
+import * as valibot978 from "valibot";
+import * as valibot979 from "valibot";
+import * as valibot980 from "valibot";
+import * as valibot981 from "valibot";
+import * as valibot982 from "valibot";
+import * as valibot983 from "valibot";
+import * as valibot984 from "valibot";
+import * as valibot985 from "valibot";
+import * as valibot986 from "valibot";
+import * as valibot987 from "valibot";
+import * as valibot988 from "valibot";
+import * as valibot989 from "valibot";
+import * as valibot990 from "valibot";
+import * as valibot991 from "valibot";
+import * as valibot992 from "valibot";
+import * as valibot993 from "valibot";
+import * as valibot994 from "valibot";
+import * as valibot995 from "valibot";
+import * as valibot996 from "valibot";
+import * as valibot997 from "valibot";
+import * as valibot998 from "valibot";
+import * as valibot999 from "valibot";
+import * as valibot1000 from "valibot";
+import * as valibot1001 from "valibot";
+import * as valibot1002 from "valibot";
+import * as valibot1003 from "valibot";
+import * as valibot1004 from "valibot";
+import * as valibot1005 from "valibot";
+import * as valibot1006 from "valibot";
+import * as valibot1007 from "valibot";
+import * as valibot1008 from "valibot";
+import * as valibot1009 from "valibot";
+import * as valibot1010 from "valibot";
+import * as valibot1011 from "valibot";
+import * as valibot1012 from "valibot";
+import * as valibot1013 from "valibot";
+import * as valibot1014 from "valibot";
+import * as valibot1015 from "valibot";
+import * as valibot1016 from "valibot";
+import * as valibot1017 from "valibot";
+import * as valibot1018 from "valibot";
+import * as valibot1019 from "valibot";
+import * as valibot1020 from "valibot";
+import * as valibot1021 from "valibot";
+import * as valibot1022 from "valibot";
+import * as valibot1023 from "valibot";
+import * as valibot1024 from "valibot";
+import * as valibot1025 from "valibot";
+import * as valibot1026 from "valibot";
+import * as valibot1027 from "valibot";
+import * as valibot1028 from "valibot";
+import * as valibot1029 from "valibot";
+import * as valibot1030 from "valibot";
+import * as valibot1031 from "valibot";
+import * as valibot1032 from "valibot";
+import * as valibot1033 from "valibot";
+import * as valibot1034 from "valibot";
+import * as valibot1035 from "valibot";
+import * as valibot1036 from "valibot";
+import * as valibot1037 from "valibot";
+import * as valibot1038 from "valibot";
+import * as valibot1039 from "valibot";
+import * as valibot1040 from "valibot";
+import * as valibot1041 from "valibot";
+import * as valibot1042 from "valibot";
+import * as valibot1043 from "valibot";
+import * as valibot873 from "valibot";
+import * as valibot874 from "valibot";
+import * as valibot875 from "valibot";
+import * as valibot876 from "valibot";
+import * as valibot877 from "valibot";
+import * as valibot878 from "valibot";
+import * as valibot879 from "valibot";
+import * as valibot880 from "valibot";
 import { InferOutput } from "valibot";
 
 //#region src/packet/setup/config/chance.d.ts
-declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: valibot94.StrictObjectSchema<{
-  readonly cards: valibot93.ArraySchema<valibot92.UnionSchema<[valibot55.StrictObjectSchema<{
-    readonly type: valibot49.LiteralSchema<"income", undefined>;
-    readonly text_id: valibot50.NumberSchema<undefined>;
-    readonly range: valibot54.StrictObjectSchema<{
-      readonly min: valibot51.NumberSchema<undefined>;
-      readonly max: valibot52.NumberSchema<undefined>;
-      readonly step: valibot53.NumberSchema<undefined>;
+declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: valibot45.StrictObjectSchema<{
+  readonly cards: valibot44.ArraySchema<valibot43.UnionSchema<[valibot6.StrictObjectSchema<{
+    readonly type: valibot0.LiteralSchema<"income", undefined>;
+    readonly text_id: valibot1.NumberSchema<undefined>;
+    readonly range: valibot5.StrictObjectSchema<{
+      readonly min: valibot2.NumberSchema<undefined>;
+      readonly max: valibot3.NumberSchema<undefined>;
+      readonly step: valibot4.NumberSchema<undefined>;
     }, undefined>;
-  }, undefined>, valibot62.StrictObjectSchema<{
-    readonly type: valibot56.LiteralSchema<"expense", undefined>;
-    readonly text_id: valibot57.NumberSchema<undefined>;
-    readonly range: valibot61.StrictObjectSchema<{
-      readonly min: valibot58.NumberSchema<undefined>;
-      readonly max: valibot59.NumberSchema<undefined>;
-      readonly step: valibot60.NumberSchema<undefined>;
+  }, undefined>, valibot13.StrictObjectSchema<{
+    readonly type: valibot7.LiteralSchema<"expense", undefined>;
+    readonly text_id: valibot8.NumberSchema<undefined>;
+    readonly range: valibot12.StrictObjectSchema<{
+      readonly min: valibot9.NumberSchema<undefined>;
+      readonly max: valibot10.NumberSchema<undefined>;
+      readonly step: valibot11.NumberSchema<undefined>;
     }, undefined>;
-  }, undefined>, valibot68.StrictObjectSchema<{
-    readonly type: valibot63.LiteralSchema<"repair", undefined>;
-    readonly text_id: valibot64.NumberSchema<undefined>;
-    readonly cost: valibot67.StrictObjectSchema<{
-      readonly small: valibot65.NumberSchema<undefined>;
-      readonly big: valibot66.NumberSchema<undefined>;
+  }, undefined>, valibot19.StrictObjectSchema<{
+    readonly type: valibot14.LiteralSchema<"repair", undefined>;
+    readonly text_id: valibot15.NumberSchema<undefined>;
+    readonly cost: valibot18.StrictObjectSchema<{
+      readonly small: valibot16.NumberSchema<undefined>;
+      readonly big: valibot17.NumberSchema<undefined>;
     }, undefined>;
-  }, undefined>, valibot71.StrictObjectSchema<{
-    readonly type: valibot69.LiteralSchema<"go-to-jail", undefined>;
-    readonly text_id: valibot70.NumberSchema<undefined>;
-  }, undefined>, valibot74.StrictObjectSchema<{
-    readonly type: valibot72.LiteralSchema<"teleport", undefined>;
-    readonly text_id: valibot73.NumberSchema<undefined>;
-  }, undefined>, valibot77.StrictObjectSchema<{
-    readonly type: valibot75.LiteralSchema<"skip-move", undefined>;
-    readonly text_id: valibot76.NumberSchema<undefined>;
-  }, undefined>, valibot81.StrictObjectSchema<{
-    readonly type: valibot78.LiteralSchema<"insurance", undefined>;
-    readonly text_id: valibot79.NumberSchema<undefined>;
-    readonly price: valibot80.NumberSchema<undefined>;
-  }, undefined>, valibot85.StrictObjectSchema<{
-    readonly type: valibot82.LiteralSchema<"birthday", undefined>;
-    readonly text_id: valibot83.NumberSchema<undefined>;
-    readonly amount: valibot84.NumberSchema<undefined>;
-  }, undefined>, valibot88.StrictObjectSchema<{
-    readonly type: valibot86.LiteralSchema<"reverse", undefined>;
-    readonly text_id: valibot87.NumberSchema<undefined>;
-  }, undefined>, valibot91.StrictObjectSchema<{
-    readonly type: valibot89.LiteralSchema<"disaster", undefined>;
-    readonly text_id: valibot90.NumberSchema<undefined>;
+  }, undefined>, valibot22.StrictObjectSchema<{
+    readonly type: valibot20.LiteralSchema<"go-to-jail", undefined>;
+    readonly text_id: valibot21.NumberSchema<undefined>;
+  }, undefined>, valibot25.StrictObjectSchema<{
+    readonly type: valibot23.LiteralSchema<"teleport", undefined>;
+    readonly text_id: valibot24.NumberSchema<undefined>;
+  }, undefined>, valibot28.StrictObjectSchema<{
+    readonly type: valibot26.LiteralSchema<"skip-move", undefined>;
+    readonly text_id: valibot27.NumberSchema<undefined>;
+  }, undefined>, valibot32.StrictObjectSchema<{
+    readonly type: valibot29.LiteralSchema<"insurance", undefined>;
+    readonly text_id: valibot30.NumberSchema<undefined>;
+    readonly price: valibot31.NumberSchema<undefined>;
+  }, undefined>, valibot36.StrictObjectSchema<{
+    readonly type: valibot33.LiteralSchema<"birthday", undefined>;
+    readonly text_id: valibot34.NumberSchema<undefined>;
+    readonly amount: valibot35.NumberSchema<undefined>;
+  }, undefined>, valibot39.StrictObjectSchema<{
+    readonly type: valibot37.LiteralSchema<"reverse", undefined>;
+    readonly text_id: valibot38.NumberSchema<undefined>;
+  }, undefined>, valibot42.StrictObjectSchema<{
+    readonly type: valibot40.LiteralSchema<"disaster", undefined>;
+    readonly text_id: valibot41.NumberSchema<undefined>;
   }, undefined>], undefined>, undefined>;
 }, undefined>;
 type M1DemoPacketSetupConfigChanceCard = InferOutput<typeof valiM1DemoPacketSetupConfigMechanicsChanceSchema>['cards'][0];
@@ -642,18 +821,18 @@ type M1DemoPacketSetupConfigChanceCardType = M1DemoPacketSetupConfigChanceCard['
 
 //#endregion
 //#region src/packet/setup/config/fields.d.ts
-declare const valiM1DemoPacketSetupConfigFieldsSchema: valibot24.SchemaWithPipe<readonly [valibot22.ArraySchema<valibot21.UnionSchema<[valibot4.ObjectSchema<{
-  readonly is_corner: valibot2.SchemaWithPipe<readonly [valibot0.LiteralSchema<1, undefined>, valibot1.TransformAction<1, true>]>;
-  readonly type: valibot3.PicklistSchema<["start", "jail"], undefined>;
-}, undefined>, valibot10.ObjectSchema<{
-  readonly is_corner: valibot8.SchemaWithPipe<readonly [valibot6.OptionalSchema<valibot5.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot7.TransformAction<0 | 1, boolean>]>;
-  readonly type: valibot9.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
-}, undefined>, valibot20.ObjectSchema<{
-  readonly is_corner: valibot13.SchemaWithPipe<readonly [valibot11.UndefinedSchema<undefined>, valibot12.TransformAction<undefined, false>]>;
-  readonly type: valibot14.LiteralSchema<"company", undefined>;
-  readonly monopoly_id: valibot15.NumberSchema<undefined>;
-  readonly is_last: valibot19.SchemaWithPipe<readonly [valibot17.OptionalSchema<valibot16.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot18.TransformAction<0 | 1, boolean>]>;
-}, undefined>], undefined>, undefined>, valibot23.TransformAction<({
+declare const valiM1DemoPacketSetupConfigFieldsSchema: valibot117.SchemaWithPipe<readonly [valibot115.ArraySchema<valibot114.UnionSchema<[valibot97.ObjectSchema<{
+  readonly is_corner: valibot95.SchemaWithPipe<readonly [valibot93.LiteralSchema<1, undefined>, valibot94.TransformAction<1, true>]>;
+  readonly type: valibot96.PicklistSchema<["start", "jail"], undefined>;
+}, undefined>, valibot103.ObjectSchema<{
+  readonly is_corner: valibot101.SchemaWithPipe<readonly [valibot99.OptionalSchema<valibot98.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot100.TransformAction<0 | 1, boolean>]>;
+  readonly type: valibot102.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
+}, undefined>, valibot113.ObjectSchema<{
+  readonly is_corner: valibot106.SchemaWithPipe<readonly [valibot104.UndefinedSchema<undefined>, valibot105.TransformAction<undefined, false>]>;
+  readonly type: valibot107.LiteralSchema<"company", undefined>;
+  readonly monopoly_id: valibot108.NumberSchema<undefined>;
+  readonly is_last: valibot112.SchemaWithPipe<readonly [valibot110.OptionalSchema<valibot109.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot111.TransformAction<0 | 1, boolean>]>;
+}, undefined>], undefined>, undefined>, valibot116.TransformAction<({
   is_corner: true;
   type: "start" | "jail";
 } | {
@@ -686,21 +865,21 @@ type MapElement<T> = T extends Map<infer _, infer V> ? V : never;
 
 //#endregion
 //#region src/packet/setup/config/monopolies.d.ts
-declare const valiM1DemoPacketSetupConfigMonopoliesSchema: valibot209.SchemaWithPipe<readonly [valibot207.RecordSchema<valibot187.StringSchema<undefined>, valibot206.UnionSchema<[valibot197.ObjectSchema<{
-  readonly buy_price: valibot188.NumberSchema<undefined>;
-  readonly rent_by_level: valibot190.ArraySchema<valibot189.NumberSchema<undefined>, undefined>;
-  readonly level_cost: valibot191.NumberSchema<undefined>;
-  readonly last_field: valibot196.OptionalSchema<valibot195.ObjectSchema<{
-    readonly buy_price: valibot192.NumberSchema<undefined>;
-    readonly rent_by_level: valibot194.ArraySchema<valibot193.NumberSchema<undefined>, undefined>;
+declare const valiM1DemoPacketSetupConfigMonopoliesSchema: valibot519.SchemaWithPipe<readonly [valibot517.RecordSchema<valibot497.StringSchema<undefined>, valibot516.UnionSchema<[valibot507.ObjectSchema<{
+  readonly buy_price: valibot498.NumberSchema<undefined>;
+  readonly rent_by_level: valibot500.ArraySchema<valibot499.NumberSchema<undefined>, undefined>;
+  readonly level_cost: valibot501.NumberSchema<undefined>;
+  readonly last_field: valibot506.OptionalSchema<valibot505.ObjectSchema<{
+    readonly buy_price: valibot502.NumberSchema<undefined>;
+    readonly rent_by_level: valibot504.ArraySchema<valibot503.NumberSchema<undefined>, undefined>;
   }, undefined>, undefined>;
-}, undefined>, valibot201.ObjectSchema<{
-  readonly buy_price: valibot198.NumberSchema<undefined>;
-  readonly rent_by_count: valibot200.ArraySchema<valibot199.NumberSchema<undefined>, undefined>;
-}, undefined>, valibot205.ObjectSchema<{
-  readonly buy_price: valibot202.NumberSchema<undefined>;
-  readonly dice_multipliers: valibot204.ArraySchema<valibot203.NumberSchema<undefined>, undefined>;
-}, undefined>], undefined>, undefined>, valibot208.TransformAction<{
+}, undefined>, valibot511.ObjectSchema<{
+  readonly buy_price: valibot508.NumberSchema<undefined>;
+  readonly rent_by_count: valibot510.ArraySchema<valibot509.NumberSchema<undefined>, undefined>;
+}, undefined>, valibot515.ObjectSchema<{
+  readonly buy_price: valibot512.NumberSchema<undefined>;
+  readonly dice_multipliers: valibot514.ArraySchema<valibot513.NumberSchema<undefined>, undefined>;
+}, undefined>], undefined>, undefined>, valibot518.TransformAction<{
   [x: string]: {
     buy_price: number;
     rent_by_level: number[];
@@ -734,18 +913,242 @@ declare const valiM1DemoPacketSetupConfigMonopoliesSchema: valibot209.SchemaWith
 type M1DemoPacketSetupConfigMonopoly = MapElement<InferOutput<typeof valiM1DemoPacketSetupConfigMonopoliesSchema>>;
 
 //#endregion
+//#region src/packet/setup/config.d.ts
+declare const valiM1DemoPacketSetupConfigSchema: valibot325.ObjectSchema<{
+  /** Version of the config. */
+  readonly version: valibot147.NumberSchema<undefined>;
+  readonly board_size: valibot150.TupleSchema<[valibot148.NumberSchema<undefined>, valibot149.NumberSchema<undefined>], undefined>;
+  readonly timers: valibot152.ObjectSchema<{
+    readonly roll_dices: valibot151.NumberSchema<undefined>;
+  }, undefined>;
+  readonly fields: valibot177.SchemaWithPipe<readonly [valibot175.ArraySchema<valibot174.UnionSchema<[valibot157.ObjectSchema<{
+    readonly is_corner: valibot155.SchemaWithPipe<readonly [valibot153.LiteralSchema<1, undefined>, valibot154.TransformAction<1, true>]>;
+    readonly type: valibot156.PicklistSchema<["start", "jail"], undefined>;
+  }, undefined>, valibot163.ObjectSchema<{
+    readonly is_corner: valibot161.SchemaWithPipe<readonly [valibot159.OptionalSchema<valibot158.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot160.TransformAction<0 | 1, boolean>]>;
+    readonly type: valibot162.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
+  }, undefined>, valibot173.ObjectSchema<{
+    readonly is_corner: valibot166.SchemaWithPipe<readonly [valibot164.UndefinedSchema<undefined>, valibot165.TransformAction<undefined, false>]>;
+    readonly type: valibot167.LiteralSchema<"company", undefined>;
+    readonly monopoly_id: valibot168.NumberSchema<undefined>;
+    readonly is_last: valibot172.SchemaWithPipe<readonly [valibot170.OptionalSchema<valibot169.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot171.TransformAction<0 | 1, boolean>]>;
+  }, undefined>], undefined>, undefined>, valibot176.TransformAction<({
+    is_corner: true;
+    type: "start" | "jail";
+  } | {
+    is_corner: boolean;
+    type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+  } | {
+    is_corner: false;
+    type: "company";
+    monopoly_id: number;
+    is_last: boolean;
+  })[], ({
+    is_corner: true;
+    type: "start" | "jail";
+  } | {
+    is_corner: boolean;
+    type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+  } | {
+    item_proto_id: number;
+    is_corner: false;
+    type: "company";
+    monopoly_id: number;
+    is_last: boolean;
+  })[]>]>;
+  readonly monopolies: valibot200.SchemaWithPipe<readonly [valibot198.RecordSchema<valibot178.StringSchema<undefined>, valibot197.UnionSchema<[valibot188.ObjectSchema<{
+    readonly buy_price: valibot179.NumberSchema<undefined>;
+    readonly rent_by_level: valibot181.ArraySchema<valibot180.NumberSchema<undefined>, undefined>;
+    readonly level_cost: valibot182.NumberSchema<undefined>;
+    readonly last_field: valibot187.OptionalSchema<valibot186.ObjectSchema<{
+      readonly buy_price: valibot183.NumberSchema<undefined>;
+      readonly rent_by_level: valibot185.ArraySchema<valibot184.NumberSchema<undefined>, undefined>;
+    }, undefined>, undefined>;
+  }, undefined>, valibot192.ObjectSchema<{
+    readonly buy_price: valibot189.NumberSchema<undefined>;
+    readonly rent_by_count: valibot191.ArraySchema<valibot190.NumberSchema<undefined>, undefined>;
+  }, undefined>, valibot196.ObjectSchema<{
+    readonly buy_price: valibot193.NumberSchema<undefined>;
+    readonly dice_multipliers: valibot195.ArraySchema<valibot194.NumberSchema<undefined>, undefined>;
+  }, undefined>], undefined>, undefined>, valibot199.TransformAction<{
+    [x: string]: {
+      buy_price: number;
+      rent_by_level: number[];
+      level_cost: number;
+      last_field?: {
+        buy_price: number;
+        rent_by_level: number[];
+      } | undefined;
+    } | {
+      buy_price: number;
+      rent_by_count: number[];
+    } | {
+      buy_price: number;
+      dice_multipliers: number[];
+    };
+  }, Map<number, {
+    buy_price: number;
+    rent_by_level: number[];
+    level_cost: number;
+    last_field?: {
+      buy_price: number;
+      rent_by_level: number[];
+    } | undefined;
+  } | {
+    buy_price: number;
+    rent_by_count: number[];
+  } | {
+    buy_price: number;
+    dice_multipliers: number[];
+  }>>]>;
+  readonly mechanics: valibot324.ObjectSchema<{
+    readonly auction: valibot203.OptionalSchema<valibot202.ObjectSchema<{
+      readonly bid_increment: valibot201.NumberSchema<undefined>;
+    }, undefined>, undefined>;
+    readonly chance: valibot250.OptionalSchema<valibot249.StrictObjectSchema<{
+      readonly cards: valibot248.ArraySchema<valibot247.UnionSchema<[valibot210.StrictObjectSchema<{
+        readonly type: valibot204.LiteralSchema<"income", undefined>;
+        readonly text_id: valibot205.NumberSchema<undefined>;
+        readonly range: valibot209.StrictObjectSchema<{
+          readonly min: valibot206.NumberSchema<undefined>;
+          readonly max: valibot207.NumberSchema<undefined>;
+          readonly step: valibot208.NumberSchema<undefined>;
+        }, undefined>;
+      }, undefined>, valibot217.StrictObjectSchema<{
+        readonly type: valibot211.LiteralSchema<"expense", undefined>;
+        readonly text_id: valibot212.NumberSchema<undefined>;
+        readonly range: valibot216.StrictObjectSchema<{
+          readonly min: valibot213.NumberSchema<undefined>;
+          readonly max: valibot214.NumberSchema<undefined>;
+          readonly step: valibot215.NumberSchema<undefined>;
+        }, undefined>;
+      }, undefined>, valibot223.StrictObjectSchema<{
+        readonly type: valibot218.LiteralSchema<"repair", undefined>;
+        readonly text_id: valibot219.NumberSchema<undefined>;
+        readonly cost: valibot222.StrictObjectSchema<{
+          readonly small: valibot220.NumberSchema<undefined>;
+          readonly big: valibot221.NumberSchema<undefined>;
+        }, undefined>;
+      }, undefined>, valibot226.StrictObjectSchema<{
+        readonly type: valibot224.LiteralSchema<"go-to-jail", undefined>;
+        readonly text_id: valibot225.NumberSchema<undefined>;
+      }, undefined>, valibot229.StrictObjectSchema<{
+        readonly type: valibot227.LiteralSchema<"teleport", undefined>;
+        readonly text_id: valibot228.NumberSchema<undefined>;
+      }, undefined>, valibot232.StrictObjectSchema<{
+        readonly type: valibot230.LiteralSchema<"skip-move", undefined>;
+        readonly text_id: valibot231.NumberSchema<undefined>;
+      }, undefined>, valibot236.StrictObjectSchema<{
+        readonly type: valibot233.LiteralSchema<"insurance", undefined>;
+        readonly text_id: valibot234.NumberSchema<undefined>;
+        readonly price: valibot235.NumberSchema<undefined>;
+      }, undefined>, valibot240.StrictObjectSchema<{
+        readonly type: valibot237.LiteralSchema<"birthday", undefined>;
+        readonly text_id: valibot238.NumberSchema<undefined>;
+        readonly amount: valibot239.NumberSchema<undefined>;
+      }, undefined>, valibot243.StrictObjectSchema<{
+        readonly type: valibot241.LiteralSchema<"reverse", undefined>;
+        readonly text_id: valibot242.NumberSchema<undefined>;
+      }, undefined>, valibot246.StrictObjectSchema<{
+        readonly type: valibot244.LiteralSchema<"disaster", undefined>;
+        readonly text_id: valibot245.NumberSchema<undefined>;
+      }, undefined>], undefined>, undefined>;
+    }, undefined>, undefined>;
+    readonly field_level: valibot262.OptionalSchema<valibot261.ObjectSchema<{
+      /** Price multiplier when selling a level (house) on the field, applies to the level buy price. */
+      readonly sell_multiplier: valibot252.OptionalSchema<valibot251.NumberSchema<undefined>, 1>;
+      /** When true, player can build uneven levels on the field. */
+      readonly build_uneven: valibot256.SchemaWithPipe<readonly [valibot254.OptionalSchema<valibot253.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot255.TransformAction<0 | 1, boolean>]>;
+      /** When true, player can build levels on the field without owning the whole monopoly. */
+      readonly build_without_monopoly: valibot260.SchemaWithPipe<readonly [valibot258.OptionalSchema<valibot257.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot259.TransformAction<0 | 1, boolean>]>;
+    }, undefined>, undefined>;
+    readonly jackpot: valibot269.OptionalSchema<valibot268.ObjectSchema<{
+      readonly bet: valibot263.NumberSchema<undefined>;
+      readonly multipliers: valibot265.ArraySchema<valibot264.NumberSchema<undefined>, undefined>;
+      readonly superprize: valibot267.ObjectSchema<{
+        readonly chance: valibot266.NumberSchema<undefined>;
+      }, undefined>;
+    }, undefined>, undefined>;
+    readonly jail: valibot273.ObjectSchema<{
+      readonly release_fee: valibot270.NumberSchema<undefined>;
+      readonly double_roll_attempt_limit: valibot272.OptionalSchema<valibot271.NumberSchema<undefined>, 3>;
+    }, undefined>;
+    readonly loan: valibot281.OptionalSchema<valibot280.ObjectSchema<{
+      /** Loan amount. */
+      readonly amount: valibot274.NumberSchema<undefined>;
+      /** Interest rate in total. */
+      readonly repay_multiplier: valibot275.NumberSchema<undefined>;
+      /** Number of rounds to pay back the loan. */
+      readonly duration: valibot276.NumberSchema<undefined>;
+      readonly cooldown: valibot279.ObjectSchema<{
+        /** On what round can player take a loan. */
+        readonly match_start: valibot277.NumberSchema<undefined>;
+        /** How many rounds player should wait before taking another loan after repaying the previous one. */
+        readonly repay: valibot278.NumberSchema<undefined>;
+      }, undefined>;
+    }, undefined>, undefined>;
+    readonly mortgage: valibot289.OptionalSchema<valibot288.ObjectSchema<{
+      /** Limits mortgage duration in rounds. After this rounds, player will lose the field. */
+      readonly duration: valibot283.OptionalSchema<valibot282.NumberSchema<undefined>, undefined>;
+      /** Price multiplier when mortgaging the field, applies to the field buy price. */
+      readonly multiplier: valibot284.NumberSchema<undefined>;
+      /** Price multiplier when buying back the field, applies to the mortgage price. */
+      readonly buyback_multiplier: valibot285.NumberSchema<undefined>;
+      /** Price multiplier when auctioning the mortgaged field, applies to company price minus mortgage price. */
+      readonly auction_multiplier: valibot287.OptionalSchema<valibot286.NumberSchema<undefined>, undefined>;
+    }, undefined>, undefined>;
+    readonly restart: valibot297.OptionalSchema<valibot296.ObjectSchema<{
+      readonly variants: valibot295.ArraySchema<valibot294.ObjectSchema<{
+        readonly round_from: valibot290.NumberSchema<undefined>;
+        readonly round_to: valibot291.NumberSchema<undefined>;
+        readonly count: valibot292.NumberSchema<undefined>;
+        readonly price: valibot293.NumberSchema<undefined>;
+      }, undefined>, undefined>;
+    }, undefined>, undefined>;
+    readonly start: valibot301.ObjectSchema<{
+      readonly income_amount: valibot298.NumberSchema<undefined>;
+      readonly bonus_amount: valibot300.OptionalSchema<valibot299.NumberSchema<undefined>, 0>;
+    }, undefined>;
+    /** Rules of the match that are based on the match time. */
+    readonly time_rules: valibot314.ArraySchema<valibot313.UnionSchema<[valibot304.ObjectSchema<{
+      readonly type: valibot302.LiteralSchema<"start.none", undefined>;
+      /** Match time in **milliseconds**. */
+      readonly time: valibot303.NumberSchema<undefined>;
+    }, undefined>, valibot308.ObjectSchema<{
+      readonly type: valibot305.LiteralSchema<"start.tax", undefined>;
+      /** Match time in **milliseconds**. */
+      readonly time: valibot306.NumberSchema<undefined>;
+      /** Sum player should pay when passing "Start". If `0`, player just will not receive money for passing "Start". */
+      readonly sum: valibot307.NumberSchema<undefined>;
+    }, undefined>, valibot312.ObjectSchema<{
+      readonly type: valibot309.LiteralSchema<"rent.tax", undefined>;
+      /** Match time in **milliseconds**. */
+      readonly time: valibot310.NumberSchema<undefined>;
+      /** Income tax rate. */
+      readonly rate: valibot311.NumberSchema<undefined>;
+    }, undefined>], undefined>, undefined>;
+    readonly wormhole: valibot323.OptionalSchema<valibot322.ObjectSchema<{
+      readonly exits_free_count: valibot316.OptionalSchema<valibot315.NumberSchema<undefined>, 3>;
+      readonly exits_extra_price: valibot317.NumberSchema<undefined>;
+      readonly move_direct: valibot321.SchemaWithPipe<readonly [valibot319.OptionalSchema<valibot318.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot320.TransformAction<0 | 1, boolean>]>;
+    }, undefined>, undefined>;
+  }, undefined>;
+}, undefined>;
+type M1DemoPacketSetupConfig = InferOutput<typeof valiM1DemoPacketSetupConfigSchema>;
+
+//#endregion
 //#region src/packet/setup/player.d.ts
-declare const valiM1DemoPacketSetupPlayerSchema: valibot163.SchemaWithPipe<readonly [valibot161.ObjectSchema<{
-  readonly user_id: valibot142.NumberSchema<undefined>;
-  readonly is_vip: valibot146.SchemaWithPipe<readonly [valibot144.OptionalSchema<valibot143.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot145.TransformAction<0 | 1, boolean>]>;
-  readonly is_loan_available: valibot150.SchemaWithPipe<readonly [valibot148.OptionalSchema<valibot147.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot149.TransformAction<0 | 1, boolean>]>;
-  readonly equipment: valibot160.ObjectSchema<{
-    readonly cards: valibot159.SchemaWithPipe<readonly [valibot157.ArraySchema<valibot156.ObjectSchema<{
-      readonly field_id: valibot151.NumberSchema<undefined>;
-      readonly item_proto_id: valibot152.NumberSchema<undefined>;
-      readonly item_id: valibot154.OptionalSchema<valibot153.NumberSchema<undefined>, undefined>;
-      readonly rent_multiplier: valibot155.NumberSchema<undefined>;
-    }, undefined>, undefined>, valibot158.TransformAction<{
+declare const valiM1DemoPacketSetupPlayerSchema: valibot802.SchemaWithPipe<readonly [valibot800.ObjectSchema<{
+  readonly user_id: valibot781.NumberSchema<undefined>;
+  readonly is_vip: valibot785.SchemaWithPipe<readonly [valibot783.OptionalSchema<valibot782.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot784.TransformAction<0 | 1, boolean>]>;
+  readonly is_loan_available: valibot789.SchemaWithPipe<readonly [valibot787.OptionalSchema<valibot786.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot788.TransformAction<0 | 1, boolean>]>;
+  readonly equipment: valibot799.ObjectSchema<{
+    readonly cards: valibot798.SchemaWithPipe<readonly [valibot796.ArraySchema<valibot795.ObjectSchema<{
+      readonly field_id: valibot790.NumberSchema<undefined>;
+      readonly item_proto_id: valibot791.NumberSchema<undefined>;
+      readonly item_id: valibot793.OptionalSchema<valibot792.NumberSchema<undefined>, undefined>;
+      readonly rent_multiplier: valibot794.NumberSchema<undefined>;
+    }, undefined>, undefined>, valibot797.TransformAction<{
       field_id: number;
       item_proto_id: number;
       item_id?: number | undefined;
@@ -757,7 +1160,7 @@ declare const valiM1DemoPacketSetupPlayerSchema: valibot163.SchemaWithPipe<reado
       rent_multiplier: number;
     }>>]>;
   }, undefined>;
-}, undefined>, valibot162.TransformAction<{
+}, undefined>, valibot801.TransformAction<{
   user_id: number;
   is_vip: boolean;
   is_loan_available: boolean;
@@ -788,26 +1191,26 @@ type M1DemoPacketSetupPlayerEquippedCard = MapElement<M1DemoPacketSetupPlayer['e
 
 //#endregion
 //#region src/packet/setup.d.ts
-declare const valiM1DemoPacketSetupSchema: valibot447.ObjectSchema<{
+declare const valiM1DemoPacketSetupSchema: valibot757.ObjectSchema<{
   /** Constants that define basic rules of the match. */
-  readonly config: valibot414.ObjectSchema<{
-    readonly version: valibot236.NumberSchema<undefined>;
-    readonly board_size: valibot239.TupleSchema<[valibot237.NumberSchema<undefined>, valibot238.NumberSchema<undefined>], undefined>;
-    readonly timers: valibot241.ObjectSchema<{
-      readonly roll_dices: valibot240.NumberSchema<undefined>;
+  readonly config: valibot724.ObjectSchema<{
+    readonly version: valibot546.NumberSchema<undefined>;
+    readonly board_size: valibot549.TupleSchema<[valibot547.NumberSchema<undefined>, valibot548.NumberSchema<undefined>], undefined>;
+    readonly timers: valibot551.ObjectSchema<{
+      readonly roll_dices: valibot550.NumberSchema<undefined>;
     }, undefined>;
-    readonly fields: valibot266.SchemaWithPipe<readonly [valibot264.ArraySchema<valibot263.UnionSchema<[valibot246.ObjectSchema<{
-      readonly is_corner: valibot244.SchemaWithPipe<readonly [valibot242.LiteralSchema<1, undefined>, valibot243.TransformAction<1, true>]>;
-      readonly type: valibot245.PicklistSchema<["start", "jail"], undefined>;
-    }, undefined>, valibot252.ObjectSchema<{
-      readonly is_corner: valibot250.SchemaWithPipe<readonly [valibot248.OptionalSchema<valibot247.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot249.TransformAction<0 | 1, boolean>]>;
-      readonly type: valibot251.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
-    }, undefined>, valibot262.ObjectSchema<{
-      readonly is_corner: valibot255.SchemaWithPipe<readonly [valibot253.UndefinedSchema<undefined>, valibot254.TransformAction<undefined, false>]>;
-      readonly type: valibot256.LiteralSchema<"company", undefined>;
-      readonly monopoly_id: valibot257.NumberSchema<undefined>;
-      readonly is_last: valibot261.SchemaWithPipe<readonly [valibot259.OptionalSchema<valibot258.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot260.TransformAction<0 | 1, boolean>]>;
-    }, undefined>], undefined>, undefined>, valibot265.TransformAction<({
+    readonly fields: valibot576.SchemaWithPipe<readonly [valibot574.ArraySchema<valibot573.UnionSchema<[valibot556.ObjectSchema<{
+      readonly is_corner: valibot554.SchemaWithPipe<readonly [valibot552.LiteralSchema<1, undefined>, valibot553.TransformAction<1, true>]>;
+      readonly type: valibot555.PicklistSchema<["start", "jail"], undefined>;
+    }, undefined>, valibot562.ObjectSchema<{
+      readonly is_corner: valibot560.SchemaWithPipe<readonly [valibot558.OptionalSchema<valibot557.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot559.TransformAction<0 | 1, boolean>]>;
+      readonly type: valibot561.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
+    }, undefined>, valibot572.ObjectSchema<{
+      readonly is_corner: valibot565.SchemaWithPipe<readonly [valibot563.UndefinedSchema<undefined>, valibot564.TransformAction<undefined, false>]>;
+      readonly type: valibot566.LiteralSchema<"company", undefined>;
+      readonly monopoly_id: valibot567.NumberSchema<undefined>;
+      readonly is_last: valibot571.SchemaWithPipe<readonly [valibot569.OptionalSchema<valibot568.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot570.TransformAction<0 | 1, boolean>]>;
+    }, undefined>], undefined>, undefined>, valibot575.TransformAction<({
       is_corner: true;
       type: "start" | "jail";
     } | {
@@ -831,21 +1234,21 @@ declare const valiM1DemoPacketSetupSchema: valibot447.ObjectSchema<{
       monopoly_id: number;
       is_last: boolean;
     })[]>]>;
-    readonly monopolies: valibot289.SchemaWithPipe<readonly [valibot287.RecordSchema<valibot267.StringSchema<undefined>, valibot286.UnionSchema<[valibot277.ObjectSchema<{
-      readonly buy_price: valibot268.NumberSchema<undefined>;
-      readonly rent_by_level: valibot270.ArraySchema<valibot269.NumberSchema<undefined>, undefined>;
-      readonly level_cost: valibot271.NumberSchema<undefined>;
-      readonly last_field: valibot276.OptionalSchema<valibot275.ObjectSchema<{
-        readonly buy_price: valibot272.NumberSchema<undefined>;
-        readonly rent_by_level: valibot274.ArraySchema<valibot273.NumberSchema<undefined>, undefined>;
+    readonly monopolies: valibot599.SchemaWithPipe<readonly [valibot597.RecordSchema<valibot577.StringSchema<undefined>, valibot596.UnionSchema<[valibot587.ObjectSchema<{
+      readonly buy_price: valibot578.NumberSchema<undefined>;
+      readonly rent_by_level: valibot580.ArraySchema<valibot579.NumberSchema<undefined>, undefined>;
+      readonly level_cost: valibot581.NumberSchema<undefined>;
+      readonly last_field: valibot586.OptionalSchema<valibot585.ObjectSchema<{
+        readonly buy_price: valibot582.NumberSchema<undefined>;
+        readonly rent_by_level: valibot584.ArraySchema<valibot583.NumberSchema<undefined>, undefined>;
       }, undefined>, undefined>;
-    }, undefined>, valibot281.ObjectSchema<{
-      readonly buy_price: valibot278.NumberSchema<undefined>;
-      readonly rent_by_count: valibot280.ArraySchema<valibot279.NumberSchema<undefined>, undefined>;
-    }, undefined>, valibot285.ObjectSchema<{
-      readonly buy_price: valibot282.NumberSchema<undefined>;
-      readonly dice_multipliers: valibot284.ArraySchema<valibot283.NumberSchema<undefined>, undefined>;
-    }, undefined>], undefined>, undefined>, valibot288.TransformAction<{
+    }, undefined>, valibot591.ObjectSchema<{
+      readonly buy_price: valibot588.NumberSchema<undefined>;
+      readonly rent_by_count: valibot590.ArraySchema<valibot589.NumberSchema<undefined>, undefined>;
+    }, undefined>, valibot595.ObjectSchema<{
+      readonly buy_price: valibot592.NumberSchema<undefined>;
+      readonly dice_multipliers: valibot594.ArraySchema<valibot593.NumberSchema<undefined>, undefined>;
+    }, undefined>], undefined>, undefined>, valibot598.TransformAction<{
       [x: string]: {
         buy_price: number;
         rent_by_level: number[];
@@ -876,137 +1279,137 @@ declare const valiM1DemoPacketSetupSchema: valibot447.ObjectSchema<{
       buy_price: number;
       dice_multipliers: number[];
     }>>]>;
-    readonly mechanics: valibot413.ObjectSchema<{
-      readonly auction: valibot292.OptionalSchema<valibot291.ObjectSchema<{
-        readonly bid_increment: valibot290.NumberSchema<undefined>;
+    readonly mechanics: valibot723.ObjectSchema<{
+      readonly auction: valibot602.OptionalSchema<valibot601.ObjectSchema<{
+        readonly bid_increment: valibot600.NumberSchema<undefined>;
       }, undefined>, undefined>;
-      readonly chance: valibot339.OptionalSchema<valibot338.StrictObjectSchema<{
-        readonly cards: valibot337.ArraySchema<valibot336.UnionSchema<[valibot299.StrictObjectSchema<{
-          readonly type: valibot293.LiteralSchema<"income", undefined>;
-          readonly text_id: valibot294.NumberSchema<undefined>;
-          readonly range: valibot298.StrictObjectSchema<{
-            readonly min: valibot295.NumberSchema<undefined>;
-            readonly max: valibot296.NumberSchema<undefined>;
-            readonly step: valibot297.NumberSchema<undefined>;
+      readonly chance: valibot649.OptionalSchema<valibot648.StrictObjectSchema<{
+        readonly cards: valibot647.ArraySchema<valibot646.UnionSchema<[valibot609.StrictObjectSchema<{
+          readonly type: valibot603.LiteralSchema<"income", undefined>;
+          readonly text_id: valibot604.NumberSchema<undefined>;
+          readonly range: valibot608.StrictObjectSchema<{
+            readonly min: valibot605.NumberSchema<undefined>;
+            readonly max: valibot606.NumberSchema<undefined>;
+            readonly step: valibot607.NumberSchema<undefined>;
           }, undefined>;
-        }, undefined>, valibot306.StrictObjectSchema<{
-          readonly type: valibot300.LiteralSchema<"expense", undefined>;
-          readonly text_id: valibot301.NumberSchema<undefined>;
-          readonly range: valibot305.StrictObjectSchema<{
-            readonly min: valibot302.NumberSchema<undefined>;
-            readonly max: valibot303.NumberSchema<undefined>;
-            readonly step: valibot304.NumberSchema<undefined>;
+        }, undefined>, valibot616.StrictObjectSchema<{
+          readonly type: valibot610.LiteralSchema<"expense", undefined>;
+          readonly text_id: valibot611.NumberSchema<undefined>;
+          readonly range: valibot615.StrictObjectSchema<{
+            readonly min: valibot612.NumberSchema<undefined>;
+            readonly max: valibot613.NumberSchema<undefined>;
+            readonly step: valibot614.NumberSchema<undefined>;
           }, undefined>;
-        }, undefined>, valibot312.StrictObjectSchema<{
-          readonly type: valibot307.LiteralSchema<"repair", undefined>;
-          readonly text_id: valibot308.NumberSchema<undefined>;
-          readonly cost: valibot311.StrictObjectSchema<{
-            readonly small: valibot309.NumberSchema<undefined>;
-            readonly big: valibot310.NumberSchema<undefined>;
+        }, undefined>, valibot622.StrictObjectSchema<{
+          readonly type: valibot617.LiteralSchema<"repair", undefined>;
+          readonly text_id: valibot618.NumberSchema<undefined>;
+          readonly cost: valibot621.StrictObjectSchema<{
+            readonly small: valibot619.NumberSchema<undefined>;
+            readonly big: valibot620.NumberSchema<undefined>;
           }, undefined>;
-        }, undefined>, valibot315.StrictObjectSchema<{
-          readonly type: valibot313.LiteralSchema<"go-to-jail", undefined>;
-          readonly text_id: valibot314.NumberSchema<undefined>;
-        }, undefined>, valibot318.StrictObjectSchema<{
-          readonly type: valibot316.LiteralSchema<"teleport", undefined>;
-          readonly text_id: valibot317.NumberSchema<undefined>;
-        }, undefined>, valibot321.StrictObjectSchema<{
-          readonly type: valibot319.LiteralSchema<"skip-move", undefined>;
-          readonly text_id: valibot320.NumberSchema<undefined>;
-        }, undefined>, valibot325.StrictObjectSchema<{
-          readonly type: valibot322.LiteralSchema<"insurance", undefined>;
-          readonly text_id: valibot323.NumberSchema<undefined>;
-          readonly price: valibot324.NumberSchema<undefined>;
-        }, undefined>, valibot329.StrictObjectSchema<{
-          readonly type: valibot326.LiteralSchema<"birthday", undefined>;
-          readonly text_id: valibot327.NumberSchema<undefined>;
-          readonly amount: valibot328.NumberSchema<undefined>;
-        }, undefined>, valibot332.StrictObjectSchema<{
-          readonly type: valibot330.LiteralSchema<"reverse", undefined>;
-          readonly text_id: valibot331.NumberSchema<undefined>;
-        }, undefined>, valibot335.StrictObjectSchema<{
-          readonly type: valibot333.LiteralSchema<"disaster", undefined>;
-          readonly text_id: valibot334.NumberSchema<undefined>;
+        }, undefined>, valibot625.StrictObjectSchema<{
+          readonly type: valibot623.LiteralSchema<"go-to-jail", undefined>;
+          readonly text_id: valibot624.NumberSchema<undefined>;
+        }, undefined>, valibot628.StrictObjectSchema<{
+          readonly type: valibot626.LiteralSchema<"teleport", undefined>;
+          readonly text_id: valibot627.NumberSchema<undefined>;
+        }, undefined>, valibot631.StrictObjectSchema<{
+          readonly type: valibot629.LiteralSchema<"skip-move", undefined>;
+          readonly text_id: valibot630.NumberSchema<undefined>;
+        }, undefined>, valibot635.StrictObjectSchema<{
+          readonly type: valibot632.LiteralSchema<"insurance", undefined>;
+          readonly text_id: valibot633.NumberSchema<undefined>;
+          readonly price: valibot634.NumberSchema<undefined>;
+        }, undefined>, valibot639.StrictObjectSchema<{
+          readonly type: valibot636.LiteralSchema<"birthday", undefined>;
+          readonly text_id: valibot637.NumberSchema<undefined>;
+          readonly amount: valibot638.NumberSchema<undefined>;
+        }, undefined>, valibot642.StrictObjectSchema<{
+          readonly type: valibot640.LiteralSchema<"reverse", undefined>;
+          readonly text_id: valibot641.NumberSchema<undefined>;
+        }, undefined>, valibot645.StrictObjectSchema<{
+          readonly type: valibot643.LiteralSchema<"disaster", undefined>;
+          readonly text_id: valibot644.NumberSchema<undefined>;
         }, undefined>], undefined>, undefined>;
       }, undefined>, undefined>;
-      readonly field_level: valibot351.OptionalSchema<valibot350.ObjectSchema<{
-        readonly sell_multiplier: valibot341.OptionalSchema<valibot340.NumberSchema<undefined>, 1>;
-        readonly build_uneven: valibot345.SchemaWithPipe<readonly [valibot343.OptionalSchema<valibot342.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot344.TransformAction<0 | 1, boolean>]>;
-        readonly build_without_monopoly: valibot349.SchemaWithPipe<readonly [valibot347.OptionalSchema<valibot346.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot348.TransformAction<0 | 1, boolean>]>;
+      readonly field_level: valibot661.OptionalSchema<valibot660.ObjectSchema<{
+        readonly sell_multiplier: valibot651.OptionalSchema<valibot650.NumberSchema<undefined>, 1>;
+        readonly build_uneven: valibot655.SchemaWithPipe<readonly [valibot653.OptionalSchema<valibot652.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot654.TransformAction<0 | 1, boolean>]>;
+        readonly build_without_monopoly: valibot659.SchemaWithPipe<readonly [valibot657.OptionalSchema<valibot656.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot658.TransformAction<0 | 1, boolean>]>;
       }, undefined>, undefined>;
-      readonly jackpot: valibot358.OptionalSchema<valibot357.ObjectSchema<{
-        readonly bet: valibot352.NumberSchema<undefined>;
-        readonly multipliers: valibot354.ArraySchema<valibot353.NumberSchema<undefined>, undefined>;
-        readonly superprize: valibot356.ObjectSchema<{
-          readonly chance: valibot355.NumberSchema<undefined>;
+      readonly jackpot: valibot668.OptionalSchema<valibot667.ObjectSchema<{
+        readonly bet: valibot662.NumberSchema<undefined>;
+        readonly multipliers: valibot664.ArraySchema<valibot663.NumberSchema<undefined>, undefined>;
+        readonly superprize: valibot666.ObjectSchema<{
+          readonly chance: valibot665.NumberSchema<undefined>;
         }, undefined>;
       }, undefined>, undefined>;
-      readonly jail: valibot362.ObjectSchema<{
-        readonly release_fee: valibot359.NumberSchema<undefined>;
-        readonly double_roll_attempt_limit: valibot361.OptionalSchema<valibot360.NumberSchema<undefined>, 3>;
+      readonly jail: valibot672.ObjectSchema<{
+        readonly release_fee: valibot669.NumberSchema<undefined>;
+        readonly double_roll_attempt_limit: valibot671.OptionalSchema<valibot670.NumberSchema<undefined>, 3>;
       }, undefined>;
-      readonly loan: valibot370.OptionalSchema<valibot369.ObjectSchema<{
-        readonly amount: valibot363.NumberSchema<undefined>;
-        readonly repay_multiplier: valibot364.NumberSchema<undefined>;
-        readonly duration: valibot365.NumberSchema<undefined>;
-        readonly cooldown: valibot368.ObjectSchema<{
-          readonly match_start: valibot366.NumberSchema<undefined>;
-          readonly repay: valibot367.NumberSchema<undefined>;
+      readonly loan: valibot680.OptionalSchema<valibot679.ObjectSchema<{
+        readonly amount: valibot673.NumberSchema<undefined>;
+        readonly repay_multiplier: valibot674.NumberSchema<undefined>;
+        readonly duration: valibot675.NumberSchema<undefined>;
+        readonly cooldown: valibot678.ObjectSchema<{
+          readonly match_start: valibot676.NumberSchema<undefined>;
+          readonly repay: valibot677.NumberSchema<undefined>;
         }, undefined>;
       }, undefined>, undefined>;
-      readonly mortgage: valibot378.OptionalSchema<valibot377.ObjectSchema<{
-        readonly duration: valibot372.OptionalSchema<valibot371.NumberSchema<undefined>, undefined>;
-        readonly multiplier: valibot373.NumberSchema<undefined>;
-        readonly buyback_multiplier: valibot374.NumberSchema<undefined>;
-        readonly auction_multiplier: valibot376.OptionalSchema<valibot375.NumberSchema<undefined>, undefined>;
+      readonly mortgage: valibot688.OptionalSchema<valibot687.ObjectSchema<{
+        readonly duration: valibot682.OptionalSchema<valibot681.NumberSchema<undefined>, undefined>;
+        readonly multiplier: valibot683.NumberSchema<undefined>;
+        readonly buyback_multiplier: valibot684.NumberSchema<undefined>;
+        readonly auction_multiplier: valibot686.OptionalSchema<valibot685.NumberSchema<undefined>, undefined>;
       }, undefined>, undefined>;
-      readonly restart: valibot386.OptionalSchema<valibot385.ObjectSchema<{
-        readonly variants: valibot384.ArraySchema<valibot383.ObjectSchema<{
-          readonly round_from: valibot379.NumberSchema<undefined>;
-          readonly round_to: valibot380.NumberSchema<undefined>;
-          readonly count: valibot381.NumberSchema<undefined>;
-          readonly price: valibot382.NumberSchema<undefined>;
+      readonly restart: valibot696.OptionalSchema<valibot695.ObjectSchema<{
+        readonly variants: valibot694.ArraySchema<valibot693.ObjectSchema<{
+          readonly round_from: valibot689.NumberSchema<undefined>;
+          readonly round_to: valibot690.NumberSchema<undefined>;
+          readonly count: valibot691.NumberSchema<undefined>;
+          readonly price: valibot692.NumberSchema<undefined>;
         }, undefined>, undefined>;
       }, undefined>, undefined>;
-      readonly start: valibot390.ObjectSchema<{
-        readonly income_amount: valibot387.NumberSchema<undefined>;
-        readonly bonus_amount: valibot389.OptionalSchema<valibot388.NumberSchema<undefined>, 0>;
+      readonly start: valibot700.ObjectSchema<{
+        readonly income_amount: valibot697.NumberSchema<undefined>;
+        readonly bonus_amount: valibot699.OptionalSchema<valibot698.NumberSchema<undefined>, 0>;
       }, undefined>;
-      readonly time_rules: valibot403.ArraySchema<valibot402.UnionSchema<[valibot393.ObjectSchema<{
-        readonly type: valibot391.LiteralSchema<"start.none", undefined>;
-        readonly time: valibot392.NumberSchema<undefined>;
-      }, undefined>, valibot397.ObjectSchema<{
-        readonly type: valibot394.LiteralSchema<"start.tax", undefined>;
-        readonly time: valibot395.NumberSchema<undefined>;
-        readonly sum: valibot396.NumberSchema<undefined>;
-      }, undefined>, valibot401.ObjectSchema<{
-        readonly type: valibot398.LiteralSchema<"rent.tax", undefined>;
-        readonly time: valibot399.NumberSchema<undefined>;
-        readonly rate: valibot400.NumberSchema<undefined>;
+      readonly time_rules: valibot713.ArraySchema<valibot712.UnionSchema<[valibot703.ObjectSchema<{
+        readonly type: valibot701.LiteralSchema<"start.none", undefined>;
+        readonly time: valibot702.NumberSchema<undefined>;
+      }, undefined>, valibot707.ObjectSchema<{
+        readonly type: valibot704.LiteralSchema<"start.tax", undefined>;
+        readonly time: valibot705.NumberSchema<undefined>;
+        readonly sum: valibot706.NumberSchema<undefined>;
+      }, undefined>, valibot711.ObjectSchema<{
+        readonly type: valibot708.LiteralSchema<"rent.tax", undefined>;
+        readonly time: valibot709.NumberSchema<undefined>;
+        readonly rate: valibot710.NumberSchema<undefined>;
       }, undefined>], undefined>, undefined>;
-      readonly wormhole: valibot412.OptionalSchema<valibot411.ObjectSchema<{
-        readonly exits_free_count: valibot405.OptionalSchema<valibot404.NumberSchema<undefined>, 3>;
-        readonly exits_extra_price: valibot406.NumberSchema<undefined>;
-        readonly move_direct: valibot410.SchemaWithPipe<readonly [valibot408.OptionalSchema<valibot407.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot409.TransformAction<0 | 1, boolean>]>;
+      readonly wormhole: valibot722.OptionalSchema<valibot721.ObjectSchema<{
+        readonly exits_free_count: valibot715.OptionalSchema<valibot714.NumberSchema<undefined>, 3>;
+        readonly exits_extra_price: valibot716.NumberSchema<undefined>;
+        readonly move_direct: valibot720.SchemaWithPipe<readonly [valibot718.OptionalSchema<valibot717.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot719.TransformAction<0 | 1, boolean>]>;
       }, undefined>, undefined>;
     }, undefined>;
   }, undefined>;
-  readonly flags: valibot421.ObjectSchema<{
-    readonly game_mode: valibot415.NumberSchema<undefined>;
-    readonly game_submode: valibot416.NumberSchema<undefined>;
-    readonly game_2x2: valibot420.SchemaWithPipe<readonly [valibot418.OptionalSchema<valibot417.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot419.TransformAction<0 | 1, boolean>]>;
+  readonly flags: valibot731.ObjectSchema<{
+    readonly game_mode: valibot725.NumberSchema<undefined>;
+    readonly game_submode: valibot726.NumberSchema<undefined>;
+    readonly game_2x2: valibot730.SchemaWithPipe<readonly [valibot728.OptionalSchema<valibot727.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot729.TransformAction<0 | 1, boolean>]>;
   }, undefined>;
-  readonly players: valibot446.SchemaWithPipe<readonly [valibot444.ArraySchema<valibot443.SchemaWithPipe<readonly [valibot441.ObjectSchema<{
-    readonly user_id: valibot422.NumberSchema<undefined>;
-    readonly is_vip: valibot426.SchemaWithPipe<readonly [valibot424.OptionalSchema<valibot423.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot425.TransformAction<0 | 1, boolean>]>;
-    readonly is_loan_available: valibot430.SchemaWithPipe<readonly [valibot428.OptionalSchema<valibot427.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot429.TransformAction<0 | 1, boolean>]>;
-    readonly equipment: valibot440.ObjectSchema<{
-      readonly cards: valibot439.SchemaWithPipe<readonly [valibot437.ArraySchema<valibot436.ObjectSchema<{
-        readonly field_id: valibot431.NumberSchema<undefined>;
-        readonly item_proto_id: valibot432.NumberSchema<undefined>;
-        readonly item_id: valibot434.OptionalSchema<valibot433.NumberSchema<undefined>, undefined>;
-        readonly rent_multiplier: valibot435.NumberSchema<undefined>;
-      }, undefined>, undefined>, valibot438.TransformAction<{
+  readonly players: valibot756.SchemaWithPipe<readonly [valibot754.ArraySchema<valibot753.SchemaWithPipe<readonly [valibot751.ObjectSchema<{
+    readonly user_id: valibot732.NumberSchema<undefined>;
+    readonly is_vip: valibot736.SchemaWithPipe<readonly [valibot734.OptionalSchema<valibot733.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot735.TransformAction<0 | 1, boolean>]>;
+    readonly is_loan_available: valibot740.SchemaWithPipe<readonly [valibot738.OptionalSchema<valibot737.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot739.TransformAction<0 | 1, boolean>]>;
+    readonly equipment: valibot750.ObjectSchema<{
+      readonly cards: valibot749.SchemaWithPipe<readonly [valibot747.ArraySchema<valibot746.ObjectSchema<{
+        readonly field_id: valibot741.NumberSchema<undefined>;
+        readonly item_proto_id: valibot742.NumberSchema<undefined>;
+        readonly item_id: valibot744.OptionalSchema<valibot743.NumberSchema<undefined>, undefined>;
+        readonly rent_multiplier: valibot745.NumberSchema<undefined>;
+      }, undefined>, undefined>, valibot748.TransformAction<{
         field_id: number;
         item_proto_id: number;
         item_id?: number | undefined;
@@ -1018,7 +1421,7 @@ declare const valiM1DemoPacketSetupSchema: valibot447.ObjectSchema<{
         rent_multiplier: number;
       }>>]>;
     }, undefined>;
-  }, undefined>, valibot442.TransformAction<{
+  }, undefined>, valibot752.TransformAction<{
     user_id: number;
     is_vip: boolean;
     is_loan_available: boolean;
@@ -1043,7 +1446,7 @@ declare const valiM1DemoPacketSetupSchema: valibot447.ObjectSchema<{
         rent_multiplier: number;
       }>;
     };
-  }>]>, undefined>, valibot445.TransformAction<{
+  }>]>, undefined>, valibot755.TransformAction<{
     index: number;
     user_id: number;
     is_vip: boolean;
@@ -1075,14 +1478,14 @@ type M1DemoPacketSetup = InferOutput<typeof valiM1DemoPacketSetupSchema>;
 
 //#endregion
 //#region src/packet/status/fields.d.ts
-declare const valiM1DemoPacketStatusFieldsSchema: valibot176.SchemaWithPipe<readonly [valibot174.ArraySchema<valibot173.SchemaWithPipe<readonly [valibot171.ObjectSchema<{
-  readonly field_id: valibot164.NumberSchema<undefined>;
-  readonly owner_user_id: valibot165.NumberSchema<undefined>;
-  readonly level: valibot166.NumberSchema<undefined>;
-  readonly mortgage: valibot170.OptionalSchema<valibot169.ObjectSchema<{
-    readonly round_until: valibot168.OptionalSchema<valibot167.NumberSchema<undefined>, undefined>;
+declare const valiM1DemoPacketStatusFieldsSchema: valibot770.SchemaWithPipe<readonly [valibot768.ArraySchema<valibot767.SchemaWithPipe<readonly [valibot765.ObjectSchema<{
+  readonly field_id: valibot758.NumberSchema<undefined>;
+  readonly owner_user_id: valibot759.NumberSchema<undefined>;
+  readonly level: valibot760.NumberSchema<undefined>;
+  readonly mortgage: valibot764.OptionalSchema<valibot763.ObjectSchema<{
+    readonly round_until: valibot762.OptionalSchema<valibot761.NumberSchema<undefined>, undefined>;
   }, undefined>, undefined>;
-}, undefined>, valibot172.TransformAction<{
+}, undefined>, valibot766.TransformAction<{
   field_id: number;
   owner_user_id: number;
   level: number;
@@ -1096,7 +1499,7 @@ declare const valiM1DemoPacketStatusFieldsSchema: valibot176.SchemaWithPipe<read
   mortgage?: {
     round_until?: number | undefined;
   } | undefined;
-}>]>, undefined>, valibot175.TransformAction<{
+}>]>, undefined>, valibot769.TransformAction<{
   field_id: number;
   owner_user_id: number;
   level: number;
@@ -1115,42 +1518,42 @@ type M1DemoPacketStatusField = MapElement<InferOutput<typeof valiM1DemoPacketSta
 
 //#endregion
 //#region src/packet/status/player.d.ts
-declare const valiM1DemoPacketStatusPlayersSchema: valibot807.SchemaWithPipe<readonly [valibot805.ArraySchema<valibot804.SchemaWithPipe<readonly [valibot802.ObjectSchema<{
+declare const valiM1DemoPacketStatusPlayersSchema: valibot836.SchemaWithPipe<readonly [valibot834.ArraySchema<valibot833.SchemaWithPipe<readonly [valibot831.ObjectSchema<{
   /** User ID of the player. */
-  readonly user_id: valibot774.NumberSchema<undefined>;
+  readonly user_id: valibot803.NumberSchema<undefined>;
   /**
    * Player status:
    * - `0`: players is active;
    * - `-1`: player is eliminated.
    */
-  readonly status: valibot775.NumberSchema<undefined>;
+  readonly status: valibot804.NumberSchema<undefined>;
   /** Player's position on the board. */
-  readonly position: valibot776.NumberSchema<undefined>;
+  readonly position: valibot805.NumberSchema<undefined>;
   /** Player's cash. */
-  readonly cash: valibot777.NumberSchema<undefined>;
+  readonly cash: valibot806.NumberSchema<undefined>;
   /** Player's score: how much rent they have collected. */
-  readonly score: valibot778.NumberSchema<undefined>;
+  readonly score: valibot807.NumberSchema<undefined>;
   /** Player's jail status */
-  readonly jail: valibot781.OptionalSchema<valibot780.ObjectSchema<{
-    readonly roll_double_attempts: valibot779.NumberSchema<undefined>;
+  readonly jail: valibot810.OptionalSchema<valibot809.ObjectSchema<{
+    readonly roll_double_attempts: valibot808.NumberSchema<undefined>;
   }, undefined>, undefined>;
-  readonly loan: valibot793.UnionSchema<[valibot786.StrictObjectSchema<{
-    readonly taken: valibot784.SchemaWithPipe<readonly [valibot782.LiteralSchema<0, undefined>, valibot783.TransformAction<0, false>]>;
-    readonly unlock_round: valibot785.NumberSchema<undefined>;
-  }, undefined>, valibot792.StrictObjectSchema<{
-    readonly taken: valibot789.SchemaWithPipe<readonly [valibot787.LiteralSchema<1, undefined>, valibot788.TransformAction<1, true>]>;
-    readonly debt: valibot790.NumberSchema<undefined>;
-    readonly return_round: valibot791.NumberSchema<undefined>;
+  readonly loan: valibot822.UnionSchema<[valibot815.StrictObjectSchema<{
+    readonly taken: valibot813.SchemaWithPipe<readonly [valibot811.LiteralSchema<0, undefined>, valibot812.TransformAction<0, false>]>;
+    readonly unlock_round: valibot814.NumberSchema<undefined>;
+  }, undefined>, valibot821.StrictObjectSchema<{
+    readonly taken: valibot818.SchemaWithPipe<readonly [valibot816.LiteralSchema<1, undefined>, valibot817.TransformAction<1, true>]>;
+    readonly debt: valibot819.NumberSchema<undefined>;
+    readonly return_round: valibot820.NumberSchema<undefined>;
   }, undefined>], undefined>;
-  readonly restart: valibot801.OptionalSchema<valibot800.ObjectSchema<{
-    readonly variant: valibot799.NullableSchema<valibot798.ObjectSchema<{
-      readonly round_from: valibot794.NumberSchema<undefined>;
-      readonly round_to: valibot795.NumberSchema<undefined>;
-      readonly count: valibot796.NumberSchema<undefined>;
-      readonly price: valibot797.NumberSchema<undefined>;
+  readonly restart: valibot830.OptionalSchema<valibot829.ObjectSchema<{
+    readonly variant: valibot828.NullableSchema<valibot827.ObjectSchema<{
+      readonly round_from: valibot823.NumberSchema<undefined>;
+      readonly round_to: valibot824.NumberSchema<undefined>;
+      readonly count: valibot825.NumberSchema<undefined>;
+      readonly price: valibot826.NumberSchema<undefined>;
     }, undefined>, undefined>;
   }, undefined>, undefined>;
-}, undefined>, valibot803.TransformAction<{
+}, undefined>, valibot832.TransformAction<{
   user_id: number;
   status: number;
   position: number;
@@ -1200,7 +1603,7 @@ declare const valiM1DemoPacketStatusPlayersSchema: valibot807.SchemaWithPipe<rea
       price: number;
     } | null;
   } | undefined;
-}>]>, undefined>, valibot806.TransformAction<{
+}>]>, undefined>, valibot835.TransformAction<{
   user_id: number;
   status: number;
   position: number;
@@ -1255,15 +1658,15 @@ type M1DemoPacketStatusPlayer = MapElement<InferOutput<typeof valiM1DemoPacketSt
 
 //#endregion
 //#region src/packet/status/turn.d.ts
-declare const valiM1DemoContractSchema: valibot706.SchemaWithPipe<readonly [valibot704.TupleSchema<[valibot698.ObjectSchema<{
-  readonly user_id: valibot694.NumberSchema<undefined>;
-  readonly field_ids: valibot696.ArraySchema<valibot695.NumberSchema<undefined>, undefined>;
-  readonly cash: valibot697.NumberSchema<undefined>;
-}, undefined>, valibot703.ObjectSchema<{
-  readonly user_id: valibot699.NumberSchema<undefined>;
-  readonly field_ids: valibot701.ArraySchema<valibot700.NumberSchema<undefined>, undefined>;
-  readonly cash: valibot702.NumberSchema<undefined>;
-}, undefined>], undefined>, valibot705.TransformAction<[{
+declare const valiM1DemoContractSchema: valibot1178.SchemaWithPipe<readonly [valibot1176.TupleSchema<[valibot1170.ObjectSchema<{
+  readonly user_id: valibot1166.NumberSchema<undefined>;
+  readonly field_ids: valibot1168.ArraySchema<valibot1167.NumberSchema<undefined>, undefined>;
+  readonly cash: valibot1169.NumberSchema<undefined>;
+}, undefined>, valibot1175.ObjectSchema<{
+  readonly user_id: valibot1171.NumberSchema<undefined>;
+  readonly field_ids: valibot1173.ArraySchema<valibot1172.NumberSchema<undefined>, undefined>;
+  readonly cash: valibot1174.NumberSchema<undefined>;
+}, undefined>], undefined>, valibot1177.TransformAction<[{
   user_id: number;
   field_ids: number[];
   cash: number;
@@ -1284,29 +1687,29 @@ declare const valiM1DemoContractSchema: valibot706.SchemaWithPipe<readonly [vali
   };
 }>]>;
 type M1DemoContract = InferOutput<typeof valiM1DemoContractSchema>;
-declare const valiM1DemoPacketStatusTurnSchema: valibot773.ObjectSchema<{
+declare const valiM1DemoPacketStatusTurnSchema: valibot1245.ObjectSchema<{
   /** User ID of the player whose turn it is. */
-  readonly user_id: valibot708.NullableSchema<valibot707.NumberSchema<undefined>, undefined>;
-  readonly action: valibot715.ObjectSchema<{
+  readonly user_id: valibot1180.NullableSchema<valibot1179.NumberSchema<undefined>, undefined>;
+  readonly action: valibot1187.ObjectSchema<{
     /** User ID of the player from which action is expected. */
-    readonly user_id: valibot710.NullableSchema<valibot709.NumberSchema<undefined>, undefined>;
-    readonly list: valibot714.SchemaWithPipe<readonly [valibot712.ArraySchema<valibot711.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "purchase", "purchase.reject", "rent.pay", "roll-dices", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, valibot713.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
+    readonly user_id: valibot1182.NullableSchema<valibot1181.NumberSchema<undefined>, undefined>;
+    readonly list: valibot1186.SchemaWithPipe<readonly [valibot1184.ArraySchema<valibot1183.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "purchase", "purchase.reject", "rent.pay", "roll-dices", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, valibot1185.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
   }, undefined>;
-  readonly move_reversed: valibot719.SchemaWithPipe<readonly [valibot717.OptionalSchema<valibot716.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot718.TransformAction<0 | 1, boolean>]>;
-  readonly auction: valibot727.OptionalSchema<valibot726.ObjectSchema<{
-    readonly field_id: valibot720.NumberSchema<undefined>;
-    readonly bid: valibot721.NumberSchema<undefined>;
-    readonly user_ids_rejected: valibot725.SchemaWithPipe<readonly [valibot723.ArraySchema<valibot722.NumberSchema<undefined>, undefined>, valibot724.TransformAction<number[], Set<number>>]>;
+  readonly move_reversed: valibot1191.SchemaWithPipe<readonly [valibot1189.OptionalSchema<valibot1188.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot1190.TransformAction<0 | 1, boolean>]>;
+  readonly auction: valibot1199.OptionalSchema<valibot1198.ObjectSchema<{
+    readonly field_id: valibot1192.NumberSchema<undefined>;
+    readonly bid: valibot1193.NumberSchema<undefined>;
+    readonly user_ids_rejected: valibot1197.SchemaWithPipe<readonly [valibot1195.ArraySchema<valibot1194.NumberSchema<undefined>, undefined>, valibot1196.TransformAction<number[], Set<number>>]>;
   }, undefined>, undefined>;
-  readonly contract: valibot741.OptionalSchema<valibot740.SchemaWithPipe<readonly [valibot738.TupleSchema<[valibot732.ObjectSchema<{
-    readonly user_id: valibot728.NumberSchema<undefined>;
-    readonly field_ids: valibot730.ArraySchema<valibot729.NumberSchema<undefined>, undefined>;
-    readonly cash: valibot731.NumberSchema<undefined>;
-  }, undefined>, valibot737.ObjectSchema<{
-    readonly user_id: valibot733.NumberSchema<undefined>;
-    readonly field_ids: valibot735.ArraySchema<valibot734.NumberSchema<undefined>, undefined>;
-    readonly cash: valibot736.NumberSchema<undefined>;
-  }, undefined>], undefined>, valibot739.TransformAction<[{
+  readonly contract: valibot1213.OptionalSchema<valibot1212.SchemaWithPipe<readonly [valibot1210.TupleSchema<[valibot1204.ObjectSchema<{
+    readonly user_id: valibot1200.NumberSchema<undefined>;
+    readonly field_ids: valibot1202.ArraySchema<valibot1201.NumberSchema<undefined>, undefined>;
+    readonly cash: valibot1203.NumberSchema<undefined>;
+  }, undefined>, valibot1209.ObjectSchema<{
+    readonly user_id: valibot1205.NumberSchema<undefined>;
+    readonly field_ids: valibot1207.ArraySchema<valibot1206.NumberSchema<undefined>, undefined>;
+    readonly cash: valibot1208.NumberSchema<undefined>;
+  }, undefined>], undefined>, valibot1211.TransformAction<[{
     user_id: number;
     field_ids: number[];
     cash: number;
@@ -1326,23 +1729,23 @@ declare const valiM1DemoPacketStatusTurnSchema: valibot773.ObjectSchema<{
       cash: number;
     };
   }>]>, undefined>;
-  readonly contracts_sent: valibot743.OptionalSchema<valibot742.NumberSchema<undefined>, undefined>;
-  readonly jackpot: valibot746.OptionalSchema<valibot745.ObjectSchema<{
-    readonly superprize: valibot744.NumberSchema<undefined>;
+  readonly contracts_sent: valibot1215.OptionalSchema<valibot1214.NumberSchema<undefined>, undefined>;
+  readonly jackpot: valibot1218.OptionalSchema<valibot1217.ObjectSchema<{
+    readonly superprize: valibot1216.NumberSchema<undefined>;
   }, undefined>, undefined>;
-  readonly payment: valibot751.OptionalSchema<valibot750.ObjectSchema<{
-    readonly to_user_id: valibot748.OptionalSchema<valibot747.NumberSchema<undefined>, undefined>;
-    readonly amount: valibot749.NumberSchema<undefined>;
+  readonly payment: valibot1223.OptionalSchema<valibot1222.ObjectSchema<{
+    readonly to_user_id: valibot1220.OptionalSchema<valibot1219.NumberSchema<undefined>, undefined>;
+    readonly amount: valibot1221.NumberSchema<undefined>;
   }, undefined>, undefined>;
   /** Fields on which player can move in this action. */
-  readonly field_ids_move: valibot762.OptionalSchema<valibot761.SchemaWithPipe<readonly [valibot759.ArraySchema<valibot758.ObjectSchema<{
-    readonly field_id: valibot752.NumberSchema<undefined>;
-    readonly data: valibot757.UnionSchema<[valibot754.ObjectSchema<{
-      readonly stop: valibot753.NumberSchema<undefined>;
-    }, undefined>, valibot756.ObjectSchema<{
-      readonly field_id: valibot755.NumberSchema<undefined>;
+  readonly field_ids_move: valibot1234.OptionalSchema<valibot1233.SchemaWithPipe<readonly [valibot1231.ArraySchema<valibot1230.ObjectSchema<{
+    readonly field_id: valibot1224.NumberSchema<undefined>;
+    readonly data: valibot1229.UnionSchema<[valibot1226.ObjectSchema<{
+      readonly stop: valibot1225.NumberSchema<undefined>;
+    }, undefined>, valibot1228.ObjectSchema<{
+      readonly field_id: valibot1227.NumberSchema<undefined>;
     }, undefined>], undefined>;
-  }, undefined>, undefined>, valibot760.TransformAction<{
+  }, undefined>, undefined>, valibot1232.TransformAction<{
     field_id: number;
     data: {
       stop: number;
@@ -1355,45 +1758,45 @@ declare const valiM1DemoPacketStatusTurnSchema: valibot773.ObjectSchema<{
     field_id: number;
   }>>]>, undefined>;
   /** Fields on which player already built a level this turn. */
-  readonly field_ids_level_built: valibot767.OptionalSchema<valibot766.SchemaWithPipe<readonly [valibot764.ArraySchema<valibot763.NumberSchema<undefined>, undefined>, valibot765.TransformAction<number[], Set<number>>]>, undefined>;
+  readonly field_ids_level_built: valibot1239.OptionalSchema<valibot1238.SchemaWithPipe<readonly [valibot1236.ArraySchema<valibot1235.NumberSchema<undefined>, undefined>, valibot1237.TransformAction<number[], Set<number>>]>, undefined>;
   /** Fields which player already mortgaged this turn. */
-  readonly field_ids_mortgaged: valibot772.OptionalSchema<valibot771.SchemaWithPipe<readonly [valibot769.ArraySchema<valibot768.NumberSchema<undefined>, undefined>, valibot770.TransformAction<number[], Set<number>>]>, undefined>;
+  readonly field_ids_mortgaged: valibot1244.OptionalSchema<valibot1243.SchemaWithPipe<readonly [valibot1241.ArraySchema<valibot1240.NumberSchema<undefined>, undefined>, valibot1242.TransformAction<number[], Set<number>>]>, undefined>;
 }, undefined>;
 type M1DemoPacketStatusTurn = InferOutput<typeof valiM1DemoPacketStatusTurnSchema>;
 type M1DemoPacketStatusTurnActionListElement = SetElement<M1DemoPacketStatusTurn['action']['list']>;
 
 //#endregion
 //#region src/packet/status.d.ts
-declare const valiM1DemoPacketStatusSchema: valibot571.ObjectSchema<{
+declare const valiM1DemoPacketStatusSchema: valibot1043.ObjectSchema<{
   /** Round number. */
-  readonly round: valibot448.NumberSchema<undefined>;
+  readonly round: valibot920.NumberSchema<undefined>;
   /** Players. */
-  readonly players: valibot482.SchemaWithPipe<readonly [valibot480.ArraySchema<valibot479.SchemaWithPipe<readonly [valibot477.ObjectSchema<{
-    readonly user_id: valibot449.NumberSchema<undefined>;
-    readonly status: valibot450.NumberSchema<undefined>;
-    readonly position: valibot451.NumberSchema<undefined>;
-    readonly cash: valibot452.NumberSchema<undefined>;
-    readonly score: valibot453.NumberSchema<undefined>;
-    readonly jail: valibot456.OptionalSchema<valibot455.ObjectSchema<{
-      readonly roll_double_attempts: valibot454.NumberSchema<undefined>;
+  readonly players: valibot954.SchemaWithPipe<readonly [valibot952.ArraySchema<valibot951.SchemaWithPipe<readonly [valibot949.ObjectSchema<{
+    readonly user_id: valibot921.NumberSchema<undefined>;
+    readonly status: valibot922.NumberSchema<undefined>;
+    readonly position: valibot923.NumberSchema<undefined>;
+    readonly cash: valibot924.NumberSchema<undefined>;
+    readonly score: valibot925.NumberSchema<undefined>;
+    readonly jail: valibot928.OptionalSchema<valibot927.ObjectSchema<{
+      readonly roll_double_attempts: valibot926.NumberSchema<undefined>;
     }, undefined>, undefined>;
-    readonly loan: valibot468.UnionSchema<[valibot461.StrictObjectSchema<{
-      readonly taken: valibot459.SchemaWithPipe<readonly [valibot457.LiteralSchema<0, undefined>, valibot458.TransformAction<0, false>]>;
-      readonly unlock_round: valibot460.NumberSchema<undefined>;
-    }, undefined>, valibot467.StrictObjectSchema<{
-      readonly taken: valibot464.SchemaWithPipe<readonly [valibot462.LiteralSchema<1, undefined>, valibot463.TransformAction<1, true>]>;
-      readonly debt: valibot465.NumberSchema<undefined>;
-      readonly return_round: valibot466.NumberSchema<undefined>;
+    readonly loan: valibot940.UnionSchema<[valibot933.StrictObjectSchema<{
+      readonly taken: valibot931.SchemaWithPipe<readonly [valibot929.LiteralSchema<0, undefined>, valibot930.TransformAction<0, false>]>;
+      readonly unlock_round: valibot932.NumberSchema<undefined>;
+    }, undefined>, valibot939.StrictObjectSchema<{
+      readonly taken: valibot936.SchemaWithPipe<readonly [valibot934.LiteralSchema<1, undefined>, valibot935.TransformAction<1, true>]>;
+      readonly debt: valibot937.NumberSchema<undefined>;
+      readonly return_round: valibot938.NumberSchema<undefined>;
     }, undefined>], undefined>;
-    readonly restart: valibot476.OptionalSchema<valibot475.ObjectSchema<{
-      readonly variant: valibot474.NullableSchema<valibot473.ObjectSchema<{
-        readonly round_from: valibot469.NumberSchema<undefined>;
-        readonly round_to: valibot470.NumberSchema<undefined>;
-        readonly count: valibot471.NumberSchema<undefined>;
-        readonly price: valibot472.NumberSchema<undefined>;
+    readonly restart: valibot948.OptionalSchema<valibot947.ObjectSchema<{
+      readonly variant: valibot946.NullableSchema<valibot945.ObjectSchema<{
+        readonly round_from: valibot941.NumberSchema<undefined>;
+        readonly round_to: valibot942.NumberSchema<undefined>;
+        readonly count: valibot943.NumberSchema<undefined>;
+        readonly price: valibot944.NumberSchema<undefined>;
       }, undefined>, undefined>;
     }, undefined>, undefined>;
-  }, undefined>, valibot478.TransformAction<{
+  }, undefined>, valibot950.TransformAction<{
     user_id: number;
     status: number;
     position: number;
@@ -1443,7 +1846,7 @@ declare const valiM1DemoPacketStatusSchema: valibot571.ObjectSchema<{
         price: number;
       } | null;
     } | undefined;
-  }>]>, undefined>, valibot481.TransformAction<{
+  }>]>, undefined>, valibot953.TransformAction<{
     user_id: number;
     status: number;
     position: number;
@@ -1495,14 +1898,14 @@ declare const valiM1DemoPacketStatusSchema: valibot571.ObjectSchema<{
     } | undefined;
   }>>]>;
   /** Current information about fields. */
-  readonly fields: valibot495.SchemaWithPipe<readonly [valibot493.ArraySchema<valibot492.SchemaWithPipe<readonly [valibot490.ObjectSchema<{
-    readonly field_id: valibot483.NumberSchema<undefined>;
-    readonly owner_user_id: valibot484.NumberSchema<undefined>;
-    readonly level: valibot485.NumberSchema<undefined>;
-    readonly mortgage: valibot489.OptionalSchema<valibot488.ObjectSchema<{
-      readonly round_until: valibot487.OptionalSchema<valibot486.NumberSchema<undefined>, undefined>;
+  readonly fields: valibot967.SchemaWithPipe<readonly [valibot965.ArraySchema<valibot964.SchemaWithPipe<readonly [valibot962.ObjectSchema<{
+    readonly field_id: valibot955.NumberSchema<undefined>;
+    readonly owner_user_id: valibot956.NumberSchema<undefined>;
+    readonly level: valibot957.NumberSchema<undefined>;
+    readonly mortgage: valibot961.OptionalSchema<valibot960.ObjectSchema<{
+      readonly round_until: valibot959.OptionalSchema<valibot958.NumberSchema<undefined>, undefined>;
     }, undefined>, undefined>;
-  }, undefined>, valibot491.TransformAction<{
+  }, undefined>, valibot963.TransformAction<{
     field_id: number;
     owner_user_id: number;
     level: number;
@@ -1516,7 +1919,7 @@ declare const valiM1DemoPacketStatusSchema: valibot571.ObjectSchema<{
     mortgage?: {
       round_until?: number | undefined;
     } | undefined;
-  }>]>, undefined>, valibot494.TransformAction<{
+  }>]>, undefined>, valibot966.TransformAction<{
     field_id: number;
     owner_user_id: number;
     level: number;
@@ -1532,27 +1935,27 @@ declare const valiM1DemoPacketStatusSchema: valibot571.ObjectSchema<{
     } | undefined;
   }>>]>;
   /** Information about current turn. */
-  readonly turn: valibot562.ObjectSchema<{
-    readonly user_id: valibot497.NullableSchema<valibot496.NumberSchema<undefined>, undefined>;
-    readonly action: valibot504.ObjectSchema<{
-      readonly user_id: valibot499.NullableSchema<valibot498.NumberSchema<undefined>, undefined>;
-      readonly list: valibot503.SchemaWithPipe<readonly [valibot501.ArraySchema<valibot500.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "purchase", "purchase.reject", "rent.pay", "roll-dices", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, valibot502.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
+  readonly turn: valibot1034.ObjectSchema<{
+    readonly user_id: valibot969.NullableSchema<valibot968.NumberSchema<undefined>, undefined>;
+    readonly action: valibot976.ObjectSchema<{
+      readonly user_id: valibot971.NullableSchema<valibot970.NumberSchema<undefined>, undefined>;
+      readonly list: valibot975.SchemaWithPipe<readonly [valibot973.ArraySchema<valibot972.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "purchase", "purchase.reject", "rent.pay", "roll-dices", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, valibot974.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "triple.move" | "wormhole.open" | "wormhole.reject" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
     }, undefined>;
-    readonly move_reversed: valibot508.SchemaWithPipe<readonly [valibot506.OptionalSchema<valibot505.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot507.TransformAction<0 | 1, boolean>]>;
-    readonly auction: valibot516.OptionalSchema<valibot515.ObjectSchema<{
-      readonly field_id: valibot509.NumberSchema<undefined>;
-      readonly bid: valibot510.NumberSchema<undefined>;
-      readonly user_ids_rejected: valibot514.SchemaWithPipe<readonly [valibot512.ArraySchema<valibot511.NumberSchema<undefined>, undefined>, valibot513.TransformAction<number[], Set<number>>]>;
+    readonly move_reversed: valibot980.SchemaWithPipe<readonly [valibot978.OptionalSchema<valibot977.PicklistSchema<[0, 1], undefined>, 0 | 1>, valibot979.TransformAction<0 | 1, boolean>]>;
+    readonly auction: valibot988.OptionalSchema<valibot987.ObjectSchema<{
+      readonly field_id: valibot981.NumberSchema<undefined>;
+      readonly bid: valibot982.NumberSchema<undefined>;
+      readonly user_ids_rejected: valibot986.SchemaWithPipe<readonly [valibot984.ArraySchema<valibot983.NumberSchema<undefined>, undefined>, valibot985.TransformAction<number[], Set<number>>]>;
     }, undefined>, undefined>;
-    readonly contract: valibot530.OptionalSchema<valibot529.SchemaWithPipe<readonly [valibot527.TupleSchema<[valibot521.ObjectSchema<{
-      readonly user_id: valibot517.NumberSchema<undefined>;
-      readonly field_ids: valibot519.ArraySchema<valibot518.NumberSchema<undefined>, undefined>;
-      readonly cash: valibot520.NumberSchema<undefined>;
-    }, undefined>, valibot526.ObjectSchema<{
-      readonly user_id: valibot522.NumberSchema<undefined>;
-      readonly field_ids: valibot524.ArraySchema<valibot523.NumberSchema<undefined>, undefined>;
-      readonly cash: valibot525.NumberSchema<undefined>;
-    }, undefined>], undefined>, valibot528.TransformAction<[{
+    readonly contract: valibot1002.OptionalSchema<valibot1001.SchemaWithPipe<readonly [valibot999.TupleSchema<[valibot993.ObjectSchema<{
+      readonly user_id: valibot989.NumberSchema<undefined>;
+      readonly field_ids: valibot991.ArraySchema<valibot990.NumberSchema<undefined>, undefined>;
+      readonly cash: valibot992.NumberSchema<undefined>;
+    }, undefined>, valibot998.ObjectSchema<{
+      readonly user_id: valibot994.NumberSchema<undefined>;
+      readonly field_ids: valibot996.ArraySchema<valibot995.NumberSchema<undefined>, undefined>;
+      readonly cash: valibot997.NumberSchema<undefined>;
+    }, undefined>], undefined>, valibot1000.TransformAction<[{
       user_id: number;
       field_ids: number[];
       cash: number;
@@ -1572,22 +1975,22 @@ declare const valiM1DemoPacketStatusSchema: valibot571.ObjectSchema<{
         cash: number;
       };
     }>]>, undefined>;
-    readonly contracts_sent: valibot532.OptionalSchema<valibot531.NumberSchema<undefined>, undefined>;
-    readonly jackpot: valibot535.OptionalSchema<valibot534.ObjectSchema<{
-      readonly superprize: valibot533.NumberSchema<undefined>;
+    readonly contracts_sent: valibot1004.OptionalSchema<valibot1003.NumberSchema<undefined>, undefined>;
+    readonly jackpot: valibot1007.OptionalSchema<valibot1006.ObjectSchema<{
+      readonly superprize: valibot1005.NumberSchema<undefined>;
     }, undefined>, undefined>;
-    readonly payment: valibot540.OptionalSchema<valibot539.ObjectSchema<{
-      readonly to_user_id: valibot537.OptionalSchema<valibot536.NumberSchema<undefined>, undefined>;
-      readonly amount: valibot538.NumberSchema<undefined>;
+    readonly payment: valibot1012.OptionalSchema<valibot1011.ObjectSchema<{
+      readonly to_user_id: valibot1009.OptionalSchema<valibot1008.NumberSchema<undefined>, undefined>;
+      readonly amount: valibot1010.NumberSchema<undefined>;
     }, undefined>, undefined>;
-    readonly field_ids_move: valibot551.OptionalSchema<valibot550.SchemaWithPipe<readonly [valibot548.ArraySchema<valibot547.ObjectSchema<{
-      readonly field_id: valibot541.NumberSchema<undefined>;
-      readonly data: valibot546.UnionSchema<[valibot543.ObjectSchema<{
-        readonly stop: valibot542.NumberSchema<undefined>;
-      }, undefined>, valibot545.ObjectSchema<{
-        readonly field_id: valibot544.NumberSchema<undefined>;
+    readonly field_ids_move: valibot1023.OptionalSchema<valibot1022.SchemaWithPipe<readonly [valibot1020.ArraySchema<valibot1019.ObjectSchema<{
+      readonly field_id: valibot1013.NumberSchema<undefined>;
+      readonly data: valibot1018.UnionSchema<[valibot1015.ObjectSchema<{
+        readonly stop: valibot1014.NumberSchema<undefined>;
+      }, undefined>, valibot1017.ObjectSchema<{
+        readonly field_id: valibot1016.NumberSchema<undefined>;
       }, undefined>], undefined>;
-    }, undefined>, undefined>, valibot549.TransformAction<{
+    }, undefined>, undefined>, valibot1021.TransformAction<{
       field_id: number;
       data: {
         stop: number;
@@ -1599,24 +2002,24 @@ declare const valiM1DemoPacketStatusSchema: valibot571.ObjectSchema<{
     } | {
       field_id: number;
     }>>]>, undefined>;
-    readonly field_ids_level_built: valibot556.OptionalSchema<valibot555.SchemaWithPipe<readonly [valibot553.ArraySchema<valibot552.NumberSchema<undefined>, undefined>, valibot554.TransformAction<number[], Set<number>>]>, undefined>;
-    readonly field_ids_mortgaged: valibot561.OptionalSchema<valibot560.SchemaWithPipe<readonly [valibot558.ArraySchema<valibot557.NumberSchema<undefined>, undefined>, valibot559.TransformAction<number[], Set<number>>]>, undefined>;
+    readonly field_ids_level_built: valibot1028.OptionalSchema<valibot1027.SchemaWithPipe<readonly [valibot1025.ArraySchema<valibot1024.NumberSchema<undefined>, undefined>, valibot1026.TransformAction<number[], Set<number>>]>, undefined>;
+    readonly field_ids_mortgaged: valibot1033.OptionalSchema<valibot1032.SchemaWithPipe<readonly [valibot1030.ArraySchema<valibot1029.NumberSchema<undefined>, undefined>, valibot1031.TransformAction<number[], Set<number>>]>, undefined>;
   }, undefined>;
   /**
    * Info about timer.
    *
    * If match set up with no timers, this object is not defined.
    */
-  readonly timer: valibot570.OptionalSchema<valibot569.UnionSchema<[valibot565.ObjectSchema<{
+  readonly timer: valibot1042.OptionalSchema<valibot1041.UnionSchema<[valibot1037.ObjectSchema<{
     /** Unix timestamp when timer for an action expires, in **milliseconds**. */
-    readonly ts_expires: valibot563.NumberSchema<undefined>;
+    readonly ts_expires: valibot1035.NumberSchema<undefined>;
     /** If timer is extra timer. */
-    readonly is_extra: valibot564.BooleanSchema<undefined>;
-  }, undefined>, valibot568.ObjectSchema<{
+    readonly is_extra: valibot1036.BooleanSchema<undefined>;
+  }, undefined>, valibot1040.ObjectSchema<{
     /** When match paused, time left in **milliseconds**. */
-    readonly expires_in: valibot566.NumberSchema<undefined>;
+    readonly expires_in: valibot1038.NumberSchema<undefined>;
     /** If timer is extra timer. */
-    readonly is_extra: valibot567.BooleanSchema<undefined>;
+    readonly is_extra: valibot1039.BooleanSchema<undefined>;
   }, undefined>], undefined>, undefined>;
 }, undefined>;
 type M1DemoPacketStatus = InferOutput<typeof valiM1DemoPacketStatusSchema>;
@@ -1655,16 +2058,16 @@ declare const packetv1_action_mapping: Record<M1DemoPacketStatusTurnActionListEl
 
 //#endregion
 //#region src/packet/time.d.ts
-declare const valiM1DemoPacketTimeSchema: valibot851.SchemaWithPipe<readonly [valibot849.ObjectSchema<{
+declare const valiM1DemoPacketTimeSchema: valibot880.SchemaWithPipe<readonly [valibot878.ObjectSchema<{
   /** Unix timestamp of the start of the game in **milliseconds**. */
-  readonly ts_start: valibot844.NumberSchema<undefined>;
+  readonly ts_start: valibot873.NumberSchema<undefined>;
   /** Unix timestamp of the packet in **milliseconds**. */
-  readonly ts_now: valibot845.NumberSchema<undefined>;
+  readonly ts_now: valibot874.NumberSchema<undefined>;
   /** Total length of all pauses in the game excluding one that is currently active in **milliseconds**. */
-  readonly inactive: valibot846.NumberSchema<undefined>;
+  readonly inactive: valibot875.NumberSchema<undefined>;
   /** Unix timestamp of the start of the current pause in **milliseconds**. */
-  readonly ts_inactive: valibot848.OptionalSchema<valibot847.NumberSchema<undefined>, undefined>;
-}, undefined>, valibot850.TransformAction<{
+  readonly ts_inactive: valibot877.OptionalSchema<valibot876.NumberSchema<undefined>, undefined>;
+}, undefined>, valibot879.TransformAction<{
   ts_start: number;
   ts_now: number;
   inactive: number;
@@ -13706,4 +14109,4 @@ type M1DemoPacketEvent = M1DemoPacket['events'][number];
 type ExtractM1DemoPacketEvent<T> = Extract<M1DemoPacketEvent, {
   type: T;
 }>; //#endregion
-export { ExtractM1DemoPacketEvent, M1DemoContract, M1DemoPacket, M1DemoPacketEvent, M1DemoPacketSetup, M1DemoPacketSetupConfigChanceCardType, M1DemoPacketSetupConfigField, M1DemoPacketSetupConfigMonopoly, M1DemoPacketSetupPlayerEquippedCard, M1DemoPacketStatus, M1DemoPacketStatusField, M1DemoPacketStatusPlayer, M1DemoPacketStatusTurn, M1DemoPacketTime, M1LiveDemo, packetv1_action_mapping };
+export { ExtractM1DemoPacketEvent, M1DemoContract, M1DemoPacket, M1DemoPacketEvent, M1DemoPacketSetup, M1DemoPacketSetupConfig, M1DemoPacketSetupConfigChanceCardType, M1DemoPacketSetupConfigField, M1DemoPacketSetupConfigMonopoly, M1DemoPacketSetupPlayerEquippedCard, M1DemoPacketStatus, M1DemoPacketStatusField, M1DemoPacketStatusPlayer, M1DemoPacketStatusTurn, M1DemoPacketTime, M1LiveDemo, packetv1_action_mapping };
