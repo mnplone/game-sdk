@@ -138,3 +138,20 @@ export type ExtractM1DemoPacketEvent<T> = Extract<
 	M1DemoPacketEvent,
 	{ type: T }
 >;
+
+export type { M1DemoPacketSetupConfigChanceCardType } from './packet/setup/config/chance.js';
+export type { M1DemoPacketSetupConfigField } from './packet/setup/config/fields.js';
+export type { M1DemoPacketSetupConfigMonopoly } from './packet/setup/config/monopolies.js';
+export type { M1DemoPacketSetupPlayerEquippedCard } from './packet/setup/player.js';
+export type { M1DemoPacketSetup } from './packet/setup.js';
+export type { M1DemoPacketStatusField } from './packet/status/fields.js';
+export type { M1DemoPacketStatusPlayer } from './packet/status/player.js';
+export type {
+	M1DemoContract,
+	M1DemoPacketStatusTurn,
+} from './packet/status/turn.js';
+export {
+	type M1DemoPacketStatus,
+	packetv1_action_mapping,
+} from './packet/status.js';
+export type { M1DemoPacketTime } from './packet/time.js';

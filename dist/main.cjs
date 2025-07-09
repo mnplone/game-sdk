@@ -3214,3 +3214,4 @@ var M1LiveDemo = class {
 
 //#endregion
 exports.M1LiveDemo = M1LiveDemo
+exports.packetv1_action_mapping = packetv1_action_mapping

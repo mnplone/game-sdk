@@ -3194,4 +3194,4 @@ var M1LiveDemo = class {
 };
 
 //#endregion
-export { M1LiveDemo };
+export { M1LiveDemo, packetv1_action_mapping };
