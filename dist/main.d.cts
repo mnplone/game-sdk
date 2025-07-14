@@ -4066,7 +4066,8 @@ declare class M1LiveDemo {
       id: string;
       type: "bus.select";
       user_id: number;
-      field_ids_move: Set<number>;
+      move_distances: Set<number>;
+      field_ids_move: Set<unknown>;
       status: {
         before: {
           round: number;

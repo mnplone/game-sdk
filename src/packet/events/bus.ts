@@ -8,9 +8,14 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('bus.select'),
 		user_id: v.number(),
-		field_ids_move: v.pipe(
+		move_distances: v.pipe(
 			v.array(v.number()),
 			v.transform((value) => new Set(value)),
+		),
+		// This field never returned from the server, it should be computed in SDK.
+		field_ids_move: v.pipe(
+			v.undefined(),
+			v.transform(() => new Set()),
 		),
 	}),
 	v.object({
@@ -29,8 +34,7 @@ export const valiSchemas = [
 export const enrichments = {
 	'bus.select'(options: EventEnrichOptions<'bus.select'>) {
 		// for packet v1
-		if (options.event.field_ids_move.size === 0) {
-			const player = options.status.players.get(options.event.user_id)!;
+		if (options.event.move_distances.size === 0) {
 			const event_roll_dices = options.events_before.find(
 				(event) => event.type === 'roll-dices',
 			);
@@ -39,18 +43,21 @@ export const enrichments = {
 				throw new Error('No "roll-dices" event found before "bus.select".');
 			}
 
-			const direction = options.status.turn.move_reversed ? -1 : 1;
-
-			options.event.field_ids_move = new Set(
-				[
-					event_roll_dices.dices[0],
-					event_roll_dices.dices[1]!,
-					event_roll_dices.dices[0] + event_roll_dices.dices[1]!,
-				].map((value) =>
-					normalizeFieldId(options.setup, player.position + direction * value),
-				),
-			);
+			options.event.move_distances = new Set([
+				event_roll_dices.dices[0],
+				event_roll_dices.dices[1]!,
+				event_roll_dices.dices[0] + event_roll_dices.dices[1]!,
+			]);
 		}
+
+		const player = options.status.players.get(options.event.user_id)!;
+		const direction = options.status.turn.move_reversed ? -1 : 1;
+
+		options.event.field_ids_move = new Set(
+			[...options.event.move_distances].map((value) =>
+				normalizeFieldId(options.setup, player.position + direction * value),
+			),
+		);
 	},
 	'bus.move'(options: EventEnrichOptions<'bus.move'>) {
 		const player = options.status.players.get(options.event.user_id)!;
@@ -70,6 +77,7 @@ export const valiV1Schemas = [
 				id: value._id,
 				type: 'bus.select' as const,
 				user_id: value.user_id,
+				move_distances: new Set<number>(),
 				field_ids_move: new Set<number>(),
 			};
 		}),

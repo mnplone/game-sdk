@@ -340,7 +340,8 @@ const valiSchemas$17 = [v$30.object({
 	id: v$30.string(),
 	type: v$30.literal("bus.select"),
 	user_id: v$30.number(),
-	field_ids_move: v$30.pipe(v$30.array(v$30.number()), v$30.transform((value) => new Set(value)))
+	move_distances: v$30.pipe(v$30.array(v$30.number()), v$30.transform((value) => new Set(value))),
+	field_ids_move: v$30.pipe(v$30.undefined(), v$30.transform(() => new Set()))
 }), v$30.object({
 	id: v$30.string(),
 	type: v$30.literal("bus.move"),
@@ -358,17 +359,18 @@ const valiSchemas$17 = [v$30.object({
 })];
 const enrichments$16 = {
 	"bus.select"(options) {
-		if (options.event.field_ids_move.size === 0) {
-			const player = options.status.players.get(options.event.user_id);
+		if (options.event.move_distances.size === 0) {
 			const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
 			if (!event_roll_dices) throw new Error("No \"roll-dices\" event found before \"bus.select\".");
-			const direction = options.status.turn.move_reversed ? -1 : 1;
-			options.event.field_ids_move = new Set([
+			options.event.move_distances = new Set([
 				event_roll_dices.dices[0],
 				event_roll_dices.dices[1],
 				event_roll_dices.dices[0] + event_roll_dices.dices[1]
-			].map((value) => normalizeFieldId(options.setup, player.position + direction * value)));
+			]);
 		}
+		const player = options.status.players.get(options.event.user_id);
+		const direction = options.status.turn.move_reversed ? -1 : 1;
+		options.event.field_ids_move = new Set([...options.event.move_distances].map((value) => normalizeFieldId(options.setup, player.position + direction * value)));
 	},
 	"bus.move"(options) {
 		const player = options.status.players.get(options.event.user_id);
@@ -384,6 +386,7 @@ const valiV1Schemas$17 = [v$30.pipe(v$30.object({
 		id: value._id,
 		type: "bus.select",
 		user_id: value.user_id,
+		move_distances: new Set(),
 		field_ids_move: new Set()
 	};
 })), v$30.pipe(v$30.object({
