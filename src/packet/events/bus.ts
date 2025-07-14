@@ -15,7 +15,7 @@ export const valiSchemas = [
 		// This field never returned from the server, it should be computed in SDK.
 		field_ids_move: v.pipe(
 			v.undefined(),
-			v.transform(() => new Set()),
+			v.transform(() => new Set<number>()),
 		),
 	}),
 	v.object({
