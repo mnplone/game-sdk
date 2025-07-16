@@ -1165,12 +1165,27 @@ const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
 		thing_id: v$23.number(),
 		coeff_rent: v$23.number()
 	}))),
-	generator: v$23.optional(v$23.object({
+	generator: v$23.optional(v$23.pipe(v$23.object({
 		generator_id: v$23.number(),
 		variant_id: v$23.optional(v$23.number()),
 		seed: v$23.optional(v$23.string())
-	})),
-	joke: v$23.optional(v$23.number()),
+	}), v$23.transform((value) => {
+		if (value.generator_id === -100) return void 0;
+		return {
+			item_proto_id: value.generator_id,
+			variant_id: value.variant_id,
+			seed: value.seed
+		};
+	}))),
+	joke: v$23.optional(v$23.pipe(v$23.union([
+		v$23.literal(false),
+		v$23.number(),
+		v$23.object({ proto_id: v$23.number() })
+	]), v$23.transform((value) => {
+		if (value === false) return void 0;
+		if (typeof value === "number") return { item_proto_id: value };
+		return { item_proto_id: value.proto_id };
+	}))),
 	can_use_credit: v$23.optional(v$23.boolean(), false),
 	status: v$23.number(),
 	position: v$23.number(),
@@ -1199,12 +1214,8 @@ const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
 						rent_multiplier: card_equipped.coeff_rent
 					}];
 				})),
-				generator: value.generator && value.generator.generator_id !== -100 ? {
-					item_proto_id: value.generator.generator_id,
-					variant_id: value.generator.variant_id,
-					seed: value.generator.seed
-				} : void 0,
-				joke: value.joke ? { item_proto_id: value.joke } : void 0
+				generator: value.generator,
+				joke: value.joke
 			}
 		} : void 0,
 		_status: {

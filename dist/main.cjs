@@ -1152,12 +1152,27 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 		thing_id: valibot.number(),
 		coeff_rent: valibot.number()
 	}))),
-	generator: valibot.optional(valibot.object({
+	generator: valibot.optional(valibot.pipe(valibot.object({
 		generator_id: valibot.number(),
 		variant_id: valibot.optional(valibot.number()),
 		seed: valibot.optional(valibot.string())
-	})),
-	joke: valibot.optional(valibot.number()),
+	}), valibot.transform((value) => {
+		if (value.generator_id === -100) return void 0;
+		return {
+			item_proto_id: value.generator_id,
+			variant_id: value.variant_id,
+			seed: value.seed
+		};
+	}))),
+	joke: valibot.optional(valibot.pipe(valibot.union([
+		valibot.literal(false),
+		valibot.number(),
+		valibot.object({ proto_id: valibot.number() })
+	]), valibot.transform((value) => {
+		if (value === false) return void 0;
+		if (typeof value === "number") return { item_proto_id: value };
+		return { item_proto_id: value.proto_id };
+	}))),
 	can_use_credit: valibot.optional(valibot.boolean(), false),
 	status: valibot.number(),
 	position: valibot.number(),
@@ -1186,12 +1201,8 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 						rent_multiplier: card_equipped.coeff_rent
 					}];
 				})),
-				generator: value.generator && value.generator.generator_id !== -100 ? {
-					item_proto_id: value.generator.generator_id,
-					variant_id: value.generator.variant_id,
-					seed: value.generator.seed
-				} : void 0,
-				joke: value.joke ? { item_proto_id: value.joke } : void 0
+				generator: value.generator,
+				joke: value.joke
 			}
 		} : void 0,
 		_status: {

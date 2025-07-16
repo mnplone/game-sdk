@@ -83,13 +83,49 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 				),
 			),
 			generator: v.optional(
-				v.object({
-					generator_id: v.number(),
-					variant_id: v.optional(v.number()),
-					seed: v.optional(v.string()),
-				}),
+				v.pipe(
+					v.object({
+						generator_id: v.number(),
+						variant_id: v.optional(v.number()),
+						seed: v.optional(v.string()),
+					}),
+					v.transform((value) => {
+						if (value.generator_id === -100) {
+							return undefined;
+						}
+
+						return {
+							item_proto_id: value.generator_id,
+							variant_id: value.variant_id,
+							seed: value.seed,
+						};
+					}),
+				),
 			),
-			joke: v.optional(v.number()),
+			joke: v.optional(
+				v.pipe(
+					v.union([
+						v.literal(false),
+						v.number(),
+						v.object({
+							proto_id: v.number(),
+						}),
+					]),
+					v.transform((value) => {
+						if (value === false) {
+							return undefined;
+						}
+
+						if (typeof value === 'number') {
+							return { item_proto_id: value };
+						}
+
+						return {
+							item_proto_id: value.proto_id,
+						};
+					}),
+				),
+			),
 			can_use_credit: v.optional(v.boolean(), false),
 			// status
 			status: v.number(),
@@ -140,19 +176,8 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 										},
 									),
 								),
-								generator:
-									value.generator && value.generator.generator_id !== -100
-										? {
-												item_proto_id: value.generator.generator_id,
-												variant_id: value.generator.variant_id,
-												seed: value.generator.seed,
-											}
-										: undefined,
-								joke: value.joke
-									? {
-											item_proto_id: value.joke,
-										}
-									: undefined,
+								generator: value.generator,
+								joke: value.joke,
 							},
 						}
 					: undefined,
