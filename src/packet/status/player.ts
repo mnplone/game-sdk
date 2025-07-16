@@ -82,6 +82,14 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 					}),
 				),
 			),
+			generator: v.optional(
+				v.object({
+					generator_id: v.number(),
+					variant_id: v.optional(v.number()),
+					seed: v.optional(v.string()),
+				}),
+			),
+			joke: v.optional(v.number()),
 			can_use_credit: v.optional(v.boolean(), false),
 			// status
 			status: v.number(),
@@ -132,6 +140,19 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 										},
 									),
 								),
+								generator:
+									value.generator && value.generator.generator_id !== -100
+										? {
+												item_proto_id: value.generator.generator_id,
+												variant_id: value.generator.variant_id,
+												seed: value.generator.seed,
+											}
+										: undefined,
+								joke: value.joke
+									? {
+											item_proto_id: value.joke,
+										}
+									: undefined,
 							},
 						}
 					: undefined,

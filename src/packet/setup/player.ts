@@ -23,6 +23,18 @@ export const valiM1DemoPacketSetupPlayerSchema = v.pipe(
 					(value) => new Map(value.map((card) => [card.field_id, card])),
 				),
 			),
+			generator: v.optional(
+				v.object({
+					item_proto_id: v.number(),
+					variant_id: v.optional(v.number()),
+					seed: v.optional(v.string()),
+				}),
+			),
+			joke: v.optional(
+				v.object({
+					item_proto_id: v.number(),
+				}),
+			),
 		}),
 	}),
 	v.transform((value) => {

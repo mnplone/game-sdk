@@ -1054,6 +1054,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(
 		WORMHOLE_EXTRA_DESTINATION_COST: valibot.optional(valibot.number())
 	}),
 	// transforming config in-place because it is a whole product
+	// eslint-disable-next-line max-lines-per-function
 	valibot.transform((value) => {
 		return {
 			version: value.version,
@@ -1151,6 +1152,12 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 		thing_id: valibot.number(),
 		coeff_rent: valibot.number()
 	}))),
+	generator: valibot.optional(valibot.object({
+		generator_id: valibot.number(),
+		variant_id: valibot.optional(valibot.number()),
+		seed: valibot.optional(valibot.string())
+	})),
+	joke: valibot.optional(valibot.number()),
 	can_use_credit: valibot.optional(valibot.boolean(), false),
 	status: valibot.number(),
 	position: valibot.number(),
@@ -1169,15 +1176,23 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 			index: -1,
 			is_vip: value.vip,
 			is_loan_available: value.can_use_credit,
-			equipment: { cards: new Map(Object.entries(value.cards_equipped).map(([field_id_string, card_equipped]) => {
-				const field_id = Number.parseInt(field_id_string);
-				return [field_id, {
-					field_id,
-					item_proto_id: 0,
-					item_id: card_equipped.thing_id,
-					rent_multiplier: card_equipped.coeff_rent
-				}];
-			})) }
+			equipment: {
+				cards: new Map(Object.entries(value.cards_equipped).map(([field_id_string, card_equipped]) => {
+					const field_id = Number.parseInt(field_id_string);
+					return [field_id, {
+						field_id,
+						item_proto_id: 0,
+						item_id: card_equipped.thing_id,
+						rent_multiplier: card_equipped.coeff_rent
+					}];
+				})),
+				generator: value.generator && value.generator.generator_id !== -100 ? {
+					item_proto_id: value.generator.generator_id,
+					variant_id: value.generator.variant_id,
+					seed: value.generator.seed
+				} : void 0,
+				joke: value.joke ? { item_proto_id: value.joke } : void 0
+			}
 		} : void 0,
 		_status: {
 			status: value.status,
@@ -3008,12 +3023,20 @@ const valiM1DemoPacketSetupPlayerSchema = valibot.pipe(valibot.object({
 	user_id: valibot.number(),
 	is_vip: bit(false),
 	is_loan_available: bit(false),
-	equipment: valibot.object({ cards: valibot.pipe(valibot.array(valibot.object({
-		field_id: valibot.number(),
-		item_proto_id: valibot.number(),
-		item_id: valibot.optional(valibot.number()),
-		rent_multiplier: valibot.number()
-	})), valibot.transform((value) => new Map(value.map((card) => [card.field_id, card])))) })
+	equipment: valibot.object({
+		cards: valibot.pipe(valibot.array(valibot.object({
+			field_id: valibot.number(),
+			item_proto_id: valibot.number(),
+			item_id: valibot.optional(valibot.number()),
+			rent_multiplier: valibot.number()
+		})), valibot.transform((value) => new Map(value.map((card) => [card.field_id, card])))),
+		generator: valibot.optional(valibot.object({
+			item_proto_id: valibot.number(),
+			variant_id: valibot.optional(valibot.number()),
+			seed: valibot.optional(valibot.string())
+		})),
+		joke: valibot.optional(valibot.object({ item_proto_id: valibot.number() }))
+	})
 }), valibot.transform((value) => {
 	return {
 		...value,

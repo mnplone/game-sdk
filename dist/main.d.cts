@@ -403,6 +403,14 @@ declare const valiM1DemoPacketSetupPlayerSchema: v$6.SchemaWithPipe<readonly [v$
       item_id?: number | undefined;
       rent_multiplier: number;
     }>>]>;
+    readonly generator: v$6.OptionalSchema<v$6.ObjectSchema<{
+      readonly item_proto_id: v$6.NumberSchema<undefined>;
+      readonly variant_id: v$6.OptionalSchema<v$6.NumberSchema<undefined>, undefined>;
+      readonly seed: v$6.OptionalSchema<v$6.StringSchema<undefined>, undefined>;
+    }, undefined>, undefined>;
+    readonly joke: v$6.OptionalSchema<v$6.ObjectSchema<{
+      readonly item_proto_id: v$6.NumberSchema<undefined>;
+    }, undefined>, undefined>;
   }, undefined>;
 }, undefined>, v$6.TransformAction<{
   user_id: number;
@@ -415,6 +423,14 @@ declare const valiM1DemoPacketSetupPlayerSchema: v$6.SchemaWithPipe<readonly [v$
       item_id?: number | undefined;
       rent_multiplier: number;
     }>;
+    generator?: {
+      item_proto_id: number;
+      variant_id?: number | undefined;
+      seed?: string | undefined;
+    } | undefined;
+    joke?: {
+      item_proto_id: number;
+    } | undefined;
   };
 }, {
   index: number;
@@ -428,6 +444,14 @@ declare const valiM1DemoPacketSetupPlayerSchema: v$6.SchemaWithPipe<readonly [v$
       item_id?: number | undefined;
       rent_multiplier: number;
     }>;
+    generator?: {
+      item_proto_id: number;
+      variant_id?: number | undefined;
+      seed?: string | undefined;
+    } | undefined;
+    joke?: {
+      item_proto_id: number;
+    } | undefined;
   };
 }>]>;
 type M1DemoPacketSetupPlayer = v$6.InferOutput<typeof valiM1DemoPacketSetupPlayerSchema>;
@@ -664,6 +688,14 @@ declare const valiM1DemoPacketSetupSchema: v$5.ObjectSchema<{
         item_id?: number | undefined;
         rent_multiplier: number;
       }>>]>;
+      readonly generator: v$5.OptionalSchema<v$5.ObjectSchema<{
+        readonly item_proto_id: v$5.NumberSchema<undefined>;
+        readonly variant_id: v$5.OptionalSchema<v$5.NumberSchema<undefined>, undefined>;
+        readonly seed: v$5.OptionalSchema<v$5.StringSchema<undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly joke: v$5.OptionalSchema<v$5.ObjectSchema<{
+        readonly item_proto_id: v$5.NumberSchema<undefined>;
+      }, undefined>, undefined>;
     }, undefined>;
   }, undefined>, v$5.TransformAction<{
     user_id: number;
@@ -676,6 +708,14 @@ declare const valiM1DemoPacketSetupSchema: v$5.ObjectSchema<{
         item_id?: number | undefined;
         rent_multiplier: number;
       }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
     };
   }, {
     index: number;
@@ -689,6 +729,14 @@ declare const valiM1DemoPacketSetupSchema: v$5.ObjectSchema<{
         item_id?: number | undefined;
         rent_multiplier: number;
       }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
     };
   }>]>, undefined>, v$5.TransformAction<{
     index: number;
@@ -702,6 +750,14 @@ declare const valiM1DemoPacketSetupSchema: v$5.ObjectSchema<{
         item_id?: number | undefined;
         rent_multiplier: number;
       }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
     };
   }[], Map<number, {
     index: number;
@@ -715,6 +771,14 @@ declare const valiM1DemoPacketSetupSchema: v$5.ObjectSchema<{
         item_id?: number | undefined;
         rent_multiplier: number;
       }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
     };
   }>>]>;
 }, undefined>;
@@ -1502,6 +1566,14 @@ declare class M1LiveDemo {
             item_id?: number | undefined;
             rent_multiplier: number;
           }>;
+          generator?: {
+            item_proto_id: number;
+            variant_id?: number | undefined;
+            seed?: string | undefined;
+          } | undefined;
+          joke?: {
+            item_proto_id: number;
+          } | undefined;
         };
       }>;
     } | undefined;

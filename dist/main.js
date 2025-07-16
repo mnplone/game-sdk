@@ -1067,6 +1067,7 @@ const valiM1DemoPacketV1ConfigSchema = v$24.pipe(
 		WORMHOLE_EXTRA_DESTINATION_COST: v$24.optional(v$24.number())
 	}),
 	// transforming config in-place because it is a whole product
+	// eslint-disable-next-line max-lines-per-function
 	v$24.transform((value) => {
 		return {
 			version: value.version,
@@ -1164,6 +1165,12 @@ const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
 		thing_id: v$23.number(),
 		coeff_rent: v$23.number()
 	}))),
+	generator: v$23.optional(v$23.object({
+		generator_id: v$23.number(),
+		variant_id: v$23.optional(v$23.number()),
+		seed: v$23.optional(v$23.string())
+	})),
+	joke: v$23.optional(v$23.number()),
 	can_use_credit: v$23.optional(v$23.boolean(), false),
 	status: v$23.number(),
 	position: v$23.number(),
@@ -1182,15 +1189,23 @@ const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
 			index: -1,
 			is_vip: value.vip,
 			is_loan_available: value.can_use_credit,
-			equipment: { cards: new Map(Object.entries(value.cards_equipped).map(([field_id_string, card_equipped]) => {
-				const field_id = Number.parseInt(field_id_string);
-				return [field_id, {
-					field_id,
-					item_proto_id: 0,
-					item_id: card_equipped.thing_id,
-					rent_multiplier: card_equipped.coeff_rent
-				}];
-			})) }
+			equipment: {
+				cards: new Map(Object.entries(value.cards_equipped).map(([field_id_string, card_equipped]) => {
+					const field_id = Number.parseInt(field_id_string);
+					return [field_id, {
+						field_id,
+						item_proto_id: 0,
+						item_id: card_equipped.thing_id,
+						rent_multiplier: card_equipped.coeff_rent
+					}];
+				})),
+				generator: value.generator && value.generator.generator_id !== -100 ? {
+					item_proto_id: value.generator.generator_id,
+					variant_id: value.generator.variant_id,
+					seed: value.generator.seed
+				} : void 0,
+				joke: value.joke ? { item_proto_id: value.joke } : void 0
+			}
 		} : void 0,
 		_status: {
 			status: value.status,
@@ -3021,12 +3036,20 @@ const valiM1DemoPacketSetupPlayerSchema = v$3.pipe(v$3.object({
 	user_id: v$3.number(),
 	is_vip: bit(false),
 	is_loan_available: bit(false),
-	equipment: v$3.object({ cards: v$3.pipe(v$3.array(v$3.object({
-		field_id: v$3.number(),
-		item_proto_id: v$3.number(),
-		item_id: v$3.optional(v$3.number()),
-		rent_multiplier: v$3.number()
-	})), v$3.transform((value) => new Map(value.map((card) => [card.field_id, card])))) })
+	equipment: v$3.object({
+		cards: v$3.pipe(v$3.array(v$3.object({
+			field_id: v$3.number(),
+			item_proto_id: v$3.number(),
+			item_id: v$3.optional(v$3.number()),
+			rent_multiplier: v$3.number()
+		})), v$3.transform((value) => new Map(value.map((card) => [card.field_id, card])))),
+		generator: v$3.optional(v$3.object({
+			item_proto_id: v$3.number(),
+			variant_id: v$3.optional(v$3.number()),
+			seed: v$3.optional(v$3.string())
+		})),
+		joke: v$3.optional(v$3.object({ item_proto_id: v$3.number() }))
+	})
 }), v$3.transform((value) => {
 	return {
 		...value,
