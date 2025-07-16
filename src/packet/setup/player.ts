@@ -51,3 +51,11 @@ export type M1DemoPacketSetupPlayer = v.InferOutput<
 export type M1DemoPacketSetupPlayerEquippedCard = MapElement<
 	M1DemoPacketSetupPlayer['equipment']['cards']
 >;
+export type M1DemoPacketSetupPlayerEquippedGenerator = Exclude<
+	M1DemoPacketSetupPlayer['equipment']['generator'],
+	undefined
+>;
+export type M1DemoPacketSetupPlayerEquippedJoke = Exclude<
+	M1DemoPacketSetupPlayer['equipment']['joke'],
+	undefined
+>;

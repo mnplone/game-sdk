@@ -143,7 +143,11 @@ export type { M1DemoPacketSetupConfigChanceCardType } from './packet/setup/confi
 export type { M1DemoPacketSetupConfigField } from './packet/setup/config/fields.js';
 export type { M1DemoPacketSetupConfigMonopoly } from './packet/setup/config/monopolies.js';
 export type { M1DemoPacketSetupConfig } from './packet/setup/config.js';
-export type { M1DemoPacketSetupPlayerEquippedCard } from './packet/setup/player.js';
+export type {
+	M1DemoPacketSetupPlayerEquippedCard,
+	M1DemoPacketSetupPlayerEquippedGenerator,
+	M1DemoPacketSetupPlayerEquippedJoke,
+} from './packet/setup/player.js';
 export type { M1DemoPacketSetup } from './packet/setup.js';
 export type { M1DemoPacketStatusField } from './packet/status/fields.js';
 export type { M1DemoPacketStatusPlayer } from './packet/status/player.js';

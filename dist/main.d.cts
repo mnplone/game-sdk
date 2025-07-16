@@ -456,6 +456,8 @@ declare const valiM1DemoPacketSetupPlayerSchema: v$6.SchemaWithPipe<readonly [v$
 }>]>;
 type M1DemoPacketSetupPlayer = v$6.InferOutput<typeof valiM1DemoPacketSetupPlayerSchema>;
 type M1DemoPacketSetupPlayerEquippedCard = MapElement<M1DemoPacketSetupPlayer['equipment']['cards']>;
+type M1DemoPacketSetupPlayerEquippedGenerator = Exclude<M1DemoPacketSetupPlayer['equipment']['generator'], undefined>;
+type M1DemoPacketSetupPlayerEquippedJoke = Exclude<M1DemoPacketSetupPlayer['equipment']['joke'], undefined>;
 
 //#endregion
 //#region src/packet/setup.d.ts
@@ -13426,4 +13428,4 @@ type M1DemoPacketEvent = M1DemoPacket['events'][number];
 type ExtractM1DemoPacketEvent<T> = Extract<M1DemoPacketEvent, {
   type: T;
 }>; //#endregion
-export { ExtractM1DemoPacketEvent, M1DemoContract, M1DemoPacket, M1DemoPacketEvent, M1DemoPacketSetup, M1DemoPacketSetupConfig, M1DemoPacketSetupConfigChanceCardType, M1DemoPacketSetupConfigField, M1DemoPacketSetupConfigMonopoly, M1DemoPacketSetupPlayerEquippedCard, M1DemoPacketStatus, M1DemoPacketStatusField, M1DemoPacketStatusPlayer, M1DemoPacketStatusTurn, M1DemoPacketTime, M1LiveDemo, packetv1_action_mapping };
+export { ExtractM1DemoPacketEvent, M1DemoContract, M1DemoPacket, M1DemoPacketEvent, M1DemoPacketSetup, M1DemoPacketSetupConfig, M1DemoPacketSetupConfigChanceCardType, M1DemoPacketSetupConfigField, M1DemoPacketSetupConfigMonopoly, M1DemoPacketSetupPlayerEquippedCard, M1DemoPacketSetupPlayerEquippedGenerator, M1DemoPacketSetupPlayerEquippedJoke, M1DemoPacketStatus, M1DemoPacketStatusField, M1DemoPacketStatusPlayer, M1DemoPacketStatusTurn, M1DemoPacketTime, M1LiveDemo, packetv1_action_mapping };
