@@ -23,6 +23,24 @@ export const valiSchemas = [
 		user_id: v.number(),
 		timeout: bit(false),
 	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.review.init'),
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.review.approve'),
+		user_id: v.number(),
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.review.object'),
+		user_id: v.number(),
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.review.pass'),
+	}),
 ];
 
 export const enrichments = {
@@ -90,6 +108,58 @@ export const valiV1Schemas = [
 				type: 'contract.reject' as const,
 				user_id: value.user_id,
 				timeout: value.by_timeout,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_protest_start'),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'contract.review.init' as const,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_protest_refused'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'contract.review.approve' as const,
+				user_id: value.user_id,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_protest_commited'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'contract.review.object' as const,
+				user_id: value.user_id,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_protest_refused_all'),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'contract.review.pass' as const,
 			};
 		}),
 	),

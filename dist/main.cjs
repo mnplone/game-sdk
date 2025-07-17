@@ -439,6 +439,9 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"contract.send",
 			"contract.accept",
 			"contract.reject",
+			"contract.review.approve",
+			"contract.review.object",
+			"contract.fallback",
 			"jackpot.reject",
 			"jackpot.play",
 			"jail.release.pay",
@@ -1248,6 +1251,8 @@ const action_list_mapping = {
 	contract: "contract.send",
 	contract_accept: "contract.accept",
 	contract_decline: "contract.reject",
+	contractProtestRefuse: "contract.review.approve",
+	contractProtestCommit: "contract.review.object",
 	jackpotDecline: "jackpot.reject",
 	jackpotPlay: "jackpot.play",
 	payForUnjail: "jail.release.pay",
@@ -1428,6 +1433,24 @@ const valiSchemas$16 = [
 		type: valibot.literal("contract.reject"),
 		user_id: valibot.number(),
 		timeout: bit(false)
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("contract.review.init")
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("contract.review.approve"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("contract.review.object"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("contract.review.pass")
 	})
 ];
 const enrichments$15 = {};
@@ -1478,6 +1501,46 @@ const valiV1Schemas$16 = [
 			type: "contract.reject",
 			user_id: value.user_id,
 			timeout: value.by_timeout
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("contract_protest_start")
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.init"
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("contract_protest_refused"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.approve",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("contract_protest_commited"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.object",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("contract_protest_refused_all")
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.pass"
 		};
 	}))
 ];

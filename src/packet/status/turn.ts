@@ -53,9 +53,9 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					'contract.send',
 					'contract.accept',
 					'contract.reject',
-					// 'contract.review.approve',
-					// 'contract.review.object',
-					// ??? 'contract.fallback',
+					'contract.review.approve',
+					'contract.review.object',
+					'contract.fallback',
 					// Jackpot
 					'jackpot.reject',
 					'jackpot.play',

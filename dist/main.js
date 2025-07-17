@@ -452,6 +452,9 @@ const valiM1DemoPacketStatusTurnSchema = v$29.object({
 			"contract.send",
 			"contract.accept",
 			"contract.reject",
+			"contract.review.approve",
+			"contract.review.object",
+			"contract.fallback",
 			"jackpot.reject",
 			"jackpot.play",
 			"jail.release.pay",
@@ -1261,6 +1264,8 @@ const action_list_mapping = {
 	contract: "contract.send",
 	contract_accept: "contract.accept",
 	contract_decline: "contract.reject",
+	contractProtestRefuse: "contract.review.approve",
+	contractProtestCommit: "contract.review.object",
 	jackpotDecline: "jackpot.reject",
 	jackpotPlay: "jackpot.play",
 	payForUnjail: "jail.release.pay",
@@ -1441,6 +1446,24 @@ const valiSchemas$16 = [
 		type: v$21.literal("contract.reject"),
 		user_id: v$21.number(),
 		timeout: bit(false)
+	}),
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.review.init")
+	}),
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.review.approve"),
+		user_id: v$21.number()
+	}),
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.review.object"),
+		user_id: v$21.number()
+	}),
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.review.pass")
 	})
 ];
 const enrichments$15 = {};
@@ -1491,6 +1514,46 @@ const valiV1Schemas$16 = [
 			type: "contract.reject",
 			user_id: value.user_id,
 			timeout: value.by_timeout
+		};
+	})),
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_protest_start")
+	}), v$21.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.init"
+		};
+	})),
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_protest_refused"),
+		user_id: v$21.number()
+	}), v$21.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.approve",
+			user_id: value.user_id
+		};
+	})),
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_protest_commited"),
+		user_id: v$21.number()
+	}), v$21.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.object",
+			user_id: value.user_id
+		};
+	})),
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_protest_refused_all")
+	}), v$21.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.review.pass"
 		};
 	}))
 ];

@@ -71,8 +71,8 @@ const action_list_mapping = {
 	contract: 'contract.send',
 	contract_accept: 'contract.accept',
 	contract_decline: 'contract.reject',
-	// 'contract.review.approve',
-	// 'contract.review.object',
+	contractProtestRefuse: 'contract.review.approve',
+	contractProtestCommit: 'contract.review.object',
 	// Jackpot
 	jackpotDecline: 'jackpot.reject',
 	jackpotPlay: 'jackpot.play',
