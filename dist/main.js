@@ -2578,9 +2578,9 @@ const valiSchemas$5 = [
 		type: v$10.literal("roll-dices"),
 		user_id: v$10.number(),
 		dices: v$10.union([
-			v$10.tuple([v$10.number()]),
-			v$10.tuple([v$10.number(), v$10.number()]),
-			v$10.tuple([
+			v$10.strictTuple([v$10.number()]),
+			v$10.strictTuple([v$10.number(), v$10.number()]),
+			v$10.strictTuple([
 				v$10.number(),
 				v$10.number(),
 				v$10.number()
@@ -2622,9 +2622,9 @@ const valiV1Schemas$5 = [
 		type: v$10.literal("rollDices"),
 		user_id: v$10.number(),
 		dices: v$10.union([
-			v$10.tuple([v$10.number()]),
-			v$10.tuple([v$10.number(), v$10.number()]),
-			v$10.tuple([
+			v$10.strictTuple([v$10.number()]),
+			v$10.strictTuple([v$10.number(), v$10.number()]),
+			v$10.strictTuple([
 				v$10.number(),
 				v$10.number(),
 				v$10.number()

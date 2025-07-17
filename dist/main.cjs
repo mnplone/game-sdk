@@ -2565,9 +2565,9 @@ const valiSchemas$5 = [
 		type: valibot.literal("roll-dices"),
 		user_id: valibot.number(),
 		dices: valibot.union([
-			valibot.tuple([valibot.number()]),
-			valibot.tuple([valibot.number(), valibot.number()]),
-			valibot.tuple([
+			valibot.strictTuple([valibot.number()]),
+			valibot.strictTuple([valibot.number(), valibot.number()]),
+			valibot.strictTuple([
 				valibot.number(),
 				valibot.number(),
 				valibot.number()
@@ -2609,9 +2609,9 @@ const valiV1Schemas$5 = [
 		type: valibot.literal("rollDices"),
 		user_id: valibot.number(),
 		dices: valibot.union([
-			valibot.tuple([valibot.number()]),
-			valibot.tuple([valibot.number(), valibot.number()]),
-			valibot.tuple([
+			valibot.strictTuple([valibot.number()]),
+			valibot.strictTuple([valibot.number(), valibot.number()]),
+			valibot.strictTuple([
 				valibot.number(),
 				valibot.number(),
 				valibot.number()
