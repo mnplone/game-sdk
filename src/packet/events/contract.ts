@@ -41,6 +41,10 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('contract.review.pass'),
 	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('contract.fallback'),
+	}),
 ];
 
 export const enrichments = {
@@ -160,6 +164,18 @@ export const valiV1Schemas = [
 			return {
 				id: value._id,
 				type: 'contract.review.pass' as const,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('contract_fallback'),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'contract.fallback' as const,
 			};
 		}),
 	),
