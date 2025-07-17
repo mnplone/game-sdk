@@ -1465,6 +1465,10 @@ const valiSchemas$16 = [
 	v$21.object({
 		id: v$21.string(),
 		type: v$21.literal("contract.review.pass")
+	}),
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("contract.revert")
 	})
 ];
 const enrichments$15 = {};
@@ -1555,6 +1559,15 @@ const valiV1Schemas$16 = [
 		return {
 			id: value._id,
 			type: "contract.review.pass"
+		};
+	})),
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("contract_fallback")
+	}), v$21.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.revert"
 		};
 	}))
 ];

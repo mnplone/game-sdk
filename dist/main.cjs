@@ -1452,6 +1452,10 @@ const valiSchemas$16 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("contract.review.pass")
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("contract.revert")
 	})
 ];
 const enrichments$15 = {};
@@ -1542,6 +1546,15 @@ const valiV1Schemas$16 = [
 		return {
 			id: value._id,
 			type: "contract.review.pass"
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("contract_fallback")
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "contract.revert"
 		};
 	}))
 ];

@@ -43,7 +43,7 @@ export const valiSchemas = [
 	}),
 	v.object({
 		id: v.string(),
-		type: v.literal('contract.fallback'),
+		type: v.literal('contract.revert'),
 	}),
 ];
 
@@ -175,7 +175,7 @@ export const valiV1Schemas = [
 		v.transform((value) => {
 			return {
 				id: value._id,
-				type: 'contract.fallback' as const,
+				type: 'contract.revert' as const,
 			};
 		}),
 	),
