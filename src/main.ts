@@ -87,37 +87,36 @@ export class M1LiveDemo {
 				throw new Error('Invalid state: received events before status.');
 			}
 
-			for (const [index, event] of packet_raw.events.entries()) {
-				if (!packet_raw.status) {
-					events_new.push(event);
-					continue;
-				}
+			if (packet_raw.status) {
+				for (const [index, event] of packet_raw.events.entries()) {
+					const status_after: M1DemoPacketStatus = structuredClone(
+						this.status_before,
+					);
+					// const updates:
 
-				const status_after: M1DemoPacketStatus = structuredClone(
-					this.status_before,
-				);
-				// const updates:
+					if (hasEnrichment(event)) {
+						getEntrichment(event)({
+							event,
+							events_before: packet_raw.events.slice(0, index).reverse(),
+							events_after: packet_raw.events.slice(index),
+							setup: this.setup,
+							field_id_jail: this.field_id_jail!,
+							status: status_after,
+						});
+					}
 
-				if (hasEnrichment(event)) {
-					getEntrichment(event)({
-						event,
-						events_before: packet_raw.events.slice(0, index).reverse(),
-						events_after: packet_raw.events.slice(index),
-						setup: this.setup,
-						field_id_jail: this.field_id_jail!,
-						status: status_after,
+					events_new.push({
+						status: {
+							before: structuredClone(this.status_before),
+							after: structuredClone(status_after),
+						},
+						...event,
 					});
+
+					this.status_before = status_after;
 				}
-
-				events_new.push({
-					status: {
-						before: structuredClone(this.status_before),
-						after: structuredClone(status_after),
-					},
-					...event,
-				});
-
-				this.status_before = status_after;
+			} else {
+				events_new.push(...packet_raw.events);
 			}
 		}
 

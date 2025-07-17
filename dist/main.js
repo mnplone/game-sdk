@@ -3230,11 +3230,7 @@ var M1LiveDemo = class {
 		if (events.length > 0) {
 			if (this.setup === null) throw new Error("Invalid state: received events before setup.");
 			if (this.status_before === null) throw new Error("Invalid state: received events before status.");
-			for (const [index, event] of packet_raw.events.entries()) {
-				if (!packet_raw.status) {
-					events_new.push(event);
-					continue;
-				}
+			if (packet_raw.status) for (const [index, event] of packet_raw.events.entries()) {
 				const status_after = structuredClone(this.status_before);
 				if (hasEnrichment(event)) getEntrichment(event)({
 					event,
@@ -3253,6 +3249,7 @@ var M1LiveDemo = class {
 				});
 				this.status_before = status_after;
 			}
+			else events_new.push(...packet_raw.events);
 		}
 		if (rest_packet_raw.status) this.status_before = rest_packet_raw.status;
 		return {
