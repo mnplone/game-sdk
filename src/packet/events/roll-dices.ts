@@ -9,10 +9,10 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('roll-dices'),
 		user_id: v.number(),
-		dices: v.tuple([
-			v.number(),
-			v.optional(v.number()),
-			v.optional(v.number()),
+		dices: v.union([
+			v.tuple([v.number()]),
+			v.tuple([v.number(), v.number()]),
+			v.tuple([v.number(), v.number(), v.number()]),
 		]),
 		move_reversed: bit(false),
 		double_spent: bit(false),
@@ -75,10 +75,10 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('rollDices'),
 			user_id: v.number(),
-			dices: v.tuple([
-				v.number(),
-				v.optional(v.number()),
-				v.optional(v.number()),
+			dices: v.union([
+				v.tuple([v.number()]),
+				v.tuple([v.number(), v.number()]),
+				v.tuple([v.number(), v.number(), v.number()]),
 			]),
 			move_reverse: bit(false),
 		}),

@@ -1974,7 +1974,7 @@ declare class M1LiveDemo {
       id: string;
       type: "roll-dices";
       user_id: number;
-      dices: [number, number | undefined, number | undefined];
+      dices: [number, number] | [number] | [number, number, number];
       move_reversed: boolean;
       double_spent: boolean;
     } | {
@@ -11684,7 +11684,7 @@ declare class M1LiveDemo {
       id: string;
       type: "roll-dices";
       user_id: number;
-      dices: [number, number | undefined, number | undefined];
+      dices: [number, number] | [number] | [number, number, number];
       move_reversed: boolean;
       double_spent: boolean;
       status: {

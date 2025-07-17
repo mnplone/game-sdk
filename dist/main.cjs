@@ -2564,10 +2564,14 @@ const valiSchemas$5 = [
 		id: valibot.string(),
 		type: valibot.literal("roll-dices"),
 		user_id: valibot.number(),
-		dices: valibot.tuple([
-			valibot.number(),
-			valibot.optional(valibot.number()),
-			valibot.optional(valibot.number())
+		dices: valibot.union([
+			valibot.tuple([valibot.number()]),
+			valibot.tuple([valibot.number(), valibot.number()]),
+			valibot.tuple([
+				valibot.number(),
+				valibot.number(),
+				valibot.number()
+			])
 		]),
 		move_reversed: bit(false),
 		double_spent: bit(false)
@@ -2604,10 +2608,14 @@ const valiV1Schemas$5 = [
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("rollDices"),
 		user_id: valibot.number(),
-		dices: valibot.tuple([
-			valibot.number(),
-			valibot.optional(valibot.number()),
-			valibot.optional(valibot.number())
+		dices: valibot.union([
+			valibot.tuple([valibot.number()]),
+			valibot.tuple([valibot.number(), valibot.number()]),
+			valibot.tuple([
+				valibot.number(),
+				valibot.number(),
+				valibot.number()
+			])
 		]),
 		move_reverse: bit(false)
 	}), valibot.transform((value) => {

@@ -2577,10 +2577,14 @@ const valiSchemas$5 = [
 		id: v$10.string(),
 		type: v$10.literal("roll-dices"),
 		user_id: v$10.number(),
-		dices: v$10.tuple([
-			v$10.number(),
-			v$10.optional(v$10.number()),
-			v$10.optional(v$10.number())
+		dices: v$10.union([
+			v$10.tuple([v$10.number()]),
+			v$10.tuple([v$10.number(), v$10.number()]),
+			v$10.tuple([
+				v$10.number(),
+				v$10.number(),
+				v$10.number()
+			])
 		]),
 		move_reversed: bit(false),
 		double_spent: bit(false)
@@ -2617,10 +2621,14 @@ const valiV1Schemas$5 = [
 		_id: v$10.optional(v$10.string()),
 		type: v$10.literal("rollDices"),
 		user_id: v$10.number(),
-		dices: v$10.tuple([
-			v$10.number(),
-			v$10.optional(v$10.number()),
-			v$10.optional(v$10.number())
+		dices: v$10.union([
+			v$10.tuple([v$10.number()]),
+			v$10.tuple([v$10.number(), v$10.number()]),
+			v$10.tuple([
+				v$10.number(),
+				v$10.number(),
+				v$10.number()
+			])
 		]),
 		move_reverse: bit(false)
 	}), v$10.transform((value) => {
