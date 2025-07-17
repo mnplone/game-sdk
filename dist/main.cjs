@@ -3218,7 +3218,7 @@ var M1LiveDemo = class {
 			if (this.setup === null) throw new Error("Invalid state: received events before setup.");
 			if (this.status_before === null) throw new Error("Invalid state: received events before status.");
 			for (const [index, event] of packet_raw.events.entries()) {
-				if (event.type === "message") {
+				if (!packet_raw.status) {
 					events_new.push(event);
 					continue;
 				}

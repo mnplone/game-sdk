@@ -88,7 +88,7 @@ export class M1LiveDemo {
 			}
 
 			for (const [index, event] of packet_raw.events.entries()) {
-				if (event.type === 'message') {
+				if (!packet_raw.status) {
 					events_new.push(event);
 					continue;
 				}
