@@ -1291,7 +1291,8 @@ const extra_actions_mapping = [
 	["leave", "leave"],
 	["message", "message"],
 	["pause.set", "pause"],
-	["pause.end", "pauseRemove"]
+	["pause.end", "pauseRemove"],
+	["contract.fallback", "contractFallback"]
 ];
 const packetv1_action_mapping = Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
 const valiM1DemoPacketV1StatusActiontypeSchema = v$22.array(v$22.picklist(Object.keys(action_list_mapping)));

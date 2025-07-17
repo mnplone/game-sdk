@@ -413,7 +413,7 @@ declare const action_list_mapping: {
   readonly wormholeDecline: "wormhole.reject";
   readonly restart: "restart";
 };
-declare const extra_actions_mapping: readonly [readonly ["leave", "leave"], readonly ["message", "message"], readonly ["pause.set", "pause"], readonly ["pause.end", "pauseRemove"]];
+declare const extra_actions_mapping: readonly [readonly ["leave", "leave"], readonly ["message", "message"], readonly ["pause.set", "pause"], readonly ["pause.end", "pauseRemove"], readonly ["contract.fallback", "contractFallback"]];
 declare const packetv1_action_mapping: Record<M1DemoPacketStatusTurnActionListElement | (typeof extra_actions_mapping)[number][0], keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]>;
 //#endregion
 //#region src/packet/setup/config/chance.d.ts

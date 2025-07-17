@@ -124,6 +124,7 @@ const extra_actions_mapping = [
 	['message', 'message'],
 	['pause.set', 'pause'],
 	['pause.end', 'pauseRemove'],
+	['contract.fallback', 'contractFallback'],
 ] as const;
 
 export const packetv1_action_mapping = Object.fromEntries([
