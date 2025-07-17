@@ -132,7 +132,12 @@ export class M1LiveDemo {
 }
 
 export type M1DemoPacket = ReturnType<M1LiveDemo['process']>;
-export type M1DemoPacketEvent = M1DemoPacket['events'][number];
+export type M1DemoPacketEvent = M1DemoPacket['events'][number] & {
+	status?: {
+		before: M1DemoPacketStatus;
+		after: M1DemoPacketStatus;
+	};
+};
 export type ExtractM1DemoPacketEvent<T> = Extract<
 	M1DemoPacketEvent,
 	{ type: T }
