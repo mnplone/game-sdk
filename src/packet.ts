@@ -42,6 +42,7 @@ export const valiM1DemoRawPacketV1Schema = v.intersect([
 					game_mode: v.number(),
 					game_submode: v.number(),
 					game_2x2: bit(false),
+					match_title: v.optional(v.string()),
 				}),
 			),
 			events: valiM1DemoRawPacketV1EventsSchema,
@@ -84,7 +85,12 @@ export const valiM1DemoRawPacketV1Schema = v.intersect([
 
 				setup = {
 					config,
-					flags,
+					flags: {
+						game_mode: flags.game_mode,
+						game_submode: flags.game_submode,
+						game_2x2: flags.game_2x2,
+						title: flags.match_title,
+					},
 					players: new Map(
 						status.players.map((player) => [
 							player.user_id,

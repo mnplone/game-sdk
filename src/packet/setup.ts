@@ -10,6 +10,7 @@ export const valiM1DemoPacketSetupSchema = v.object({
 		game_mode: v.number(),
 		game_submode: v.number(),
 		game_2x2: bit(false),
+		title: v.optional(v.string()),
 	}),
 	players: v.pipe(
 		v.array(valiM1DemoPacketSetupPlayerSchema),

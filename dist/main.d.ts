@@ -379,6 +379,8 @@ declare const valiM1DemoPacketStatusSchema: v$9.ObjectSchema<{
     /** If timer is extra timer. */
     readonly is_extra: v$9.BooleanSchema<undefined>;
   }, undefined>], undefined>, undefined>;
+  /** Number of viewers. */
+  readonly viewers_count: v$9.OptionalSchema<v$9.NumberSchema<undefined>, 0>;
 }, undefined>;
 type M1DemoPacketStatus = v$9.InferOutput<typeof valiM1DemoPacketStatusSchema>;
 declare const action_list_mapping: {
@@ -1069,6 +1071,7 @@ declare const valiM1DemoPacketSetupSchema: v$3.ObjectSchema<{
     readonly game_mode: v$3.NumberSchema<undefined>;
     readonly game_submode: v$3.NumberSchema<undefined>;
     readonly game_2x2: v$3.SchemaWithPipe<readonly [v$3.OptionalSchema<v$3.PicklistSchema<[0, 1], undefined>, 0 | 1>, v$3.TransformAction<0 | 1, boolean>]>;
+    readonly title: v$3.OptionalSchema<v$3.StringSchema<undefined>, undefined>;
   }, undefined>;
   readonly players: v$3.SchemaWithPipe<readonly [v$3.ArraySchema<v$3.SchemaWithPipe<readonly [v$3.ObjectSchema<{
     readonly user_id: v$3.NumberSchema<undefined>;
@@ -1556,6 +1559,7 @@ declare class M1LiveDemo {
         game_mode: number;
         game_submode: number;
         game_2x2: boolean;
+        title?: string | undefined;
       };
       players: Map<number, {
         index: number;
@@ -1663,6 +1667,7 @@ declare class M1LiveDemo {
         expires_in: number;
         is_extra: boolean;
       } | undefined;
+      viewers_count: number;
     } | undefined;
     time: {
       delta: number;
@@ -2137,6 +2142,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -2221,6 +2227,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -2318,6 +2325,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -2402,6 +2410,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -2491,6 +2500,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -2575,6 +2585,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -2666,6 +2677,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -2750,6 +2762,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -2845,6 +2858,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -2929,6 +2943,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -3020,6 +3035,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -3104,6 +3120,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -3196,6 +3213,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -3280,6 +3298,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -3371,6 +3390,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -3455,6 +3475,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -3545,6 +3566,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -3629,6 +3651,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -3722,6 +3745,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -3806,6 +3830,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -3898,6 +3923,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -3982,6 +4008,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -4073,6 +4100,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -4157,6 +4185,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -4248,6 +4277,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -4332,6 +4362,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -4423,6 +4454,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -4507,6 +4539,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -4598,6 +4631,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -4682,6 +4716,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -4774,6 +4809,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -4858,6 +4894,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -4954,6 +4991,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -5038,6 +5076,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -5129,6 +5168,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -5213,6 +5253,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -5315,6 +5356,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -5399,6 +5441,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -5490,6 +5533,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -5574,6 +5618,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -5663,6 +5708,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -5747,6 +5793,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -5837,6 +5884,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -5921,6 +5969,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -6011,6 +6060,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -6095,6 +6145,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -6184,6 +6235,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -6268,6 +6320,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -6357,6 +6410,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -6441,6 +6495,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -6531,6 +6586,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -6615,6 +6671,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -6707,6 +6764,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -6791,6 +6849,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -6883,6 +6942,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -6967,6 +7027,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -7059,6 +7120,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -7143,6 +7205,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -7235,6 +7298,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -7319,6 +7383,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -7410,6 +7475,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -7494,6 +7560,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -7585,6 +7652,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -7669,6 +7737,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -7759,6 +7828,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -7843,6 +7913,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -7933,6 +8004,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -8017,6 +8089,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -8107,6 +8180,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -8191,6 +8265,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -8281,6 +8356,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -8365,6 +8441,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -8455,6 +8532,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -8539,6 +8617,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -8630,6 +8709,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -8714,6 +8794,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -8805,6 +8886,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -8889,6 +8971,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -8980,6 +9063,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -9064,6 +9148,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -9154,6 +9239,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -9238,6 +9324,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -9329,6 +9416,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -9413,6 +9501,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -9504,6 +9593,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -9588,6 +9678,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -9681,6 +9772,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -9765,6 +9857,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -9855,6 +9948,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -9939,6 +10033,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -10030,6 +10125,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -10114,6 +10210,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -10205,6 +10302,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -10289,6 +10387,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -10380,6 +10479,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -10464,6 +10564,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -10553,6 +10654,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -10637,6 +10739,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -10726,6 +10829,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -10810,6 +10914,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -10901,6 +11006,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -10985,6 +11091,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -11077,6 +11184,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -11161,6 +11269,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -11252,6 +11361,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -11336,6 +11446,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -11428,6 +11539,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -11512,6 +11624,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -11604,6 +11717,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -11688,6 +11802,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -11779,6 +11894,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -11863,6 +11979,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -11954,6 +12071,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -12038,6 +12156,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -12129,6 +12248,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -12213,6 +12333,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -12304,6 +12425,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -12388,6 +12510,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -12479,6 +12602,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -12563,6 +12687,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -12656,6 +12781,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -12740,6 +12866,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -12830,6 +12957,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -12914,6 +13042,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -13004,6 +13133,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -13088,6 +13218,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -13178,6 +13309,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -13262,6 +13394,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -13352,6 +13485,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -13436,6 +13570,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -13526,6 +13661,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -13610,6 +13746,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -13700,6 +13837,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -13784,6 +13922,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -13876,6 +14015,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -13960,6 +14100,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -14050,6 +14191,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -14134,6 +14276,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -14225,6 +14368,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -14309,6 +14453,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -14399,6 +14544,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -14483,6 +14629,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -14575,6 +14722,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -14659,6 +14807,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     } | {
@@ -14749,6 +14898,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
         after: {
           round: number;
@@ -14833,6 +14983,7 @@ declare class M1LiveDemo {
             expires_in: number;
             is_extra: boolean;
           } | undefined;
+          viewers_count: number;
         };
       };
     })[];

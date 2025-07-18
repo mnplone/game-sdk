@@ -45,6 +45,8 @@ export const valiM1DemoPacketStatusSchema = v.object({
 			}),
 		]),
 	),
+	/** Number of viewers. */
+	viewers_count: v.optional(v.number(), 0),
 });
 
 export type M1DemoPacketStatus = v.InferOutput<
@@ -221,6 +223,8 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 		// timeout
 		timeout_ts: v.number(),
 		timeout_is_additional: v.boolean(),
+		// viewers
+		viewers: v.optional(v.number(), 0),
 	}),
 	v.transform((value) => {
 		for (const [index, player] of value.players.entries()) {
@@ -242,6 +246,8 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 			// timeout
 			timeout_ts,
 			timeout_is_additional,
+			// viewers
+			viewers,
 			...value_rest
 		} = value;
 
@@ -360,6 +366,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 						ts_expires: timeout_ts * 1000,
 						is_extra: timeout_is_additional,
 					}) satisfies M1DemoPacketStatusTimer,
+			viewers_count: viewers,
 		} satisfies Omit<M1DemoPacketStatus, 'players'>;
 		// omitting the `players` field, because it will be transformed later, extracting constant fields to the `setup`
 	}),

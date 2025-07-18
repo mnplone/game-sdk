@@ -1240,7 +1240,8 @@ const valiM1DemoPacketStatusSchema = valibot.object({
 	}), valibot.object({
 		expires_in: valibot.number(),
 		is_extra: valibot.boolean()
-	})]))
+	})])),
+	viewers_count: valibot.optional(valibot.number(), 0)
 });
 const action_list_mapping = {
 	toAuction: "auction.put",
@@ -1331,7 +1332,8 @@ const valiM1DemoPacketV1StatusSchema = valibot.pipe(
 			mortgaged: valibot.optional(valibot.array(valibot.number()))
 		})),
 		timeout_ts: valibot.number(),
-		timeout_is_additional: valibot.boolean()
+		timeout_is_additional: valibot.boolean(),
+		viewers: valibot.optional(valibot.number(), 0)
 	}),
 	valibot.transform((value) => {
 		for (const [index, player] of value.players.entries()) if (player._setup) player._setup.index = index;
@@ -1339,7 +1341,7 @@ const valiM1DemoPacketV1StatusSchema = valibot.pipe(
 	}),
 	// eslint-disable-next-line complexity, max-lines-per-function
 	valibot.transform((value) => {
-		const { player_ownerOfMove, action_player, action_type, current_move, timeout_ts, timeout_is_additional,...value_rest } = value;
+		const { player_ownerOfMove, action_player, action_type, current_move, timeout_ts, timeout_is_additional, viewers,...value_rest } = value;
 		const action_list = transformActionsList(action_type);
 		const payment_amount = current_move?.pay ?? current_move?.moneyToPay;
 		let auction;
@@ -1398,7 +1400,8 @@ const valiM1DemoPacketV1StatusSchema = valibot.pipe(
 			} : {
 				ts_expires: timeout_ts * 1e3,
 				is_extra: timeout_is_additional
-			}
+			},
+			viewers_count: viewers
 		};
 	})
 );
@@ -3147,7 +3150,8 @@ const valiM1DemoPacketSetupSchema = valibot.object({
 	flags: valibot.object({
 		game_mode: valibot.number(),
 		game_submode: valibot.number(),
-		game_2x2: bit(false)
+		game_2x2: bit(false),
+		title: valibot.optional(valibot.string())
 	}),
 	players: valibot.pipe(valibot.array(valiM1DemoPacketSetupPlayerSchema), valibot.transform((value) => {
 		const value_map = new Map();
@@ -3224,7 +3228,8 @@ const valiM1DemoRawPacketV1Schema = valibot.intersect([valiM1DemoPacketV1TimeSch
 	flags: valibot.optional(valibot.object({
 		game_mode: valibot.number(),
 		game_submode: valibot.number(),
-		game_2x2: bit(false)
+		game_2x2: bit(false),
+		match_title: valibot.optional(valibot.string())
 	})),
 	events: valiM1DemoRawPacketV1EventsSchema,
 	status: valibot.optional(valiM1DemoPacketV1StatusSchema)
@@ -3247,7 +3252,12 @@ const valiM1DemoRawPacketV1Schema = valibot.intersect([valiM1DemoPacketV1TimeSch
 		if (!flags) throw new Error("Validation error: field \"flags\" is required if \"config\" is present");
 		setup = {
 			config,
-			flags,
+			flags: {
+				game_mode: flags.game_mode,
+				game_submode: flags.game_submode,
+				game_2x2: flags.game_2x2,
+				title: flags.match_title
+			},
 			players: new Map(status.players.map((player) => [player.user_id, {
 				user_id: player.user_id,
 				...player._setup

@@ -14,7 +14,7 @@
         "oxlint": "1.3.0",
         "publint": "^0.3.12",
         "tsdown": "^0.10.0",
-        "typescript": "5.8.3",
+        "typescript": "5.9.0-beta",
         "unplugin-unused": "^0.4.4",
         "vitest": "3.1.3",
       },
@@ -715,7 +715,7 @@
 
     "type-check": ["type-check@0.4.0", "", { "dependencies": { "prelude-ls": "^1.2.1" } }, "sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew=="],
 
-    "typescript": ["typescript@5.8.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="],
+    "typescript": ["typescript@5.9.0-beta", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p91qoTdwWKj9YEBYavmGiBn0DF4OBElzw4pW4oPbK4HeCfr/SDz9+yviVWshZXGvGvFCJ3AVQ+J7F1UZXc23QQ=="],
 
     "typescript-eslint": ["typescript-eslint@8.32.1", "", { "dependencies": { "@typescript-eslint/eslint-plugin": "8.32.1", "@typescript-eslint/parser": "8.32.1", "@typescript-eslint/utils": "8.32.1" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0", "typescript": ">=4.8.4 <5.9.0" } }, "sha512-D7el+eaDHAmXvrZBy1zpzSNIRqnCOrkwTgZxTu3MUqRWk8k0q9m9Ho4+vPf7iHtgUfrK/o8IZaEApsxPlHTFCg=="],
 

@@ -1253,7 +1253,8 @@ const valiM1DemoPacketStatusSchema = v$22.object({
 	}), v$22.object({
 		expires_in: v$22.number(),
 		is_extra: v$22.boolean()
-	})]))
+	})])),
+	viewers_count: v$22.optional(v$22.number(), 0)
 });
 const action_list_mapping = {
 	toAuction: "auction.put",
@@ -1344,7 +1345,8 @@ const valiM1DemoPacketV1StatusSchema = v$22.pipe(
 			mortgaged: v$22.optional(v$22.array(v$22.number()))
 		})),
 		timeout_ts: v$22.number(),
-		timeout_is_additional: v$22.boolean()
+		timeout_is_additional: v$22.boolean(),
+		viewers: v$22.optional(v$22.number(), 0)
 	}),
 	v$22.transform((value) => {
 		for (const [index, player] of value.players.entries()) if (player._setup) player._setup.index = index;
@@ -1352,7 +1354,7 @@ const valiM1DemoPacketV1StatusSchema = v$22.pipe(
 	}),
 	// eslint-disable-next-line complexity, max-lines-per-function
 	v$22.transform((value) => {
-		const { player_ownerOfMove, action_player, action_type, current_move, timeout_ts, timeout_is_additional,...value_rest } = value;
+		const { player_ownerOfMove, action_player, action_type, current_move, timeout_ts, timeout_is_additional, viewers,...value_rest } = value;
 		const action_list = transformActionsList(action_type);
 		const payment_amount = current_move?.pay ?? current_move?.moneyToPay;
 		let auction;
@@ -1411,7 +1413,8 @@ const valiM1DemoPacketV1StatusSchema = v$22.pipe(
 			} : {
 				ts_expires: timeout_ts * 1e3,
 				is_extra: timeout_is_additional
-			}
+			},
+			viewers_count: viewers
 		};
 	})
 );
@@ -3160,7 +3163,8 @@ const valiM1DemoPacketSetupSchema = v$2.object({
 	flags: v$2.object({
 		game_mode: v$2.number(),
 		game_submode: v$2.number(),
-		game_2x2: bit(false)
+		game_2x2: bit(false),
+		title: v$2.optional(v$2.string())
 	}),
 	players: v$2.pipe(v$2.array(valiM1DemoPacketSetupPlayerSchema), v$2.transform((value) => {
 		const value_map = new Map();
@@ -3237,7 +3241,8 @@ const valiM1DemoRawPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v
 	flags: v.optional(v.object({
 		game_mode: v.number(),
 		game_submode: v.number(),
-		game_2x2: bit(false)
+		game_2x2: bit(false),
+		match_title: v.optional(v.string())
 	})),
 	events: valiM1DemoRawPacketV1EventsSchema,
 	status: v.optional(valiM1DemoPacketV1StatusSchema)
@@ -3260,7 +3265,12 @@ const valiM1DemoRawPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v
 		if (!flags) throw new Error("Validation error: field \"flags\" is required if \"config\" is present");
 		setup = {
 			config,
-			flags,
+			flags: {
+				game_mode: flags.game_mode,
+				game_submode: flags.game_submode,
+				game_2x2: flags.game_2x2,
+				title: flags.match_title
+			},
 			players: new Map(status.players.map((player) => [player.user_id, {
 				user_id: player.user_id,
 				...player._setup
