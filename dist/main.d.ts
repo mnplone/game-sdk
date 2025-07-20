@@ -1966,6 +1966,7 @@ declare class M1LiveDemo {
       id: string;
       type: "rent.pay.complete";
       user_id: number;
+      user_id_receiver: number;
       field_id: number;
       amount: number;
       amount_received?: number | undefined;
@@ -11632,6 +11633,7 @@ declare class M1LiveDemo {
       id: string;
       type: "rent.pay.complete";
       user_id: number;
+      user_id_receiver: number;
       field_id: number;
       amount: number;
       amount_received?: number | undefined;

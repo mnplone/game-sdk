@@ -2491,6 +2491,7 @@ const valiSchemas$6 = [
 		id: valibot.string(),
 		type: valibot.literal("rent.pay.complete"),
 		user_id: valibot.number(),
+		user_id_receiver: valibot.number(),
 		field_id: valibot.number(),
 		amount: valibot.number(),
 		amount_received: valibot.optional(valibot.number())
@@ -2554,6 +2555,7 @@ const valiV1Schemas$6 = [
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("payRentSuccess"),
 		user_id: valibot.number(),
+		to: valibot.number(),
 		field: valibot.number(),
 		money: valibot.number(),
 		money_received: valibot.optional(valibot.number())
@@ -2562,6 +2564,7 @@ const valiV1Schemas$6 = [
 			id: value._id,
 			type: "rent.pay.complete",
 			user_id: value.user_id,
+			user_id_receiver: value.to,
 			field_id: value.field,
 			amount: value.money,
 			amount_received: value.money_received
