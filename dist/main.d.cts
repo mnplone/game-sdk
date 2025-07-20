@@ -1968,6 +1968,7 @@ declare class M1LiveDemo {
       user_id: number;
       field_id: number;
       amount: number;
+      amount_received?: number | undefined;
     } | {
       id: string;
       type: "rent.pay.cancel";
@@ -11633,6 +11634,7 @@ declare class M1LiveDemo {
       user_id: number;
       field_id: number;
       amount: number;
+      amount_received?: number | undefined;
       status: {
         before: {
           round: number;

@@ -15,6 +15,7 @@ export const valiSchemas = [
 		user_id: v.number(),
 		field_id: v.number(),
 		amount: v.number(),
+		amount_received: v.optional(v.number()),
 	}),
 	v.object({
 		id: v.string(),
@@ -89,6 +90,7 @@ export const valiV1Schemas = [
 			user_id: v.number(),
 			field: v.number(),
 			money: v.number(),
+			money_received: v.optional(v.number()),
 		}),
 		v.transform((value) => {
 			return {
@@ -97,6 +99,7 @@ export const valiV1Schemas = [
 				user_id: value.user_id,
 				field_id: value.field,
 				amount: value.money,
+				amount_received: value.money_received,
 			};
 		}),
 	),

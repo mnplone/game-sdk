@@ -2492,7 +2492,8 @@ const valiSchemas$6 = [
 		type: valibot.literal("rent.pay.complete"),
 		user_id: valibot.number(),
 		field_id: valibot.number(),
-		amount: valibot.number()
+		amount: valibot.number(),
+		amount_received: valibot.optional(valibot.number())
 	}),
 	valibot.object({
 		id: valibot.string(),
@@ -2554,14 +2555,16 @@ const valiV1Schemas$6 = [
 		type: valibot.literal("payRentSuccess"),
 		user_id: valibot.number(),
 		field: valibot.number(),
-		money: valibot.number()
+		money: valibot.number(),
+		money_received: valibot.optional(valibot.number())
 	}), valibot.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay.complete",
 			user_id: value.user_id,
 			field_id: value.field,
-			amount: value.money
+			amount: value.money,
+			amount_received: value.money_received
 		};
 	})),
 	valibot.pipe(valibot.object({

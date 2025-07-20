@@ -2505,7 +2505,8 @@ const valiSchemas$6 = [
 		type: v$11.literal("rent.pay.complete"),
 		user_id: v$11.number(),
 		field_id: v$11.number(),
-		amount: v$11.number()
+		amount: v$11.number(),
+		amount_received: v$11.optional(v$11.number())
 	}),
 	v$11.object({
 		id: v$11.string(),
@@ -2567,14 +2568,16 @@ const valiV1Schemas$6 = [
 		type: v$11.literal("payRentSuccess"),
 		user_id: v$11.number(),
 		field: v$11.number(),
-		money: v$11.number()
+		money: v$11.number(),
+		money_received: v$11.optional(v$11.number())
 	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay.complete",
 			user_id: value.user_id,
 			field_id: value.field,
-			amount: value.money
+			amount: value.money,
+			amount_received: value.money_received
 		};
 	})),
 	v$11.pipe(v$11.object({
