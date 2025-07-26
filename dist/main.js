@@ -1,3 +1,4 @@
+import * as v$34 from "valibot";
 import * as v$33 from "valibot";
 import * as v$32 from "valibot";
 import * as v$31 from "valibot";
@@ -46,46 +47,46 @@ var __export = (target, all) => {
 //#region src/packet/events/auction.ts
 var auction_exports = {};
 __export(auction_exports, {
-	enrichments: () => enrichments$18,
-	valiSchemas: () => valiSchemas$19,
-	valiV1Schemas: () => valiV1Schemas$19
+	enrichments: () => enrichments$19,
+	valiSchemas: () => valiSchemas$20,
+	valiV1Schemas: () => valiV1Schemas$20
 });
-const valiSchemas$19 = [
-	v$33.object({
-		id: v$33.string(),
-		type: v$33.literal("auction.put"),
-		user_id: v$33.number(),
-		field_id: v$33.number(),
-		bid: v$33.number()
+const valiSchemas$20 = [
+	v$34.object({
+		id: v$34.string(),
+		type: v$34.literal("auction.put"),
+		user_id: v$34.number(),
+		field_id: v$34.number(),
+		bid: v$34.number()
 	}),
-	v$33.object({
-		id: v$33.string(),
-		type: v$33.literal("auction.bid"),
-		user_id: v$33.number(),
-		bid: v$33.number()
+	v$34.object({
+		id: v$34.string(),
+		type: v$34.literal("auction.bid"),
+		user_id: v$34.number(),
+		bid: v$34.number()
 	}),
-	v$33.object({
-		id: v$33.string(),
-		type: v$33.literal("auction.reject"),
-		user_id: v$33.number()
+	v$34.object({
+		id: v$34.string(),
+		type: v$34.literal("auction.reject"),
+		user_id: v$34.number()
 	}),
-	v$33.object({
-		id: v$33.string(),
-		type: v$33.literal("auction.win"),
-		user_id: v$33.number(),
-		field_id: v$33.number(),
-		user_id_seller: v$33.optional(v$33.number()),
-		price: v$33.number()
+	v$34.object({
+		id: v$34.string(),
+		type: v$34.literal("auction.win"),
+		user_id: v$34.number(),
+		field_id: v$34.number(),
+		user_id_seller: v$34.optional(v$34.number()),
+		price: v$34.number()
 	}),
-	v$33.object({
-		id: v$33.string(),
-		type: v$33.literal("auction.cancel"),
-		field_id: v$33.number(),
-		user_id_seller: v$33.optional(v$33.number()),
-		price: v$33.optional(v$33.number())
+	v$34.object({
+		id: v$34.string(),
+		type: v$34.literal("auction.cancel"),
+		field_id: v$34.number(),
+		user_id_seller: v$34.optional(v$34.number()),
+		price: v$34.optional(v$34.number())
 	})
 ];
-const enrichments$18 = {
+const enrichments$19 = {
 	"auction.win"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.price;
@@ -109,14 +110,14 @@ const enrichments$18 = {
 		}
 	}
 };
-const valiV1Schemas$19 = [
-	v$33.pipe(v$33.object({
-		_id: v$33.optional(v$33.string()),
-		type: v$33.literal("toAuction"),
-		user_id: v$33.number(),
-		field: v$33.number(),
-		bet: v$33.number()
-	}), v$33.transform((value) => {
+const valiV1Schemas$20 = [
+	v$34.pipe(v$34.object({
+		_id: v$34.optional(v$34.string()),
+		type: v$34.literal("toAuction"),
+		user_id: v$34.number(),
+		field: v$34.number(),
+		bet: v$34.number()
+	}), v$34.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.put",
@@ -125,12 +126,12 @@ const valiV1Schemas$19 = [
 			bid: value.bet
 		};
 	})),
-	v$33.pipe(v$33.object({
-		_id: v$33.optional(v$33.string()),
-		type: v$33.literal("auctionAccept"),
-		user_id: v$33.number(),
-		bet: v$33.number()
-	}), v$33.transform((value) => {
+	v$34.pipe(v$34.object({
+		_id: v$34.optional(v$34.string()),
+		type: v$34.literal("auctionAccept"),
+		user_id: v$34.number(),
+		bet: v$34.number()
+	}), v$34.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.bid",
@@ -138,25 +139,25 @@ const valiV1Schemas$19 = [
 			bid: value.bet
 		};
 	})),
-	v$33.pipe(v$33.object({
-		_id: v$33.optional(v$33.string()),
-		type: v$33.literal("auctionDecline"),
-		user_id: v$33.number()
-	}), v$33.transform((value) => {
+	v$34.pipe(v$34.object({
+		_id: v$34.optional(v$34.string()),
+		type: v$34.literal("auctionDecline"),
+		user_id: v$34.number()
+	}), v$34.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.reject",
 			user_id: value.user_id
 		};
 	})),
-	v$33.pipe(v$33.object({
-		_id: v$33.optional(v$33.string()),
-		type: v$33.literal("auctionWinner"),
-		user_id: v$33.number(),
-		user_id_seller: v$33.optional(v$33.number()),
-		field: v$33.number(),
-		money: v$33.number()
-	}), v$33.transform((value) => {
+	v$34.pipe(v$34.object({
+		_id: v$34.optional(v$34.string()),
+		type: v$34.literal("auctionWinner"),
+		user_id: v$34.number(),
+		user_id_seller: v$34.optional(v$34.number()),
+		field: v$34.number(),
+		money: v$34.number()
+	}), v$34.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.win",
@@ -166,13 +167,13 @@ const valiV1Schemas$19 = [
 			price: value.money
 		};
 	})),
-	v$33.pipe(v$33.object({
-		_id: v$33.optional(v$33.string()),
-		type: v$33.literal("auctionFail"),
-		field: v$33.number(),
-		user_id_seller: v$33.optional(v$33.number()),
-		money: v$33.optional(v$33.number())
-	}), v$33.transform((value) => {
+	v$34.pipe(v$34.object({
+		_id: v$34.optional(v$34.string()),
+		type: v$34.literal("auctionFail"),
+		field: v$34.number(),
+		user_id_seller: v$34.optional(v$34.number()),
+		money: v$34.optional(v$34.number())
+	}), v$34.transform((value) => {
 		return {
 			id: value._id,
 			type: "auction.cancel",
@@ -187,37 +188,37 @@ const valiV1Schemas$19 = [
 //#region src/packet/events/bank.ts
 var bank_exports = {};
 __export(bank_exports, {
-	enrichments: () => enrichments$17,
-	valiSchemas: () => valiSchemas$18,
-	valiV1Schemas: () => valiV1Schemas$18
+	enrichments: () => enrichments$18,
+	valiSchemas: () => valiSchemas$19,
+	valiV1Schemas: () => valiV1Schemas$19
 });
-const valiSchemas$18 = [
-	v$32.object({
-		id: v$32.string(),
-		type: v$32.literal("bank.income"),
-		user_id: v$32.number(),
-		amount: v$32.number()
+const valiSchemas$19 = [
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("bank.income"),
+		user_id: v$33.number(),
+		amount: v$33.number()
 	}),
-	v$32.object({
-		id: v$32.string(),
-		type: v$32.literal("bank.fee"),
-		user_id: v$32.number(),
-		amount: v$32.number()
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("bank.fee"),
+		user_id: v$33.number(),
+		amount: v$33.number()
 	}),
-	v$32.object({
-		id: v$32.string(),
-		type: v$32.literal("bank.fee.pay"),
-		user_id: v$32.number(),
-		amount: v$32.number()
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("bank.fee.pay"),
+		user_id: v$33.number(),
+		amount: v$33.number()
 	}),
-	v$32.object({
-		id: v$32.string(),
-		type: v$32.literal("bank.return"),
-		user_id: v$32.number(),
-		amount: v$32.number()
+	v$33.object({
+		id: v$33.string(),
+		type: v$33.literal("bank.return"),
+		user_id: v$33.number(),
+		amount: v$33.number()
 	})
 ];
-const enrichments$17 = {
+const enrichments$18 = {
 	"bank.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash += options.event.amount;
@@ -231,13 +232,13 @@ const enrichments$17 = {
 		player.cash += options.event.amount;
 	}
 };
-const valiV1Schemas$18 = [
-	v$32.pipe(v$32.object({
-		_id: v$32.optional(v$32.string()),
-		type: v$32.literal("cash_plus"),
-		user_id: v$32.number(),
-		money: v$32.number()
-	}), v$32.transform((value) => {
+const valiV1Schemas$19 = [
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("cash_plus"),
+		user_id: v$33.number(),
+		money: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.income",
@@ -245,16 +246,16 @@ const valiV1Schemas$18 = [
 			amount: value.money
 		};
 	})),
-	v$32.pipe(v$32.object({
-		_id: v$32.optional(v$32.string()),
-		type: v$32.picklist([
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.picklist([
 			"cash_minus",
 			"tax_income",
 			"tax_luxury"
 		]),
-		user_id: v$32.number(),
-		money: v$32.number()
-	}), v$32.transform((value) => {
+		user_id: v$33.number(),
+		money: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.fee",
@@ -262,12 +263,12 @@ const valiV1Schemas$18 = [
 			amount: value.money
 		};
 	})),
-	v$32.pipe(v$32.object({
-		_id: v$32.optional(v$32.string()),
-		type: v$32.literal("feePaid"),
-		user_id: v$32.number(),
-		money: v$32.number()
-	}), v$32.transform((value) => {
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("feePaid"),
+		user_id: v$33.number(),
+		money: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.fee.pay",
@@ -275,12 +276,12 @@ const valiV1Schemas$18 = [
 			amount: value.money
 		};
 	})),
-	v$32.pipe(v$32.object({
-		_id: v$32.optional(v$32.string()),
-		type: v$32.literal("insuranceReturn"),
-		user_id: v$32.number(),
-		money: v$32.number()
-	}), v$32.transform((value) => {
+	v$33.pipe(v$33.object({
+		_id: v$33.optional(v$33.string()),
+		type: v$33.literal("insuranceReturn"),
+		user_id: v$33.number(),
+		money: v$33.number()
+	}), v$33.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.return",
@@ -311,18 +312,18 @@ function normalizeFieldId(setup, field_id) {
 * @returns -
 */
 function bit(default_value) {
-	return v$31.pipe(v$31.optional(v$31.picklist([0, 1]), default_value ? 1 : 0), v$31.transform((value) => value === 1));
+	return v$32.pipe(v$32.optional(v$32.picklist([0, 1]), default_value ? 1 : 0), v$32.transform((value) => value === 1));
 }
 function parse(schema, value) {
 	return parser(schema)(value);
 }
 function parser(schema) {
-	const fn = v$31.parser(schema);
+	const fn = v$32.parser(schema);
 	return (value) => {
 		try {
 			return fn(value);
 		} catch (error) {
-			if (v$31.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${v$31.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
+			if (v$32.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${v$32.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
 			throw error;
 		}
 	};
@@ -332,32 +333,32 @@ function parser(schema) {
 //#region src/packet/events/bus.ts
 var bus_exports = {};
 __export(bus_exports, {
-	enrichments: () => enrichments$16,
-	valiSchemas: () => valiSchemas$17,
-	valiV1Schemas: () => valiV1Schemas$17
+	enrichments: () => enrichments$17,
+	valiSchemas: () => valiSchemas$18,
+	valiV1Schemas: () => valiV1Schemas$18
 });
-const valiSchemas$17 = [v$30.object({
-	id: v$30.string(),
-	type: v$30.literal("bus.select"),
-	user_id: v$30.number(),
-	move_distances: v$30.pipe(v$30.array(v$30.number()), v$30.transform((value) => new Set(value))),
-	field_ids_move: v$30.pipe(v$30.undefined(), v$30.transform(() => new Set()))
-}), v$30.object({
-	id: v$30.string(),
-	type: v$30.literal("bus.move"),
-	user_id: v$30.number(),
-	selection: v$30.object({
-		stop_id: v$30.picklist([
+const valiSchemas$18 = [v$31.object({
+	id: v$31.string(),
+	type: v$31.literal("bus.select"),
+	user_id: v$31.number(),
+	move_distances: v$31.pipe(v$31.array(v$31.number()), v$31.transform((value) => new Set(value))),
+	field_ids_move: v$31.pipe(v$31.undefined(), v$31.transform(() => new Set()))
+}), v$31.object({
+	id: v$31.string(),
+	type: v$31.literal("bus.move"),
+	user_id: v$31.number(),
+	selection: v$31.object({
+		stop_id: v$31.picklist([
 			0,
 			1,
 			-1
 		]),
-		field_id: v$30.number(),
+		field_id: v$31.number(),
 		auto: bit(false)
 	}),
 	move_reversed: bit(false)
 })];
-const enrichments$16 = {
+const enrichments$17 = {
 	"bus.select"(options) {
 		if (options.event.move_distances.size === 0) {
 			const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
@@ -377,11 +378,11 @@ const enrichments$16 = {
 		player.position = options.event.selection.field_id;
 	}
 };
-const valiV1Schemas$17 = [v$30.pipe(v$30.object({
-	_id: v$30.optional(v$30.string()),
-	type: v$30.literal("chooseBusStop"),
-	user_id: v$30.number()
-}), v$30.transform((value) => {
+const valiV1Schemas$18 = [v$31.pipe(v$31.object({
+	_id: v$31.optional(v$31.string()),
+	type: v$31.literal("chooseBusStop"),
+	user_id: v$31.number()
+}), v$31.transform((value) => {
 	return {
 		id: value._id,
 		type: "bus.select",
@@ -389,19 +390,19 @@ const valiV1Schemas$17 = [v$30.pipe(v$30.object({
 		move_distances: new Set(),
 		field_ids_move: new Set()
 	};
-})), v$30.pipe(v$30.object({
-	_id: v$30.optional(v$30.string()),
-	type: v$30.literal("busStopChoosed"),
-	user_id: v$30.number(),
-	stop: v$30.picklist([
+})), v$31.pipe(v$31.object({
+	_id: v$31.optional(v$31.string()),
+	type: v$31.literal("busStopChoosed"),
+	user_id: v$31.number(),
+	stop: v$31.picklist([
 		0,
 		1,
 		-1
 	]),
-	mean_position: v$30.number(),
+	mean_position: v$31.number(),
 	move_reverse: bit(false),
 	auto_selected: bit(false)
-}), v$30.transform((value) => {
+}), v$31.transform((value) => {
 	return {
 		id: value._id,
 		type: "bus.move",
@@ -417,15 +418,15 @@ const valiV1Schemas$17 = [v$30.pipe(v$30.object({
 
 //#endregion
 //#region src/packet/status/turn.ts
-const valiM1DemoContractSchema = v$29.pipe(v$29.tuple([v$29.object({
-	user_id: v$29.number(),
-	field_ids: v$29.array(v$29.number()),
-	cash: v$29.number()
-}), v$29.object({
-	user_id: v$29.number(),
-	field_ids: v$29.array(v$29.number()),
-	cash: v$29.number()
-})]), v$29.transform(([initiator, responder]) => {
+const valiM1DemoContractSchema = v$30.pipe(v$30.tuple([v$30.object({
+	user_id: v$30.number(),
+	field_ids: v$30.array(v$30.number()),
+	cash: v$30.number()
+}), v$30.object({
+	user_id: v$30.number(),
+	field_ids: v$30.array(v$30.number()),
+	cash: v$30.number()
+})]), v$30.transform(([initiator, responder]) => {
 	return {
 		initiator: {
 			user_id: initiator.user_id,
@@ -439,11 +440,11 @@ const valiM1DemoContractSchema = v$29.pipe(v$29.tuple([v$29.object({
 		}
 	};
 }));
-const valiM1DemoPacketStatusTurnSchema = v$29.object({
-	user_id: v$29.nullable(v$29.number()),
-	action: v$29.object({
-		user_id: v$29.nullable(v$29.number()),
-		list: v$29.pipe(v$29.array(v$29.picklist([
+const valiM1DemoPacketStatusTurnSchema = v$30.object({
+	user_id: v$30.nullable(v$30.number()),
+	action: v$30.object({
+		user_id: v$30.nullable(v$30.number()),
+		list: v$30.pipe(v$30.array(v$30.picklist([
 			"auction.put",
 			"auction.bid",
 			"auction.reject",
@@ -469,6 +470,8 @@ const valiM1DemoPacketStatusTurnSchema = v$29.object({
 			"purchase.reject",
 			"rent.pay",
 			"roll-dices",
+			"russian-roulette.play",
+			"russian-roulette.reject",
 			"start.tax.pay",
 			"triple.move",
 			"wormhole.use",
@@ -476,43 +479,43 @@ const valiM1DemoPacketStatusTurnSchema = v$29.object({
 			"wormhole.jump",
 			"wormhole.reject",
 			"restart"
-		])), v$29.transform((value) => new Set(value)))
+		])), v$30.transform((value) => new Set(value)))
 	}),
 	move_reversed: bit(false),
-	auction: v$29.optional(v$29.object({
-		field_id: v$29.number(),
-		bid: v$29.number(),
-		user_ids_rejected: v$29.pipe(v$29.array(v$29.number()), v$29.transform((value) => new Set(value)))
+	auction: v$30.optional(v$30.object({
+		field_id: v$30.number(),
+		bid: v$30.number(),
+		user_ids_rejected: v$30.pipe(v$30.array(v$30.number()), v$30.transform((value) => new Set(value)))
 	})),
-	contract: v$29.optional(valiM1DemoContractSchema),
-	contracts_sent: v$29.optional(v$29.number()),
-	jackpot: v$29.optional(v$29.object({ superprize: v$29.number() })),
-	payment: v$29.optional(v$29.object({
-		to_user_id: v$29.optional(v$29.number()),
-		amount: v$29.number()
+	contract: v$30.optional(valiM1DemoContractSchema),
+	contracts_sent: v$30.optional(v$30.number()),
+	jackpot: v$30.optional(v$30.object({ superprize: v$30.number() })),
+	payment: v$30.optional(v$30.object({
+		to_user_id: v$30.optional(v$30.number()),
+		amount: v$30.number()
 	})),
-	field_ids_move: v$29.optional(v$29.pipe(v$29.array(v$29.object({
-		field_id: v$29.number(),
-		data: v$29.union([v$29.object({ stop: v$29.number() }), v$29.object({ field_id: v$29.number() })])
-	})), v$29.transform((value) => new Map(value.map((item) => [item.field_id, item.data]))))),
-	field_ids_level_built: v$29.optional(v$29.pipe(v$29.array(v$29.number()), v$29.transform((value) => new Set(value)))),
-	field_ids_mortgaged: v$29.optional(v$29.pipe(v$29.array(v$29.number()), v$29.transform((value) => new Set(value))))
+	field_ids_move: v$30.optional(v$30.pipe(v$30.array(v$30.object({
+		field_id: v$30.number(),
+		data: v$30.union([v$30.object({ stop: v$30.number() }), v$30.object({ field_id: v$30.number() })])
+	})), v$30.transform((value) => new Map(value.map((item) => [item.field_id, item.data]))))),
+	field_ids_level_built: v$30.optional(v$30.pipe(v$30.array(v$30.number()), v$30.transform((value) => new Set(value)))),
+	field_ids_mortgaged: v$30.optional(v$30.pipe(v$30.array(v$30.number()), v$30.transform((value) => new Set(value))))
 });
 
 //#endregion
 //#region src/packet/status/fields.ts
-const valiM1DemoPacketStatusFieldsSchema = v$28.pipe(v$28.array(v$28.pipe(v$28.object({
-	field_id: v$28.number(),
-	owner_user_id: v$28.number(),
-	level: v$28.number(),
-	mortgage: v$28.optional(v$28.object({ round_until: v$28.optional(v$28.number()) }))
-}), v$28.transform((value) => value))), v$28.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
-const valiM1DemoPacketV1StatusFieldsSchema = v$28.pipe(v$28.record(v$28.string(), v$28.object({
-	owner: v$28.number(),
-	level: v$28.number(),
-	mortgaged: v$28.boolean(),
-	mortgage_lose_round: v$28.optional(v$28.number())
-})), v$28.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
+const valiM1DemoPacketStatusFieldsSchema = v$29.pipe(v$29.array(v$29.pipe(v$29.object({
+	field_id: v$29.number(),
+	owner_user_id: v$29.number(),
+	level: v$29.number(),
+	mortgage: v$29.optional(v$29.object({ round_until: v$29.optional(v$29.number()) }))
+}), v$29.transform((value) => value))), v$29.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
+const valiM1DemoPacketV1StatusFieldsSchema = v$29.pipe(v$29.record(v$29.string(), v$29.object({
+	owner: v$29.number(),
+	level: v$29.number(),
+	mortgaged: v$29.boolean(),
+	mortgage_lose_round: v$29.optional(v$29.number())
+})), v$29.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
 	const field_id = Number.parseInt(field_id_string);
 	return [field_id, {
 		field_id,
@@ -549,113 +552,113 @@ function crc32(data) {
 
 //#endregion
 //#region src/packet/setup/config/chance.ts
-const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v$27.strictObject({ cards: v$27.array(v$27.union([
-	v$27.strictObject({
-		type: v$27.literal("income"),
-		text_id: v$27.number(),
-		range: v$27.strictObject({
-			min: v$27.number(),
-			max: v$27.number(),
-			step: v$27.number()
+const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v$28.strictObject({ cards: v$28.array(v$28.union([
+	v$28.strictObject({
+		type: v$28.literal("income"),
+		text_id: v$28.number(),
+		range: v$28.strictObject({
+			min: v$28.number(),
+			max: v$28.number(),
+			step: v$28.number()
 		})
 	}),
-	v$27.strictObject({
-		type: v$27.literal("expense"),
-		text_id: v$27.number(),
-		range: v$27.strictObject({
-			min: v$27.number(),
-			max: v$27.number(),
-			step: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("expense"),
+		text_id: v$28.number(),
+		range: v$28.strictObject({
+			min: v$28.number(),
+			max: v$28.number(),
+			step: v$28.number()
 		})
 	}),
-	v$27.strictObject({
-		type: v$27.literal("repair"),
-		text_id: v$27.number(),
-		cost: v$27.strictObject({
-			small: v$27.number(),
-			big: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("repair"),
+		text_id: v$28.number(),
+		cost: v$28.strictObject({
+			small: v$28.number(),
+			big: v$28.number()
 		})
 	}),
-	v$27.strictObject({
-		type: v$27.literal("go-to-jail"),
-		text_id: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("go-to-jail"),
+		text_id: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("teleport"),
-		text_id: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("teleport"),
+		text_id: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("skip-move"),
-		text_id: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("skip-move"),
+		text_id: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("insurance"),
-		text_id: v$27.number(),
-		price: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("insurance"),
+		text_id: v$28.number(),
+		price: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("birthday"),
-		text_id: v$27.number(),
-		amount: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("birthday"),
+		text_id: v$28.number(),
+		amount: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("reverse"),
-		text_id: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("reverse"),
+		text_id: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("disaster"),
-		text_id: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("disaster"),
+		text_id: v$28.number()
 	})
 ])) });
-const valiM1DemoPacketV1ConfigChanceCardsSchema = v$27.pipe(v$27.array(v$27.union([
-	v$27.strictObject({
-		type: v$27.literal("cash_in"),
-		text: v$27.string(),
-		range: v$27.tuple([v$27.number(), v$27.number()]),
-		rangeStep: v$27.number()
+const valiM1DemoPacketV1ConfigChanceCardsSchema = v$28.pipe(v$28.array(v$28.union([
+	v$28.strictObject({
+		type: v$28.literal("cash_in"),
+		text: v$28.string(),
+		range: v$28.tuple([v$28.number(), v$28.number()]),
+		rangeStep: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("cash_out"),
-		text: v$27.string(),
-		range: v$27.tuple([v$27.number(), v$27.number()]),
-		rangeStep: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("cash_out"),
+		text: v$28.string(),
+		range: v$28.tuple([v$28.number(), v$28.number()]),
+		rangeStep: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("repair"),
-		text: v$27.string(),
-		costs: v$27.tuple([v$27.number(), v$27.number()])
+	v$28.strictObject({
+		type: v$28.literal("repair"),
+		text: v$28.string(),
+		costs: v$28.tuple([v$28.number(), v$28.number()])
 	}),
-	v$27.strictObject({
-		type: v$27.literal("jail"),
-		text: v$27.string()
+	v$28.strictObject({
+		type: v$28.literal("jail"),
+		text: v$28.string()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("teleport"),
-		text: v$27.string()
+	v$28.strictObject({
+		type: v$28.literal("teleport"),
+		text: v$28.string()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("move_skip"),
-		text: v$27.string()
+	v$28.strictObject({
+		type: v$28.literal("move_skip"),
+		text: v$28.string()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("insurance"),
-		text: v$27.string(),
-		sum: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("insurance"),
+		text: v$28.string(),
+		sum: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("birthday"),
-		text: v$27.string(),
-		sum: v$27.number()
+	v$28.strictObject({
+		type: v$28.literal("birthday"),
+		text: v$28.string(),
+		sum: v$28.number()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("reverse"),
-		text: v$27.string()
+	v$28.strictObject({
+		type: v$28.literal("reverse"),
+		text: v$28.string()
 	}),
-	v$27.strictObject({
-		type: v$27.literal("fields_disaster"),
-		text: v$27.string()
+	v$28.strictObject({
+		type: v$28.literal("fields_disaster"),
+		text: v$28.string()
 	})
-])), v$27.transform((value) => {
+])), v$28.transform((value) => {
 	const chance_cards_new = [];
 	for (const element$1 of value) switch (element$1.type) {
 		case "cash_in":
@@ -744,32 +747,33 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = v$27.pipe(v$27.array(v$27.unio
 function createStockItemProtoId(monopoly_id, index_in_group) {
 	return -(256 | monopoly_id << 3 | index_in_group);
 }
-const valiM1DemoPacketSetupConfigFieldsSchema = v$26.pipe(v$26.array(v$26.union([
-	v$26.object({
-		is_corner: v$26.pipe(v$26.literal(1), v$26.transform(() => true)),
-		type: v$26.picklist(["start", "jail"])
+const valiM1DemoPacketSetupConfigFieldsSchema = v$27.pipe(v$27.array(v$27.union([
+	v$27.object({
+		is_corner: v$27.pipe(v$27.literal(1), v$27.transform(() => true)),
+		type: v$27.picklist(["start", "jail"])
 	}),
-	v$26.object({
+	v$27.object({
 		is_corner: bit(false),
-		type: v$26.picklist([
+		type: v$27.picklist([
 			"cash.pay",
 			"cash.receive",
 			"chance",
 			"jackpot",
 			"jail.goto",
 			"park",
+			"russian-roulette",
 			"tax.income",
 			"tax.luxury",
 			"wormhole"
 		])
 	}),
-	v$26.object({
-		is_corner: v$26.pipe(v$26.undefined_(), v$26.transform(() => false)),
-		type: v$26.literal("company"),
-		monopoly_id: v$26.number(),
+	v$27.object({
+		is_corner: v$27.pipe(v$27.undefined_(), v$27.transform(() => false)),
+		type: v$27.literal("company"),
+		monopoly_id: v$27.number(),
 		is_last: bit(false)
 	})
-])), v$26.transform((value) => {
+])), v$27.transform((value) => {
 	const indexes_by_group = new Map();
 	return value.map((field) => {
 		if (field.type === "company") {
@@ -784,37 +788,38 @@ const valiM1DemoPacketSetupConfigFieldsSchema = v$26.pipe(v$26.array(v$26.union(
 		return field;
 	});
 }));
-const valiM1DemoPacketV1ConfigFieldsSchema = v$26.pipe(v$26.array(v$26.variant("type", [
-	v$26.object({
-		design: v$26.literal("corner"),
-		type: v$26.literal("start")
+const valiM1DemoPacketV1ConfigFieldsSchema = v$27.pipe(v$27.array(v$27.variant("type", [
+	v$27.object({
+		design: v$27.literal("corner"),
+		type: v$27.literal("start")
 	}),
-	v$26.object({
-		design: v$26.literal("corner"),
-		type: v$26.literal("jail")
+	v$27.object({
+		design: v$27.literal("corner"),
+		type: v$27.literal("jail")
 	}),
-	v$26.object({
-		design: v$26.optional(v$26.literal("corner")),
-		type: v$26.literal("special"),
-		action: v$26.picklist([
+	v$27.object({
+		design: v$27.optional(v$27.literal("corner")),
+		type: v$27.literal("special"),
+		action: v$27.picklist([
 			"cash_minus",
 			"cash_plus",
 			"chance",
 			"goToJail",
 			"jackpot",
 			"relax",
+			"russianRoulette",
 			"tax_income",
 			"tax_luxury",
 			"wormhole"
 		])
 	}),
-	v$26.object({
-		design: v$26.exactOptional(v$26.never()),
-		type: v$26.literal("field"),
-		group: v$26.number(),
+	v$27.object({
+		design: v$27.exactOptional(v$27.never()),
+		type: v$27.literal("field"),
+		group: v$27.number(),
 		is_last: bit(false)
 	})
-])), v$26.transform((value) => {
+])), v$27.transform((value) => {
 	const indexes_by_group = new Map();
 	return value.map((field) => {
 		if (field.type === "start" || field.type === "jail") {
@@ -853,6 +858,9 @@ const valiM1DemoPacketV1ConfigFieldsSchema = v$26.pipe(v$26.array(v$26.variant("
 				case "relax":
 					type_new = "park";
 					break;
+				case "russianRoulette":
+					type_new = "russian-roulette";
+					break;
 				case "tax_income":
 					type_new = "tax.income";
 					break;
@@ -876,45 +884,45 @@ const valiM1DemoPacketV1ConfigFieldsSchema = v$26.pipe(v$26.array(v$26.variant("
 
 //#endregion
 //#region src/packet/setup/config/monopolies.ts
-const valiM1DemoPacketSetupConfigMonopoliesSchema = v$25.pipe(v$25.record(v$25.string(), v$25.union([
-	v$25.object({
-		buy_price: v$25.number(),
-		rent_by_level: v$25.array(v$25.number()),
-		level_cost: v$25.number(),
-		last_field: v$25.optional(v$25.object({
-			buy_price: v$25.number(),
-			rent_by_level: v$25.array(v$25.number())
+const valiM1DemoPacketSetupConfigMonopoliesSchema = v$26.pipe(v$26.record(v$26.string(), v$26.union([
+	v$26.object({
+		buy_price: v$26.number(),
+		rent_by_level: v$26.array(v$26.number()),
+		level_cost: v$26.number(),
+		last_field: v$26.optional(v$26.object({
+			buy_price: v$26.number(),
+			rent_by_level: v$26.array(v$26.number())
 		}))
 	}),
-	v$25.object({
-		buy_price: v$25.number(),
-		rent_by_count: v$25.array(v$25.number())
+	v$26.object({
+		buy_price: v$26.number(),
+		rent_by_count: v$26.array(v$26.number())
 	}),
-	v$25.object({
-		buy_price: v$25.number(),
-		dice_multipliers: v$25.array(v$25.number())
+	v$26.object({
+		buy_price: v$26.number(),
+		dice_multipliers: v$26.array(v$26.number())
 	})
-])), v$25.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
-const valiM1DemoPacketV1ConfigGroupsSchema = v$25.pipe(v$25.record(v$25.string(), v$25.union([
-	v$25.object({
-		buy: v$25.number(),
-		levels: v$25.array(v$25.number()),
-		buy_last: v$25.optional(v$25.number()),
-		levels_last: v$25.optional(v$25.array(v$25.number())),
-		levelUpCost: v$25.number()
+])), v$26.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
+const valiM1DemoPacketV1ConfigGroupsSchema = v$26.pipe(v$26.record(v$26.string(), v$26.union([
+	v$26.object({
+		buy: v$26.number(),
+		levels: v$26.array(v$26.number()),
+		buy_last: v$26.optional(v$26.number()),
+		levels_last: v$26.optional(v$26.array(v$26.number())),
+		levelUpCost: v$26.number()
 	}),
-	v$25.object({
-		buy: v$25.number(),
-		levels: v$25.array(v$25.number()),
-		levelUpCost: v$25.literal(false)
+	v$26.object({
+		buy: v$26.number(),
+		levels: v$26.array(v$26.number()),
+		levelUpCost: v$26.literal(false)
 	}),
-	v$25.object({
-		buy: v$25.number(),
-		levels: v$25.literal(false),
-		coeffs: v$25.array(v$25.number()),
-		levelUpCost: v$25.literal(false)
+	v$26.object({
+		buy: v$26.number(),
+		levels: v$26.literal(false),
+		coeffs: v$26.array(v$26.number()),
+		levelUpCost: v$26.literal(false)
 	})
-])), v$25.transform((value) => new Map(Object.entries(value).map(([monopoly_id_string, group]) => {
+])), v$26.transform((value) => new Map(Object.entries(value).map(([monopoly_id_string, group]) => {
 	let monopoly;
 	if ("coeffs" in group) monopoly = {
 		buy_price: group.buy,
@@ -938,122 +946,122 @@ const valiM1DemoPacketV1ConfigGroupsSchema = v$25.pipe(v$25.record(v$25.string()
 
 //#endregion
 //#region src/packet/setup/config.ts
-const valiM1DemoPacketSetipConfigRestartVariantSchema = v$24.object({
-	round_from: v$24.number(),
-	round_to: v$24.number(),
-	count: v$24.number(),
-	price: v$24.number()
+const valiM1DemoPacketSetipConfigRestartVariantSchema = v$25.object({
+	round_from: v$25.number(),
+	round_to: v$25.number(),
+	count: v$25.number(),
+	price: v$25.number()
 });
-const valiM1DemoPacketSetupConfigSchema = v$24.object({
-	version: v$24.number(),
-	board_size: v$24.tuple([v$24.number(), v$24.number()]),
-	timers: v$24.object({ roll_dices: v$24.number() }),
+const valiM1DemoPacketSetupConfigSchema = v$25.object({
+	version: v$25.number(),
+	board_size: v$25.tuple([v$25.number(), v$25.number()]),
+	timers: v$25.object({ roll_dices: v$25.number() }),
 	fields: valiM1DemoPacketSetupConfigFieldsSchema,
 	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
-	mechanics: v$24.object({
-		auction: v$24.optional(v$24.object({ bid_increment: v$24.number() })),
-		chance: v$24.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
-		field_level: v$24.optional(v$24.object({
-			sell_multiplier: v$24.optional(v$24.number(), 1),
+	mechanics: v$25.object({
+		auction: v$25.optional(v$25.object({ bid_increment: v$25.number() })),
+		chance: v$25.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		field_level: v$25.optional(v$25.object({
+			sell_multiplier: v$25.optional(v$25.number(), 1),
 			build_uneven: bit(false),
 			build_without_monopoly: bit(false)
 		})),
-		jackpot: v$24.optional(v$24.object({
-			bet: v$24.number(),
-			multipliers: v$24.array(v$24.number()),
-			superprize: v$24.object({ chance: v$24.number() })
+		jackpot: v$25.optional(v$25.object({
+			bet: v$25.number(),
+			multipliers: v$25.array(v$25.number()),
+			superprize: v$25.object({ chance: v$25.number() })
 		})),
-		jail: v$24.object({
-			release_fee: v$24.number(),
-			double_roll_attempt_limit: v$24.optional(v$24.number(), 3)
+		jail: v$25.object({
+			release_fee: v$25.number(),
+			double_roll_attempt_limit: v$25.optional(v$25.number(), 3)
 		}),
-		loan: v$24.optional(v$24.object({
-			amount: v$24.number(),
-			repay_multiplier: v$24.number(),
-			duration: v$24.number(),
-			cooldown: v$24.object({
-				match_start: v$24.number(),
-				repay: v$24.number()
+		loan: v$25.optional(v$25.object({
+			amount: v$25.number(),
+			repay_multiplier: v$25.number(),
+			duration: v$25.number(),
+			cooldown: v$25.object({
+				match_start: v$25.number(),
+				repay: v$25.number()
 			})
 		})),
-		mortgage: v$24.optional(v$24.object({
-			duration: v$24.optional(v$24.number()),
-			multiplier: v$24.number(),
-			buyback_multiplier: v$24.number(),
-			auction_multiplier: v$24.optional(v$24.number())
+		mortgage: v$25.optional(v$25.object({
+			duration: v$25.optional(v$25.number()),
+			multiplier: v$25.number(),
+			buyback_multiplier: v$25.number(),
+			auction_multiplier: v$25.optional(v$25.number())
 		})),
-		restart: v$24.optional(v$24.object({ variants: v$24.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
-		start: v$24.object({
-			income_amount: v$24.number(),
-			bonus_amount: v$24.optional(v$24.number(), 0)
+		restart: v$25.optional(v$25.object({ variants: v$25.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+		start: v$25.object({
+			income_amount: v$25.number(),
+			bonus_amount: v$25.optional(v$25.number(), 0)
 		}),
-		time_rules: v$24.array(v$24.union([
-			v$24.object({
-				type: v$24.literal("start.none"),
-				time: v$24.number()
+		time_rules: v$25.array(v$25.union([
+			v$25.object({
+				type: v$25.literal("start.none"),
+				time: v$25.number()
 			}),
-			v$24.object({
-				type: v$24.literal("start.tax"),
-				time: v$24.number(),
-				sum: v$24.number()
+			v$25.object({
+				type: v$25.literal("start.tax"),
+				time: v$25.number(),
+				sum: v$25.number()
 			}),
-			v$24.object({
-				type: v$24.literal("rent.tax"),
-				time: v$24.number(),
-				rate: v$24.number()
+			v$25.object({
+				type: v$25.literal("rent.tax"),
+				time: v$25.number(),
+				rate: v$25.number()
 			})
 		])),
-		wormhole: v$24.optional(v$24.object({
-			exits_free_count: v$24.optional(v$24.number(), 3),
-			exits_extra_price: v$24.number(),
+		wormhole: v$25.optional(v$25.object({
+			exits_free_count: v$25.optional(v$25.number(), 3),
+			exits_extra_price: v$25.number(),
 			move_direct: bit(false)
 		}))
 	})
 });
-const valiM1DemoPacketV1ConfigSchema = v$24.pipe(
-	v$24.object({
-		version: v$24.number(),
-		size: v$24.tuple([v$24.number(), v$24.number()]),
+const valiM1DemoPacketV1ConfigSchema = v$25.pipe(
+	v$25.object({
+		version: v$25.number(),
+		size: v$25.tuple([v$25.number(), v$25.number()]),
 		fields: valiM1DemoPacketV1ConfigFieldsSchema,
 		groups: valiM1DemoPacketV1ConfigGroupsSchema,
-		TIME_FOR_ROLL_DICES: v$24.number(),
-		AUCTION_BET_STEP: v$24.optional(v$24.number()),
-		chance_cards: v$24.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
-		coeff_level_down: v$24.optional(v$24.number(), 1),
+		TIME_FOR_ROLL_DICES: v$25.number(),
+		AUCTION_BET_STEP: v$25.optional(v$25.number()),
+		chance_cards: v$25.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+		coeff_level_down: v$25.optional(v$25.number(), 1),
 		UNEVEN_LEVEL_CHANGE: bit(false),
 		LEVEL_CHANGE_NO_MNPL: bit(false),
-		JACKPOT_BET: v$24.optional(v$24.number()),
-		JACKPOT_COEFFS: v$24.optional(v$24.array(v$24.number())),
-		JACKPOT_SUPERPRIZE_CHANCE: v$24.optional(v$24.number()),
-		jailFee: v$24.number(),
-		UNJAIL_TRIES_LIMIT: v$24.optional(v$24.number(), 3),
-		CREDIT_SUM: v$24.optional(v$24.number()),
-		CREDIT_INTEREST: v$24.optional(v$24.number()),
-		CREDIT_PERCENT: v$24.optional(v$24.number()),
-		CREDIT_ROUNDS: v$24.optional(v$24.number()),
-		CREDIT_COOLDOWN_ROUNDS: v$24.optional(v$24.number()),
-		START_CREDIT_COOLDOWN_ROUNDS: v$24.optional(v$24.number()),
-		MORTGAGE_ROUND_LIMIT: v$24.optional(v$24.number()),
-		coeff_mortgage: v$24.number(),
-		coeff_unmortgage: v$24.number(),
-		auction_mortgaged: v$24.optional(v$24.number()),
-		restart_variants: v$24.optional(v$24.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
-		roundCash: v$24.number(),
-		START_BONUS_SUM: v$24.optional(v$24.number(), 0),
-		roundTaxes: v$24.optional(v$24.array(v$24.object({
-			game_time: v$24.number(),
-			tax: v$24.number()
+		JACKPOT_BET: v$25.optional(v$25.number()),
+		JACKPOT_COEFFS: v$25.optional(v$25.array(v$25.number())),
+		JACKPOT_SUPERPRIZE_CHANCE: v$25.optional(v$25.number()),
+		jailFee: v$25.number(),
+		UNJAIL_TRIES_LIMIT: v$25.optional(v$25.number(), 3),
+		CREDIT_SUM: v$25.optional(v$25.number()),
+		CREDIT_INTEREST: v$25.optional(v$25.number()),
+		CREDIT_PERCENT: v$25.optional(v$25.number()),
+		CREDIT_ROUNDS: v$25.optional(v$25.number()),
+		CREDIT_COOLDOWN_ROUNDS: v$25.optional(v$25.number()),
+		START_CREDIT_COOLDOWN_ROUNDS: v$25.optional(v$25.number()),
+		MORTGAGE_ROUND_LIMIT: v$25.optional(v$25.number()),
+		coeff_mortgage: v$25.number(),
+		coeff_unmortgage: v$25.number(),
+		auction_mortgaged: v$25.optional(v$25.number()),
+		restart_variants: v$25.optional(v$25.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
+		roundCash: v$25.number(),
+		START_BONUS_SUM: v$25.optional(v$25.number(), 0),
+		roundTaxes: v$25.optional(v$25.array(v$25.object({
+			game_time: v$25.number(),
+			tax: v$25.number()
 		})), () => []),
-		incomeTaxes: v$24.optional(v$24.array(v$24.object({
-			game_time: v$24.number(),
-			tax_rate: v$24.number()
+		incomeTaxes: v$25.optional(v$25.array(v$25.object({
+			game_time: v$25.number(),
+			tax_rate: v$25.number()
 		})), () => []),
-		WORMHOLE_DIRECTLY: v$24.optional(bit(false)),
-		WORMHOLE_EXTRA_DESTINATION_COST: v$24.optional(v$24.number())
+		WORMHOLE_DIRECTLY: v$25.optional(bit(false)),
+		WORMHOLE_EXTRA_DESTINATION_COST: v$25.optional(v$25.number())
 	}),
 	// transforming config in-place because it is a whole product
 	// eslint-disable-next-line max-lines-per-function
-	v$24.transform((value) => {
+	v$25.transform((value) => {
 		return {
 			version: value.version,
 			board_size: value.size,
@@ -1126,35 +1134,35 @@ const valiM1DemoPacketV1ConfigSchema = v$24.pipe(
 
 //#endregion
 //#region src/packet/status/player.ts
-const valiM1DemoPacketStatusPlayersSchema = v$23.pipe(v$23.array(v$23.pipe(v$23.object({
-	user_id: v$23.number(),
-	status: v$23.number(),
-	position: v$23.number(),
-	cash: v$23.number(),
-	score: v$23.number(),
-	jail: v$23.optional(v$23.object({ roll_double_attempts: v$23.number() })),
-	loan: v$23.union([v$23.strictObject({
-		taken: v$23.pipe(v$23.literal(0), v$23.transform(() => false)),
-		unlock_round: v$23.number()
-	}), v$23.strictObject({
-		taken: v$23.pipe(v$23.literal(1), v$23.transform(() => true)),
-		debt: v$23.number(),
-		return_round: v$23.number()
+const valiM1DemoPacketStatusPlayersSchema = v$24.pipe(v$24.array(v$24.pipe(v$24.object({
+	user_id: v$24.number(),
+	status: v$24.number(),
+	position: v$24.number(),
+	cash: v$24.number(),
+	score: v$24.number(),
+	jail: v$24.optional(v$24.object({ roll_double_attempts: v$24.number() })),
+	loan: v$24.union([v$24.strictObject({
+		taken: v$24.pipe(v$24.literal(0), v$24.transform(() => false)),
+		unlock_round: v$24.number()
+	}), v$24.strictObject({
+		taken: v$24.pipe(v$24.literal(1), v$24.transform(() => true)),
+		debt: v$24.number(),
+		return_round: v$24.number()
 	})]),
-	restart: v$23.optional(v$23.object({ variant: v$23.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) }))
-}), v$23.transform((value) => value))), v$23.transform((value) => new Map(value.map((player) => [player.user_id, player]))));
-const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
-	user_id: v$23.number(),
-	vip: v$23.optional(v$23.boolean(), false),
-	cards_equipped: v$23.optional(v$23.record(v$23.string(), v$23.object({
-		thing_id: v$23.number(),
-		coeff_rent: v$23.number()
+	restart: v$24.optional(v$24.object({ variant: v$24.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) }))
+}), v$24.transform((value) => value))), v$24.transform((value) => new Map(value.map((player) => [player.user_id, player]))));
+const valiM1DemoPacketV1StatusPlayersSchema = v$24.array(v$24.pipe(v$24.object({
+	user_id: v$24.number(),
+	vip: v$24.optional(v$24.boolean(), false),
+	cards_equipped: v$24.optional(v$24.record(v$24.string(), v$24.object({
+		thing_id: v$24.number(),
+		coeff_rent: v$24.number()
 	}))),
-	generator: v$23.optional(v$23.pipe(v$23.object({
-		generator_id: v$23.number(),
-		variant_id: v$23.optional(v$23.number()),
-		seed: v$23.optional(v$23.string())
-	}), v$23.transform((value) => {
+	generator: v$24.optional(v$24.pipe(v$24.object({
+		generator_id: v$24.number(),
+		variant_id: v$24.optional(v$24.number()),
+		seed: v$24.optional(v$24.string())
+	}), v$24.transform((value) => {
 		if (value.generator_id === -100) return void 0;
 		return {
 			item_proto_id: value.generator_id,
@@ -1162,27 +1170,27 @@ const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
 			seed: value.seed
 		};
 	}))),
-	joke: v$23.optional(v$23.pipe(v$23.union([
-		v$23.literal(false),
-		v$23.number(),
-		v$23.object({ proto_id: v$23.number() })
-	]), v$23.transform((value) => {
+	joke: v$24.optional(v$24.pipe(v$24.union([
+		v$24.literal(false),
+		v$24.number(),
+		v$24.object({ proto_id: v$24.number() })
+	]), v$24.transform((value) => {
 		if (value === false) return void 0;
 		if (typeof value === "number") return { item_proto_id: value };
 		return { item_proto_id: value.proto_id };
 	}))),
-	can_use_credit: v$23.optional(v$23.boolean(), false),
-	status: v$23.number(),
-	position: v$23.number(),
-	money: v$23.number(),
-	score: v$23.number(),
-	jailed: v$23.boolean(),
-	unjailAttempts: v$23.number(),
-	credit_nextTakeRound: v$23.number(),
-	credit_payRound: v$23.union([v$23.literal(false), v$23.number()]),
-	credit_toPay: v$23.number(),
-	restart: v$23.optional(v$23.union([v$23.pipe(v$23.literal(0), v$23.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema]))
-}), v$23.transform((value) => {
+	can_use_credit: v$24.optional(v$24.boolean(), false),
+	status: v$24.number(),
+	position: v$24.number(),
+	money: v$24.number(),
+	score: v$24.number(),
+	jailed: v$24.boolean(),
+	unjailAttempts: v$24.number(),
+	credit_nextTakeRound: v$24.number(),
+	credit_payRound: v$24.union([v$24.literal(false), v$24.number()]),
+	credit_toPay: v$24.number(),
+	restart: v$24.optional(v$24.union([v$24.pipe(v$24.literal(0), v$24.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema]))
+}), v$24.transform((value) => {
 	return {
 		user_id: value.user_id,
 		_setup: value.cards_equipped ? {
@@ -1224,19 +1232,19 @@ const valiM1DemoPacketV1StatusPlayersSchema = v$23.array(v$23.pipe(v$23.object({
 
 //#endregion
 //#region src/packet/status.ts
-const valiM1DemoPacketStatusSchema = v$22.object({
-	round: v$22.number(),
+const valiM1DemoPacketStatusSchema = v$23.object({
+	round: v$23.number(),
 	players: valiM1DemoPacketStatusPlayersSchema,
 	fields: valiM1DemoPacketStatusFieldsSchema,
 	turn: valiM1DemoPacketStatusTurnSchema,
-	timer: v$22.optional(v$22.union([v$22.object({
-		ts_expires: v$22.number(),
-		is_extra: v$22.boolean()
-	}), v$22.object({
-		expires_in: v$22.number(),
-		is_extra: v$22.boolean()
+	timer: v$23.optional(v$23.union([v$23.object({
+		ts_expires: v$23.number(),
+		is_extra: v$23.boolean()
+	}), v$23.object({
+		expires_in: v$23.number(),
+		is_extra: v$23.boolean()
 	})])),
-	viewers_count: v$22.optional(v$22.number(), 0)
+	viewers_count: v$23.optional(v$23.number(), 0)
 });
 const action_list_mapping = {
 	toAuction: "auction.put",
@@ -1263,6 +1271,8 @@ const action_list_mapping = {
 	noBuy: "purchase.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
+	russianRoulettePlay: "russian-roulette.play",
+	russianRouletteDecline: "russian-roulette.reject",
 	startBypassFee: "start.tax.pay",
 	chooseFieldToMove: "triple.move",
 	wormholeUse: "wormhole.use",
@@ -1279,15 +1289,15 @@ const extra_actions_mapping = [
 	["contract.fallback", "contractFallback"]
 ];
 const packetv1_action_mapping = Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
-const valiM1DemoPacketV1StatusActiontypeSchema = v$22.array(v$22.picklist(Object.keys(action_list_mapping)));
-const valiM1DemoPacketV1ContractSchema = v$22.pipe(v$22.object({
-	from: v$22.number(),
-	to: v$22.number(),
-	out_fields: v$22.array(v$22.number()),
-	out_money: v$22.number(),
-	in_fields: v$22.array(v$22.number()),
-	in_money: v$22.number()
-}), v$22.transform((value) => ({
+const valiM1DemoPacketV1StatusActiontypeSchema = v$23.array(v$23.picklist(Object.keys(action_list_mapping)));
+const valiM1DemoPacketV1ContractSchema = v$23.pipe(v$23.object({
+	from: v$23.number(),
+	to: v$23.number(),
+	out_fields: v$23.array(v$23.number()),
+	out_money: v$23.number(),
+	in_fields: v$23.array(v$23.number()),
+	in_money: v$23.number()
+}), v$23.transform((value) => ({
 	initiator: {
 		user_id: value.from,
 		field_ids: new Set(value.out_fields),
@@ -1299,44 +1309,44 @@ const valiM1DemoPacketV1ContractSchema = v$22.pipe(v$22.object({
 		cash: value.in_money
 	}
 })));
-const valiM1DemoPacketV1StatusSchema = v$22.pipe(
-	v$22.object({
-		round: v$22.number(),
+const valiM1DemoPacketV1StatusSchema = v$23.pipe(
+	v$23.object({
+		round: v$23.number(),
 		players: valiM1DemoPacketV1StatusPlayersSchema,
 		fields: valiM1DemoPacketV1StatusFieldsSchema,
-		player_ownerOfMove: v$22.nullable(v$22.number()),
-		action_player: v$22.nullable(v$22.number()),
+		player_ownerOfMove: v$23.nullable(v$23.number()),
+		action_player: v$23.nullable(v$23.number()),
 		action_type: valiM1DemoPacketV1StatusActiontypeSchema,
-		current_move: v$22.optional(v$22.object({
-			dices: v$22.optional(v$22.tuple([
-				v$22.number(),
-				v$22.optional(v$22.number()),
-				v$22.optional(v$22.number())
+		current_move: v$23.optional(v$23.object({
+			dices: v$23.optional(v$23.tuple([
+				v$23.number(),
+				v$23.optional(v$23.number()),
+				v$23.optional(v$23.number())
 			])),
-			move_reverse: v$22.optional(v$22.boolean(), false),
-			pay: v$22.optional(v$22.number()),
-			moneyToPay: v$22.optional(v$22.number()),
-			payTo: v$22.optional(v$22.number()),
-			players_auctionStatus: v$22.optional(v$22.pipe(v$22.record(v$22.string(), v$22.number()), v$22.transform((value) => new Set(Object.entries(value).filter(([_, status]) => status === 0).map(([user_id_string]) => Number.parseInt(user_id_string)))))),
-			field: v$22.optional(v$22.number()),
-			bet: v$22.optional(v$22.number()),
-			contract: v$22.optional(valiM1DemoPacketV1ContractSchema),
-			contracts: v$22.optional(v$22.number()),
-			jackpot_superprize_money: v$22.optional(v$22.number()),
-			wormhole_destinations: v$22.optional(v$22.array(v$22.number())),
-			levelUpped: v$22.optional(v$22.array(v$22.number())),
-			mortgaged: v$22.optional(v$22.array(v$22.number()))
+			move_reverse: v$23.optional(v$23.boolean(), false),
+			pay: v$23.optional(v$23.number()),
+			moneyToPay: v$23.optional(v$23.number()),
+			payTo: v$23.optional(v$23.number()),
+			players_auctionStatus: v$23.optional(v$23.pipe(v$23.record(v$23.string(), v$23.number()), v$23.transform((value) => new Set(Object.entries(value).filter(([_, status]) => status === 0).map(([user_id_string]) => Number.parseInt(user_id_string)))))),
+			field: v$23.optional(v$23.number()),
+			bet: v$23.optional(v$23.number()),
+			contract: v$23.optional(valiM1DemoPacketV1ContractSchema),
+			contracts: v$23.optional(v$23.number()),
+			jackpot_superprize_money: v$23.optional(v$23.number()),
+			wormhole_destinations: v$23.optional(v$23.array(v$23.number())),
+			levelUpped: v$23.optional(v$23.array(v$23.number())),
+			mortgaged: v$23.optional(v$23.array(v$23.number()))
 		})),
-		timeout_ts: v$22.number(),
-		timeout_is_additional: v$22.boolean(),
-		viewers: v$22.optional(v$22.number(), 0)
+		timeout_ts: v$23.number(),
+		timeout_is_additional: v$23.boolean(),
+		viewers: v$23.optional(v$23.number(), 0)
 	}),
-	v$22.transform((value) => {
+	v$23.transform((value) => {
 		for (const [index, player] of value.players.entries()) if (player._setup) player._setup.index = index;
 		return value;
 	}),
 	// eslint-disable-next-line complexity, max-lines-per-function
-	v$22.transform((value) => {
+	v$23.transform((value) => {
 		const { player_ownerOfMove, action_player, action_type, current_move, timeout_ts, timeout_is_additional, viewers,...value_rest } = value;
 		const action_list = transformActionsList(action_type);
 		const payment_amount = current_move?.pay ?? current_move?.moneyToPay;
@@ -1411,60 +1421,60 @@ function transformActionsList(list) {
 //#region src/packet/events/contract.ts
 var contract_exports = {};
 __export(contract_exports, {
-	enrichments: () => enrichments$15,
-	valiSchemas: () => valiSchemas$16,
-	valiV1Schemas: () => valiV1Schemas$16
+	enrichments: () => enrichments$16,
+	valiSchemas: () => valiSchemas$17,
+	valiV1Schemas: () => valiV1Schemas$17
 });
-const valiSchemas$16 = [
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.send"),
-		user_id: v$21.number(),
-		user_id_to: v$21.number()
+const valiSchemas$17 = [
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.send"),
+		user_id: v$22.number(),
+		user_id_to: v$22.number()
 	}),
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.accept"),
-		user_id: v$21.number(),
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.accept"),
+		user_id: v$22.number(),
 		contract: valiM1DemoContractSchema
 	}),
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.reject"),
-		user_id: v$21.number(),
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.reject"),
+		user_id: v$22.number(),
 		timeout: bit(false)
 	}),
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.review.init")
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.review.init")
 	}),
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.review.approve"),
-		user_id: v$21.number()
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.review.approve"),
+		user_id: v$22.number()
 	}),
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.review.object"),
-		user_id: v$21.number()
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.review.object"),
+		user_id: v$22.number()
 	}),
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.review.pass")
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.review.pass")
 	}),
-	v$21.object({
-		id: v$21.string(),
-		type: v$21.literal("contract.revert")
+	v$22.object({
+		id: v$22.string(),
+		type: v$22.literal("contract.revert")
 	})
 ];
-const enrichments$15 = {};
-const valiV1Schemas$16 = [
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract"),
-		user_id: v$21.number(),
-		to: v$21.number()
-	}), v$21.transform((value) => {
+const enrichments$16 = {};
+const valiV1Schemas$17 = [
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract"),
+		user_id: v$22.number(),
+		to: v$22.number()
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.send",
@@ -1472,21 +1482,21 @@ const valiV1Schemas$16 = [
 			user_id_to: value.to
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_details")
-	}), v$21.transform((value) => {
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_details")
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: value.type
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_accepted"),
-		user_id: v$21.number(),
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_accepted"),
+		user_id: v$22.number(),
 		contract: valiM1DemoPacketV1ContractSchema
-	}), v$21.transform((value) => {
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.accept",
@@ -1494,12 +1504,12 @@ const valiV1Schemas$16 = [
 			contract: value.contract
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_declined"),
-		user_id: v$21.number(),
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_declined"),
+		user_id: v$22.number(),
 		by_timeout: bit(false)
-	}), v$21.transform((value) => {
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.reject",
@@ -1507,50 +1517,50 @@ const valiV1Schemas$16 = [
 			timeout: value.by_timeout
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_protest_start")
-	}), v$21.transform((value) => {
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_protest_start")
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.review.init"
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_protest_refused"),
-		user_id: v$21.number()
-	}), v$21.transform((value) => {
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_protest_refused"),
+		user_id: v$22.number()
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.review.approve",
 			user_id: value.user_id
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_protest_commited"),
-		user_id: v$21.number()
-	}), v$21.transform((value) => {
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_protest_commited"),
+		user_id: v$22.number()
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.review.object",
 			user_id: value.user_id
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_protest_refused_all")
-	}), v$21.transform((value) => {
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_protest_refused_all")
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.review.pass"
 		};
 	})),
-	v$21.pipe(v$21.object({
-		_id: v$21.optional(v$21.string()),
-		type: v$21.literal("contract_fallback")
-	}), v$21.transform((value) => {
+	v$22.pipe(v$22.object({
+		_id: v$22.optional(v$22.string()),
+		type: v$22.literal("contract_fallback")
+	}), v$22.transform((value) => {
 		return {
 			id: value._id,
 			type: "contract.revert"
@@ -1562,63 +1572,63 @@ const valiV1Schemas$16 = [
 //#region src/packet/events/jackpot.ts
 var jackpot_exports = {};
 __export(jackpot_exports, {
-	enrichments: () => enrichments$14,
-	valiSchemas: () => valiSchemas$15,
-	valiV1Schemas: () => valiV1Schemas$15
+	enrichments: () => enrichments$15,
+	valiSchemas: () => valiSchemas$16,
+	valiV1Schemas: () => valiV1Schemas$16
 });
-const valiSchemas$15 = [
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot"),
-		user_id: v$20.number()
+const valiSchemas$16 = [
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot"),
+		user_id: v$21.number()
 	}),
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot.pay"),
-		user_id: v$20.number(),
-		amount: v$20.number(),
-		jackpot_size: v$20.number()
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot.pay"),
+		user_id: v$21.number(),
+		amount: v$21.number(),
+		jackpot_size: v$21.number()
 	}),
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot.play"),
-		user_id: v$20.number(),
-		dice_bet: v$20.array(v$20.number()),
-		dice_rolled: v$20.number()
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot.play"),
+		user_id: v$21.number(),
+		dice_bet: v$21.array(v$21.number()),
+		dice_rolled: v$21.number()
 	}),
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot.win"),
-		user_id: v$20.number(),
-		amount: v$20.number(),
-		dice_rolled: v$20.optional(v$20.number())
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot.win"),
+		user_id: v$21.number(),
+		amount: v$21.number(),
+		dice_rolled: v$21.optional(v$21.number())
 	}),
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot.lose"),
-		user_id: v$20.number(),
-		amount: v$20.optional(v$20.number()),
-		dice_rolled: v$20.optional(v$20.number())
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot.lose"),
+		user_id: v$21.number(),
+		amount: v$21.optional(v$21.number()),
+		dice_rolled: v$21.optional(v$21.number())
 	}),
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot.superprize.win"),
-		user_id: v$20.number(),
-		amount: v$20.number()
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot.superprize.win"),
+		user_id: v$21.number(),
+		amount: v$21.number()
 	}),
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot.superprize.increase"),
-		user_id: v$20.number(),
-		superprize: v$20.number()
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot.superprize.increase"),
+		user_id: v$21.number(),
+		superprize: v$21.number()
 	}),
-	v$20.object({
-		id: v$20.string(),
-		type: v$20.literal("jackpot.reject"),
-		user_id: v$20.number()
+	v$21.object({
+		id: v$21.string(),
+		type: v$21.literal("jackpot.reject"),
+		user_id: v$21.number()
 	})
 ];
-const enrichments$14 = {
+const enrichments$15 = {
 	"jackpot.pay"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.amount;
@@ -1636,25 +1646,25 @@ const enrichments$14 = {
 		player.cash += options.event.amount;
 	}
 };
-const valiV1Schemas$15 = [
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot"),
-		user_id: v$20.number()
-	}), v$20.transform((value) => {
+const valiV1Schemas$16 = [
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot"),
+		user_id: v$21.number()
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot",
 			user_id: value.user_id
 		};
 	})),
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot_paid"),
-		user_id: v$20.number(),
-		money: v$20.number(),
-		jackpot_money: v$20.number()
-	}), v$20.transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot_paid"),
+		user_id: v$21.number(),
+		money: v$21.number(),
+		jackpot_money: v$21.number()
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.pay",
@@ -1663,13 +1673,13 @@ const valiV1Schemas$15 = [
 			jackpot_size: value.jackpot_money
 		};
 	})),
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot_play"),
-		user_id: v$20.number(),
-		dices_betted: v$20.array(v$20.number()),
-		dice_rolled: v$20.number()
-	}), v$20.transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot_play"),
+		user_id: v$21.number(),
+		dices_betted: v$21.array(v$21.number()),
+		dice_rolled: v$21.number()
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.play",
@@ -1678,13 +1688,13 @@ const valiV1Schemas$15 = [
 			dice_rolled: value.dice_rolled
 		};
 	})),
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot_win"),
-		user_id: v$20.number(),
-		money: v$20.number(),
-		dice_rolled: v$20.optional(v$20.number())
-	}), v$20.transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot_win"),
+		user_id: v$21.number(),
+		money: v$21.number(),
+		dice_rolled: v$21.optional(v$21.number())
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.win",
@@ -1693,13 +1703,13 @@ const valiV1Schemas$15 = [
 			dice_rolled: value.dice_rolled
 		};
 	})),
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot_lose"),
-		user_id: v$20.number(),
-		money: v$20.optional(v$20.number()),
-		dice_rolled: v$20.optional(v$20.number())
-	}), v$20.transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot_lose"),
+		user_id: v$21.number(),
+		money: v$21.optional(v$21.number()),
+		dice_rolled: v$21.optional(v$21.number())
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.lose",
@@ -1708,12 +1718,12 @@ const valiV1Schemas$15 = [
 			dice_rolled: value.dice_rolled
 		};
 	})),
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot_superprize_win"),
-		user_id: v$20.number(),
-		money: v$20.number()
-	}), v$20.transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot_superprize_win"),
+		user_id: v$21.number(),
+		money: v$21.number()
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.superprize.win",
@@ -1721,12 +1731,12 @@ const valiV1Schemas$15 = [
 			amount: value.money
 		};
 	})),
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot_superprize_funded"),
-		user_id: v$20.number(),
-		jackpot_superprize_money: v$20.number()
-	}), v$20.transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot_superprize_funded"),
+		user_id: v$21.number(),
+		jackpot_superprize_money: v$21.number()
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.superprize.increase",
@@ -1734,11 +1744,11 @@ const valiV1Schemas$15 = [
 			superprize: value.jackpot_superprize_money
 		};
 	})),
-	v$20.pipe(v$20.object({
-		_id: v$20.optional(v$20.string()),
-		type: v$20.literal("jackpot_declined"),
-		user_id: v$20.number()
-	}), v$20.transform((value) => {
+	v$21.pipe(v$21.object({
+		_id: v$21.optional(v$21.string()),
+		type: v$21.literal("jackpot_declined"),
+		user_id: v$21.number()
+	}), v$21.transform((value) => {
 		return {
 			id: value._id,
 			type: "jackpot.reject",
@@ -1751,39 +1761,39 @@ const valiV1Schemas$15 = [
 //#region src/packet/events/jail.ts
 var jail_exports = {};
 __export(jail_exports, {
-	enrichments: () => enrichments$13,
-	valiSchemas: () => valiSchemas$14,
-	valiV1Schemas: () => valiV1Schemas$14
+	enrichments: () => enrichments$14,
+	valiSchemas: () => valiSchemas$15,
+	valiV1Schemas: () => valiV1Schemas$15
 });
-const valiSchemas$14 = [
-	v$19.object({
-		id: v$19.string(),
-		type: v$19.literal("jail.put"),
-		user_id: v$19.number()
+const valiSchemas$15 = [
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jail.put"),
+		user_id: v$20.number()
 	}),
-	v$19.object({
-		id: v$19.string(),
-		type: v$19.literal("jail.put.double"),
-		user_id: v$19.number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jail.put.double"),
+		user_id: v$20.number()
 	}),
-	v$19.object({
-		id: v$19.string(),
-		type: v$19.literal("jail.visit"),
-		user_id: v$19.number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jail.visit"),
+		user_id: v$20.number()
 	}),
-	v$19.object({
-		id: v$19.string(),
-		type: v$19.literal("jail.release.pay"),
-		user_id: v$19.number()
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jail.release.pay"),
+		user_id: v$20.number()
 	}),
-	v$19.object({
-		id: v$19.string(),
-		type: v$19.literal("jail.release"),
-		user_id: v$19.number(),
-		position_after: v$19.optional(v$19.number())
+	v$20.object({
+		id: v$20.string(),
+		type: v$20.literal("jail.release"),
+		user_id: v$20.number(),
+		position_after: v$20.optional(v$20.number())
 	})
 ];
-const enrichments$13 = {
+const enrichments$14 = {
 	"jail.put"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.position = options.field_id_jail;
@@ -1800,57 +1810,57 @@ const enrichments$13 = {
 		if (options.event.position_after) player.position = options.event.position_after;
 	}
 };
-const valiV1Schemas$14 = [
-	v$19.pipe(v$19.object({
-		_id: v$19.optional(v$19.string()),
-		type: v$19.literal("goToJail"),
-		user_id: v$19.number()
-	}), v$19.transform((value) => {
+const valiV1Schemas$15 = [
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("goToJail"),
+		user_id: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.put",
 			user_id: value.user_id
 		};
 	})),
-	v$19.pipe(v$19.object({
-		_id: v$19.optional(v$19.string()),
-		type: v$19.literal("goToJailByCombo"),
-		user_id: v$19.number()
-	}), v$19.transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("goToJailByCombo"),
+		user_id: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.put.double",
 			user_id: value.user_id
 		};
 	})),
-	v$19.pipe(v$19.object({
-		_id: v$19.optional(v$19.string()),
-		type: v$19.literal("goToJailVisiting"),
-		user_id: v$19.number()
-	}), v$19.transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("goToJailVisiting"),
+		user_id: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.visit",
 			user_id: value.user_id
 		};
 	})),
-	v$19.pipe(v$19.object({
-		_id: v$19.optional(v$19.string()),
-		type: v$19.literal("payForUnjail"),
-		user_id: v$19.number()
-	}), v$19.transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("payForUnjail"),
+		user_id: v$20.number()
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.release.pay",
 			user_id: value.user_id
 		};
 	})),
-	v$19.pipe(v$19.object({
-		_id: v$19.optional(v$19.string()),
-		type: v$19.literal("unjailedByFee"),
-		user_id: v$19.number(),
-		mean_position: v$19.optional(v$19.number())
-	}), v$19.transform((value) => {
+	v$20.pipe(v$20.object({
+		_id: v$20.optional(v$20.string()),
+		type: v$20.literal("unjailedByFee"),
+		user_id: v$20.number(),
+		mean_position: v$20.optional(v$20.number())
+	}), v$20.transform((value) => {
 		return {
 			id: value._id,
 			type: "jail.release",
@@ -1864,22 +1874,22 @@ const valiV1Schemas$14 = [
 //#region src/packet/events/level.ts
 var level_exports = {};
 __export(level_exports, {
-	enrichments: () => enrichments$12,
-	valiSchemas: () => valiSchemas$13,
-	valiV1Schemas: () => valiV1Schemas$13
+	enrichments: () => enrichments$13,
+	valiSchemas: () => valiSchemas$14,
+	valiV1Schemas: () => valiV1Schemas$14
 });
-const valiSchemas$13 = [v$18.object({
-	id: v$18.string(),
-	type: v$18.literal("level.build"),
-	user_id: v$18.number(),
-	field_id: v$18.number()
-}), v$18.object({
-	id: v$18.string(),
-	type: v$18.literal("level.sell"),
-	user_id: v$18.number(),
-	field_id: v$18.number()
+const valiSchemas$14 = [v$19.object({
+	id: v$19.string(),
+	type: v$19.literal("level.build"),
+	user_id: v$19.number(),
+	field_id: v$19.number()
+}), v$19.object({
+	id: v$19.string(),
+	type: v$19.literal("level.sell"),
+	user_id: v$19.number(),
+	field_id: v$19.number()
 })];
-const enrichments$12 = {
+const enrichments$13 = {
 	"level.build"(options) {
 		const field = options.status.fields.get(options.event.field_id);
 		field.level++;
@@ -1905,24 +1915,24 @@ const enrichments$12 = {
 		player.cash += monopoly.level_cost;
 	}
 };
-const valiV1Schemas$13 = [v$18.pipe(v$18.object({
-	_id: v$18.optional(v$18.string()),
-	type: v$18.literal("levelUp"),
-	user_id: v$18.number(),
-	field: v$18.number()
-}), v$18.transform((value) => {
+const valiV1Schemas$14 = [v$19.pipe(v$19.object({
+	_id: v$19.optional(v$19.string()),
+	type: v$19.literal("levelUp"),
+	user_id: v$19.number(),
+	field: v$19.number()
+}), v$19.transform((value) => {
 	return {
 		id: value._id,
 		type: "level.build",
 		user_id: value.user_id,
 		field_id: value.field
 	};
-})), v$18.pipe(v$18.object({
-	_id: v$18.optional(v$18.string()),
-	type: v$18.literal("levelDown"),
-	user_id: v$18.number(),
-	field: v$18.number()
-}), v$18.transform((value) => {
+})), v$19.pipe(v$19.object({
+	_id: v$19.optional(v$19.string()),
+	type: v$19.literal("levelDown"),
+	user_id: v$19.number(),
+	field: v$19.number()
+}), v$19.transform((value) => {
 	return {
 		id: value._id,
 		type: "level.sell",
@@ -1935,30 +1945,30 @@ const valiV1Schemas$13 = [v$18.pipe(v$18.object({
 //#region src/packet/events/loan.ts
 var loan_exports = {};
 __export(loan_exports, {
-	enrichments: () => enrichments$11,
-	valiSchemas: () => valiSchemas$12,
-	valiV1Schemas: () => valiV1Schemas$12
+	enrichments: () => enrichments$12,
+	valiSchemas: () => valiSchemas$13,
+	valiV1Schemas: () => valiV1Schemas$13
 });
-const valiSchemas$12 = [
-	v$17.object({
-		id: v$17.string(),
-		type: v$17.literal("loan.take"),
-		user_id: v$17.number()
+const valiSchemas$13 = [
+	v$18.object({
+		id: v$18.string(),
+		type: v$18.literal("loan.take"),
+		user_id: v$18.number()
 	}),
-	v$17.object({
-		id: v$17.string(),
-		type: v$17.literal("loan.deadline"),
-		user_id: v$17.number(),
-		amount: v$17.number()
+	v$18.object({
+		id: v$18.string(),
+		type: v$18.literal("loan.deadline"),
+		user_id: v$18.number(),
+		amount: v$18.number()
 	}),
-	v$17.object({
-		id: v$17.string(),
-		type: v$17.literal("loan.repay"),
-		user_id: v$17.number(),
-		amount: v$17.number()
+	v$18.object({
+		id: v$18.string(),
+		type: v$18.literal("loan.repay"),
+		user_id: v$18.number(),
+		amount: v$18.number()
 	})
 ];
-const enrichments$11 = {
+const enrichments$12 = {
 	"loan.take"(options) {
 		const mechanics_loan = options.setup.config.mechanics.loan;
 		const player = options.status.players.get(options.event.user_id);
@@ -1979,24 +1989,24 @@ const enrichments$11 = {
 		};
 	}
 };
-const valiV1Schemas$12 = [
-	v$17.pipe(v$17.object({
-		_id: v$17.optional(v$17.string()),
-		type: v$17.literal("credit_taken"),
-		user_id: v$17.number()
-	}), v$17.transform((value) => {
+const valiV1Schemas$13 = [
+	v$18.pipe(v$18.object({
+		_id: v$18.optional(v$18.string()),
+		type: v$18.literal("credit_taken"),
+		user_id: v$18.number()
+	}), v$18.transform((value) => {
 		return {
 			id: value._id,
 			type: "loan.take",
 			user_id: value.user_id
 		};
 	})),
-	v$17.pipe(v$17.object({
-		_id: v$17.optional(v$17.string()),
-		type: v$17.literal("credit_timeToPay"),
-		user_id: v$17.number(),
-		sum: v$17.number()
-	}), v$17.transform((value) => {
+	v$18.pipe(v$18.object({
+		_id: v$18.optional(v$18.string()),
+		type: v$18.literal("credit_timeToPay"),
+		user_id: v$18.number(),
+		sum: v$18.number()
+	}), v$18.transform((value) => {
 		return {
 			id: value._id,
 			type: "loan.deadline",
@@ -2004,12 +2014,12 @@ const valiV1Schemas$12 = [
 			amount: value.sum
 		};
 	})),
-	v$17.pipe(v$17.object({
-		_id: v$17.optional(v$17.string()),
-		type: v$17.picklist(["credit_paid", "credit_payed"]),
-		user_id: v$17.number(),
-		sum: v$17.number()
-	}), v$17.transform((value) => {
+	v$18.pipe(v$18.object({
+		_id: v$18.optional(v$18.string()),
+		type: v$18.picklist(["credit_paid", "credit_payed"]),
+		user_id: v$18.number(),
+		sum: v$18.number()
+	}), v$18.transform((value) => {
 		return {
 			id: value._id,
 			type: "loan.repay",
@@ -2023,34 +2033,34 @@ const valiV1Schemas$12 = [
 //#region src/packet/events/m1.ts
 var m1_exports = {};
 __export(m1_exports, {
-	enrichments: () => enrichments$10,
-	valiSchemas: () => valiSchemas$11,
-	valiV1Schemas: () => valiV1Schemas$11
+	enrichments: () => enrichments$11,
+	valiSchemas: () => valiSchemas$12,
+	valiV1Schemas: () => valiV1Schemas$12
 });
-const valiSchemas$11 = [v$16.object({
-	id: v$16.string(),
-	type: v$16.literal("m1.move"),
-	user_id: v$16.number(),
-	rule: v$16.pipe(v$16.picklist([0, 1]), v$16.transform((value) => value === 0 ? "free" : "enemy_owned")),
-	field_id: v$16.number(),
+const valiSchemas$12 = [v$17.object({
+	id: v$17.string(),
+	type: v$17.literal("m1.move"),
+	user_id: v$17.number(),
+	rule: v$17.pipe(v$17.picklist([0, 1]), v$17.transform((value) => value === 0 ? "free" : "enemy_owned")),
+	field_id: v$17.number(),
 	move_reversed: bit(false)
-}), v$16.object({
-	id: v$16.string(),
-	type: v$16.literal("m1.fail"),
-	user_id: v$16.number()
+}), v$17.object({
+	id: v$17.string(),
+	type: v$17.literal("m1.fail"),
+	user_id: v$17.number()
 })];
-const enrichments$10 = { "m1.move"(options) {
+const enrichments$11 = { "m1.move"(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.position = options.event.field_id;
 } };
-const valiV1Schemas$11 = [v$16.pipe(v$16.object({
-	_id: v$16.optional(v$16.string()),
-	type: v$16.literal("mrMonopoly"),
-	user_id: v$16.number(),
-	field_type: v$16.pipe(v$16.picklist([0, 1]), v$16.transform((value) => value === 0 ? "free" : "enemy_owned")),
-	field_id: v$16.number(),
+const valiV1Schemas$12 = [v$17.pipe(v$17.object({
+	_id: v$17.optional(v$17.string()),
+	type: v$17.literal("mrMonopoly"),
+	user_id: v$17.number(),
+	field_type: v$17.pipe(v$17.picklist([0, 1]), v$17.transform((value) => value === 0 ? "free" : "enemy_owned")),
+	field_id: v$17.number(),
 	move_reverse: bit(false)
-}), v$16.transform((value) => {
+}), v$17.transform((value) => {
 	return {
 		id: value._id,
 		type: "m1.move",
@@ -2059,11 +2069,11 @@ const valiV1Schemas$11 = [v$16.pipe(v$16.object({
 		field_id: value.field_id,
 		move_reversed: value.move_reverse
 	};
-})), v$16.pipe(v$16.object({
-	_id: v$16.optional(v$16.string()),
-	type: v$16.literal("mrMonopolyFailed"),
-	user_id: v$16.number()
-}), v$16.transform((value) => {
+})), v$17.pipe(v$17.object({
+	_id: v$17.optional(v$17.string()),
+	type: v$17.literal("mrMonopolyFailed"),
+	user_id: v$17.number()
+}), v$17.transform((value) => {
 	return {
 		id: value._id,
 		type: "m1.fail",
@@ -2075,31 +2085,31 @@ const valiV1Schemas$11 = [v$16.pipe(v$16.object({
 //#region src/packet/events/mortgage.ts
 var mortgage_exports = {};
 __export(mortgage_exports, {
-	enrichments: () => enrichments$9,
-	valiSchemas: () => valiSchemas$10,
-	valiV1Schemas: () => valiV1Schemas$10
+	enrichments: () => enrichments$10,
+	valiSchemas: () => valiSchemas$11,
+	valiV1Schemas: () => valiV1Schemas$11
 });
-const valiSchemas$10 = [
-	v$15.object({
-		id: v$15.string(),
-		type: v$15.literal("mortgage.put"),
-		user_id: v$15.number(),
-		field_id: v$15.number()
+const valiSchemas$11 = [
+	v$16.object({
+		id: v$16.string(),
+		type: v$16.literal("mortgage.put"),
+		user_id: v$16.number(),
+		field_id: v$16.number()
 	}),
-	v$15.object({
-		id: v$15.string(),
-		type: v$15.literal("mortgage.buyback"),
-		user_id: v$15.number(),
-		field_id: v$15.number()
+	v$16.object({
+		id: v$16.string(),
+		type: v$16.literal("mortgage.buyback"),
+		user_id: v$16.number(),
+		field_id: v$16.number()
 	}),
-	v$15.object({
-		id: v$15.string(),
-		type: v$15.literal("mortgage.expire"),
-		user_id: v$15.number(),
-		field_id: v$15.number()
+	v$16.object({
+		id: v$16.string(),
+		type: v$16.literal("mortgage.expire"),
+		user_id: v$16.number(),
+		field_id: v$16.number()
 	})
 ];
-const enrichments$9 = {
+const enrichments$10 = {
 	"mortgage.put"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
@@ -2133,13 +2143,13 @@ const enrichments$9 = {
 		options.status.fields.delete(options.event.field_id);
 	}
 };
-const valiV1Schemas$10 = [
-	v$15.pipe(v$15.object({
-		_id: v$15.optional(v$15.string()),
-		type: v$15.literal("mortgage"),
-		user_id: v$15.number(),
-		field: v$15.number()
-	}), v$15.transform((value) => {
+const valiV1Schemas$11 = [
+	v$16.pipe(v$16.object({
+		_id: v$16.optional(v$16.string()),
+		type: v$16.literal("mortgage"),
+		user_id: v$16.number(),
+		field: v$16.number()
+	}), v$16.transform((value) => {
 		return {
 			id: value._id,
 			type: "mortgage.put",
@@ -2147,12 +2157,12 @@ const valiV1Schemas$10 = [
 			field_id: value.field
 		};
 	})),
-	v$15.pipe(v$15.object({
-		_id: v$15.optional(v$15.string()),
-		type: v$15.literal("unmortgage"),
-		user_id: v$15.number(),
-		field: v$15.number()
-	}), v$15.transform((value) => {
+	v$16.pipe(v$16.object({
+		_id: v$16.optional(v$16.string()),
+		type: v$16.literal("unmortgage"),
+		user_id: v$16.number(),
+		field: v$16.number()
+	}), v$16.transform((value) => {
 		return {
 			id: value._id,
 			type: "mortgage.buyback",
@@ -2160,11 +2170,11 @@ const valiV1Schemas$10 = [
 			field_id: value.field
 		};
 	})),
-	v$15.pipe(v$15.object({
-		_id: v$15.optional(v$15.string()),
-		type: v$15.literal("mortgage_limit"),
-		field: v$15.number()
-	}), v$15.transform((value) => {
+	v$16.pipe(v$16.object({
+		_id: v$16.optional(v$16.string()),
+		type: v$16.literal("mortgage_limit"),
+		field: v$16.number()
+	}), v$16.transform((value) => {
 		return {
 			id: value._id,
 			type: "mortgage.expire",
@@ -2178,63 +2188,63 @@ const valiV1Schemas$10 = [
 //#region src/packet/events/other.ts
 var other_exports = {};
 __export(other_exports, {
-	enrichments: () => enrichments$8,
-	valiSchemas: () => valiSchemas$9,
-	valiV1Schemas: () => valiV1Schemas$9
+	enrichments: () => enrichments$9,
+	valiSchemas: () => valiSchemas$10,
+	valiV1Schemas: () => valiV1Schemas$10
 });
-const valiChanceDataSchema = v$14.union([
-	v$14.strictObject({ amount: v$14.number() }),
-	v$14.strictObject({
-		field_id: v$14.number(),
+const valiChanceDataSchema = v$15.union([
+	v$15.strictObject({ amount: v$15.number() }),
+	v$15.strictObject({
+		field_id: v$15.number(),
 		move_reversed: bit(false)
 	}),
-	v$14.undefined_()
+	v$15.undefined_()
 ]);
-const valiSchemas$9 = [
-	v$14.object({
-		id: v$14.string(),
-		type: v$14.literal("bankrupt"),
-		user_id: v$14.number(),
-		user_id_bankrupt: v$14.number()
+const valiSchemas$10 = [
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("bankrupt"),
+		user_id: v$15.number(),
+		user_id_bankrupt: v$15.number()
 	}),
-	v$14.object({
-		id: v$14.string(),
-		type: v$14.literal("chance"),
-		user_id: v$14.number(),
-		chance_index: v$14.number(),
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("chance"),
+		user_id: v$15.number(),
+		chance_index: v$15.number(),
 		data: valiChanceDataSchema
 	}),
-	v$14.object({
-		id: v$14.string(),
-		type: v$14.literal("game-over")
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("game-over")
 	}),
-	v$14.object({
-		id: v$14.string(),
-		type: v$14.literal("leave"),
-		user_id: v$14.number(),
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("leave"),
+		user_id: v$15.number(),
 		kicked: bit(false)
 	}),
-	v$14.object({
-		id: v$14.string(),
-		type: v$14.literal("message"),
-		user_id: v$14.number(),
-		private: v$14.optional(v$14.object({ user_id: v$14.optional(v$14.number()) })),
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("message"),
+		user_id: v$15.number(),
+		private: v$15.optional(v$15.object({ user_id: v$15.optional(v$15.number()) })),
 		is_forced: bit(false),
-		text: v$14.string()
+		text: v$15.string()
 	}),
-	v$14.object({
-		id: v$14.string(),
-		type: v$14.literal("park"),
-		user_id: v$14.number()
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("park"),
+		user_id: v$15.number()
 	}),
-	v$14.object({
-		id: v$14.string(),
-		type: v$14.literal("restart"),
-		user_id: v$14.number(),
-		restart_price: v$14.number()
+	v$15.object({
+		id: v$15.string(),
+		type: v$15.literal("restart"),
+		user_id: v$15.number(),
+		restart_price: v$15.number()
 	})
 ];
-const enrichments$8 = { chance(options) {
+const enrichments$9 = { chance(options) {
 	const chance_card_index = options.event.chance_index;
 	const chance_card = options.setup.config.mechanics.chance.cards[chance_card_index];
 	const player = options.status.players.get(options.event.user_id);
@@ -2263,13 +2273,13 @@ function unescapeHtml(text) {
 	element.innerHTML = text;
 	return element.textContent;
 }
-const valiV1Schemas$9 = [
-	v$14.pipe(v$14.object({
-		_id: v$14.optional(v$14.string()),
-		type: v$14.literal("bankrupted"),
-		user_id: v$14.number(),
-		to: v$14.number()
-	}), v$14.transform((value) => {
+const valiV1Schemas$10 = [
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("bankrupted"),
+		user_id: v$15.number(),
+		to: v$15.number()
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "bankrupt",
@@ -2277,15 +2287,15 @@ const valiV1Schemas$9 = [
 			user_id_bankrupt: value.to
 		};
 	})),
-	v$14.pipe(v$14.object({
-		_id: v$14.optional(v$14.string()),
-		type: v$14.literal("chance"),
-		user_id: v$14.number(),
-		chance_id: v$14.number(),
-		money: v$14.optional(v$14.number()),
-		move_reverse: v$14.optional(bit(false)),
-		mean_position: v$14.optional(v$14.number())
-	}), v$14.transform((value) => {
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("chance"),
+		user_id: v$15.number(),
+		chance_id: v$15.number(),
+		money: v$15.optional(v$15.number()),
+		move_reverse: v$15.optional(bit(false)),
+		mean_position: v$15.optional(v$15.number())
+	}), v$15.transform((value) => {
 		let data;
 		if (typeof value.mean_position === "number") data = {
 			move_reversed: value.move_reverse ?? false,
@@ -2300,21 +2310,21 @@ const valiV1Schemas$9 = [
 			data
 		};
 	})),
-	v$14.pipe(v$14.object({
-		_id: v$14.optional(v$14.string()),
-		type: v$14.literal("gameOver")
-	}), v$14.transform((value) => {
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("gameOver")
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "game-over"
 		};
 	})),
-	v$14.pipe(v$14.object({
-		_id: v$14.optional(v$14.string()),
-		type: v$14.literal("leave"),
-		user_id: v$14.number(),
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("leave"),
+		user_id: v$15.number(),
 		is_kicked: bit(false)
-	}), v$14.transform((value) => {
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "leave",
@@ -2322,18 +2332,18 @@ const valiV1Schemas$9 = [
 			kicked: value.is_kicked
 		};
 	})),
-	v$14.pipe(v$14.object({
-		_id: v$14.optional(v$14.string()),
-		type: v$14.literal("message"),
-		user_id: v$14.number(),
-		private: v$14.optional(v$14.object({
-			user: v$14.optional(v$14.number()),
-			team: v$14.optional(v$14.unknown())
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("message"),
+		user_id: v$15.number(),
+		private: v$15.optional(v$15.object({
+			user: v$15.optional(v$15.number()),
+			team: v$15.optional(v$15.unknown())
 		})),
 		forced: bit(false),
-		text: v$14.string(),
+		text: v$15.string(),
 		is_unsafe: bit(false)
-	}), v$14.transform((value) => {
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "message",
@@ -2343,23 +2353,23 @@ const valiV1Schemas$9 = [
 			text: value.is_unsafe ? value.text : unescapeHtml(value.text)
 		};
 	})),
-	v$14.pipe(v$14.object({
-		_id: v$14.optional(v$14.string()),
-		type: v$14.literal("relax"),
-		user_id: v$14.number()
-	}), v$14.transform((value) => {
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("relax"),
+		user_id: v$15.number()
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "park",
 			user_id: value.user_id
 		};
 	})),
-	v$14.pipe(v$14.object({
-		_id: v$14.optional(v$14.string()),
-		type: v$14.literal("restart"),
-		user_id: v$14.number(),
-		money: v$14.number()
-	}), v$14.transform((value) => {
+	v$15.pipe(v$15.object({
+		_id: v$15.optional(v$15.string()),
+		type: v$15.literal("restart"),
+		user_id: v$15.number(),
+		money: v$15.number()
+	}), v$15.transform((value) => {
 		return {
 			id: value._id,
 			type: "restart",
@@ -2373,28 +2383,28 @@ const valiV1Schemas$9 = [
 //#region src/packet/events/pause.ts
 var pause_exports = {};
 __export(pause_exports, {
-	valiSchemas: () => valiSchemas$8,
-	valiV1Schemas: () => valiV1Schemas$8
+	valiSchemas: () => valiSchemas$9,
+	valiV1Schemas: () => valiV1Schemas$9
 });
-const valiSchemas$8 = [v$13.object({
-	id: v$13.string(),
-	type: v$13.literal("pause.set")
-}), v$13.object({
-	id: v$13.string(),
-	type: v$13.literal("pause.end")
+const valiSchemas$9 = [v$14.object({
+	id: v$14.string(),
+	type: v$14.literal("pause.set")
+}), v$14.object({
+	id: v$14.string(),
+	type: v$14.literal("pause.end")
 })];
-const valiV1Schemas$8 = [v$13.pipe(v$13.object({
-	_id: v$13.optional(v$13.string()),
-	type: v$13.literal("pauseActive")
-}), v$13.transform((value) => {
+const valiV1Schemas$9 = [v$14.pipe(v$14.object({
+	_id: v$14.optional(v$14.string()),
+	type: v$14.literal("pauseActive")
+}), v$14.transform((value) => {
 	return {
 		id: value._id,
 		type: "pause.set"
 	};
-})), v$13.pipe(v$13.object({
-	_id: v$13.optional(v$13.string()),
-	type: v$13.literal("pauseRemoved")
-}), v$13.transform((value) => {
+})), v$14.pipe(v$14.object({
+	_id: v$14.optional(v$14.string()),
+	type: v$14.literal("pauseRemoved")
+}), v$14.transform((value) => {
 	return {
 		id: value._id,
 		type: "pause.end"
@@ -2405,32 +2415,32 @@ const valiV1Schemas$8 = [v$13.pipe(v$13.object({
 //#region src/packet/events/purchase.ts
 var purchase_exports = {};
 __export(purchase_exports, {
-	enrichments: () => enrichments$7,
-	valiSchemas: () => valiSchemas$7,
-	valiV1Schemas: () => valiV1Schemas$7
+	enrichments: () => enrichments$8,
+	valiSchemas: () => valiSchemas$8,
+	valiV1Schemas: () => valiV1Schemas$8
 });
-const valiSchemas$7 = [
-	v$12.object({
-		id: v$12.string(),
-		type: v$12.literal("purchase.offer"),
-		user_id: v$12.number(),
-		field_id: v$12.number()
+const valiSchemas$8 = [
+	v$13.object({
+		id: v$13.string(),
+		type: v$13.literal("purchase.offer"),
+		user_id: v$13.number(),
+		field_id: v$13.number()
 	}),
-	v$12.object({
-		id: v$12.string(),
-		type: v$12.literal("purchase"),
-		user_id: v$12.number(),
-		field_id: v$12.number(),
-		price: v$12.number()
+	v$13.object({
+		id: v$13.string(),
+		type: v$13.literal("purchase"),
+		user_id: v$13.number(),
+		field_id: v$13.number(),
+		price: v$13.number()
 	}),
-	v$12.object({
-		id: v$12.string(),
-		type: v$12.literal("purchase.reject"),
-		user_id: v$12.number(),
-		field_id: v$12.number()
+	v$13.object({
+		id: v$13.string(),
+		type: v$13.literal("purchase.reject"),
+		user_id: v$13.number(),
+		field_id: v$13.number()
 	})
 ];
-const enrichments$7 = { purchase(options) {
+const enrichments$8 = { purchase(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.cash -= options.event.price;
 	options.status.fields.set(options.event.field_id, {
@@ -2439,13 +2449,13 @@ const enrichments$7 = { purchase(options) {
 		level: 0
 	});
 } };
-const valiV1Schemas$7 = [
-	v$12.pipe(v$12.object({
-		_id: v$12.optional(v$12.string()),
-		type: v$12.literal("canBuy"),
-		user_id: v$12.number(),
-		field: v$12.number()
-	}), v$12.transform((value) => {
+const valiV1Schemas$8 = [
+	v$13.pipe(v$13.object({
+		_id: v$13.optional(v$13.string()),
+		type: v$13.literal("canBuy"),
+		user_id: v$13.number(),
+		field: v$13.number()
+	}), v$13.transform((value) => {
 		return {
 			id: value._id,
 			type: "purchase.offer",
@@ -2453,13 +2463,13 @@ const valiV1Schemas$7 = [
 			field_id: value.field
 		};
 	})),
-	v$12.pipe(v$12.object({
-		_id: v$12.optional(v$12.string()),
-		type: v$12.literal("buy"),
-		user_id: v$12.number(),
-		field: v$12.number(),
-		money: v$12.number()
-	}), v$12.transform((value) => {
+	v$13.pipe(v$13.object({
+		_id: v$13.optional(v$13.string()),
+		type: v$13.literal("buy"),
+		user_id: v$13.number(),
+		field: v$13.number(),
+		money: v$13.number()
+	}), v$13.transform((value) => {
 		return {
 			id: value._id,
 			type: "purchase",
@@ -2468,12 +2478,12 @@ const valiV1Schemas$7 = [
 			price: value.money
 		};
 	})),
-	v$12.pipe(v$12.object({
-		_id: v$12.optional(v$12.string()),
-		type: v$12.literal("noBuy"),
-		user_id: v$12.number(),
-		field: v$12.number()
-	}), v$12.transform((value) => {
+	v$13.pipe(v$13.object({
+		_id: v$13.optional(v$13.string()),
+		type: v$13.literal("noBuy"),
+		user_id: v$13.number(),
+		field: v$13.number()
+	}), v$13.transform((value) => {
 		return {
 			id: value._id,
 			type: "purchase.reject",
@@ -2487,59 +2497,59 @@ const valiV1Schemas$7 = [
 //#region src/packet/events/rent.ts
 var rent_exports = {};
 __export(rent_exports, {
-	enrichments: () => enrichments$6,
-	valiSchemas: () => valiSchemas$6,
-	valiV1Schemas: () => valiV1Schemas$6
+	enrichments: () => enrichments$7,
+	valiSchemas: () => valiSchemas$7,
+	valiV1Schemas: () => valiV1Schemas$7
 });
-const valiSchemas$6 = [
-	v$11.object({
-		id: v$11.string(),
-		type: v$11.literal("rent.pay"),
-		user_id: v$11.number(),
-		field_id: v$11.number(),
-		amount: v$11.number()
+const valiSchemas$7 = [
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("rent.pay"),
+		user_id: v$12.number(),
+		field_id: v$12.number(),
+		amount: v$12.number()
 	}),
-	v$11.object({
-		id: v$11.string(),
-		type: v$11.literal("rent.pay.complete"),
-		user_id: v$11.number(),
-		user_id_receiver: v$11.number(),
-		field_id: v$11.number(),
-		amount: v$11.number(),
-		amount_received: v$11.optional(v$11.number())
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("rent.pay.complete"),
+		user_id: v$12.number(),
+		user_id_receiver: v$12.number(),
+		field_id: v$12.number(),
+		amount: v$12.number(),
+		amount_received: v$12.optional(v$12.number())
 	}),
-	v$11.object({
-		id: v$11.string(),
-		type: v$11.literal("rent.pay.cancel"),
-		user_id: v$11.number(),
-		user_id_receiver: v$11.number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("rent.pay.cancel"),
+		user_id: v$12.number(),
+		user_id_receiver: v$12.number()
 	}),
-	v$11.object({
-		id: v$11.string(),
-		type: v$11.literal("rent.zero"),
-		user_id: v$11.number(),
-		field_id: v$11.number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("rent.zero"),
+		user_id: v$12.number(),
+		field_id: v$12.number()
 	}),
-	v$11.object({
-		id: v$11.string(),
-		type: v$11.literal("rent.zero.self"),
-		user_id: v$11.number(),
-		field_id: v$11.number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("rent.zero.self"),
+		user_id: v$12.number(),
+		field_id: v$12.number()
 	}),
-	v$11.object({
-		id: v$11.string(),
-		type: v$11.literal("rent.zero.teammate"),
-		user_id: v$11.number(),
-		field_id: v$11.number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("rent.zero.teammate"),
+		user_id: v$12.number(),
+		field_id: v$12.number()
 	}),
-	v$11.object({
-		id: v$11.string(),
-		type: v$11.literal("rent.zero.mortgaged"),
-		user_id: v$11.number(),
-		field_id: v$11.number()
+	v$12.object({
+		id: v$12.string(),
+		type: v$12.literal("rent.zero.mortgaged"),
+		user_id: v$12.number(),
+		field_id: v$12.number()
 	})
 ];
-const enrichments$6 = { "rent.pay.complete"(options) {
+const enrichments$7 = { "rent.pay.complete"(options) {
 	const { amount } = options.event;
 	const player_payer = options.status.players.get(options.event.user_id);
 	player_payer.cash -= amount;
@@ -2547,14 +2557,14 @@ const enrichments$6 = { "rent.pay.complete"(options) {
 	const player_receiver = options.status.players.get(user_id_receiver);
 	player_receiver.cash += amount;
 } };
-const valiV1Schemas$6 = [
-	v$11.pipe(v$11.object({
-		_id: v$11.optional(v$11.string()),
-		type: v$11.literal("payRent"),
-		user_id: v$11.number(),
-		field: v$11.number(),
-		money: v$11.number()
-	}), v$11.transform((value) => {
+const valiV1Schemas$7 = [
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("payRent"),
+		user_id: v$12.number(),
+		field: v$12.number(),
+		money: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay",
@@ -2563,15 +2573,15 @@ const valiV1Schemas$6 = [
 			amount: value.money
 		};
 	})),
-	v$11.pipe(v$11.object({
-		_id: v$11.optional(v$11.string()),
-		type: v$11.literal("payRentSuccess"),
-		user_id: v$11.number(),
-		to: v$11.number(),
-		field: v$11.number(),
-		money: v$11.number(),
-		money_received: v$11.optional(v$11.number())
-	}), v$11.transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("payRentSuccess"),
+		user_id: v$12.number(),
+		to: v$12.number(),
+		field: v$12.number(),
+		money: v$12.number(),
+		money_received: v$12.optional(v$12.number())
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay.complete",
@@ -2582,12 +2592,12 @@ const valiV1Schemas$6 = [
 			amount_received: value.money_received
 		};
 	})),
-	v$11.pipe(v$11.object({
-		_id: v$11.optional(v$11.string()),
-		type: v$11.literal("payRentFail"),
-		user_id: v$11.number(),
-		to: v$11.number()
-	}), v$11.transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("payRentFail"),
+		user_id: v$12.number(),
+		to: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.pay.cancel",
@@ -2595,12 +2605,12 @@ const valiV1Schemas$6 = [
 			user_id_receiver: value.to
 		};
 	})),
-	v$11.pipe(v$11.object({
-		_id: v$11.optional(v$11.string()),
-		type: v$11.literal("payRentZero"),
-		user_id: v$11.number(),
-		field: v$11.number()
-	}), v$11.transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("payRentZero"),
+		user_id: v$12.number(),
+		field: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero",
@@ -2608,12 +2618,12 @@ const valiV1Schemas$6 = [
 			field_id: value.field
 		};
 	})),
-	v$11.pipe(v$11.object({
-		_id: v$11.optional(v$11.string()),
-		type: v$11.literal("payRentToSelf"),
-		user_id: v$11.number(),
-		field: v$11.number()
-	}), v$11.transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("payRentToSelf"),
+		user_id: v$12.number(),
+		field: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero.self",
@@ -2621,12 +2631,12 @@ const valiV1Schemas$6 = [
 			field_id: value.field
 		};
 	})),
-	v$11.pipe(v$11.object({
-		_id: v$11.optional(v$11.string()),
-		type: v$11.literal("payRentToTeammate"),
-		user_id: v$11.number(),
-		field: v$11.number()
-	}), v$11.transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("payRentToTeammate"),
+		user_id: v$12.number(),
+		field: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero.teammate",
@@ -2634,12 +2644,12 @@ const valiV1Schemas$6 = [
 			field_id: value.field
 		};
 	})),
-	v$11.pipe(v$11.object({
-		_id: v$11.optional(v$11.string()),
-		type: v$11.literal("payRentCancelledMortgaged"),
-		user_id: v$11.number(),
-		field: v$11.number()
-	}), v$11.transform((value) => {
+	v$12.pipe(v$12.object({
+		_id: v$12.optional(v$12.string()),
+		type: v$12.literal("payRentCancelledMortgaged"),
+		user_id: v$12.number(),
+		field: v$12.number()
+	}), v$12.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero.mortgaged",
@@ -2653,39 +2663,39 @@ const valiV1Schemas$6 = [
 //#region src/packet/events/roll-dices.ts
 var roll_dices_exports = {};
 __export(roll_dices_exports, {
-	enrichments: () => enrichments$5,
-	valiSchemas: () => valiSchemas$5,
-	valiV1Schemas: () => valiV1Schemas$5
+	enrichments: () => enrichments$6,
+	valiSchemas: () => valiSchemas$6,
+	valiV1Schemas: () => valiV1Schemas$6
 });
-const valiSchemas$5 = [
-	v$10.object({
-		id: v$10.string(),
-		type: v$10.literal("roll-dices"),
-		user_id: v$10.number(),
-		dices: v$10.union([
-			v$10.strictTuple([v$10.number()]),
-			v$10.strictTuple([v$10.number(), v$10.number()]),
-			v$10.strictTuple([
-				v$10.number(),
-				v$10.number(),
-				v$10.number()
+const valiSchemas$6 = [
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("roll-dices"),
+		user_id: v$11.number(),
+		dices: v$11.union([
+			v$11.strictTuple([v$11.number()]),
+			v$11.strictTuple([v$11.number(), v$11.number()]),
+			v$11.strictTuple([
+				v$11.number(),
+				v$11.number(),
+				v$11.number()
 			])
 		]),
 		move_reversed: bit(false),
 		double_spent: bit(false)
 	}),
-	v$10.object({
-		id: v$10.string(),
-		type: v$10.literal("roll-dices.jail.success"),
-		user_id: v$10.number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("roll-dices.jail.success"),
+		user_id: v$11.number()
 	}),
-	v$10.object({
-		id: v$10.string(),
-		type: v$10.literal("roll-dices.jail.fail"),
-		user_id: v$10.number()
+	v$11.object({
+		id: v$11.string(),
+		type: v$11.literal("roll-dices.jail.fail"),
+		user_id: v$11.number()
 	})
 ];
-const enrichments$5 = {
+const enrichments$6 = {
 	"roll-dices"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
@@ -2701,22 +2711,22 @@ const enrichments$5 = {
 		player.position = normalizeFieldId(options.setup, player.position + distance);
 	}
 };
-const valiV1Schemas$5 = [
-	v$10.pipe(v$10.object({
-		_id: v$10.optional(v$10.string()),
-		type: v$10.literal("rollDices"),
-		user_id: v$10.number(),
-		dices: v$10.union([
-			v$10.strictTuple([v$10.number()]),
-			v$10.strictTuple([v$10.number(), v$10.number()]),
-			v$10.strictTuple([
-				v$10.number(),
-				v$10.number(),
-				v$10.number()
+const valiV1Schemas$6 = [
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("rollDices"),
+		user_id: v$11.number(),
+		dices: v$11.union([
+			v$11.strictTuple([v$11.number()]),
+			v$11.strictTuple([v$11.number(), v$11.number()]),
+			v$11.strictTuple([
+				v$11.number(),
+				v$11.number(),
+				v$11.number()
 			])
 		]),
 		move_reverse: bit(false)
-	}), v$10.transform((value) => {
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "roll-dices",
@@ -2726,31 +2736,31 @@ const valiV1Schemas$5 = [
 			double_spent: false
 		};
 	})),
-	v$10.pipe(v$10.object({
-		_id: v$10.optional(v$10.string()),
-		type: v$10.literal("double_spended")
-	}), v$10.transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("double_spended")
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: value.type
 		};
 	})),
-	v$10.pipe(v$10.object({
-		_id: v$10.optional(v$10.string()),
-		type: v$10.literal("rollDicesForUnjailSuccess"),
-		user_id: v$10.number()
-	}), v$10.transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("rollDicesForUnjailSuccess"),
+		user_id: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "roll-dices.jail.success",
 			user_id: value.user_id
 		};
 	})),
-	v$10.pipe(v$10.object({
-		_id: v$10.optional(v$10.string()),
-		type: v$10.literal("rollDicesForUnjailFail"),
-		user_id: v$10.number()
-	}), v$10.transform((value) => {
+	v$11.pipe(v$11.object({
+		_id: v$11.optional(v$11.string()),
+		type: v$11.literal("rollDicesForUnjailFail"),
+		user_id: v$11.number()
+	}), v$11.transform((value) => {
 		return {
 			id: value._id,
 			type: "roll-dices.jail.fail",
@@ -2783,6 +2793,112 @@ function getRolledDistance(dices, setup) {
 	} else distance += dices[1];
 	return distance;
 }
+
+//#endregion
+//#region src/packet/events/russian-roulette.ts
+var russian_roulette_exports = {};
+__export(russian_roulette_exports, {
+	enrichments: () => enrichments$5,
+	valiSchemas: () => valiSchemas$5,
+	valiV1Schemas: () => valiV1Schemas$5
+});
+const valiSchemas$5 = [
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("russian-roulette"),
+		user_id: v$10.number()
+	}),
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("russian-roulette.play"),
+		user_id: v$10.number(),
+		bullets_count: v$10.number(),
+		reward_amount: v$10.number()
+	}),
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("russian-roulette.survive"),
+		user_id: v$10.number(),
+		reward_amount: v$10.number()
+	}),
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("russian-roulette.die"),
+		user_id: v$10.number()
+	}),
+	v$10.object({
+		id: v$10.string(),
+		type: v$10.literal("russian-roulette.reject"),
+		user_id: v$10.number()
+	})
+];
+const enrichments$5 = { "russian-roulette.survive"(options) {
+	const player = options.status.players.get(options.event.user_id);
+	player.cash += options.event.reward_amount;
+} };
+const valiV1Schemas$5 = [
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("russianRoulette"),
+		user_id: v$10.number()
+	}), v$10.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette",
+			user_id: value.user_id
+		};
+	})),
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("russianRoulette_process"),
+		user_id: v$10.number(),
+		bullets: v$10.number(),
+		reward: v$10.number()
+	}), v$10.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.play",
+			user_id: value.user_id,
+			bullets_count: value.bullets,
+			reward_amount: value.reward
+		};
+	})),
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("russianRoulette_alive"),
+		user_id: v$10.number(),
+		sum: v$10.number()
+	}), v$10.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.survive",
+			user_id: value.user_id,
+			reward_amount: value.sum
+		};
+	})),
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("russianRoulette_died"),
+		user_id: v$10.number()
+	}), v$10.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.die",
+			user_id: value.user_id
+		};
+	})),
+	v$10.pipe(v$10.object({
+		_id: v$10.optional(v$10.string()),
+		type: v$10.literal("russianRoulette_declined"),
+		user_id: v$10.number()
+	}), v$10.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.reject",
+			user_id: value.user_id
+		};
+	}))
+];
 
 //#endregion
 //#region src/packet/events/start.ts
@@ -3073,6 +3189,7 @@ const event_libs = [
 	purchase_exports,
 	rent_exports,
 	roll_dices_exports,
+	russian_roulette_exports,
 	start_exports,
 	tournament_exports,
 	triple_exports,

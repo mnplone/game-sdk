@@ -33,6 +33,7 @@ export const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(
 					'jackpot',
 					'jail.goto',
 					'park',
+					'russian-roulette',
 					'tax.income',
 					'tax.luxury',
 					'wormhole',
@@ -103,6 +104,7 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 					'goToJail',
 					'jackpot',
 					'relax',
+					'russianRoulette',
 					'tax_income',
 					'tax_luxury',
 					'wormhole',
@@ -183,6 +185,10 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 
 					case 'relax':
 						type_new = 'park' as const;
+						break;
+
+					case 'russianRoulette':
+						type_new = 'russian-roulette' as const;
 						break;
 
 					case 'tax_income':

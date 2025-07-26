@@ -104,8 +104,8 @@ const action_list_mapping = {
 	// Rolling dices
 	rollDices: 'roll-dices',
 	// Russian roulette
-	// 'russian-roulette.play',
-	// 'russian-roulette.reject',
+	russianRoulettePlay: 'russian-roulette.play',
+	russianRouletteDecline: 'russian-roulette.reject',
 	// Start
 	startBypassFee: 'start.tax.pay',
 	// Taxi

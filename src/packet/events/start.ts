@@ -34,6 +34,9 @@ export const enrichments = {
 		const player = options.status.players.get(options.event.user_id)!;
 		player.cash += options.setup.config.mechanics.start.bonus_amount;
 	},
+	// 'start.tax.pay'(options: EventEnrichOptions<'start.tax.pay'>) {
+	// 	// we don't know amount paid, also we don't know time when player crossed start
+	// },
 };
 
 export const valiV1Schemas = [

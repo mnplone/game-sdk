@@ -14,6 +14,7 @@ import * as events_pause from './events/pause.js';
 import * as events_purchase from './events/purchase.js';
 import * as events_rent from './events/rent.js';
 import * as events_roll_dices from './events/roll-dices.js';
+import * as events_russian_roulette from './events/russian-roulette.js';
 import * as events_start from './events/start.js';
 import * as events_tournament from './events/tournament.js';
 import * as events_triple from './events/triple.js';
@@ -37,6 +38,7 @@ export const event_libs = [
 	events_purchase,
 	events_rent,
 	events_roll_dices,
+	events_russian_roulette,
 	events_start,
 	events_tournament,
 	events_triple,

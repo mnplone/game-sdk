@@ -82,8 +82,8 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					// Rolling dices
 					'roll-dices',
 					// Russian roulette
-					// 'russian-roulette.play',
-					// 'russian-roulette.reject',
+					'russian-roulette.play',
+					'russian-roulette.reject',
 					// Start
 					'start.tax.pay',
 					// Taxi

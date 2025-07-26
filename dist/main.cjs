@@ -33,11 +33,11 @@ const valibot = __toESM(require("valibot"));
 //#region src/packet/events/auction.ts
 var auction_exports = {};
 __export(auction_exports, {
-	enrichments: () => enrichments$18,
-	valiSchemas: () => valiSchemas$19,
-	valiV1Schemas: () => valiV1Schemas$19
+	enrichments: () => enrichments$19,
+	valiSchemas: () => valiSchemas$20,
+	valiV1Schemas: () => valiV1Schemas$20
 });
-const valiSchemas$19 = [
+const valiSchemas$20 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("auction.put"),
@@ -72,7 +72,7 @@ const valiSchemas$19 = [
 		price: valibot.optional(valibot.number())
 	})
 ];
-const enrichments$18 = {
+const enrichments$19 = {
 	"auction.win"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.price;
@@ -96,7 +96,7 @@ const enrichments$18 = {
 		}
 	}
 };
-const valiV1Schemas$19 = [
+const valiV1Schemas$20 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("toAuction"),
@@ -174,11 +174,11 @@ const valiV1Schemas$19 = [
 //#region src/packet/events/bank.ts
 var bank_exports = {};
 __export(bank_exports, {
-	enrichments: () => enrichments$17,
-	valiSchemas: () => valiSchemas$18,
-	valiV1Schemas: () => valiV1Schemas$18
+	enrichments: () => enrichments$18,
+	valiSchemas: () => valiSchemas$19,
+	valiV1Schemas: () => valiV1Schemas$19
 });
-const valiSchemas$18 = [
+const valiSchemas$19 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("bank.income"),
@@ -204,7 +204,7 @@ const valiSchemas$18 = [
 		amount: valibot.number()
 	})
 ];
-const enrichments$17 = {
+const enrichments$18 = {
 	"bank.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash += options.event.amount;
@@ -218,7 +218,7 @@ const enrichments$17 = {
 		player.cash += options.event.amount;
 	}
 };
-const valiV1Schemas$18 = [
+const valiV1Schemas$19 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("cash_plus"),
@@ -319,11 +319,11 @@ function parser(schema) {
 //#region src/packet/events/bus.ts
 var bus_exports = {};
 __export(bus_exports, {
-	enrichments: () => enrichments$16,
-	valiSchemas: () => valiSchemas$17,
-	valiV1Schemas: () => valiV1Schemas$17
+	enrichments: () => enrichments$17,
+	valiSchemas: () => valiSchemas$18,
+	valiV1Schemas: () => valiV1Schemas$18
 });
-const valiSchemas$17 = [valibot.object({
+const valiSchemas$18 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("bus.select"),
 	user_id: valibot.number(),
@@ -344,7 +344,7 @@ const valiSchemas$17 = [valibot.object({
 	}),
 	move_reversed: bit(false)
 })];
-const enrichments$16 = {
+const enrichments$17 = {
 	"bus.select"(options) {
 		if (options.event.move_distances.size === 0) {
 			const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
@@ -364,7 +364,7 @@ const enrichments$16 = {
 		player.position = options.event.selection.field_id;
 	}
 };
-const valiV1Schemas$17 = [valibot.pipe(valibot.object({
+const valiV1Schemas$18 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("chooseBusStop"),
 	user_id: valibot.number()
@@ -456,6 +456,8 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"purchase.reject",
 			"rent.pay",
 			"roll-dices",
+			"russian-roulette.play",
+			"russian-roulette.reject",
 			"start.tax.pay",
 			"triple.move",
 			"wormhole.use",
@@ -745,6 +747,7 @@ const valiM1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valib
 			"jackpot",
 			"jail.goto",
 			"park",
+			"russian-roulette",
 			"tax.income",
 			"tax.luxury",
 			"wormhole"
@@ -790,6 +793,7 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.
 			"goToJail",
 			"jackpot",
 			"relax",
+			"russianRoulette",
 			"tax_income",
 			"tax_luxury",
 			"wormhole"
@@ -839,6 +843,9 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.
 					break;
 				case "relax":
 					type_new = "park";
+					break;
+				case "russianRoulette":
+					type_new = "russian-roulette";
 					break;
 				case "tax_income":
 					type_new = "tax.income";
@@ -1250,6 +1257,8 @@ const action_list_mapping = {
 	noBuy: "purchase.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
+	russianRoulettePlay: "russian-roulette.play",
+	russianRouletteDecline: "russian-roulette.reject",
 	startBypassFee: "start.tax.pay",
 	chooseFieldToMove: "triple.move",
 	wormholeUse: "wormhole.use",
@@ -1398,11 +1407,11 @@ function transformActionsList(list) {
 //#region src/packet/events/contract.ts
 var contract_exports = {};
 __export(contract_exports, {
-	enrichments: () => enrichments$15,
-	valiSchemas: () => valiSchemas$16,
-	valiV1Schemas: () => valiV1Schemas$16
+	enrichments: () => enrichments$16,
+	valiSchemas: () => valiSchemas$17,
+	valiV1Schemas: () => valiV1Schemas$17
 });
-const valiSchemas$16 = [
+const valiSchemas$17 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("contract.send"),
@@ -1444,8 +1453,8 @@ const valiSchemas$16 = [
 		type: valibot.literal("contract.revert")
 	})
 ];
-const enrichments$15 = {};
-const valiV1Schemas$16 = [
+const enrichments$16 = {};
+const valiV1Schemas$17 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("contract"),
@@ -1549,11 +1558,11 @@ const valiV1Schemas$16 = [
 //#region src/packet/events/jackpot.ts
 var jackpot_exports = {};
 __export(jackpot_exports, {
-	enrichments: () => enrichments$14,
-	valiSchemas: () => valiSchemas$15,
-	valiV1Schemas: () => valiV1Schemas$15
+	enrichments: () => enrichments$15,
+	valiSchemas: () => valiSchemas$16,
+	valiV1Schemas: () => valiV1Schemas$16
 });
-const valiSchemas$15 = [
+const valiSchemas$16 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("jackpot"),
@@ -1605,7 +1614,7 @@ const valiSchemas$15 = [
 		user_id: valibot.number()
 	})
 ];
-const enrichments$14 = {
+const enrichments$15 = {
 	"jackpot.pay"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.amount;
@@ -1623,7 +1632,7 @@ const enrichments$14 = {
 		player.cash += options.event.amount;
 	}
 };
-const valiV1Schemas$15 = [
+const valiV1Schemas$16 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("jackpot"),
@@ -1738,11 +1747,11 @@ const valiV1Schemas$15 = [
 //#region src/packet/events/jail.ts
 var jail_exports = {};
 __export(jail_exports, {
-	enrichments: () => enrichments$13,
-	valiSchemas: () => valiSchemas$14,
-	valiV1Schemas: () => valiV1Schemas$14
+	enrichments: () => enrichments$14,
+	valiSchemas: () => valiSchemas$15,
+	valiV1Schemas: () => valiV1Schemas$15
 });
-const valiSchemas$14 = [
+const valiSchemas$15 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("jail.put"),
@@ -1770,7 +1779,7 @@ const valiSchemas$14 = [
 		position_after: valibot.optional(valibot.number())
 	})
 ];
-const enrichments$13 = {
+const enrichments$14 = {
 	"jail.put"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.position = options.field_id_jail;
@@ -1787,7 +1796,7 @@ const enrichments$13 = {
 		if (options.event.position_after) player.position = options.event.position_after;
 	}
 };
-const valiV1Schemas$14 = [
+const valiV1Schemas$15 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("goToJail"),
@@ -1851,11 +1860,11 @@ const valiV1Schemas$14 = [
 //#region src/packet/events/level.ts
 var level_exports = {};
 __export(level_exports, {
-	enrichments: () => enrichments$12,
-	valiSchemas: () => valiSchemas$13,
-	valiV1Schemas: () => valiV1Schemas$13
+	enrichments: () => enrichments$13,
+	valiSchemas: () => valiSchemas$14,
+	valiV1Schemas: () => valiV1Schemas$14
 });
-const valiSchemas$13 = [valibot.object({
+const valiSchemas$14 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("level.build"),
 	user_id: valibot.number(),
@@ -1866,7 +1875,7 @@ const valiSchemas$13 = [valibot.object({
 	user_id: valibot.number(),
 	field_id: valibot.number()
 })];
-const enrichments$12 = {
+const enrichments$13 = {
 	"level.build"(options) {
 		const field = options.status.fields.get(options.event.field_id);
 		field.level++;
@@ -1892,7 +1901,7 @@ const enrichments$12 = {
 		player.cash += monopoly.level_cost;
 	}
 };
-const valiV1Schemas$13 = [valibot.pipe(valibot.object({
+const valiV1Schemas$14 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("levelUp"),
 	user_id: valibot.number(),
@@ -1922,11 +1931,11 @@ const valiV1Schemas$13 = [valibot.pipe(valibot.object({
 //#region src/packet/events/loan.ts
 var loan_exports = {};
 __export(loan_exports, {
-	enrichments: () => enrichments$11,
-	valiSchemas: () => valiSchemas$12,
-	valiV1Schemas: () => valiV1Schemas$12
+	enrichments: () => enrichments$12,
+	valiSchemas: () => valiSchemas$13,
+	valiV1Schemas: () => valiV1Schemas$13
 });
-const valiSchemas$12 = [
+const valiSchemas$13 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("loan.take"),
@@ -1945,7 +1954,7 @@ const valiSchemas$12 = [
 		amount: valibot.number()
 	})
 ];
-const enrichments$11 = {
+const enrichments$12 = {
 	"loan.take"(options) {
 		const mechanics_loan = options.setup.config.mechanics.loan;
 		const player = options.status.players.get(options.event.user_id);
@@ -1966,7 +1975,7 @@ const enrichments$11 = {
 		};
 	}
 };
-const valiV1Schemas$12 = [
+const valiV1Schemas$13 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("credit_taken"),
@@ -2010,11 +2019,11 @@ const valiV1Schemas$12 = [
 //#region src/packet/events/m1.ts
 var m1_exports = {};
 __export(m1_exports, {
-	enrichments: () => enrichments$10,
-	valiSchemas: () => valiSchemas$11,
-	valiV1Schemas: () => valiV1Schemas$11
+	enrichments: () => enrichments$11,
+	valiSchemas: () => valiSchemas$12,
+	valiV1Schemas: () => valiV1Schemas$12
 });
-const valiSchemas$11 = [valibot.object({
+const valiSchemas$12 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("m1.move"),
 	user_id: valibot.number(),
@@ -2026,11 +2035,11 @@ const valiSchemas$11 = [valibot.object({
 	type: valibot.literal("m1.fail"),
 	user_id: valibot.number()
 })];
-const enrichments$10 = { "m1.move"(options) {
+const enrichments$11 = { "m1.move"(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.position = options.event.field_id;
 } };
-const valiV1Schemas$11 = [valibot.pipe(valibot.object({
+const valiV1Schemas$12 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("mrMonopoly"),
 	user_id: valibot.number(),
@@ -2062,11 +2071,11 @@ const valiV1Schemas$11 = [valibot.pipe(valibot.object({
 //#region src/packet/events/mortgage.ts
 var mortgage_exports = {};
 __export(mortgage_exports, {
-	enrichments: () => enrichments$9,
-	valiSchemas: () => valiSchemas$10,
-	valiV1Schemas: () => valiV1Schemas$10
+	enrichments: () => enrichments$10,
+	valiSchemas: () => valiSchemas$11,
+	valiV1Schemas: () => valiV1Schemas$11
 });
-const valiSchemas$10 = [
+const valiSchemas$11 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("mortgage.put"),
@@ -2086,7 +2095,7 @@ const valiSchemas$10 = [
 		field_id: valibot.number()
 	})
 ];
-const enrichments$9 = {
+const enrichments$10 = {
 	"mortgage.put"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
@@ -2120,7 +2129,7 @@ const enrichments$9 = {
 		options.status.fields.delete(options.event.field_id);
 	}
 };
-const valiV1Schemas$10 = [
+const valiV1Schemas$11 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("mortgage"),
@@ -2165,9 +2174,9 @@ const valiV1Schemas$10 = [
 //#region src/packet/events/other.ts
 var other_exports = {};
 __export(other_exports, {
-	enrichments: () => enrichments$8,
-	valiSchemas: () => valiSchemas$9,
-	valiV1Schemas: () => valiV1Schemas$9
+	enrichments: () => enrichments$9,
+	valiSchemas: () => valiSchemas$10,
+	valiV1Schemas: () => valiV1Schemas$10
 });
 const valiChanceDataSchema = valibot.union([
 	valibot.strictObject({ amount: valibot.number() }),
@@ -2177,7 +2186,7 @@ const valiChanceDataSchema = valibot.union([
 	}),
 	valibot.undefined_()
 ]);
-const valiSchemas$9 = [
+const valiSchemas$10 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("bankrupt"),
@@ -2221,7 +2230,7 @@ const valiSchemas$9 = [
 		restart_price: valibot.number()
 	})
 ];
-const enrichments$8 = { chance(options) {
+const enrichments$9 = { chance(options) {
 	const chance_card_index = options.event.chance_index;
 	const chance_card = options.setup.config.mechanics.chance.cards[chance_card_index];
 	const player = options.status.players.get(options.event.user_id);
@@ -2250,7 +2259,7 @@ function unescapeHtml(text) {
 	element.innerHTML = text;
 	return element.textContent;
 }
-const valiV1Schemas$9 = [
+const valiV1Schemas$10 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("bankrupted"),
@@ -2360,17 +2369,17 @@ const valiV1Schemas$9 = [
 //#region src/packet/events/pause.ts
 var pause_exports = {};
 __export(pause_exports, {
-	valiSchemas: () => valiSchemas$8,
-	valiV1Schemas: () => valiV1Schemas$8
+	valiSchemas: () => valiSchemas$9,
+	valiV1Schemas: () => valiV1Schemas$9
 });
-const valiSchemas$8 = [valibot.object({
+const valiSchemas$9 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("pause.set")
 }), valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("pause.end")
 })];
-const valiV1Schemas$8 = [valibot.pipe(valibot.object({
+const valiV1Schemas$9 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("pauseActive")
 }), valibot.transform((value) => {
@@ -2392,11 +2401,11 @@ const valiV1Schemas$8 = [valibot.pipe(valibot.object({
 //#region src/packet/events/purchase.ts
 var purchase_exports = {};
 __export(purchase_exports, {
-	enrichments: () => enrichments$7,
-	valiSchemas: () => valiSchemas$7,
-	valiV1Schemas: () => valiV1Schemas$7
+	enrichments: () => enrichments$8,
+	valiSchemas: () => valiSchemas$8,
+	valiV1Schemas: () => valiV1Schemas$8
 });
-const valiSchemas$7 = [
+const valiSchemas$8 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("purchase.offer"),
@@ -2417,7 +2426,7 @@ const valiSchemas$7 = [
 		field_id: valibot.number()
 	})
 ];
-const enrichments$7 = { purchase(options) {
+const enrichments$8 = { purchase(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.cash -= options.event.price;
 	options.status.fields.set(options.event.field_id, {
@@ -2426,7 +2435,7 @@ const enrichments$7 = { purchase(options) {
 		level: 0
 	});
 } };
-const valiV1Schemas$7 = [
+const valiV1Schemas$8 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("canBuy"),
@@ -2474,11 +2483,11 @@ const valiV1Schemas$7 = [
 //#region src/packet/events/rent.ts
 var rent_exports = {};
 __export(rent_exports, {
-	enrichments: () => enrichments$6,
-	valiSchemas: () => valiSchemas$6,
-	valiV1Schemas: () => valiV1Schemas$6
+	enrichments: () => enrichments$7,
+	valiSchemas: () => valiSchemas$7,
+	valiV1Schemas: () => valiV1Schemas$7
 });
-const valiSchemas$6 = [
+const valiSchemas$7 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("rent.pay"),
@@ -2526,7 +2535,7 @@ const valiSchemas$6 = [
 		field_id: valibot.number()
 	})
 ];
-const enrichments$6 = { "rent.pay.complete"(options) {
+const enrichments$7 = { "rent.pay.complete"(options) {
 	const { amount } = options.event;
 	const player_payer = options.status.players.get(options.event.user_id);
 	player_payer.cash -= amount;
@@ -2534,7 +2543,7 @@ const enrichments$6 = { "rent.pay.complete"(options) {
 	const player_receiver = options.status.players.get(user_id_receiver);
 	player_receiver.cash += amount;
 } };
-const valiV1Schemas$6 = [
+const valiV1Schemas$7 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("payRent"),
@@ -2640,11 +2649,11 @@ const valiV1Schemas$6 = [
 //#region src/packet/events/roll-dices.ts
 var roll_dices_exports = {};
 __export(roll_dices_exports, {
-	enrichments: () => enrichments$5,
-	valiSchemas: () => valiSchemas$5,
-	valiV1Schemas: () => valiV1Schemas$5
+	enrichments: () => enrichments$6,
+	valiSchemas: () => valiSchemas$6,
+	valiV1Schemas: () => valiV1Schemas$6
 });
-const valiSchemas$5 = [
+const valiSchemas$6 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("roll-dices"),
@@ -2672,7 +2681,7 @@ const valiSchemas$5 = [
 		user_id: valibot.number()
 	})
 ];
-const enrichments$5 = {
+const enrichments$6 = {
 	"roll-dices"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
@@ -2688,7 +2697,7 @@ const enrichments$5 = {
 		player.position = normalizeFieldId(options.setup, player.position + distance);
 	}
 };
-const valiV1Schemas$5 = [
+const valiV1Schemas$6 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("rollDices"),
@@ -2770,6 +2779,112 @@ function getRolledDistance(dices, setup) {
 	} else distance += dices[1];
 	return distance;
 }
+
+//#endregion
+//#region src/packet/events/russian-roulette.ts
+var russian_roulette_exports = {};
+__export(russian_roulette_exports, {
+	enrichments: () => enrichments$5,
+	valiSchemas: () => valiSchemas$5,
+	valiV1Schemas: () => valiV1Schemas$5
+});
+const valiSchemas$5 = [
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("russian-roulette"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("russian-roulette.play"),
+		user_id: valibot.number(),
+		bullets_count: valibot.number(),
+		reward_amount: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("russian-roulette.survive"),
+		user_id: valibot.number(),
+		reward_amount: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("russian-roulette.die"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("russian-roulette.reject"),
+		user_id: valibot.number()
+	})
+];
+const enrichments$5 = { "russian-roulette.survive"(options) {
+	const player = options.status.players.get(options.event.user_id);
+	player.cash += options.event.reward_amount;
+} };
+const valiV1Schemas$5 = [
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("russianRoulette"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("russianRoulette_process"),
+		user_id: valibot.number(),
+		bullets: valibot.number(),
+		reward: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.play",
+			user_id: value.user_id,
+			bullets_count: value.bullets,
+			reward_amount: value.reward
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("russianRoulette_alive"),
+		user_id: valibot.number(),
+		sum: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.survive",
+			user_id: value.user_id,
+			reward_amount: value.sum
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("russianRoulette_died"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.die",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("russianRoulette_declined"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "russian-roulette.reject",
+			user_id: value.user_id
+		};
+	}))
+];
 
 //#endregion
 //#region src/packet/events/start.ts
@@ -3060,6 +3175,7 @@ const event_libs = [
 	purchase_exports,
 	rent_exports,
 	roll_dices_exports,
+	russian_roulette_exports,
 	start_exports,
 	tournament_exports,
 	triple_exports,
