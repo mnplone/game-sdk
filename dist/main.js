@@ -1047,7 +1047,7 @@ const valiM1DemoPacketV1ConfigSchema = v$25.pipe(
 		coeff_unmortgage: v$25.number(),
 		auction_mortgaged: v$25.optional(v$25.number()),
 		restart_variants: v$25.optional(v$25.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
-		russian_roulette_rewards: v$25.array(v$25.number()),
+		russian_roulette_rewards: v$25.optional(v$25.array(v$25.number())),
 		roundCash: v$25.number(),
 		START_BONUS_SUM: v$25.optional(v$25.number(), 0),
 		roundTaxes: v$25.optional(v$25.array(v$25.object({

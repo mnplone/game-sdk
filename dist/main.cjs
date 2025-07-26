@@ -1033,7 +1033,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(
 		coeff_unmortgage: valibot.number(),
 		auction_mortgaged: valibot.optional(valibot.number()),
 		restart_variants: valibot.optional(valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
-		russian_roulette_rewards: valibot.array(valibot.number()),
+		russian_roulette_rewards: valibot.optional(valibot.array(valibot.number())),
 		roundCash: valibot.number(),
 		START_BONUS_SUM: valibot.optional(valibot.number(), 0),
 		roundTaxes: valibot.optional(valibot.array(valibot.object({

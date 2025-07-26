@@ -189,7 +189,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 			v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
 		),
 		// mechanics: russian_roulette
-		russian_roulette_rewards: v.array(v.number()),
+		russian_roulette_rewards: v.optional(v.array(v.number())),
 		// mechanics: start_bonus
 		roundCash: v.number(),
 		START_BONUS_SUM: v.optional(v.number(), 0),
