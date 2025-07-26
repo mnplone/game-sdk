@@ -991,6 +991,7 @@ const valiM1DemoPacketSetupConfigSchema = v$25.object({
 			auction_multiplier: v$25.optional(v$25.number())
 		})),
 		restart: v$25.optional(v$25.object({ variants: v$25.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+		russian_roulette: v$25.optional(v$25.object({ rewards: v$25.array(v$25.number()) })),
 		start: v$25.object({
 			income_amount: v$25.number(),
 			bonus_amount: v$25.optional(v$25.number(), 0)
@@ -1046,6 +1047,7 @@ const valiM1DemoPacketV1ConfigSchema = v$25.pipe(
 		coeff_unmortgage: v$25.number(),
 		auction_mortgaged: v$25.optional(v$25.number()),
 		restart_variants: v$25.optional(v$25.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
+		russian_roulette_rewards: v$25.array(v$25.number()),
 		roundCash: v$25.number(),
 		START_BONUS_SUM: v$25.optional(v$25.number(), 0),
 		roundTaxes: v$25.optional(v$25.array(v$25.object({
@@ -1101,6 +1103,7 @@ const valiM1DemoPacketV1ConfigSchema = v$25.pipe(
 					auction_multiplier: value.auction_mortgaged
 				},
 				restart: value.restart_variants ? { variants: value.restart_variants } : void 0,
+				russian_roulette: value.russian_roulette_rewards ? { rewards: [0, ...value.russian_roulette_rewards] } : void 0,
 				start: {
 					income_amount: value.roundCash,
 					bonus_amount: value.START_BONUS_SUM

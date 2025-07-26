@@ -754,6 +754,9 @@ declare const valiM1DemoPacketSetupConfigSchema: v$5.ObjectSchema<{
         readonly price: v$5.NumberSchema<undefined>;
       }, undefined>, undefined>;
     }, undefined>, undefined>;
+    readonly russian_roulette: v$5.OptionalSchema<v$5.ObjectSchema<{
+      readonly rewards: v$5.ArraySchema<v$5.NumberSchema<undefined>, undefined>;
+    }, undefined>, undefined>;
     readonly start: v$5.ObjectSchema<{
       readonly income_amount: v$5.NumberSchema<undefined>;
       readonly bonus_amount: v$5.OptionalSchema<v$5.NumberSchema<undefined>, 0>;
@@ -1045,6 +1048,9 @@ declare const valiM1DemoPacketSetupSchema: v$3.ObjectSchema<{
           readonly count: v$3.NumberSchema<undefined>;
           readonly price: v$3.NumberSchema<undefined>;
         }, undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly russian_roulette: v$3.OptionalSchema<v$3.ObjectSchema<{
+        readonly rewards: v$3.ArraySchema<v$3.NumberSchema<undefined>, undefined>;
       }, undefined>, undefined>;
       readonly start: v$3.ObjectSchema<{
         readonly income_amount: v$3.NumberSchema<undefined>;
@@ -1533,6 +1539,9 @@ declare class M1LiveDemo {
               count: number;
               price: number;
             }[];
+          } | undefined;
+          russian_roulette?: {
+            rewards: number[];
           } | undefined;
           start: {
             income_amount: number;

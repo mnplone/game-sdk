@@ -977,6 +977,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 			auction_multiplier: valibot.optional(valibot.number())
 		})),
 		restart: valibot.optional(valibot.object({ variants: valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+		russian_roulette: valibot.optional(valibot.object({ rewards: valibot.array(valibot.number()) })),
 		start: valibot.object({
 			income_amount: valibot.number(),
 			bonus_amount: valibot.optional(valibot.number(), 0)
@@ -1032,6 +1033,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(
 		coeff_unmortgage: valibot.number(),
 		auction_mortgaged: valibot.optional(valibot.number()),
 		restart_variants: valibot.optional(valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
+		russian_roulette_rewards: valibot.array(valibot.number()),
 		roundCash: valibot.number(),
 		START_BONUS_SUM: valibot.optional(valibot.number(), 0),
 		roundTaxes: valibot.optional(valibot.array(valibot.object({
@@ -1087,6 +1089,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(
 					auction_multiplier: value.auction_mortgaged
 				},
 				restart: value.restart_variants ? { variants: value.restart_variants } : void 0,
+				russian_roulette: value.russian_roulette_rewards ? { rewards: [0, ...value.russian_roulette_rewards] } : void 0,
 				start: {
 					income_amount: value.roundCash,
 					bonus_amount: value.START_BONUS_SUM

@@ -95,6 +95,11 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 				variants: v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
 			}),
 		),
+		russian_roulette: v.optional(
+			v.object({
+				rewards: v.array(v.number()),
+			}),
+		),
 		start: v.object({
 			income_amount: v.number(),
 			bonus_amount: v.optional(v.number(), 0),
@@ -183,6 +188,8 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		restart_variants: v.optional(
 			v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
 		),
+		// mechanics: russian_roulette
+		russian_roulette_rewards: v.array(v.number()),
 		// mechanics: start_bonus
 		roundCash: v.number(),
 		START_BONUS_SUM: v.optional(v.number(), 0),
@@ -277,6 +284,11 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 				restart: value.restart_variants
 					? {
 							variants: value.restart_variants,
+						}
+					: undefined,
+				russian_roulette: value.russian_roulette_rewards
+					? {
+							rewards: [0, ...value.russian_roulette_rewards],
 						}
 					: undefined,
 				start: {
