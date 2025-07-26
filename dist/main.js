@@ -2222,6 +2222,11 @@ const valiSchemas$9 = [
 	}),
 	v$14.object({
 		id: v$14.string(),
+		type: v$14.literal("park"),
+		user_id: v$14.number()
+	}),
+	v$14.object({
+		id: v$14.string(),
 		type: v$14.literal("restart"),
 		user_id: v$14.number(),
 		restart_price: v$14.number()
@@ -2334,6 +2339,17 @@ const valiV1Schemas$9 = [
 			private: value.private ? { user_id: value.private.user } : void 0,
 			is_forced: value.forced,
 			text: value.is_unsafe ? value.text : unescapeHtml(value.text)
+		};
+	})),
+	v$14.pipe(v$14.object({
+		_id: v$14.optional(v$14.string()),
+		type: v$14.literal("relax"),
+		user_id: v$14.number()
+	}), v$14.transform((value) => {
+		return {
+			id: value._id,
+			type: "park",
+			user_id: value.user_id
 		};
 	})),
 	v$14.pipe(v$14.object({

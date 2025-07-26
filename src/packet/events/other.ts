@@ -54,6 +54,11 @@ export const valiSchemas = [
 	}),
 	v.object({
 		id: v.string(),
+		type: v.literal('park'),
+		user_id: v.number(),
+	}),
+	v.object({
+		id: v.string(),
 		type: v.literal('restart'),
 		user_id: v.number(),
 		restart_price: v.number(),
@@ -221,6 +226,20 @@ export const valiV1Schemas = [
 					: undefined,
 				is_forced: value.forced,
 				text: value.is_unsafe ? value.text : unescapeHtml(value.text),
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('relax'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'park' as const,
+				user_id: value.user_id,
 			};
 		}),
 	),

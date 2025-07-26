@@ -2209,6 +2209,11 @@ const valiSchemas$9 = [
 	}),
 	valibot.object({
 		id: valibot.string(),
+		type: valibot.literal("park"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
 		type: valibot.literal("restart"),
 		user_id: valibot.number(),
 		restart_price: valibot.number()
@@ -2321,6 +2326,17 @@ const valiV1Schemas$9 = [
 			private: value.private ? { user_id: value.private.user } : void 0,
 			is_forced: value.forced,
 			text: value.is_unsafe ? value.text : unescapeHtml(value.text)
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("relax"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "park",
+			user_id: value.user_id
 		};
 	})),
 	valibot.pipe(valibot.object({
