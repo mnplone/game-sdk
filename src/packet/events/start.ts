@@ -12,6 +12,17 @@ export const valiSchemas = [
 		type: v.literal('start.bonus'),
 		user_id: v.number(),
 	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('start.tax'),
+		user_id: v.number(),
+		amount: v.number(),
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('start.tax.pay'),
+		user_id: v.number(),
+	}),
 ];
 
 export const enrichments = {
@@ -50,6 +61,36 @@ export const valiV1Schemas = [
 			return {
 				id: value._id,
 				type: 'start.bonus' as const,
+				user_id: value.user_id,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('startBypassFee'),
+			user_id: v.number(),
+			money: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'start.tax' as const,
+				user_id: value.user_id,
+				amount: value.money,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('startBypassFeePaid'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'start.tax.pay' as const,
 				user_id: value.user_id,
 			};
 		}),

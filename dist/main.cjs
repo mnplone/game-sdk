@@ -456,6 +456,7 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"purchase.reject",
 			"rent.pay",
 			"roll-dices",
+			"start.tax.pay",
 			"triple.move",
 			"wormhole.use",
 			"wormhole.open",
@@ -1249,6 +1250,7 @@ const action_list_mapping = {
 	noBuy: "purchase.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
+	startBypassFee: "start.tax.pay",
 	chooseFieldToMove: "triple.move",
 	wormholeUse: "wormhole.use",
 	wormholeOpen: "wormhole.open",
@@ -2777,15 +2779,29 @@ __export(start_exports, {
 	valiSchemas: () => valiSchemas$4,
 	valiV1Schemas: () => valiV1Schemas$4
 });
-const valiSchemas$4 = [valibot.object({
-	id: valibot.string(),
-	type: valibot.literal("start.income"),
-	user_id: valibot.number()
-}), valibot.object({
-	id: valibot.string(),
-	type: valibot.literal("start.bonus"),
-	user_id: valibot.number()
-})];
+const valiSchemas$4 = [
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("start.income"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("start.bonus"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("start.tax"),
+		user_id: valibot.number(),
+		amount: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("start.tax.pay"),
+		user_id: valibot.number()
+	})
+];
 const enrichments$4 = {
 	"start.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
@@ -2796,27 +2812,54 @@ const enrichments$4 = {
 		player.cash += options.setup.config.mechanics.start.bonus_amount;
 	}
 };
-const valiV1Schemas$4 = [valibot.pipe(valibot.object({
-	_id: valibot.optional(valibot.string()),
-	type: valibot.literal("startBypass"),
-	user_id: valibot.number()
-}), valibot.transform((value) => {
-	return {
-		id: value._id,
-		type: "start.income",
-		user_id: value.user_id
-	};
-})), valibot.pipe(valibot.object({
-	_id: valibot.optional(valibot.string()),
-	type: valibot.literal("start_bonus"),
-	user_id: valibot.number()
-}), valibot.transform((value) => {
-	return {
-		id: value._id,
-		type: "start.bonus",
-		user_id: value.user_id
-	};
-}))];
+const valiV1Schemas$4 = [
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("startBypass"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.income",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("start_bonus"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.bonus",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("startBypassFee"),
+		user_id: valibot.number(),
+		money: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.tax",
+			user_id: value.user_id,
+			amount: value.money
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("startBypassFeePaid"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.tax.pay",
+			user_id: value.user_id
+		};
+	}))
+];
 
 //#endregion
 //#region src/packet/events/tournament.ts

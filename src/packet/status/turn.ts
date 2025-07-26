@@ -85,7 +85,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					// 'russian-roulette.play',
 					// 'russian-roulette.reject',
 					// Start
-					// 'start.tax.pay',
+					'start.tax.pay',
 					// Taxi
 					// 'taxi.move',
 					// Triple

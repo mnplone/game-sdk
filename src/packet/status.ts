@@ -107,7 +107,7 @@ const action_list_mapping = {
 	// 'russian-roulette.play',
 	// 'russian-roulette.reject',
 	// Start
-	// 'start.tax.pay',
+	startBypassFee: 'start.tax.pay',
 	// Taxi
 	// 'taxi.move',
 	// Triple

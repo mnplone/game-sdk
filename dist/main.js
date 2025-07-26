@@ -469,6 +469,7 @@ const valiM1DemoPacketStatusTurnSchema = v$29.object({
 			"purchase.reject",
 			"rent.pay",
 			"roll-dices",
+			"start.tax.pay",
 			"triple.move",
 			"wormhole.use",
 			"wormhole.open",
@@ -1262,6 +1263,7 @@ const action_list_mapping = {
 	noBuy: "purchase.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
+	startBypassFee: "start.tax.pay",
 	chooseFieldToMove: "triple.move",
 	wormholeUse: "wormhole.use",
 	wormholeOpen: "wormhole.open",
@@ -2790,15 +2792,29 @@ __export(start_exports, {
 	valiSchemas: () => valiSchemas$4,
 	valiV1Schemas: () => valiV1Schemas$4
 });
-const valiSchemas$4 = [v$9.object({
-	id: v$9.string(),
-	type: v$9.literal("start.income"),
-	user_id: v$9.number()
-}), v$9.object({
-	id: v$9.string(),
-	type: v$9.literal("start.bonus"),
-	user_id: v$9.number()
-})];
+const valiSchemas$4 = [
+	v$9.object({
+		id: v$9.string(),
+		type: v$9.literal("start.income"),
+		user_id: v$9.number()
+	}),
+	v$9.object({
+		id: v$9.string(),
+		type: v$9.literal("start.bonus"),
+		user_id: v$9.number()
+	}),
+	v$9.object({
+		id: v$9.string(),
+		type: v$9.literal("start.tax"),
+		user_id: v$9.number(),
+		amount: v$9.number()
+	}),
+	v$9.object({
+		id: v$9.string(),
+		type: v$9.literal("start.tax.pay"),
+		user_id: v$9.number()
+	})
+];
 const enrichments$4 = {
 	"start.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
@@ -2809,27 +2825,54 @@ const enrichments$4 = {
 		player.cash += options.setup.config.mechanics.start.bonus_amount;
 	}
 };
-const valiV1Schemas$4 = [v$9.pipe(v$9.object({
-	_id: v$9.optional(v$9.string()),
-	type: v$9.literal("startBypass"),
-	user_id: v$9.number()
-}), v$9.transform((value) => {
-	return {
-		id: value._id,
-		type: "start.income",
-		user_id: value.user_id
-	};
-})), v$9.pipe(v$9.object({
-	_id: v$9.optional(v$9.string()),
-	type: v$9.literal("start_bonus"),
-	user_id: v$9.number()
-}), v$9.transform((value) => {
-	return {
-		id: value._id,
-		type: "start.bonus",
-		user_id: value.user_id
-	};
-}))];
+const valiV1Schemas$4 = [
+	v$9.pipe(v$9.object({
+		_id: v$9.optional(v$9.string()),
+		type: v$9.literal("startBypass"),
+		user_id: v$9.number()
+	}), v$9.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.income",
+			user_id: value.user_id
+		};
+	})),
+	v$9.pipe(v$9.object({
+		_id: v$9.optional(v$9.string()),
+		type: v$9.literal("start_bonus"),
+		user_id: v$9.number()
+	}), v$9.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.bonus",
+			user_id: value.user_id
+		};
+	})),
+	v$9.pipe(v$9.object({
+		_id: v$9.optional(v$9.string()),
+		type: v$9.literal("startBypassFee"),
+		user_id: v$9.number(),
+		money: v$9.number()
+	}), v$9.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.tax",
+			user_id: value.user_id,
+			amount: value.money
+		};
+	})),
+	v$9.pipe(v$9.object({
+		_id: v$9.optional(v$9.string()),
+		type: v$9.literal("startBypassFeePaid"),
+		user_id: v$9.number()
+	}), v$9.transform((value) => {
+		return {
+			id: value._id,
+			type: "start.tax.pay",
+			user_id: value.user_id
+		};
+	}))
+];
 
 //#endregion
 //#region src/packet/events/tournament.ts
