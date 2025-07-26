@@ -27,9 +27,12 @@ export const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(
 			v.object({
 				is_corner: bit(false),
 				type: v.picklist([
+					'cash.pay',
+					'cash.receive',
 					'chance',
 					'jackpot',
 					'jail.goto',
+					'park',
 					'tax.income',
 					'tax.luxury',
 					'wormhole',
@@ -94,9 +97,12 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 				design: v.optional(v.literal('corner')),
 				type: v.literal('special'),
 				action: v.picklist([
+					'cash_minus',
+					'cash_plus',
 					'chance',
 					'goToJail',
 					'jackpot',
+					'relax',
 					'tax_income',
 					'tax_luxury',
 					'wormhole',
@@ -110,38 +116,6 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 				is_last: bit(false),
 			}),
 		]),
-		// union([
-		// 	// ALWAYS corners
-		// 	// separate types into object because typescript cannot extract types from union using if
-		// 	object({
-		// 		design: literal('corner'),
-		// 		type: literal('start'),
-		// 	}),
-		// 	object({
-		// 		design: literal('corner'),
-		// 		type: literal('jail'),
-		// 	}),
-		// 	// MAYBE corners
-		// 	object({
-		// 		design: optional(literal('corner')),
-		// 		type: literal('special'),
-		// 		action: picklist([
-		// 			'chance',
-		// 			'goToJail',
-		// 			'jackpot',
-		// 			'tax_income',
-		// 			'tax_luxury',
-		// 			'wormhole',
-		// 		]),
-		// 	}),
-		// 	// NEVER corners
-		// 	object({
-		// 		design: undefined_(),
-		// 		type: literal('field'),
-		// 		group: number(),
-		// 		is_last: bit(false),
-		// 	}),
-		// ]),
 	),
 	v.transform((value) => {
 		const indexes_by_group = new Map<number, number>();
@@ -195,8 +169,20 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 
 				let type_new;
 				switch (action) {
+					case 'cash_minus':
+						type_new = 'cash.pay' as const;
+						break;
+
+					case 'cash_plus':
+						type_new = 'cash.receive' as const;
+						break;
+
 					case 'goToJail':
 						type_new = 'jail.goto' as const;
+						break;
+
+					case 'relax':
+						type_new = 'park' as const;
 						break;
 
 					case 'tax_income':

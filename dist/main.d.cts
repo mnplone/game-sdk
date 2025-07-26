@@ -478,7 +478,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v$7.SchemaWithPipe<readon
   readonly type: v$7.PicklistSchema<["start", "jail"], undefined>;
 }, undefined>, v$7.ObjectSchema<{
   readonly is_corner: v$7.SchemaWithPipe<readonly [v$7.OptionalSchema<v$7.PicklistSchema<[0, 1], undefined>, 0 | 1>, v$7.TransformAction<0 | 1, boolean>]>;
-  readonly type: v$7.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
+  readonly type: v$7.PicklistSchema<["cash.pay", "cash.receive", "chance", "jackpot", "jail.goto", "park", "tax.income", "tax.luxury", "wormhole"], undefined>;
 }, undefined>, v$7.ObjectSchema<{
   readonly is_corner: v$7.SchemaWithPipe<readonly [v$7.UndefinedSchema<undefined>, v$7.TransformAction<undefined, false>]>;
   readonly type: v$7.LiteralSchema<"company", undefined>;
@@ -489,7 +489,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v$7.SchemaWithPipe<readon
   type: "start" | "jail";
 } | {
   is_corner: boolean;
-  type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+  type: "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "tax.income" | "tax.luxury" | "wormhole";
 } | {
   is_corner: false;
   type: "company";
@@ -500,7 +500,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v$7.SchemaWithPipe<readon
   type: "start" | "jail";
 } | {
   is_corner: boolean;
-  type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+  type: "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "tax.income" | "tax.luxury" | "wormhole";
 } | {
   item_proto_id: number;
   is_corner: false;
@@ -573,7 +573,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v$5.ObjectSchema<{
     readonly type: v$5.PicklistSchema<["start", "jail"], undefined>;
   }, undefined>, v$5.ObjectSchema<{
     readonly is_corner: v$5.SchemaWithPipe<readonly [v$5.OptionalSchema<v$5.PicklistSchema<[0, 1], undefined>, 0 | 1>, v$5.TransformAction<0 | 1, boolean>]>;
-    readonly type: v$5.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
+    readonly type: v$5.PicklistSchema<["cash.pay", "cash.receive", "chance", "jackpot", "jail.goto", "park", "tax.income", "tax.luxury", "wormhole"], undefined>;
   }, undefined>, v$5.ObjectSchema<{
     readonly is_corner: v$5.SchemaWithPipe<readonly [v$5.UndefinedSchema<undefined>, v$5.TransformAction<undefined, false>]>;
     readonly type: v$5.LiteralSchema<"company", undefined>;
@@ -584,7 +584,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v$5.ObjectSchema<{
     type: "start" | "jail";
   } | {
     is_corner: boolean;
-    type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+    type: "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "tax.income" | "tax.luxury" | "wormhole";
   } | {
     is_corner: false;
     type: "company";
@@ -595,7 +595,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v$5.ObjectSchema<{
     type: "start" | "jail";
   } | {
     is_corner: boolean;
-    type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+    type: "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "tax.income" | "tax.luxury" | "wormhole";
   } | {
     item_proto_id: number;
     is_corner: false;
@@ -877,7 +877,7 @@ declare const valiM1DemoPacketSetupSchema: v$3.ObjectSchema<{
       readonly type: v$3.PicklistSchema<["start", "jail"], undefined>;
     }, undefined>, v$3.ObjectSchema<{
       readonly is_corner: v$3.SchemaWithPipe<readonly [v$3.OptionalSchema<v$3.PicklistSchema<[0, 1], undefined>, 0 | 1>, v$3.TransformAction<0 | 1, boolean>]>;
-      readonly type: v$3.PicklistSchema<["chance", "jackpot", "jail.goto", "tax.income", "tax.luxury", "wormhole"], undefined>;
+      readonly type: v$3.PicklistSchema<["cash.pay", "cash.receive", "chance", "jackpot", "jail.goto", "park", "tax.income", "tax.luxury", "wormhole"], undefined>;
     }, undefined>, v$3.ObjectSchema<{
       readonly is_corner: v$3.SchemaWithPipe<readonly [v$3.UndefinedSchema<undefined>, v$3.TransformAction<undefined, false>]>;
       readonly type: v$3.LiteralSchema<"company", undefined>;
@@ -888,7 +888,7 @@ declare const valiM1DemoPacketSetupSchema: v$3.ObjectSchema<{
       type: "start" | "jail";
     } | {
       is_corner: boolean;
-      type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+      type: "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "tax.income" | "tax.luxury" | "wormhole";
     } | {
       is_corner: false;
       type: "company";
@@ -899,7 +899,7 @@ declare const valiM1DemoPacketSetupSchema: v$3.ObjectSchema<{
       type: "start" | "jail";
     } | {
       is_corner: boolean;
-      type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+      type: "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "tax.income" | "tax.luxury" | "wormhole";
     } | {
       item_proto_id: number;
       is_corner: false;
@@ -1417,7 +1417,7 @@ declare class M1LiveDemo {
           type: "start" | "jail";
         } | {
           is_corner: boolean;
-          type: "chance" | "jackpot" | "jail.goto" | "tax.income" | "tax.luxury" | "wormhole";
+          type: "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "tax.income" | "tax.luxury" | "wormhole";
         } | {
           item_proto_id: number;
           is_corner: false;

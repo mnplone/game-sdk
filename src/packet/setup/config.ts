@@ -187,17 +187,23 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		roundCash: v.number(),
 		START_BONUS_SUM: v.optional(v.number(), 0),
 		// mechanics: timer_rules
-		roundTaxes: v.array(
-			v.object({
-				game_time: v.number(),
-				tax: v.number(),
-			}),
+		roundTaxes: v.optional(
+			v.array(
+				v.object({
+					game_time: v.number(),
+					tax: v.number(),
+				}),
+			),
+			() => [],
 		),
-		incomeTaxes: v.array(
-			v.object({
-				game_time: v.number(),
-				tax_rate: v.number(),
-			}),
+		incomeTaxes: v.optional(
+			v.array(
+				v.object({
+					game_time: v.number(),
+					tax_rate: v.number(),
+				}),
+			),
+			() => [],
 		),
 		// mechanics: wormhole
 		WORMHOLE_DIRECTLY: v.optional(bit(false)),

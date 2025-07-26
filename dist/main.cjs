@@ -738,9 +738,12 @@ const valiM1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valib
 	valibot.object({
 		is_corner: bit(false),
 		type: valibot.picklist([
+			"cash.pay",
+			"cash.receive",
 			"chance",
 			"jackpot",
 			"jail.goto",
+			"park",
 			"tax.income",
 			"tax.luxury",
 			"wormhole"
@@ -767,68 +770,37 @@ const valiM1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valib
 		return field;
 	});
 }));
-const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(
-	valibot.variant("type", [
-		valibot.object({
-			design: valibot.literal("corner"),
-			type: valibot.literal("start")
-		}),
-		valibot.object({
-			design: valibot.literal("corner"),
-			type: valibot.literal("jail")
-		}),
-		valibot.object({
-			design: valibot.optional(valibot.literal("corner")),
-			type: valibot.literal("special"),
-			action: valibot.picklist([
-				"chance",
-				"goToJail",
-				"jackpot",
-				"tax_income",
-				"tax_luxury",
-				"wormhole"
-			])
-		}),
-		valibot.object({
-			design: valibot.exactOptional(valibot.never()),
-			type: valibot.literal("field"),
-			group: valibot.number(),
-			is_last: bit(false)
-		})
-	])
-	// union([
-	// 	// ALWAYS corners
-	// 	// separate types into object because typescript cannot extract types from union using if
-	// 	object({
-	// 		design: literal('corner'),
-	// 		type: literal('start'),
-	// 	}),
-	// 	object({
-	// 		design: literal('corner'),
-	// 		type: literal('jail'),
-	// 	}),
-	// 	// MAYBE corners
-	// 	object({
-	// 		design: optional(literal('corner')),
-	// 		type: literal('special'),
-	// 		action: picklist([
-	// 			'chance',
-	// 			'goToJail',
-	// 			'jackpot',
-	// 			'tax_income',
-	// 			'tax_luxury',
-	// 			'wormhole',
-	// 		]),
-	// 	}),
-	// 	// NEVER corners
-	// 	object({
-	// 		design: undefined_(),
-	// 		type: literal('field'),
-	// 		group: number(),
-	// 		is_last: bit(false),
-	// 	}),
-	// ]),
-), valibot.transform((value) => {
+const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.variant("type", [
+	valibot.object({
+		design: valibot.literal("corner"),
+		type: valibot.literal("start")
+	}),
+	valibot.object({
+		design: valibot.literal("corner"),
+		type: valibot.literal("jail")
+	}),
+	valibot.object({
+		design: valibot.optional(valibot.literal("corner")),
+		type: valibot.literal("special"),
+		action: valibot.picklist([
+			"cash_minus",
+			"cash_plus",
+			"chance",
+			"goToJail",
+			"jackpot",
+			"relax",
+			"tax_income",
+			"tax_luxury",
+			"wormhole"
+		])
+	}),
+	valibot.object({
+		design: valibot.exactOptional(valibot.never()),
+		type: valibot.literal("field"),
+		group: valibot.number(),
+		is_last: bit(false)
+	})
+])), valibot.transform((value) => {
 	const indexes_by_group = new Map();
 	return value.map((field) => {
 		if (field.type === "start" || field.type === "jail") {
@@ -855,8 +827,17 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(
 			const { type: _1, action, design,...field_rest } = field;
 			let type_new;
 			switch (action) {
+				case "cash_minus":
+					type_new = "cash.pay";
+					break;
+				case "cash_plus":
+					type_new = "cash.receive";
+					break;
 				case "goToJail":
 					type_new = "jail.goto";
+					break;
+				case "relax":
+					type_new = "park";
 					break;
 				case "tax_income":
 					type_new = "tax.income";
@@ -1045,14 +1026,14 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(
 		restart_variants: valibot.optional(valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
 		roundCash: valibot.number(),
 		START_BONUS_SUM: valibot.optional(valibot.number(), 0),
-		roundTaxes: valibot.array(valibot.object({
+		roundTaxes: valibot.optional(valibot.array(valibot.object({
 			game_time: valibot.number(),
 			tax: valibot.number()
-		})),
-		incomeTaxes: valibot.array(valibot.object({
+		})), () => []),
+		incomeTaxes: valibot.optional(valibot.array(valibot.object({
 			game_time: valibot.number(),
 			tax_rate: valibot.number()
-		})),
+		})), () => []),
 		WORMHOLE_DIRECTLY: valibot.optional(bit(false)),
 		WORMHOLE_EXTRA_DESTINATION_COST: valibot.optional(valibot.number())
 	}),

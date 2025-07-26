@@ -751,9 +751,12 @@ const valiM1DemoPacketSetupConfigFieldsSchema = v$26.pipe(v$26.array(v$26.union(
 	v$26.object({
 		is_corner: bit(false),
 		type: v$26.picklist([
+			"cash.pay",
+			"cash.receive",
 			"chance",
 			"jackpot",
 			"jail.goto",
+			"park",
 			"tax.income",
 			"tax.luxury",
 			"wormhole"
@@ -780,68 +783,37 @@ const valiM1DemoPacketSetupConfigFieldsSchema = v$26.pipe(v$26.array(v$26.union(
 		return field;
 	});
 }));
-const valiM1DemoPacketV1ConfigFieldsSchema = v$26.pipe(v$26.array(
-	v$26.variant("type", [
-		v$26.object({
-			design: v$26.literal("corner"),
-			type: v$26.literal("start")
-		}),
-		v$26.object({
-			design: v$26.literal("corner"),
-			type: v$26.literal("jail")
-		}),
-		v$26.object({
-			design: v$26.optional(v$26.literal("corner")),
-			type: v$26.literal("special"),
-			action: v$26.picklist([
-				"chance",
-				"goToJail",
-				"jackpot",
-				"tax_income",
-				"tax_luxury",
-				"wormhole"
-			])
-		}),
-		v$26.object({
-			design: v$26.exactOptional(v$26.never()),
-			type: v$26.literal("field"),
-			group: v$26.number(),
-			is_last: bit(false)
-		})
-	])
-	// union([
-	// 	// ALWAYS corners
-	// 	// separate types into object because typescript cannot extract types from union using if
-	// 	object({
-	// 		design: literal('corner'),
-	// 		type: literal('start'),
-	// 	}),
-	// 	object({
-	// 		design: literal('corner'),
-	// 		type: literal('jail'),
-	// 	}),
-	// 	// MAYBE corners
-	// 	object({
-	// 		design: optional(literal('corner')),
-	// 		type: literal('special'),
-	// 		action: picklist([
-	// 			'chance',
-	// 			'goToJail',
-	// 			'jackpot',
-	// 			'tax_income',
-	// 			'tax_luxury',
-	// 			'wormhole',
-	// 		]),
-	// 	}),
-	// 	// NEVER corners
-	// 	object({
-	// 		design: undefined_(),
-	// 		type: literal('field'),
-	// 		group: number(),
-	// 		is_last: bit(false),
-	// 	}),
-	// ]),
-), v$26.transform((value) => {
+const valiM1DemoPacketV1ConfigFieldsSchema = v$26.pipe(v$26.array(v$26.variant("type", [
+	v$26.object({
+		design: v$26.literal("corner"),
+		type: v$26.literal("start")
+	}),
+	v$26.object({
+		design: v$26.literal("corner"),
+		type: v$26.literal("jail")
+	}),
+	v$26.object({
+		design: v$26.optional(v$26.literal("corner")),
+		type: v$26.literal("special"),
+		action: v$26.picklist([
+			"cash_minus",
+			"cash_plus",
+			"chance",
+			"goToJail",
+			"jackpot",
+			"relax",
+			"tax_income",
+			"tax_luxury",
+			"wormhole"
+		])
+	}),
+	v$26.object({
+		design: v$26.exactOptional(v$26.never()),
+		type: v$26.literal("field"),
+		group: v$26.number(),
+		is_last: bit(false)
+	})
+])), v$26.transform((value) => {
 	const indexes_by_group = new Map();
 	return value.map((field) => {
 		if (field.type === "start" || field.type === "jail") {
@@ -868,8 +840,17 @@ const valiM1DemoPacketV1ConfigFieldsSchema = v$26.pipe(v$26.array(
 			const { type: _1, action, design,...field_rest } = field;
 			let type_new;
 			switch (action) {
+				case "cash_minus":
+					type_new = "cash.pay";
+					break;
+				case "cash_plus":
+					type_new = "cash.receive";
+					break;
 				case "goToJail":
 					type_new = "jail.goto";
+					break;
+				case "relax":
+					type_new = "park";
 					break;
 				case "tax_income":
 					type_new = "tax.income";
@@ -1058,14 +1039,14 @@ const valiM1DemoPacketV1ConfigSchema = v$24.pipe(
 		restart_variants: v$24.optional(v$24.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
 		roundCash: v$24.number(),
 		START_BONUS_SUM: v$24.optional(v$24.number(), 0),
-		roundTaxes: v$24.array(v$24.object({
+		roundTaxes: v$24.optional(v$24.array(v$24.object({
 			game_time: v$24.number(),
 			tax: v$24.number()
-		})),
-		incomeTaxes: v$24.array(v$24.object({
+		})), () => []),
+		incomeTaxes: v$24.optional(v$24.array(v$24.object({
 			game_time: v$24.number(),
 			tax_rate: v$24.number()
-		})),
+		})), () => []),
 		WORMHOLE_DIRECTLY: v$24.optional(bit(false)),
 		WORMHOLE_EXTRA_DESTINATION_COST: v$24.optional(v$24.number())
 	}),
