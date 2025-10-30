@@ -17,7 +17,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
  * @param key -
  * @returns -
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export function hasOwn<const O extends Record<string, any>>(
 	object: O,
 	key: string | number | symbol,
@@ -31,14 +31,14 @@ export function hasOwn<const O extends Record<string, any>>(
  * @returns -
  */
 export function isIterableIterator(
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// oxlint-disable-next-line typescript/no-explicit-any
 	value: any,
 ): value is IterableIterator<unknown> {
 	return (
-		value !== null &&
-		typeof value === 'object' &&
-		Symbol.iterator in value &&
-		typeof value[Symbol.iterator] === 'function' &&
-		typeof value.next === 'function'
+		value !== null
+		&& typeof value === 'object'
+		&& Symbol.iterator in value
+		&& typeof value[Symbol.iterator] === 'function'
+		&& typeof value.next === 'function'
 	);
 }

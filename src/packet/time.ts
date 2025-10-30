@@ -93,8 +93,8 @@ export const valiM1DemoPacketV1TimeSchema = v.union([
 					packet_time.inactive = pause_data.total_time * 1e3;
 
 					if (
-						pause_data.is_active &&
-						typeof pause_data.pause_started_at === 'number'
+						pause_data.is_active
+						&& typeof pause_data.pause_started_at === 'number'
 					) {
 						packet_time.ts_inactive = pause_data.pause_started_at * 1e3;
 					}

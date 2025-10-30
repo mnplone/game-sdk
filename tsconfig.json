@@ -11,13 +11,13 @@
 		"noImplicitOverride": true,
 		"module": "preserve",
 		"noEmit": true,
-		"lib": ["es2022", "DOM"],
+		"lib": ["es2023", "DOM"],
 		"declaration": true,
 		"isolatedDeclarations": false,
-		"importHelpers": true,
 		"paths": {
 			"@/*": ["./src/*"]
-		}
+		},
+		"importHelpers": true
 	},
 	"include": ["src/"],
 	"exclude": ["**/*.test.ts"]

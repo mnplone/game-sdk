@@ -1,4 +1,4 @@
-/* eslint-disable no-bitwise */
+// oxlint-disable no-bitwise
 
 const table = new Uint32Array(256);
 

@@ -217,7 +217,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		WORMHOLE_EXTRA_DESTINATION_COST: v.optional(v.number()),
 	}),
 	// transforming config in-place because it is a whole product
-	// eslint-disable-next-line max-lines-per-function
+	// oxlint-disable-next-line max-lines-per-function
 	v.transform((value) => {
 		return {
 			version: value.version,
@@ -317,7 +317,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 							rate: rule.tax_rate,
 						};
 					}),
-				].sort((a, b) => a.time - b.time),
+				].toSorted((a, b) => a.time - b.time),
 				wormhole:
 					typeof value.WORMHOLE_DIRECTLY === 'boolean'
 						? {

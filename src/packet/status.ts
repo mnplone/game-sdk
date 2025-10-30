@@ -156,21 +156,22 @@ export const valiM1DemoPacketV1ContractSchema = v.pipe(
 		in_fields: v.array(v.number()),
 		in_money: v.number(),
 	}),
-	v.transform(
-		(value) =>
-			({
-				initiator: {
-					user_id: value.from,
-					field_ids: new Set(value.out_fields),
-					cash: value.out_money,
-				},
-				responder: {
-					user_id: value.to,
-					field_ids: new Set(value.in_fields),
-					cash: value.in_money,
-				},
-			}) satisfies M1DemoContract,
-	),
+	v.transform((value) => {
+		const r_ = {
+			initiator: {
+				user_id: value.from,
+				field_ids: new Set(value.out_fields),
+				cash: value.out_money,
+			},
+			responder: {
+				user_id: value.to,
+				field_ids: new Set(value.in_fields),
+				cash: value.in_money,
+			},
+		} satisfies M1DemoContract;
+
+		return r_;
+	}),
 );
 
 export const valiM1DemoPacketV1StatusSchema = v.pipe(
@@ -201,7 +202,9 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 								new Set(
 									Object.entries(value)
 										.filter(([_, status]) => status === 0)
-										.map(([user_id_string]) => Number.parseInt(user_id_string)),
+										.map(([user_id_string]) =>
+											Number.parseInt(user_id_string, 10),
+										),
 								),
 						),
 					),
@@ -253,7 +256,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 
 		const action_list = transformActionsList(action_type);
 
-		const payment_amount = current_move?.pay ?? current_move?.moneyToPay;
+		const payment_amount = current_move?.moneyToPay ?? current_move?.pay;
 
 		let auction: M1DemoPacketStatusTurn['auction'];
 		let field_ids_move: M1DemoPacketStatusTurn['field_ids_move'];

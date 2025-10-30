@@ -83,7 +83,7 @@ export type ExtractEvent<T> = Extract<
 // ---------- enrichments ----------
 // ---------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
 	k: infer I,
 ) => void
@@ -107,14 +107,11 @@ type Enrichment<T extends EnrichableEventType> = (
 	options: EventEnrichOptions<T>,
 ) => void;
 const enrichments: { [T in EnrichableEventType]: Enrichment<T> } = (() => {
-	let result = {};
+	const result = {};
 
 	for (const event_lib of event_libs) {
 		if ('enrichments' in event_lib) {
-			result = {
-				...result,
-				...event_lib.enrichments,
-			};
+			Object.assign(result, event_lib.enrichments);
 		}
 	}
 
@@ -141,6 +138,6 @@ export function hasEnrichment(
 export function getEntrichment<const E extends M1DemoRawPacketEvent>(
 	event: E,
 ): E['type'] extends EnrichableEventType ? Enrichment<E['type']> : undefined {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// oxlint-disable-next-line typescript/no-explicit-any
 	return enrichments[event.type as EnrichableEventType] as any;
 }

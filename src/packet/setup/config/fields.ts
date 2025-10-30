@@ -8,7 +8,7 @@ import { bit } from '../../../utils/valibot.js';
  * @returns Virtual item prototype ID.
  */
 function createStockItemProtoId(monopoly_id: number, index_in_group: number) {
-	// eslint-disable-next-line no-bitwise
+	// oxlint-disable-next-line no-bitwise
 	return -(0b1_0000_0000 | (monopoly_id << 3) | index_in_group);
 }
 

@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.1/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!**/dist/**"]
+		"includes": ["**", "!**/dist/**", "!**/*.html", "!**/*.ejs", "!**/*.vue"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -26,7 +26,25 @@
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "single"
+			"quoteStyle": "single",
+			"operatorLinebreak": "before"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		},
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"html": {
+		"experimentalFullSupportEnabled": true,
+		"parser": {
+			"interpolation": true
+		},
+		"formatter": {
+			"enabled": true
 		}
 	}
 }

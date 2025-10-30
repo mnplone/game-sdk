@@ -80,9 +80,9 @@ export const enrichments = {
 		const { monopoly_id } = field_setup;
 		const monopoly = options.setup.config.monopolies.get(monopoly_id)!;
 		const mortgage_price =
-			monopoly.buy_price *
-			mechanics_mortgage.multiplier *
-			mechanics_mortgage.buyback_multiplier;
+			monopoly.buy_price
+			* mechanics_mortgage.multiplier
+			* mechanics_mortgage.buyback_multiplier;
 
 		const player = options.status.players.get(field.owner_user_id)!;
 		player.cash -= mortgage_price;

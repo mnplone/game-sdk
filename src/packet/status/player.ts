@@ -162,7 +162,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 								cards: new Map(
 									Object.entries(value.cards_equipped).map(
 										([field_id_string, card_equipped]) => {
-											const field_id = Number.parseInt(field_id_string);
+											const field_id = Number.parseInt(field_id_string, 10);
 
 											return [
 												field_id,

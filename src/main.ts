@@ -17,7 +17,7 @@ export class M1LiveDemo {
 	private field_id_jail: number | null = null;
 	private status_before: M1DemoPacketStatus | null = null;
 
-	// eslint-disable-next-line max-statements
+	// oxlint-disable-next-line max-statements
 	process(value: unknown) {
 		if (isRecord(value) !== true) {
 			throw new TypeError('Packet is not an object.');
@@ -97,7 +97,7 @@ export class M1LiveDemo {
 					if (hasEnrichment(event)) {
 						getEntrichment(event)({
 							event,
-							events_before: packet_raw.events.slice(0, index).reverse(),
+							events_before: packet_raw.events.slice(0, index).toReversed(),
 							events_after: packet_raw.events.slice(index),
 							setup: this.setup,
 							field_id_jail: this.field_id_jail!,
