@@ -495,7 +495,7 @@ const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.objec
 const table = new Uint32Array(256);
 for (let index = 256; index--;) {
 	let tmp = index;
-	for (let _k = 8; _k--;) tmp = tmp & 1 ? 3988292384 ^ tmp >>> 1 : tmp >>> 1;
+	for (let k = 8; k--;) tmp = tmp & 1 ? 3988292384 ^ tmp >>> 1 : tmp >>> 1;
 	table[index] = tmp;
 }
 const textEncoder = new TextEncoder();

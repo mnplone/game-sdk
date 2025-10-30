@@ -7,7 +7,7 @@ const table = new Uint32Array(256);
 for (let index = 256; index--; ) {
 	let tmp = index;
 
-	for (let _k = 8; _k--; ) {
+	for (let k = 8; k--; ) {
 		tmp = tmp & 1 ? 3988292384 ^ (tmp >>> 1) : tmp >>> 1;
 	}
 

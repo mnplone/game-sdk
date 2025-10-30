@@ -26,7 +26,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.1",
-		"@kirick/lint": "github:kirick-ts/lint#da171000e836807992247d85aa117007653f2552",
+		"@kirick/lint": "0.2.12",
 		"@types/node": "^22.15.13",
 		"eslint": "9.38.0",
 		"oxlint": "1.24.0",
@@ -39,7 +39,7 @@
 	"scripts": {
 		"build": "tsdown src/main.ts --unused --dts --format esm --format cjs",
 		"check": "bun run lint && bun run build",
-		"lint": "bun run lint:biome && bun run lint:oxlint && bun run lint:eslint && bun run lint:tsc",
+		"lint": "biome format && oxlint && eslint . && tsc",
 		"lint:biome": "biome format",
 		"lint:oxlint": "oxlint",
 		"lint:eslint": "eslint .",

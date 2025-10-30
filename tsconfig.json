@@ -14,10 +14,10 @@
 		"lib": ["es2023", "DOM"],
 		"declaration": true,
 		"isolatedDeclarations": false,
+		"importHelpers": true,
 		"paths": {
 			"@/*": ["./src/*"]
-		},
-		"importHelpers": true
+		}
 	},
 	"include": ["src/"],
 	"exclude": ["**/*.test.ts"]
