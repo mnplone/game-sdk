@@ -948,7 +948,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 		field_level: valibot.optional(valibot.object({
 			sell_multiplier: valibot.optional(valibot.number(), 1),
 			build_uneven: bit(false),
-			build_without_monopoly: bit(false)
+			build_without_monopoly: valibot.optional(valibot.object({ rent_multiplier: valibot.optional(valibot.number(), 1) }))
 		})),
 		jackpot: valibot.optional(valibot.object({
 			bet: valibot.number(),
@@ -1014,6 +1014,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	coeff_level_down: valibot.optional(valibot.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
+	coeff_level_no_mnpl: valibot.optional(valibot.number(), 1),
 	JACKPOT_BET: valibot.optional(valibot.number()),
 	JACKPOT_COEFFS: valibot.optional(valibot.array(valibot.number())),
 	JACKPOT_SUPERPRIZE_CHANCE: valibot.optional(valibot.number()),
@@ -1056,7 +1057,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 			field_level: {
 				sell_multiplier: value.coeff_level_down,
 				build_uneven: value.UNEVEN_LEVEL_CHANGE,
-				build_without_monopoly: value.LEVEL_CHANGE_NO_MNPL
+				build_without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0
 			},
 			jackpot: typeof value.JACKPOT_BET === "number" ? {
 				bet: value.JACKPOT_BET,

@@ -928,7 +928,7 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 		field_level: v.optional(v.object({
 			sell_multiplier: v.optional(v.number(), 1),
 			build_uneven: bit(false),
-			build_without_monopoly: bit(false)
+			build_without_monopoly: v.optional(v.object({ rent_multiplier: v.optional(v.number(), 1) }))
 		})),
 		jackpot: v.optional(v.object({
 			bet: v.number(),
@@ -994,6 +994,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	coeff_level_down: v.optional(v.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
+	coeff_level_no_mnpl: v.optional(v.number(), 1),
 	JACKPOT_BET: v.optional(v.number()),
 	JACKPOT_COEFFS: v.optional(v.array(v.number())),
 	JACKPOT_SUPERPRIZE_CHANCE: v.optional(v.number()),
@@ -1036,7 +1037,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 			field_level: {
 				sell_multiplier: value.coeff_level_down,
 				build_uneven: value.UNEVEN_LEVEL_CHANGE,
-				build_without_monopoly: value.LEVEL_CHANGE_NO_MNPL
+				build_without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0
 			},
 			jackpot: typeof value.JACKPOT_BET === "number" ? {
 				bet: value.JACKPOT_BET,

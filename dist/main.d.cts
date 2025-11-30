@@ -695,7 +695,9 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
       /** When true, player can build uneven levels on the field. */
       readonly build_uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
       /** When true, player can build levels on the field without owning the whole monopoly. */
-      readonly build_without_monopoly: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+      readonly build_without_monopoly: v.OptionalSchema<v.ObjectSchema<{
+        readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+      }, undefined>, undefined>;
     }, undefined>, undefined>;
     readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
       readonly bet: v.NumberSchema<undefined>;
@@ -997,7 +999,9 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       readonly field_level: v.OptionalSchema<v.ObjectSchema<{
         readonly sell_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
         readonly build_uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-        readonly build_without_monopoly: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+        readonly build_without_monopoly: v.OptionalSchema<v.ObjectSchema<{
+          readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+        }, undefined>, undefined>;
       }, undefined>, undefined>;
       readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
         readonly bet: v.NumberSchema<undefined>;
@@ -1484,7 +1488,9 @@ declare class M1LiveDemo {
           field_level?: {
             sell_multiplier: number;
             build_uneven: boolean;
-            build_without_monopoly: boolean;
+            build_without_monopoly?: {
+              rent_multiplier: number;
+            } | undefined;
           } | undefined;
           jackpot?: {
             bet: number;
