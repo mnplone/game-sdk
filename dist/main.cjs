@@ -644,76 +644,76 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 	})
 ])), valibot.transform((value) => {
 	const chance_cards_new = [];
-	for (const element$1 of value) switch (element$1.type) {
+	for (const element of value) switch (element.type) {
 		case "cash_in":
 			chance_cards_new.push({
 				type: "income",
-				text_id: crc32(element$1.text),
+				text_id: crc32(element.text),
 				range: {
-					min: element$1.range[0],
-					max: element$1.range[1],
-					step: element$1.rangeStep
+					min: element.range[0],
+					max: element.range[1],
+					step: element.rangeStep
 				}
 			});
 			break;
 		case "cash_out":
 			chance_cards_new.push({
 				type: "expense",
-				text_id: crc32(element$1.text),
+				text_id: crc32(element.text),
 				range: {
-					min: element$1.range[0],
-					max: element$1.range[1],
-					step: element$1.rangeStep
+					min: element.range[0],
+					max: element.range[1],
+					step: element.rangeStep
 				}
 			});
 			break;
 		case "repair":
 			chance_cards_new.push({
 				type: "repair",
-				text_id: crc32(element$1.text),
+				text_id: crc32(element.text),
 				cost: {
-					small: element$1.costs[0],
-					big: element$1.costs[1]
+					small: element.costs[0],
+					big: element.costs[1]
 				}
 			});
 			break;
 		case "jail":
 			chance_cards_new.push({
 				type: "go-to-jail",
-				text_id: crc32(element$1.text)
+				text_id: crc32(element.text)
 			});
 			break;
 		case "teleport":
 		case "reverse":
 			chance_cards_new.push({
-				type: element$1.type,
-				text_id: crc32(element$1.text)
+				type: element.type,
+				text_id: crc32(element.text)
 			});
 			break;
 		case "move_skip":
 			chance_cards_new.push({
 				type: "skip-move",
-				text_id: crc32(element$1.text)
+				text_id: crc32(element.text)
 			});
 			break;
 		case "insurance":
 			chance_cards_new.push({
 				type: "insurance",
-				text_id: crc32(element$1.text),
-				price: element$1.sum
+				text_id: crc32(element.text),
+				price: element.sum
 			});
 			break;
 		case "birthday":
 			chance_cards_new.push({
 				type: "birthday",
-				text_id: crc32(element$1.text),
-				amount: element$1.sum
+				text_id: crc32(element.text),
+				amount: element.sum
 			});
 			break;
 		case "fields_disaster":
 			chance_cards_new.push({
 				type: "disaster",
-				text_id: crc32(element$1.text)
+				text_id: crc32(element.text)
 			});
 			break;
 	}
@@ -1136,6 +1136,7 @@ const valiM1DemoPacketStatusPlayersSchema = valibot.pipe(valibot.array(valibot.p
 }), valibot.transform((value) => value))), valibot.transform((value) => new Map(value.map((player) => [player.user_id, player]))));
 const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot.object({
 	user_id: valibot.number(),
+	team: valibot.optional(valibot.picklist([0, 1])),
 	vip: valibot.optional(valibot.boolean(), false),
 	cards_equipped: valibot.optional(valibot.record(valibot.string(), valibot.object({
 		thing_id: valibot.number(),
@@ -1178,6 +1179,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 		user_id: value.user_id,
 		_setup: value.cards_equipped ? {
 			index: -1,
+			team: value.team,
 			is_vip: value.vip,
 			is_loan_available: value.can_use_credit,
 			equipment: {
@@ -2233,15 +2235,15 @@ const enrichments$9 = { chance(options) {
 			break;
 	}
 } };
-const element = document.createElement("p");
 /**
 * Replaces HTML entities with their respective characters.
+*
+* This method replaces only entities that were escaped in old server versions.
 * @param text - Text to unescape.
 * @returns Unescaped text.
 */
 function unescapeHtml(text) {
-	element.innerHTML = text;
-	return element.textContent;
+	return text.replaceAll("&#39;", "'").replaceAll("&#34;", "\"").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
 }
 const valiV1Schemas$10 = [
 	valibot.pipe(valibot.object({
@@ -3254,6 +3256,7 @@ const valiM1DemoRawPacketV1EventsSchema = valibot.pipe(valibot.union([valibot.ar
 //#region src/packet/setup/player.ts
 const valiM1DemoPacketSetupPlayerSchema = valibot.pipe(valibot.object({
 	user_id: valibot.number(),
+	team: valibot.optional(valibot.picklist([0, 1])),
 	is_vip: bit(false),
 	is_loan_available: bit(false),
 	equipment: valibot.object({

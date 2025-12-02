@@ -104,16 +104,20 @@ export const enrichments = {
 	},
 };
 
-const element = document.createElement('p');
-
 /**
  * Replaces HTML entities with their respective characters.
+ *
+ * This method replaces only entities that were escaped in old server versions.
  * @param text - Text to unescape.
  * @returns Unescaped text.
  */
 function unescapeHtml(text: string) {
-	element.innerHTML = text;
-	return element.textContent!;
+	return text
+		.replaceAll('&#39;', "'")
+		.replaceAll('&#34;', '"')
+		.replaceAll('&lt;', '<')
+		.replaceAll('&gt;', '>')
+		.replaceAll('&amp;', '&');
 }
 
 export const valiV1Schemas = [

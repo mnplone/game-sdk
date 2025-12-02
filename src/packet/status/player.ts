@@ -72,6 +72,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 		v.object({
 			user_id: v.number(),
 			// setup
+			team: v.optional(v.picklist([0, 1])),
 			vip: v.optional(v.boolean(), false),
 			cards_equipped: v.optional(
 				v.record(
@@ -156,6 +157,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 				_setup: value.cards_equipped
 					? {
 							index: -1,
+							team: value.team,
 							is_vip: value.vip,
 							is_loan_available: value.can_use_credit,
 							equipment: {

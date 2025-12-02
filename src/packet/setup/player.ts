@@ -5,6 +5,7 @@ import { bit } from '../../utils/valibot.js';
 export const valiM1DemoPacketSetupPlayerSchema = v.pipe(
 	v.object({
 		user_id: v.number(),
+		team: v.optional(v.picklist([0, 1])),
 		is_vip: bit(false),
 		is_loan_available: bit(false),
 		equipment: v.object({

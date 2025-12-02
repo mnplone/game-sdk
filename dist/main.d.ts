@@ -779,6 +779,7 @@ type M1DemoPacketSetupConfig = v.InferOutput<typeof valiM1DemoPacketSetupConfigS
 //#region src/packet/setup/player.d.ts
 declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly user_id: v.NumberSchema<undefined>;
+  readonly team: v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, undefined>;
   readonly is_vip: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
   readonly is_loan_available: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
   readonly equipment: v.ObjectSchema<{
@@ -809,6 +810,7 @@ declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.Ob
   }, undefined>;
 }, undefined>, v.TransformAction<{
   user_id: number;
+  team?: 0 | 1 | undefined;
   is_vip: boolean;
   is_loan_available: boolean;
   equipment: {
@@ -830,6 +832,7 @@ declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.Ob
 }, {
   index: number;
   user_id: number;
+  team?: 0 | 1 | undefined;
   is_vip: boolean;
   is_loan_available: boolean;
   equipment: {
@@ -1071,6 +1074,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
   }, undefined>;
   readonly players: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
     readonly user_id: v.NumberSchema<undefined>;
+    readonly team: v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, undefined>;
     readonly is_vip: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
     readonly is_loan_available: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
     readonly equipment: v.ObjectSchema<{
@@ -1101,6 +1105,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
     }, undefined>;
   }, undefined>, v.TransformAction<{
     user_id: number;
+    team?: 0 | 1 | undefined;
     is_vip: boolean;
     is_loan_available: boolean;
     equipment: {
@@ -1122,6 +1127,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
   }, {
     index: number;
     user_id: number;
+    team?: 0 | 1 | undefined;
     is_vip: boolean;
     is_loan_available: boolean;
     equipment: {
@@ -1143,6 +1149,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
   }>]>, undefined>, v.TransformAction<{
     index: number;
     user_id: number;
+    team?: 0 | 1 | undefined;
     is_vip: boolean;
     is_loan_available: boolean;
     equipment: {
@@ -1164,6 +1171,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
   }[], Map<number, {
     index: number;
     user_id: number;
+    team?: 0 | 1 | undefined;
     is_vip: boolean;
     is_loan_available: boolean;
     equipment: {
@@ -1561,6 +1569,7 @@ declare class M1LiveDemo {
       players: Map<number, {
         index: number;
         user_id: number;
+        team?: 0 | 1 | undefined;
         is_vip: boolean;
         is_loan_available: boolean;
         equipment: {
