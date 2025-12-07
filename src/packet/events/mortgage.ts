@@ -20,6 +20,12 @@ export const valiSchemas = [
 		user_id: v.number(),
 		field_id: v.number(),
 	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('waive'),
+		user_id: v.number(),
+		field_id: v.number(),
+	}),
 ];
 
 export const enrichments = {
@@ -28,6 +34,12 @@ export const enrichments = {
 		if (!mechanics_mortgage) {
 			throw new Error(
 				'There is no "mortgage" mechanics defined in match config.',
+			);
+		}
+
+		if ('multiplier' in mechanics_mortgage !== true) {
+			throw new Error(
+				'Mechanics "mortgage" does not allow mortgaging in match config.',
 			);
 		}
 
@@ -60,6 +72,12 @@ export const enrichments = {
 		if (!mechanics_mortgage) {
 			throw new Error(
 				'There is no "mortgage" mechanics defined in match config.',
+			);
+		}
+
+		if ('multiplier' in mechanics_mortgage !== true) {
+			throw new Error(
+				'Mechanics "mortgage" does not allow mortgaging in match config.',
 			);
 		}
 
@@ -96,6 +114,43 @@ export const enrichments = {
 		}
 
 		options.status.fields.delete(options.event.field_id);
+	},
+	waive(options: EventEnrichOptions<'waive'>) {
+		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
+		if (!mechanics_mortgage) {
+			throw new Error(
+				'There is no "mortgage" mechanics defined in match config.',
+			);
+		}
+
+		if ('waive_multiplier' in mechanics_mortgage !== true) {
+			throw new Error(
+				'Mechanics "mortgage" does not allow waiving the property ownership in match config.',
+			);
+		}
+
+		const field = options.status.fields.get(options.event.field_id)!;
+
+		options.status.fields.delete(options.event.field_id);
+
+		const field_setup = options.setup.config.fields[options.event.field_id];
+		if (!field_setup) {
+			throw new Error(
+				`Field ${options.event.field_id} is not defined in match config.`,
+			);
+		}
+
+		if (field_setup.type !== 'company') {
+			throw new Error(`Field ${field} is not a company`);
+		}
+
+		const { monopoly_id } = field_setup;
+		const monopoly = options.setup.config.monopolies.get(monopoly_id)!;
+		const mortgage_price =
+			monopoly.buy_price * mechanics_mortgage.waive_multiplier;
+
+		const player = options.status.players.get(field.owner_user_id)!;
+		player.cash += mortgage_price;
 	},
 };
 
@@ -143,6 +198,22 @@ export const valiV1Schemas = [
 				id: value._id,
 				type: 'mortgage.expire' as const,
 				user_id: -1,
+				field_id: value.field,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('fieldDropped'),
+			user_id: v.number(),
+			field: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'waive' as const,
+				user_id: value.user_id,
 				field_id: value.field,
 			};
 		}),

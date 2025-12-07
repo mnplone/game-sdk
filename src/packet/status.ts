@@ -92,7 +92,7 @@ const action_list_mapping = {
 	unmortgage: 'mortgage.buyback',
 	// 'mortgage.transfer',
 	auctionMortgaged: 'mortgage.auction',
-	// 'waive',
+	fieldDrop: 'waive',
 	// Pause ???
 	// 'pause.set',
 	// 'pause.end',

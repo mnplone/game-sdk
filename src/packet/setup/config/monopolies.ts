@@ -27,6 +27,11 @@ export const valiM1DemoPacketSetupConfigMonopoliesSchema = v.pipe(
 				buy_price: v.number(),
 				dice_multipliers: v.array(v.number()),
 			}),
+			// buy companies and receive rent equal to previous rent you paid
+			v.object({
+				buy_price: v.number(),
+				return_multipliers: v.array(v.number()),
+			}),
 		]),
 	),
 	v.transform(
@@ -73,6 +78,13 @@ export const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(
 				coeffs: v.array(v.number()),
 				levelUpCost: v.literal(false),
 			}),
+			// buy companies and receive rent equal to previous rent you paid
+			v.object({
+				buy: v.number(),
+				levels: v.literal(false),
+				coeffs_rentmirror: v.array(v.number()),
+				levelUpCost: v.literal(false),
+			}),
 		]),
 	),
 	v.transform(
@@ -81,8 +93,14 @@ export const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(
 				Object.entries(value).map(([monopoly_id_string, group]) => {
 					let monopoly;
 
+					if ('coeffs_rentmirror' in group) {
+						monopoly = {
+							buy_price: group.buy,
+							return_multipliers: [0, ...group.coeffs_rentmirror],
+						};
+					}
 					// utilities
-					if ('coeffs' in group) {
+					else if ('coeffs' in group) {
 						monopoly = {
 							buy_price: group.buy,
 							dice_multipliers: [0, ...group.coeffs],

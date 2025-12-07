@@ -73,7 +73,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					'mortgage.buyback',
 					// 'mortgage.transfer',
 					'mortgage.auction',
-					// 'waive',
+					'waive',
 					// Purchase
 					'purchase',
 					'purchase.reject',

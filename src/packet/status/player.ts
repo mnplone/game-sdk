@@ -27,14 +27,14 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 					}),
 				),
 				loan: v.union([
-					v.strictObject({
+					v.object({
 						taken: v.pipe(
 							v.literal(0),
 							v.transform(() => false as const),
 						),
 						unlock_round: v.number(),
 					}),
-					v.strictObject({
+					v.object({
 						taken: v.pipe(
 							v.literal(1),
 							v.transform(() => true as const),
@@ -50,6 +50,9 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 						),
 					}),
 				),
+				stat: v.object({
+					rent_history: v.optional(v.number()),
+				}),
 			}),
 			v.transform((value) => value),
 		),
@@ -150,6 +153,8 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 					valiM1DemoPacketSetipConfigRestartVariantSchema,
 				]),
 			),
+			// stat
+			rent_last: v.optional(v.number()),
 		}),
 		v.transform((value) => {
 			return {
@@ -210,6 +215,9 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 							: {
 									variant: value.restart,
 								},
+					stat: {
+						rent_history: value.rent_last,
+					},
 				},
 			};
 		}),

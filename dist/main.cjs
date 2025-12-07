@@ -451,6 +451,7 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"mortgage.put",
 			"mortgage.buyback",
 			"mortgage.auction",
+			"waive",
 			"purchase",
 			"purchase.reject",
 			"rent.pay",
@@ -885,6 +886,10 @@ const valiM1DemoPacketSetupConfigMonopoliesSchema = valibot.pipe(valibot.record(
 	valibot.object({
 		buy_price: valibot.number(),
 		dice_multipliers: valibot.array(valibot.number())
+	}),
+	valibot.object({
+		buy_price: valibot.number(),
+		return_multipliers: valibot.array(valibot.number())
 	})
 ])), valibot.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
 const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot.string(), valibot.union([
@@ -905,10 +910,20 @@ const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot
 		levels: valibot.literal(false),
 		coeffs: valibot.array(valibot.number()),
 		levelUpCost: valibot.literal(false)
+	}),
+	valibot.object({
+		buy: valibot.number(),
+		levels: valibot.literal(false),
+		coeffs_rentmirror: valibot.array(valibot.number()),
+		levelUpCost: valibot.literal(false)
 	})
 ])), valibot.transform((value) => new Map(Object.entries(value).map(([monopoly_id_string, group]) => {
 	let monopoly;
-	if ("coeffs" in group) monopoly = {
+	if ("coeffs_rentmirror" in group) monopoly = {
+		buy_price: group.buy,
+		return_multipliers: [0, ...group.coeffs_rentmirror]
+	};
+	else if ("coeffs" in group) monopoly = {
 		buy_price: group.buy,
 		dice_multipliers: [0, ...group.coeffs]
 	};
@@ -968,12 +983,12 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 				repay: valibot.number()
 			})
 		})),
-		mortgage: valibot.optional(valibot.object({
+		mortgage: valibot.optional(valibot.union([valibot.object({
 			duration: valibot.optional(valibot.number()),
 			multiplier: valibot.number(),
 			buyback_multiplier: valibot.number(),
 			auction_multiplier: valibot.optional(valibot.number())
-		})),
+		}), valibot.object({ waive_multiplier: valibot.number() })])),
 		restart: valibot.optional(valibot.object({ variants: valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
 		russian_roulette: valibot.optional(valibot.object({ rewards: valibot.array(valibot.number()) })),
 		start: valibot.object({
@@ -1027,9 +1042,10 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	CREDIT_COOLDOWN_ROUNDS: valibot.optional(valibot.number()),
 	START_CREDIT_COOLDOWN_ROUNDS: valibot.optional(valibot.number()),
 	MORTGAGE_ROUND_LIMIT: valibot.optional(valibot.number()),
-	coeff_mortgage: valibot.number(),
-	coeff_unmortgage: valibot.number(),
+	coeff_mortgage: valibot.optional(valibot.number()),
+	coeff_unmortgage: valibot.optional(valibot.number()),
 	auction_mortgaged: valibot.optional(valibot.number()),
+	coeff_field_drop: valibot.optional(valibot.number()),
 	restart_variants: valibot.optional(valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
 	russian_roulette_rewards: valibot.optional(valibot.array(valibot.number())),
 	roundCash: valibot.number(),
@@ -1077,12 +1093,15 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 					repay: value.CREDIT_COOLDOWN_ROUNDS
 				}
 			} : void 0,
-			mortgage: {
-				duration: value.MORTGAGE_ROUND_LIMIT,
-				multiplier: value.coeff_mortgage,
-				buyback_multiplier: value.coeff_unmortgage,
-				auction_multiplier: value.auction_mortgaged
-			},
+			mortgage: (() => {
+				if (value.coeff_mortgage !== void 0) return {
+					duration: value.MORTGAGE_ROUND_LIMIT,
+					multiplier: value.coeff_mortgage,
+					buyback_multiplier: value.coeff_unmortgage ?? 1,
+					auction_multiplier: value.auction_mortgaged
+				};
+				if (value.coeff_field_drop !== void 0) return { waive_multiplier: value.coeff_field_drop };
+			})(),
 			restart: value.restart_variants ? { variants: value.restart_variants } : void 0,
 			russian_roulette: value.russian_roulette_rewards ? { rewards: [0, ...value.russian_roulette_rewards] } : void 0,
 			start: {
@@ -1124,15 +1143,16 @@ const valiM1DemoPacketStatusPlayersSchema = valibot.pipe(valibot.array(valibot.p
 	cash: valibot.number(),
 	score: valibot.number(),
 	jail: valibot.optional(valibot.object({ roll_double_attempts: valibot.number() })),
-	loan: valibot.union([valibot.strictObject({
+	loan: valibot.union([valibot.object({
 		taken: valibot.pipe(valibot.literal(0), valibot.transform(() => false)),
 		unlock_round: valibot.number()
-	}), valibot.strictObject({
+	}), valibot.object({
 		taken: valibot.pipe(valibot.literal(1), valibot.transform(() => true)),
 		debt: valibot.number(),
 		return_round: valibot.number()
 	})]),
-	restart: valibot.optional(valibot.object({ variant: valibot.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) }))
+	restart: valibot.optional(valibot.object({ variant: valibot.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+	stat: valibot.object({ rent_history: valibot.optional(valibot.number()) })
 }), valibot.transform((value) => value))), valibot.transform((value) => new Map(value.map((player) => [player.user_id, player]))));
 const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot.object({
 	user_id: valibot.number(),
@@ -1173,7 +1193,8 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 	credit_nextTakeRound: valibot.number(),
 	credit_payRound: valibot.union([valibot.literal(false), valibot.number()]),
 	credit_toPay: valibot.number(),
-	restart: valibot.optional(valibot.union([valibot.pipe(valibot.literal(0), valibot.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema]))
+	restart: valibot.optional(valibot.union([valibot.pipe(valibot.literal(0), valibot.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema])),
+	rent_last: valibot.optional(valibot.number())
 }), valibot.transform((value) => {
 	return {
 		user_id: value.user_id,
@@ -1210,7 +1231,8 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 				debt: value.credit_toPay,
 				return_round: value.credit_payRound
 			},
-			restart: value.restart === void 0 ? void 0 : { variant: value.restart }
+			restart: value.restart === void 0 ? void 0 : { variant: value.restart },
+			stat: { rent_history: value.rent_last }
 		}
 	};
 })));
@@ -1252,6 +1274,7 @@ const action_list_mapping = {
 	mortgage: "mortgage.put",
 	unmortgage: "mortgage.buyback",
 	auctionMortgaged: "mortgage.auction",
+	fieldDrop: "waive",
 	buy: "purchase",
 	noBuy: "purchase.reject",
 	payRent: "rent.pay",
@@ -2082,12 +2105,19 @@ const valiSchemas$11 = [
 		type: valibot.literal("mortgage.expire"),
 		user_id: valibot.number(),
 		field_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("waive"),
+		user_id: valibot.number(),
+		field_id: valibot.number()
 	})
 ];
 const enrichments$10 = {
 	"mortgage.put"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
+		if ("multiplier" in mechanics_mortgage !== true) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		field.mortgage = { round_until: typeof mechanics_mortgage.duration === "number" ? options.status.round + mechanics_mortgage.duration : void 0 };
 		const field_setup = options.setup.config.fields[options.event.field_id];
@@ -2101,6 +2131,7 @@ const enrichments$10 = {
 	"mortgage.buyback"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
+		if ("multiplier" in mechanics_mortgage !== true) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		field.mortgage = void 0;
 		const field_setup = options.setup.config.fields[options.event.field_id];
@@ -2114,6 +2145,20 @@ const enrichments$10 = {
 	"mortgage.expire"(options) {
 		if (options.event.user_id === -1) options.event.user_id = options.status.fields.get(options.event.field_id).owner_user_id;
 		options.status.fields.delete(options.event.field_id);
+	},
+	waive(options) {
+		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
+		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
+		if ("waive_multiplier" in mechanics_mortgage !== true) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
+		const field = options.status.fields.get(options.event.field_id);
+		options.status.fields.delete(options.event.field_id);
+		const field_setup = options.setup.config.fields[options.event.field_id];
+		if (!field_setup) throw new Error(`Field ${options.event.field_id} is not defined in match config.`);
+		if (field_setup.type !== "company") throw new Error(`Field ${field} is not a company`);
+		const { monopoly_id } = field_setup;
+		const mortgage_price = options.setup.config.monopolies.get(monopoly_id).buy_price * mechanics_mortgage.waive_multiplier;
+		const player = options.status.players.get(field.owner_user_id);
+		player.cash += mortgage_price;
 	}
 };
 const valiV1Schemas$11 = [
@@ -2152,6 +2197,19 @@ const valiV1Schemas$11 = [
 			id: value._id,
 			type: "mortgage.expire",
 			user_id: -1,
+			field_id: value.field
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("fieldDropped"),
+		user_id: valibot.number(),
+		field: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "waive",
+			user_id: value.user_id,
 			field_id: value.field
 		};
 	}))

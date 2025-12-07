@@ -40,7 +40,7 @@ declare const valiM1DemoPacketStatusTurnSchema: v.ObjectSchema<{
   readonly action: v.ObjectSchema<{
     /** User ID of the player from which action is expected. */
     readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
-    readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "purchase", "purchase.reject", "rent.pay", "roll-dices", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
+    readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "waive", "purchase", "purchase.reject", "rent.pay", "roll-dices", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
   }, undefined>;
   readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
   readonly auction: v.OptionalSchema<v.ObjectSchema<{
@@ -126,10 +126,10 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
     readonly jail: v.OptionalSchema<v.ObjectSchema<{
       readonly roll_double_attempts: v.NumberSchema<undefined>;
     }, undefined>, undefined>;
-    readonly loan: v.UnionSchema<[v.StrictObjectSchema<{
+    readonly loan: v.UnionSchema<[v.ObjectSchema<{
       readonly taken: v.SchemaWithPipe<readonly [v.LiteralSchema<0, undefined>, v.TransformAction<0, false>]>;
       readonly unlock_round: v.NumberSchema<undefined>;
-    }, undefined>, v.StrictObjectSchema<{
+    }, undefined>, v.ObjectSchema<{
       readonly taken: v.SchemaWithPipe<readonly [v.LiteralSchema<1, undefined>, v.TransformAction<1, true>]>;
       readonly debt: v.NumberSchema<undefined>;
       readonly return_round: v.NumberSchema<undefined>;
@@ -142,6 +142,9 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
         readonly price: v.NumberSchema<undefined>;
       }, undefined>, undefined>;
     }, undefined>, undefined>;
+    readonly stat: v.ObjectSchema<{
+      readonly rent_history: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+    }, undefined>;
   }, undefined>, v.TransformAction<{
     user_id: number;
     status: number;
@@ -167,6 +170,9 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
         price: number;
       } | null;
     } | undefined;
+    stat: {
+      rent_history?: number | undefined;
+    };
   }, {
     user_id: number;
     status: number;
@@ -192,6 +198,9 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
         price: number;
       } | null;
     } | undefined;
+    stat: {
+      rent_history?: number | undefined;
+    };
   }>]>, undefined>, v.TransformAction<{
     user_id: number;
     status: number;
@@ -217,6 +226,9 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
         price: number;
       } | null;
     } | undefined;
+    stat: {
+      rent_history?: number | undefined;
+    };
   }[], Map<number, {
     user_id: number;
     status: number;
@@ -242,6 +254,9 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
         price: number;
       } | null;
     } | undefined;
+    stat: {
+      rent_history?: number | undefined;
+    };
   }>>]>;
   /** Current information about fields. */
   readonly fields: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
@@ -285,7 +300,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
     readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
     readonly action: v.ObjectSchema<{
       readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
-      readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "purchase", "purchase.reject", "rent.pay", "roll-dices", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
+      readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.release.pay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "waive", "purchase", "purchase.reject", "rent.pay", "roll-dices", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "triple.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">>]>;
     }, undefined>;
     readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
     readonly auction: v.OptionalSchema<v.ObjectSchema<{
@@ -392,6 +407,7 @@ declare const action_list_mapping: {
   readonly mortgage: "mortgage.put";
   readonly unmortgage: "mortgage.buyback";
   readonly auctionMortgaged: "mortgage.auction";
+  readonly fieldDrop: "waive";
   readonly buy: "purchase";
   readonly noBuy: "purchase.reject";
   readonly payRent: "rent.pay";
@@ -515,6 +531,9 @@ declare const valiM1DemoPacketSetupConfigMonopoliesSchema: v.SchemaWithPipe<read
 }, undefined>, v.ObjectSchema<{
   readonly buy_price: v.NumberSchema<undefined>;
   readonly dice_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly buy_price: v.NumberSchema<undefined>;
+  readonly return_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
 }, undefined>], undefined>, undefined>, v.TransformAction<{
   [x: string]: {
     buy_price: number;
@@ -530,6 +549,9 @@ declare const valiM1DemoPacketSetupConfigMonopoliesSchema: v.SchemaWithPipe<read
   } | {
     buy_price: number;
     dice_multipliers: number[];
+  } | {
+    buy_price: number;
+    return_multipliers: number[];
   };
 }, Map<number, {
   buy_price: number;
@@ -545,6 +567,9 @@ declare const valiM1DemoPacketSetupConfigMonopoliesSchema: v.SchemaWithPipe<read
 } | {
   buy_price: number;
   dice_multipliers: number[];
+} | {
+  buy_price: number;
+  return_multipliers: number[];
 }>>]>;
 type M1DemoPacketSetupConfigMonopoly = MapElement<v.InferOutput<typeof valiM1DemoPacketSetupConfigMonopoliesSchema>>;
 //#endregion
@@ -605,6 +630,9 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
   }, undefined>, v.ObjectSchema<{
     readonly buy_price: v.NumberSchema<undefined>;
     readonly dice_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly buy_price: v.NumberSchema<undefined>;
+    readonly return_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
   }, undefined>], undefined>, undefined>, v.TransformAction<{
     [x: string]: {
       buy_price: number;
@@ -620,6 +648,9 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     } | {
       buy_price: number;
       dice_multipliers: number[];
+    } | {
+      buy_price: number;
+      return_multipliers: number[];
     };
   }, Map<number, {
     buy_price: number;
@@ -635,6 +666,9 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
   } | {
     buy_price: number;
     dice_multipliers: number[];
+  } | {
+    buy_price: number;
+    return_multipliers: number[];
   }>>]>;
   readonly mechanics: v.ObjectSchema<{
     readonly auction: v.OptionalSchema<v.ObjectSchema<{
@@ -724,16 +758,19 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
         readonly repay: v.NumberSchema<undefined>;
       }, undefined>;
     }, undefined>, undefined>;
-    readonly mortgage: v.OptionalSchema<v.ObjectSchema<{
-      /** Limits mortgage duration in rounds. After this rounds, player will lose the field. */
+    readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{
+      /** Limits mortgage duration in rounds. After this rounds, player will lose the field. If undefined, mortgage duration is unlimited. */
       readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-      /** Price multiplier when mortgaging the field, applies to the field buy price. */
+      /** Price multiplier when mortgaging the field, applies to the company buying price. */
       readonly multiplier: v.NumberSchema<undefined>;
       /** Price multiplier when buying back the field, applies to the mortgage price. */
       readonly buyback_multiplier: v.NumberSchema<undefined>;
-      /** Price multiplier when auctioning the mortgaged field, applies to company price minus mortgage price. */
+      /** Price multiplier when auctioning the mortgaged field, applies to the company buying price minus mortgage price. */
       readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-    }, undefined>, undefined>;
+    }, undefined>, v.ObjectSchema<{
+      /** Price multiplier when waiving the ownership of the field, applies to the company buying price. */
+      readonly waive_multiplier: v.NumberSchema<undefined>;
+    }, undefined>], undefined>, undefined>;
     readonly restart: v.OptionalSchema<v.ObjectSchema<{
       readonly variants: v.ArraySchema<v.ObjectSchema<{
         readonly round_from: v.NumberSchema<undefined>;
@@ -915,6 +952,9 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
     }, undefined>, v.ObjectSchema<{
       readonly buy_price: v.NumberSchema<undefined>;
       readonly dice_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly buy_price: v.NumberSchema<undefined>;
+      readonly return_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>], undefined>, undefined>, v.TransformAction<{
       [x: string]: {
         buy_price: number;
@@ -930,6 +970,9 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       } | {
         buy_price: number;
         dice_multipliers: number[];
+      } | {
+        buy_price: number;
+        return_multipliers: number[];
       };
     }, Map<number, {
       buy_price: number;
@@ -945,6 +988,9 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
     } | {
       buy_price: number;
       dice_multipliers: number[];
+    } | {
+      buy_price: number;
+      return_multipliers: number[];
     }>>]>;
     readonly mechanics: v.ObjectSchema<{
       readonly auction: v.OptionalSchema<v.ObjectSchema<{
@@ -1026,12 +1072,14 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
           readonly repay: v.NumberSchema<undefined>;
         }, undefined>;
       }, undefined>, undefined>;
-      readonly mortgage: v.OptionalSchema<v.ObjectSchema<{
+      readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{
         readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
         readonly multiplier: v.NumberSchema<undefined>;
         readonly buyback_multiplier: v.NumberSchema<undefined>;
         readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-      }, undefined>, undefined>;
+      }, undefined>, v.ObjectSchema<{
+        readonly waive_multiplier: v.NumberSchema<undefined>;
+      }, undefined>], undefined>, undefined>;
       readonly restart: v.OptionalSchema<v.ObjectSchema<{
         readonly variants: v.ArraySchema<v.ObjectSchema<{
           readonly round_from: v.NumberSchema<undefined>;
@@ -1253,10 +1301,10 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
   readonly jail: v.OptionalSchema<v.ObjectSchema<{
     readonly roll_double_attempts: v.NumberSchema<undefined>;
   }, undefined>, undefined>;
-  readonly loan: v.UnionSchema<[v.StrictObjectSchema<{
+  readonly loan: v.UnionSchema<[v.ObjectSchema<{
     readonly taken: v.SchemaWithPipe<readonly [v.LiteralSchema<0, undefined>, v.TransformAction<0, false>]>;
     readonly unlock_round: v.NumberSchema<undefined>;
-  }, undefined>, v.StrictObjectSchema<{
+  }, undefined>, v.ObjectSchema<{
     readonly taken: v.SchemaWithPipe<readonly [v.LiteralSchema<1, undefined>, v.TransformAction<1, true>]>;
     readonly debt: v.NumberSchema<undefined>;
     readonly return_round: v.NumberSchema<undefined>;
@@ -1269,6 +1317,9 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
       readonly price: v.NumberSchema<undefined>;
     }, undefined>, undefined>;
   }, undefined>, undefined>;
+  readonly stat: v.ObjectSchema<{
+    readonly rent_history: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  }, undefined>;
 }, undefined>, v.TransformAction<{
   user_id: number;
   status: number;
@@ -1294,6 +1345,9 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
       price: number;
     } | null;
   } | undefined;
+  stat: {
+    rent_history?: number | undefined;
+  };
 }, {
   user_id: number;
   status: number;
@@ -1319,6 +1373,9 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
       price: number;
     } | null;
   } | undefined;
+  stat: {
+    rent_history?: number | undefined;
+  };
 }>]>, undefined>, v.TransformAction<{
   user_id: number;
   status: number;
@@ -1344,6 +1401,9 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
       price: number;
     } | null;
   } | undefined;
+  stat: {
+    rent_history?: number | undefined;
+  };
 }[], Map<number, {
   user_id: number;
   status: number;
@@ -1369,6 +1429,9 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
       price: number;
     } | null;
   } | undefined;
+  stat: {
+    rent_history?: number | undefined;
+  };
 }>>]>;
 type M1DemoPacketStatusPlayer = MapElement<v.InferOutput<typeof valiM1DemoPacketStatusPlayersSchema>>;
 //#endregion
@@ -1439,6 +1502,9 @@ declare class M1LiveDemo {
         } | {
           buy_price: number;
           dice_multipliers: number[];
+        } | {
+          buy_price: number;
+          return_multipliers: number[];
         }>;
         mechanics: {
           auction?: {
@@ -1525,6 +1591,8 @@ declare class M1LiveDemo {
             multiplier: number;
             buyback_multiplier: number;
             auction_multiplier?: number | undefined;
+          } | {
+            waive_multiplier: number;
           } | undefined;
           restart?: {
             variants: {
@@ -1617,6 +1685,9 @@ declare class M1LiveDemo {
             price: number;
           } | null;
         } | undefined;
+        stat: {
+          rent_history?: number | undefined;
+        };
       }>;
       fields: Map<number, {
         field_id: number;
@@ -1630,7 +1701,7 @@ declare class M1LiveDemo {
         user_id: number | null;
         action: {
           user_id: number | null;
-          list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+          list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
         };
         move_reversed: boolean;
         auction?: {
@@ -1946,6 +2017,11 @@ declare class M1LiveDemo {
       field_id: number;
     } | {
       id: string;
+      type: "waive";
+      user_id: number;
+      field_id: number;
+    } | {
+      id: string;
       type: "pause.set";
     } | {
       id: string;
@@ -2130,6 +2206,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2143,7 +2222,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2215,6 +2294,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2228,7 +2310,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2313,6 +2395,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2326,7 +2411,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2398,6 +2483,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2411,7 +2499,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2488,6 +2576,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2501,7 +2592,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2573,6 +2664,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2586,7 +2680,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2665,6 +2759,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2678,7 +2775,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2750,6 +2847,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2763,7 +2863,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2846,6 +2946,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2859,7 +2962,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -2931,6 +3034,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -2944,7 +3050,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3022,6 +3128,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3035,7 +3144,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3107,6 +3216,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3120,7 +3232,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3199,6 +3311,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3212,7 +3327,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3284,6 +3399,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3297,7 +3415,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3377,6 +3495,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3390,7 +3511,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3462,6 +3583,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3475,7 +3599,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3554,6 +3678,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3567,7 +3694,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3639,6 +3766,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3652,7 +3782,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3730,6 +3860,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3743,7 +3876,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3815,6 +3948,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3828,7 +3964,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3909,6 +4045,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -3922,7 +4061,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -3994,6 +4133,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4007,7 +4149,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4087,6 +4229,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4100,7 +4245,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4172,6 +4317,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4185,7 +4333,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4264,6 +4412,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4277,7 +4428,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4349,6 +4500,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4362,7 +4516,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4441,6 +4595,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4454,7 +4611,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4526,6 +4683,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4539,7 +4699,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4618,6 +4778,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4631,7 +4794,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4703,6 +4866,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4716,7 +4882,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4795,6 +4961,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4808,7 +4977,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4880,6 +5049,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4893,7 +5065,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -4973,6 +5145,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -4986,7 +5161,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5058,6 +5233,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5071,7 +5249,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5155,6 +5333,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5168,7 +5349,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5240,6 +5421,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5253,7 +5437,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5332,6 +5516,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5345,7 +5532,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5417,6 +5604,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5430,7 +5620,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5520,6 +5710,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5533,7 +5726,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5605,6 +5798,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5618,7 +5814,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5697,6 +5893,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5710,7 +5909,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5782,6 +5981,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5795,7 +5997,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5872,6 +6074,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5885,7 +6090,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -5957,6 +6162,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -5970,7 +6178,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6048,6 +6256,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6061,7 +6272,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6133,6 +6344,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6146,7 +6360,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6224,6 +6438,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6237,7 +6454,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6309,6 +6526,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6322,7 +6542,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6399,6 +6619,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6412,7 +6635,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6484,6 +6707,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6497,7 +6723,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6574,6 +6800,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6587,7 +6816,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6659,6 +6888,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6672,7 +6904,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6750,6 +6982,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6763,7 +6998,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6835,6 +7070,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6848,7 +7086,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -6928,6 +7166,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -6941,7 +7182,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7013,6 +7254,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7026,7 +7270,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7106,6 +7350,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7119,7 +7366,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7191,6 +7438,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7204,7 +7454,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7284,6 +7534,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7297,7 +7550,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7369,6 +7622,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7382,7 +7638,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7462,6 +7718,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7475,7 +7734,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7547,6 +7806,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7560,7 +7822,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7639,6 +7901,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7652,7 +7917,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7724,6 +7989,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7737,7 +8005,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7816,6 +8084,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7829,7 +8100,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7901,6 +8172,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -7914,7 +8188,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -7992,6 +8266,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8005,7 +8282,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8077,6 +8354,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8090,7 +8370,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8168,6 +8448,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8181,7 +8464,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8253,6 +8536,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8266,7 +8552,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8344,6 +8630,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8357,7 +8646,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8429,6 +8718,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8442,7 +8734,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8520,6 +8812,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8533,7 +8828,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8605,6 +8900,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8618,7 +8916,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8696,6 +8994,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8709,7 +9010,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8781,6 +9082,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8794,7 +9098,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8873,6 +9177,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8886,7 +9193,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -8958,6 +9265,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -8971,7 +9281,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9050,6 +9360,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9063,7 +9376,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9135,6 +9448,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9148,7 +9464,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9227,6 +9543,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9240,7 +9559,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9312,6 +9631,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9325,7 +9647,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9403,6 +9725,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9416,7 +9741,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9488,6 +9813,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9501,7 +9829,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9580,6 +9908,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9593,7 +9924,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9665,6 +9996,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9678,7 +10012,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9757,6 +10091,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9770,7 +10107,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9842,6 +10179,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9855,7 +10195,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -9936,6 +10276,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -9949,7 +10292,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10021,6 +10364,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10034,7 +10380,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10112,6 +10458,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10125,7 +10474,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10197,6 +10546,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10210,7 +10562,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10289,6 +10641,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10302,7 +10657,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10374,6 +10729,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10387,7 +10745,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10466,6 +10824,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10479,7 +10840,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10551,6 +10912,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10564,7 +10928,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10643,6 +11007,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10656,7 +11023,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10728,6 +11095,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10741,7 +11111,190 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+            };
+            move_reversed: boolean;
+            auction?: {
+              field_id: number;
+              bid: number;
+              user_ids_rejected: Set<number>;
+            } | undefined;
+            contract?: {
+              initiator: {
+                user_id: number;
+                field_ids: Set<number>;
+                cash: number;
+              };
+              responder: {
+                user_id: number;
+                field_ids: Set<number>;
+                cash: number;
+              };
+            } | undefined;
+            contracts_sent?: number | undefined;
+            jackpot?: {
+              superprize: number;
+            } | undefined;
+            payment?: {
+              to_user_id?: number | undefined;
+              amount: number;
+            } | undefined;
+            field_ids_move?: Map<number, {
+              stop: number;
+            } | {
+              field_id: number;
+            }> | undefined;
+            field_ids_level_built?: Set<number> | undefined;
+            field_ids_mortgaged?: Set<number> | undefined;
+          };
+          timer?: {
+            ts_expires: number;
+            is_extra: boolean;
+          } | {
+            expires_in: number;
+            is_extra: boolean;
+          } | undefined;
+          viewers_count: number;
+        };
+      };
+    } | {
+      id: string;
+      type: "waive";
+      user_id: number;
+      field_id: number;
+      status: {
+        before: {
+          round: number;
+          players: Map<number, {
+            user_id: number;
+            status: number;
+            position: number;
+            cash: number;
+            score: number;
+            jail?: {
+              roll_double_attempts: number;
+            } | undefined;
+            loan: {
+              taken: false;
+              unlock_round: number;
+            } | {
+              taken: true;
+              debt: number;
+              return_round: number;
+            };
+            restart?: {
+              variant: {
+                round_from: number;
+                round_to: number;
+                count: number;
+                price: number;
+              } | null;
+            } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
+          }>;
+          fields: Map<number, {
+            field_id: number;
+            owner_user_id: number;
+            level: number;
+            mortgage?: {
+              round_until?: number | undefined;
+            } | undefined;
+          }>;
+          turn: {
+            user_id: number | null;
+            action: {
+              user_id: number | null;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+            };
+            move_reversed: boolean;
+            auction?: {
+              field_id: number;
+              bid: number;
+              user_ids_rejected: Set<number>;
+            } | undefined;
+            contract?: {
+              initiator: {
+                user_id: number;
+                field_ids: Set<number>;
+                cash: number;
+              };
+              responder: {
+                user_id: number;
+                field_ids: Set<number>;
+                cash: number;
+              };
+            } | undefined;
+            contracts_sent?: number | undefined;
+            jackpot?: {
+              superprize: number;
+            } | undefined;
+            payment?: {
+              to_user_id?: number | undefined;
+              amount: number;
+            } | undefined;
+            field_ids_move?: Map<number, {
+              stop: number;
+            } | {
+              field_id: number;
+            }> | undefined;
+            field_ids_level_built?: Set<number> | undefined;
+            field_ids_mortgaged?: Set<number> | undefined;
+          };
+          timer?: {
+            ts_expires: number;
+            is_extra: boolean;
+          } | {
+            expires_in: number;
+            is_extra: boolean;
+          } | undefined;
+          viewers_count: number;
+        };
+        after: {
+          round: number;
+          players: Map<number, {
+            user_id: number;
+            status: number;
+            position: number;
+            cash: number;
+            score: number;
+            jail?: {
+              roll_double_attempts: number;
+            } | undefined;
+            loan: {
+              taken: false;
+              unlock_round: number;
+            } | {
+              taken: true;
+              debt: number;
+              return_round: number;
+            };
+            restart?: {
+              variant: {
+                round_from: number;
+                round_to: number;
+                count: number;
+                price: number;
+              } | null;
+            } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
+          }>;
+          fields: Map<number, {
+            field_id: number;
+            owner_user_id: number;
+            level: number;
+            mortgage?: {
+              round_until?: number | undefined;
+            } | undefined;
+          }>;
+          turn: {
+            user_id: number | null;
+            action: {
+              user_id: number | null;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10818,6 +11371,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10831,7 +11387,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10903,6 +11459,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -10916,7 +11475,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -10993,6 +11552,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11006,7 +11568,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11078,6 +11640,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11091,7 +11656,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11170,6 +11735,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11183,7 +11751,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11255,6 +11823,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11268,7 +11839,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11348,6 +11919,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11361,7 +11935,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11433,6 +12007,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11446,7 +12023,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11525,6 +12102,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11538,7 +12118,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11610,6 +12190,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11623,7 +12206,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11703,6 +12286,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11716,7 +12302,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11788,6 +12374,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11801,7 +12390,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11883,6 +12472,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11896,7 +12488,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -11968,6 +12560,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -11981,7 +12576,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12060,6 +12655,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12073,7 +12671,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12145,6 +12743,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12158,7 +12759,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12237,6 +12838,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12250,7 +12854,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12322,6 +12926,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12335,7 +12942,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12414,6 +13021,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12427,7 +13037,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12499,6 +13109,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12512,7 +13125,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12591,6 +13204,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12604,7 +13220,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12676,6 +13292,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12689,7 +13308,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12768,6 +13387,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12781,7 +13403,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12853,6 +13475,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12866,7 +13491,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -12947,6 +13572,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -12960,7 +13588,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13032,6 +13660,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13045,7 +13676,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13123,6 +13754,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13136,7 +13770,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13208,6 +13842,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13221,7 +13858,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13299,6 +13936,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13312,7 +13952,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13384,6 +14024,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13397,7 +14040,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13475,6 +14118,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13488,7 +14134,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13560,6 +14206,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13573,7 +14222,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13653,6 +14302,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13666,7 +14318,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13738,6 +14390,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13751,7 +14406,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13830,6 +14485,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13843,7 +14501,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -13915,6 +14573,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -13928,7 +14589,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14006,6 +14667,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14019,7 +14683,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14091,6 +14755,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14104,7 +14771,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14182,6 +14849,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14195,7 +14865,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14267,6 +14937,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14280,7 +14953,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14358,6 +15031,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14371,7 +15047,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14443,6 +15119,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14456,7 +15135,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14534,6 +15213,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14547,7 +15229,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14619,6 +15301,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14632,7 +15317,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14711,6 +15396,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14724,7 +15412,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14796,6 +15484,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14809,7 +15500,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14887,6 +15578,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14900,7 +15594,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -14972,6 +15666,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -14985,7 +15682,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15063,6 +15760,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15076,7 +15776,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15148,6 +15848,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15161,7 +15864,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15239,6 +15942,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15252,7 +15958,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15324,6 +16030,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15337,7 +16046,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15417,6 +16126,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15430,7 +16142,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15502,6 +16214,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15515,7 +16230,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15593,6 +16308,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15606,7 +16324,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15678,6 +16396,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15691,7 +16412,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15770,6 +16491,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15783,7 +16507,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15855,6 +16579,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15868,7 +16595,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -15946,6 +16673,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -15959,7 +16689,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -16031,6 +16761,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -16044,7 +16777,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -16124,6 +16857,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -16137,7 +16873,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -16209,6 +16945,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -16222,7 +16961,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -16300,6 +17039,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -16313,7 +17055,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {
@@ -16385,6 +17127,9 @@ declare class M1LiveDemo {
                 price: number;
               } | null;
             } | undefined;
+            stat: {
+              rent_history?: number | undefined;
+            };
           }>;
           fields: Map<number, {
             field_id: number;
@@ -16398,7 +17143,7 @@ declare class M1LiveDemo {
             user_id: number | null;
             action: {
               user_id: number | null;
-              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
+              list: Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "jackpot.play" | "jackpot.reject" | "jail.release.pay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "waive" | "purchase" | "purchase.reject" | "rent.pay" | "roll-dices" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "triple.move" | "wormhole.open" | "wormhole.reject" | "contract.fallback" | "mortgage.auction" | "wormhole.use" | "wormhole.jump">;
             };
             move_reversed: boolean;
             auction?: {

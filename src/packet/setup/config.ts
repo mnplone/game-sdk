@@ -83,16 +83,22 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 			}),
 		),
 		mortgage: v.optional(
-			v.object({
-				/** Limits mortgage duration in rounds. After this rounds, player will lose the field. */
-				duration: v.optional(v.number()),
-				/** Price multiplier when mortgaging the field, applies to the field buy price. */
-				multiplier: v.number(),
-				/** Price multiplier when buying back the field, applies to the mortgage price. */
-				buyback_multiplier: v.number(),
-				/** Price multiplier when auctioning the mortgaged field, applies to company price minus mortgage price. */
-				auction_multiplier: v.optional(v.number()),
-			}),
+			v.union([
+				v.object({
+					/** Limits mortgage duration in rounds. After this rounds, player will lose the field. If undefined, mortgage duration is unlimited. */
+					duration: v.optional(v.number()),
+					/** Price multiplier when mortgaging the field, applies to the company buying price. */
+					multiplier: v.number(),
+					/** Price multiplier when buying back the field, applies to the mortgage price. */
+					buyback_multiplier: v.number(),
+					/** Price multiplier when auctioning the mortgaged field, applies to the company buying price minus mortgage price. */
+					auction_multiplier: v.optional(v.number()),
+				}),
+				v.object({
+					/** Price multiplier when waiving the ownership of the field, applies to the company buying price. */
+					waive_multiplier: v.number(),
+				}),
+			]),
 		),
 		restart: v.optional(
 			v.object({
@@ -186,9 +192,10 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		START_CREDIT_COOLDOWN_ROUNDS: v.optional(v.number()),
 		// mechanics: mortgage
 		MORTGAGE_ROUND_LIMIT: v.optional(v.number()),
-		coeff_mortgage: v.number(),
-		coeff_unmortgage: v.number(),
+		coeff_mortgage: v.optional(v.number()),
+		coeff_unmortgage: v.optional(v.number()),
 		auction_mortgaged: v.optional(v.number()),
+		coeff_field_drop: v.optional(v.number()),
 		// mechanics: restart
 		restart_variants: v.optional(
 			v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
@@ -284,12 +291,22 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 								},
 							}
 						: undefined,
-				mortgage: {
-					duration: value.MORTGAGE_ROUND_LIMIT,
-					multiplier: value.coeff_mortgage,
-					buyback_multiplier: value.coeff_unmortgage,
-					auction_multiplier: value.auction_mortgaged,
-				},
+				mortgage: (() => {
+					if (value.coeff_mortgage !== undefined) {
+						return {
+							duration: value.MORTGAGE_ROUND_LIMIT,
+							multiplier: value.coeff_mortgage,
+							buyback_multiplier: value.coeff_unmortgage ?? 1,
+							auction_multiplier: value.auction_mortgaged,
+						};
+					}
+
+					if (value.coeff_field_drop !== undefined) {
+						return {
+							waive_multiplier: value.coeff_field_drop,
+						};
+					}
+				})(),
 				restart: value.restart_variants
 					? {
 							variants: value.restart_variants,
