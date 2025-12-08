@@ -2719,6 +2719,11 @@ const valiSchemas$6 = [
 	}),
 	valibot.object({
 		id: valibot.string(),
+		type: valibot.literal("roll-dices.doubling"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
 		type: valibot.literal("roll-dices.jail.success"),
 		user_id: valibot.number()
 	}),
@@ -2767,6 +2772,17 @@ const valiV1Schemas$6 = [
 			dices: value.dices,
 			move_reversed: value.move_reverse,
 			double_spent: false
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("doubleRolledOnDice"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.doubling",
+			user_id: value.user_id
 		};
 	})),
 	valibot.pipe(valibot.object({

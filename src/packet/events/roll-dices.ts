@@ -19,6 +19,11 @@ export const valiSchemas = [
 	}),
 	v.object({
 		id: v.string(),
+		type: v.literal('roll-dices.doubling'),
+		user_id: v.number(),
+	}),
+	v.object({
+		id: v.string(),
 		type: v.literal('roll-dices.jail.success'),
 		user_id: v.number(),
 	}),
@@ -90,6 +95,20 @@ export const valiV1Schemas = [
 				dices: value.dices,
 				move_reversed: value.move_reverse,
 				double_spent: false,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('doubleRolledOnDice'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'roll-dices.doubling' as const,
+				user_id: value.user_id,
 			};
 		}),
 	),
