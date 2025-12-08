@@ -1132,7 +1132,10 @@ const valiM1DemoPacketStatusPlayersSchema = v.pipe(v.array(v.pipe(v.object({
 		return_round: v.number()
 	})]),
 	restart: v.optional(v.object({ variant: v.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
-	stat: v.object({ rent_history: v.optional(v.number()) })
+	stat: v.object({
+		mini_die_cooldown: v.optional(v.number()),
+		rent_history: v.optional(v.number())
+	})
 }), v.transform((value) => value))), v.transform((value) => new Map(value.map((player) => [player.user_id, player]))));
 const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	user_id: v.number(),
@@ -1174,6 +1177,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	credit_payRound: v.union([v.literal(false), v.number()]),
 	credit_toPay: v.number(),
 	restart: v.optional(v.union([v.pipe(v.literal(0), v.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema])),
+	mini_die_cooldown: v.optional(v.number()),
 	rent_last: v.optional(v.number())
 }), v.transform((value) => {
 	return {
@@ -1212,7 +1216,10 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 				return_round: value.credit_payRound
 			},
 			restart: value.restart === void 0 ? void 0 : { variant: value.restart },
-			stat: { rent_history: value.rent_last }
+			stat: {
+				mini_die_cooldown: value.mini_die_cooldown === void 0 ? void 0 : Math.max(value.mini_die_cooldown, 0),
+				rent_history: value.rent_last
+			}
 		}
 	};
 })));

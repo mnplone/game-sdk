@@ -143,6 +143,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       }, undefined>, undefined>;
     }, undefined>, undefined>;
     readonly stat: v.ObjectSchema<{
+      readonly mini_die_cooldown: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
       readonly rent_history: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>;
   }, undefined>, v.TransformAction<{
@@ -171,6 +172,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       } | null;
     } | undefined;
     stat: {
+      mini_die_cooldown?: number | undefined;
       rent_history?: number | undefined;
     };
   }, {
@@ -199,6 +201,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       } | null;
     } | undefined;
     stat: {
+      mini_die_cooldown?: number | undefined;
       rent_history?: number | undefined;
     };
   }>]>, undefined>, v.TransformAction<{
@@ -227,6 +230,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       } | null;
     } | undefined;
     stat: {
+      mini_die_cooldown?: number | undefined;
       rent_history?: number | undefined;
     };
   }[], Map<number, {
@@ -255,6 +259,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       } | null;
     } | undefined;
     stat: {
+      mini_die_cooldown?: number | undefined;
       rent_history?: number | undefined;
     };
   }>>]>;
@@ -1318,6 +1323,7 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
     }, undefined>, undefined>;
   }, undefined>, undefined>;
   readonly stat: v.ObjectSchema<{
+    readonly mini_die_cooldown: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
     readonly rent_history: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   }, undefined>;
 }, undefined>, v.TransformAction<{
@@ -1346,6 +1352,7 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
     } | null;
   } | undefined;
   stat: {
+    mini_die_cooldown?: number | undefined;
     rent_history?: number | undefined;
   };
 }, {
@@ -1374,6 +1381,7 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
     } | null;
   } | undefined;
   stat: {
+    mini_die_cooldown?: number | undefined;
     rent_history?: number | undefined;
   };
 }>]>, undefined>, v.TransformAction<{
@@ -1402,6 +1410,7 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
     } | null;
   } | undefined;
   stat: {
+    mini_die_cooldown?: number | undefined;
     rent_history?: number | undefined;
   };
 }[], Map<number, {
@@ -1430,6 +1439,7 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
     } | null;
   } | undefined;
   stat: {
+    mini_die_cooldown?: number | undefined;
     rent_history?: number | undefined;
   };
 }>>]>;
@@ -1686,6 +1696,7 @@ declare class M1LiveDemo {
           } | null;
         } | undefined;
         stat: {
+          mini_die_cooldown?: number | undefined;
           rent_history?: number | undefined;
         };
       }>;
@@ -2207,6 +2218,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2295,6 +2307,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2396,6 +2409,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2484,6 +2498,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2577,6 +2592,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2665,6 +2681,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2760,6 +2777,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2848,6 +2866,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -2947,6 +2966,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3035,6 +3055,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3129,6 +3150,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3217,6 +3239,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3312,6 +3335,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3400,6 +3424,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3496,6 +3521,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3584,6 +3610,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3679,6 +3706,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3767,6 +3795,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3861,6 +3890,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -3949,6 +3979,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4046,6 +4077,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4134,6 +4166,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4230,6 +4263,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4318,6 +4352,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4413,6 +4448,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4501,6 +4537,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4596,6 +4633,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4684,6 +4722,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4779,6 +4818,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4867,6 +4907,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -4962,6 +5003,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5050,6 +5092,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5146,6 +5189,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5234,6 +5278,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5334,6 +5379,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5422,6 +5468,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5517,6 +5564,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5605,6 +5653,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5711,6 +5760,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5799,6 +5849,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5894,6 +5945,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -5982,6 +6034,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6075,6 +6128,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6163,6 +6217,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6257,6 +6312,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6345,6 +6401,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6439,6 +6496,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6527,6 +6585,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6620,6 +6679,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6708,6 +6768,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6801,6 +6862,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6889,6 +6951,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -6983,6 +7046,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7071,6 +7135,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7167,6 +7232,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7255,6 +7321,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7351,6 +7418,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7439,6 +7507,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7535,6 +7604,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7623,6 +7693,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7719,6 +7790,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7807,6 +7879,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7902,6 +7975,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -7990,6 +8064,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8085,6 +8160,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8173,6 +8249,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8267,6 +8344,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8355,6 +8433,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8449,6 +8528,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8537,6 +8617,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8631,6 +8712,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8719,6 +8801,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8813,6 +8896,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8901,6 +8985,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -8995,6 +9080,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9083,6 +9169,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9178,6 +9265,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9266,6 +9354,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9361,6 +9450,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9449,6 +9539,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9544,6 +9635,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9632,6 +9724,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9726,6 +9819,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9814,6 +9908,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9909,6 +10004,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -9997,6 +10093,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10092,6 +10189,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10180,6 +10278,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10277,6 +10376,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10365,6 +10465,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10459,6 +10560,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10547,6 +10649,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10642,6 +10745,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10730,6 +10834,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10825,6 +10930,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -10913,6 +11019,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11008,6 +11115,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11096,6 +11204,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11191,6 +11300,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11279,6 +11389,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11372,6 +11483,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11460,6 +11572,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11553,6 +11666,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11641,6 +11755,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11736,6 +11851,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11824,6 +11940,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -11920,6 +12037,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12008,6 +12126,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12103,6 +12222,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12191,6 +12311,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12287,6 +12408,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12375,6 +12497,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12473,6 +12596,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12561,6 +12685,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12656,6 +12781,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12744,6 +12870,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12839,6 +12966,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -12927,6 +13055,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13022,6 +13151,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13110,6 +13240,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13205,6 +13336,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13293,6 +13425,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13388,6 +13521,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13476,6 +13610,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13573,6 +13708,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13661,6 +13797,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13755,6 +13892,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13843,6 +13981,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -13937,6 +14076,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14025,6 +14165,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14119,6 +14260,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14207,6 +14349,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14303,6 +14446,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14391,6 +14535,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14486,6 +14631,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14574,6 +14720,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14668,6 +14815,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14756,6 +14904,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14850,6 +14999,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -14938,6 +15088,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15032,6 +15183,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15120,6 +15272,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15214,6 +15367,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15302,6 +15456,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15397,6 +15552,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15485,6 +15641,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15579,6 +15736,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15667,6 +15825,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15761,6 +15920,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15849,6 +16009,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -15943,6 +16104,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16031,6 +16193,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16127,6 +16290,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16215,6 +16379,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16309,6 +16474,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16397,6 +16563,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16492,6 +16659,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16580,6 +16748,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16674,6 +16843,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16762,6 +16932,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16858,6 +17029,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -16946,6 +17118,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -17040,6 +17213,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
@@ -17128,6 +17302,7 @@ declare class M1LiveDemo {
               } | null;
             } | undefined;
             stat: {
+              mini_die_cooldown?: number | undefined;
               rent_history?: number | undefined;
             };
           }>;
