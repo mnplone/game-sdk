@@ -193,6 +193,10 @@ function getRolledDistance(
 			if (dices[1] <= 4) {
 				distance += dices[1];
 			}
+			// if doubling was rolled, player moves twice the distance
+			else if (dices[1] === 5) {
+				distance *= 2;
+			}
 			// if taxi was rolled, no movement
 			else if (dices[1] === 6) {
 				return 0;

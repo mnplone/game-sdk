@@ -109,7 +109,7 @@ const action_list_mapping = {
 	// Start
 	startBypassFee: 'start.tax.pay',
 	// Taxi
-	// 'taxi.move',
+	chooseTaxiStop: 'taxi.move',
 	// Triple
 	chooseFieldToMove: 'triple.move',
 	// Wormhole

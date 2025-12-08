@@ -87,7 +87,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					// Start
 					'start.tax.pay',
 					// Taxi
-					// 'taxi.move',
+					'taxi.move',
 					// Triple
 					'triple.move',
 					// Wormhole
