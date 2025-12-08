@@ -17,7 +17,7 @@ export class M1LiveDemo {
 	private field_id_jail: number | null = null;
 	private status_before: M1DemoPacketStatus | null = null;
 
-	// oxlint-disable-next-line max-statements
+	// eslint-disable-next-line max-statements, complexity, max-lines-per-function
 	process(value: unknown) {
 		if (isRecord(value) !== true) {
 			throw new TypeError('Packet is not an object.');
@@ -66,12 +66,21 @@ export class M1LiveDemo {
 					),
 				);
 
-				const position = packet_raw.status.players.get(
-					packet_raw.status.turn.action.user_id ?? 0,
-				)?.position;
-				if (typeof position === 'number') {
-					packet_raw.status.turn.field_ids_move.delete(position);
+				const { user_id } = packet_raw.status.turn.action;
+				if (user_id === null) {
+					throw new Error(
+						'Invalid state: received triple.move action without user_id.',
+					);
 				}
+
+				const position = packet_raw.status.players.get(user_id)?.position;
+				if (position === undefined) {
+					throw new Error(
+						"Invalid state: received triple.move action without player's position.",
+					);
+				}
+
+				packet_raw.status.turn.field_ids_move.delete(position);
 			}
 		}
 

@@ -1357,7 +1357,15 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 				[current_move.dices[0], { stop: 0 }],
 				[current_move.dices[1], { stop: 1 }],
 				[current_move.dices[0] + current_move.dices[1], { stop: -1 }]
-			].map(([stop, action_data]) => [action_player_data._status.position + direction * stop, action_data]));
+			].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]));
+		}
+		if (action_list.has("taxi.move")) {
+			if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
+			const direction = current_move.move_reverse ? -1 : 1;
+			field_ids_move = new Map(Array.from({ length: current_move.dices[0] }, (_, index) => {
+				const stop_id = index + 1;
+				return [action_player_data._status.position + direction * stop_id, { stop: stop_id }];
+			}));
 		}
 		if (action_list.has("auction.bid")) {
 			if (!current_move.players_auctionStatus) throw new TypeError("Missing field \"status.current_move.players_auctionStatus\".");
@@ -3604,8 +3612,11 @@ var M1LiveDemo = class {
 			}
 			if (packet_raw.status.turn.action.list.has("triple.move")) {
 				packet_raw.status.turn.field_ids_move = new Map(Array.from({ length: this.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
-				const position = packet_raw.status.players.get(packet_raw.status.turn.action.user_id ?? 0)?.position;
-				if (typeof position === "number") packet_raw.status.turn.field_ids_move.delete(position);
+				const { user_id } = packet_raw.status.turn.action;
+				if (user_id === null) throw new Error("Invalid state: received triple.move action without user_id.");
+				const position = packet_raw.status.players.get(user_id)?.position;
+				if (position === void 0) throw new Error("Invalid state: received triple.move action without player's position.");
+				packet_raw.status.turn.field_ids_move.delete(position);
 			}
 		}
 		const { events,...rest_packet_raw } = packet_raw;

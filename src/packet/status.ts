@@ -278,14 +278,35 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				field_ids_move = new Map(
 					(
 						[
+							// FIXME: rename stop to stop_id
 							[current_move.dices[0], { stop: 0 }],
 							[current_move.dices[1]!, { stop: 1 }],
 							[current_move.dices[0] + current_move.dices[1]!, { stop: -1 }],
 						] as const
-					).map(([stop, action_data]) => [
-						action_player_data._status.position + direction * stop,
+					).map(([stop_id, action_data]) => [
+						action_player_data._status.position + direction * stop_id,
 						action_data,
 					]),
+				);
+			}
+
+			if (action_list.has('taxi.move')) {
+				if (!current_move.dices) {
+					throw new Error('Missing field "status.current_move.dices".');
+				}
+
+				const direction = current_move.move_reverse ? -1 : 1;
+
+				field_ids_move = new Map(
+					Array.from({ length: current_move.dices[0] }, (_, index) => {
+						const stop_id = index + 1;
+
+						return [
+							action_player_data._status.position + direction * stop_id,
+							// FIXME: rename stop to stop_id
+							{ stop: stop_id },
+						];
+					}),
 				);
 			}
 
