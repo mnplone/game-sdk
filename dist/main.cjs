@@ -962,6 +962,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
 	mechanics: valibot.object({
 		auction: valibot.optional(valibot.object({ bid_increment: valibot.number() })),
+		buyout: valibot.optional(valibot.object({ premium_multiplier: valibot.number() })),
 		chance: valibot.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		field_level: valibot.optional(valibot.object({
 			sell_multiplier: valibot.optional(valibot.number(), 1),
@@ -1028,6 +1029,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	groups: valiM1DemoPacketV1ConfigGroupsSchema,
 	TIME_FOR_ROLL_DICES: valibot.number(),
 	AUCTION_BET_STEP: valibot.optional(valibot.number()),
+	buyout_premium: valibot.optional(valibot.number()),
 	chance_cards: valibot.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
 	coeff_level_down: valibot.optional(valibot.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
@@ -1072,6 +1074,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 		monopolies: value.groups,
 		mechanics: {
 			auction: typeof value.AUCTION_BET_STEP === "number" ? { bid_increment: value.AUCTION_BET_STEP } : void 0,
+			buyout: typeof value.buyout_premium === "number" ? { premium_multiplier: value.buyout_premium } : void 0,
 			chance: value.chance_cards ? { cards: value.chance_cards } : void 0,
 			field_level: {
 				sell_multiplier: value.coeff_level_down,

@@ -682,6 +682,10 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     readonly auction: v.OptionalSchema<v.ObjectSchema<{
       readonly bid_increment: v.NumberSchema<undefined>;
     }, undefined>, undefined>;
+    readonly buyout: v.OptionalSchema<v.ObjectSchema<{
+      /** Multiplier for total cost to buy out given field. */
+      readonly premium_multiplier: v.NumberSchema<undefined>;
+    }, undefined>, undefined>;
     readonly chance: v.OptionalSchema<v.StrictObjectSchema<{
       readonly cards: v.ArraySchema<v.UnionSchema<[v.StrictObjectSchema<{
         readonly type: v.LiteralSchema<"income", undefined>;
@@ -1003,6 +1007,9 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
     readonly mechanics: v.ObjectSchema<{
       readonly auction: v.OptionalSchema<v.ObjectSchema<{
         readonly bid_increment: v.NumberSchema<undefined>;
+      }, undefined>, undefined>;
+      readonly buyout: v.OptionalSchema<v.ObjectSchema<{
+        readonly premium_multiplier: v.NumberSchema<undefined>;
       }, undefined>, undefined>;
       readonly chance: v.OptionalSchema<v.StrictObjectSchema<{
         readonly cards: v.ArraySchema<v.UnionSchema<[v.StrictObjectSchema<{
@@ -1522,6 +1529,9 @@ declare class M1LiveDemo {
         mechanics: {
           auction?: {
             bid_increment: number;
+          } | undefined;
+          buyout?: {
+            premium_multiplier: number;
           } | undefined;
           chance?: {
             cards: ({
