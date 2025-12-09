@@ -434,6 +434,8 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 			"waive",
 			"purchase",
 			"purchase.reject",
+			"purchase.buyout",
+			"purchase.buyout.reject",
 			"rent.pay",
 			"roll-dices",
 			"russian-roulette.play",
@@ -1265,6 +1267,8 @@ const action_list_mapping = {
 	fieldDrop: "waive",
 	buy: "purchase",
 	noBuy: "purchase.reject",
+	buyOut: "purchase.buyout",
+	noBuyOut: "purchase.buyout.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
 	russianRoulettePlay: "russian-roulette.play",
@@ -2463,6 +2467,20 @@ const valiSchemas$9 = [
 		type: v.literal("purchase.reject"),
 		user_id: v.number(),
 		field_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("purchase.buyout"),
+		user_id: v.number(),
+		user_id_receiver: v.number(),
+		field_id: v.number(),
+		price: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("purchase.buyout.reject"),
+		user_id: v.number(),
+		field_id: v.number()
 	})
 ];
 const enrichments$9 = { purchase(options) {
@@ -2512,6 +2530,36 @@ const valiV1Schemas$9 = [
 		return {
 			id: value._id,
 			type: "purchase.reject",
+			user_id: value.user_id,
+			field_id: value.field
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("buyOut"),
+		field: v.number(),
+		user_id: v.number(),
+		to: v.number(),
+		money: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "purchase.buyout",
+			user_id: value.user_id,
+			user_id_receiver: value.to,
+			field_id: value.field,
+			price: value.money
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("noBuyOut"),
+		user_id: v.number(),
+		field: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "purchase.buyout.reject",
 			user_id: value.user_id,
 			field_id: value.field
 		};

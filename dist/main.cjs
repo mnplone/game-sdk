@@ -454,6 +454,8 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"waive",
 			"purchase",
 			"purchase.reject",
+			"purchase.buyout",
+			"purchase.buyout.reject",
 			"rent.pay",
 			"roll-dices",
 			"russian-roulette.play",
@@ -1285,6 +1287,8 @@ const action_list_mapping = {
 	fieldDrop: "waive",
 	buy: "purchase",
 	noBuy: "purchase.reject",
+	buyOut: "purchase.buyout",
+	noBuyOut: "purchase.buyout.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
 	russianRoulettePlay: "russian-roulette.play",
@@ -2483,6 +2487,20 @@ const valiSchemas$9 = [
 		type: valibot.literal("purchase.reject"),
 		user_id: valibot.number(),
 		field_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("purchase.buyout"),
+		user_id: valibot.number(),
+		user_id_receiver: valibot.number(),
+		field_id: valibot.number(),
+		price: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("purchase.buyout.reject"),
+		user_id: valibot.number(),
+		field_id: valibot.number()
 	})
 ];
 const enrichments$9 = { purchase(options) {
@@ -2532,6 +2550,36 @@ const valiV1Schemas$9 = [
 		return {
 			id: value._id,
 			type: "purchase.reject",
+			user_id: value.user_id,
+			field_id: value.field
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("buyOut"),
+		field: valibot.number(),
+		user_id: valibot.number(),
+		to: valibot.number(),
+		money: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "purchase.buyout",
+			user_id: value.user_id,
+			user_id_receiver: value.to,
+			field_id: value.field,
+			price: value.money
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("noBuyOut"),
+		user_id: valibot.number(),
+		field: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "purchase.buyout.reject",
 			user_id: value.user_id,
 			field_id: value.field
 		};

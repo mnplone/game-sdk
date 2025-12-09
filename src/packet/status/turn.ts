@@ -77,6 +77,8 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					// Purchase
 					'purchase',
 					'purchase.reject',
+					'purchase.buyout',
+					'purchase.buyout.reject',
 					// Rent
 					'rent.pay',
 					// Rolling dices
