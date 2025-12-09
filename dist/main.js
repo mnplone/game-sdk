@@ -2483,15 +2483,24 @@ const valiSchemas$9 = [
 		field_id: v.number()
 	})
 ];
-const enrichments$9 = { purchase(options) {
-	const player = options.status.players.get(options.event.user_id);
-	player.cash -= options.event.price;
-	options.status.fields.set(options.event.field_id, {
-		field_id: options.event.field_id,
-		owner_user_id: options.event.user_id,
-		level: 0
-	});
-} };
+const enrichments$9 = {
+	purchase(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.cash -= options.event.price;
+		options.status.fields.set(options.event.field_id, {
+			field_id: options.event.field_id,
+			owner_user_id: options.event.user_id,
+			level: 0
+		});
+	},
+	"purchase.buyout"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.cash -= options.event.price;
+		const player_receiver = options.status.players.get(options.event.user_id_receiver);
+		player_receiver.cash += options.event.price;
+		options.status.fields.get(options.event.field_id).owner_user_id = options.event.user_id;
+	}
+};
 const valiV1Schemas$9 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),

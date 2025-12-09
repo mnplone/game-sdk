@@ -48,6 +48,18 @@ export const enrichments = {
 			level: 0,
 		});
 	},
+	'purchase.buyout'(options: EventEnrichOptions<'purchase.buyout'>) {
+		const player = options.status.players.get(options.event.user_id)!;
+		player.cash -= options.event.price;
+
+		const player_receiver = options.status.players.get(
+			options.event.user_id_receiver,
+		)!;
+		player_receiver.cash += options.event.price;
+
+		options.status.fields.get(options.event.field_id)!.owner_user_id =
+			options.event.user_id;
+	},
 };
 
 export const valiV1Schemas = [
