@@ -945,9 +945,14 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 		buyout: v.optional(v.object({ premium_multiplier: v.number() })),
 		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		field_level: v.optional(v.object({
-			sell_multiplier: v.optional(v.number(), 1),
-			build_uneven: bit(false),
-			build_without_monopoly: v.optional(v.object({ rent_multiplier: v.optional(v.number(), 1) }))
+			build: v.optional(v.object({
+				uneven: bit(false),
+				without_monopoly: v.optional(v.object({ rent_multiplier: v.optional(v.number(), 1) })),
+				only_on_arrival: bit(false)
+			}), () => {
+				return {};
+			}),
+			sell: v.object({ multiplier: v.optional(v.number(), 1) })
 		})),
 		jackpot: v.optional(v.object({
 			bet: v.number(),
@@ -1015,6 +1020,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
 	coeff_level_no_mnpl: v.optional(v.number(), 1),
+	level_build_only_on_arrival: bit(false),
 	JACKPOT_BET: v.optional(v.number()),
 	JACKPOT_COEFFS: v.optional(v.array(v.number())),
 	JACKPOT_SUPERPRIZE_CHANCE: v.optional(v.number()),
@@ -1057,9 +1063,12 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 			buyout: typeof value.buyout_premium === "number" ? { premium_multiplier: value.buyout_premium } : void 0,
 			chance: value.chance_cards ? { cards: value.chance_cards } : void 0,
 			field_level: {
-				sell_multiplier: value.coeff_level_down,
-				build_uneven: value.UNEVEN_LEVEL_CHANGE,
-				build_without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0
+				build: {
+					uneven: value.UNEVEN_LEVEL_CHANGE,
+					without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0,
+					only_on_arrival: value.level_build_only_on_arrival
+				},
+				sell: { multiplier: value.coeff_level_down }
 			},
 			jackpot: typeof value.JACKPOT_BET === "number" ? {
 				bet: value.JACKPOT_BET,

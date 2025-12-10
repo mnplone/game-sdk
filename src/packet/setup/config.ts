@@ -44,16 +44,27 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		field_level: v.optional(
 			v.object({
-				/** Price multiplier when selling a level (house) on the field, applies to the level buy price. */
-				sell_multiplier: v.optional(v.number(), 1),
-				/** When true, player can build uneven levels on the field. */
-				build_uneven: bit(false),
-				/** When true, player can build levels on the field without owning the whole monopoly. */
-				build_without_monopoly: v.optional(
+				build: v.optional(
 					v.object({
-						rent_multiplier: v.optional(v.number(), 1),
+						/** When true, player can build uneven levels on the field. */
+						uneven: bit(false),
+						/** When true, player can build levels on the field without owning the whole monopoly. */
+						without_monopoly: v.optional(
+							v.object({
+								rent_multiplier: v.optional(v.number(), 1),
+							}),
+						),
+						/** When true, player can build level on the field only when they arrive in that field. */
+						only_on_arrival: bit(false),
 					}),
+					() => {
+						return {};
+					},
 				),
+				sell: v.object({
+					/** Price multiplier when selling a level (house) on the field, applies to the level buy price. */
+					multiplier: v.optional(v.number(), 1),
+				}),
 			}),
 		),
 		jackpot: v.optional(
@@ -182,6 +193,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		UNEVEN_LEVEL_CHANGE: bit(false),
 		LEVEL_CHANGE_NO_MNPL: bit(false),
 		coeff_level_no_mnpl: v.optional(v.number(), 1),
+		level_build_only_on_arrival: bit(false),
 		// mechanics: jackpot
 		JACKPOT_BET: v.optional(v.number()),
 		JACKPOT_COEFFS: v.optional(v.array(v.number())),
@@ -266,13 +278,18 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 						}
 					: undefined,
 				field_level: {
-					sell_multiplier: value.coeff_level_down,
-					build_uneven: value.UNEVEN_LEVEL_CHANGE,
-					build_without_monopoly: value.LEVEL_CHANGE_NO_MNPL
-						? {
-								rent_multiplier: value.coeff_level_no_mnpl,
-							}
-						: undefined,
+					build: {
+						uneven: value.UNEVEN_LEVEL_CHANGE,
+						without_monopoly: value.LEVEL_CHANGE_NO_MNPL
+							? {
+									rent_multiplier: value.coeff_level_no_mnpl,
+								}
+							: undefined,
+						only_on_arrival: value.level_build_only_on_arrival,
+					},
+					sell: {
+						multiplier: value.coeff_level_down,
+					},
 				},
 				jackpot:
 					typeof value.JACKPOT_BET === 'number'

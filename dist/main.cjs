@@ -965,9 +965,14 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 		buyout: valibot.optional(valibot.object({ premium_multiplier: valibot.number() })),
 		chance: valibot.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		field_level: valibot.optional(valibot.object({
-			sell_multiplier: valibot.optional(valibot.number(), 1),
-			build_uneven: bit(false),
-			build_without_monopoly: valibot.optional(valibot.object({ rent_multiplier: valibot.optional(valibot.number(), 1) }))
+			build: valibot.optional(valibot.object({
+				uneven: bit(false),
+				without_monopoly: valibot.optional(valibot.object({ rent_multiplier: valibot.optional(valibot.number(), 1) })),
+				only_on_arrival: bit(false)
+			}), () => {
+				return {};
+			}),
+			sell: valibot.object({ multiplier: valibot.optional(valibot.number(), 1) })
 		})),
 		jackpot: valibot.optional(valibot.object({
 			bet: valibot.number(),
@@ -1035,6 +1040,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
 	coeff_level_no_mnpl: valibot.optional(valibot.number(), 1),
+	level_build_only_on_arrival: bit(false),
 	JACKPOT_BET: valibot.optional(valibot.number()),
 	JACKPOT_COEFFS: valibot.optional(valibot.array(valibot.number())),
 	JACKPOT_SUPERPRIZE_CHANCE: valibot.optional(valibot.number()),
@@ -1077,9 +1083,12 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 			buyout: typeof value.buyout_premium === "number" ? { premium_multiplier: value.buyout_premium } : void 0,
 			chance: value.chance_cards ? { cards: value.chance_cards } : void 0,
 			field_level: {
-				sell_multiplier: value.coeff_level_down,
-				build_uneven: value.UNEVEN_LEVEL_CHANGE,
-				build_without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0
+				build: {
+					uneven: value.UNEVEN_LEVEL_CHANGE,
+					without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0,
+					only_on_arrival: value.level_build_only_on_arrival
+				},
+				sell: { multiplier: value.coeff_level_down }
 			},
 			jackpot: typeof value.JACKPOT_BET === "number" ? {
 				bet: value.JACKPOT_BET,

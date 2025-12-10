@@ -736,14 +736,20 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
       }, undefined>], undefined>, undefined>;
     }, undefined>, undefined>;
     readonly field_level: v.OptionalSchema<v.ObjectSchema<{
-      /** Price multiplier when selling a level (house) on the field, applies to the level buy price. */
-      readonly sell_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
-      /** When true, player can build uneven levels on the field. */
-      readonly build_uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-      /** When true, player can build levels on the field without owning the whole monopoly. */
-      readonly build_without_monopoly: v.OptionalSchema<v.ObjectSchema<{
-        readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
-      }, undefined>, undefined>;
+      readonly build: v.OptionalSchema<v.ObjectSchema<{
+        /** When true, player can build uneven levels on the field. */
+        readonly uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+        /** When true, player can build levels on the field without owning the whole monopoly. */
+        readonly without_monopoly: v.OptionalSchema<v.ObjectSchema<{
+          readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+        }, undefined>, undefined>;
+        /** When true, player can build level on the field only when they arrive in that field. */
+        readonly only_on_arrival: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+      }, undefined>, () => {}>;
+      readonly sell: v.ObjectSchema<{
+        /** Price multiplier when selling a level (house) on the field, applies to the level buy price. */
+        readonly multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+      }, undefined>;
     }, undefined>, undefined>;
     readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
       readonly bet: v.NumberSchema<undefined>;
@@ -1061,11 +1067,16 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
         }, undefined>], undefined>, undefined>;
       }, undefined>, undefined>;
       readonly field_level: v.OptionalSchema<v.ObjectSchema<{
-        readonly sell_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
-        readonly build_uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-        readonly build_without_monopoly: v.OptionalSchema<v.ObjectSchema<{
-          readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
-        }, undefined>, undefined>;
+        readonly build: v.OptionalSchema<v.ObjectSchema<{
+          readonly uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+          readonly without_monopoly: v.OptionalSchema<v.ObjectSchema<{
+            readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+          }, undefined>, undefined>;
+          readonly only_on_arrival: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+        }, undefined>, () => {}>;
+        readonly sell: v.ObjectSchema<{
+          readonly multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+        }, undefined>;
       }, undefined>, undefined>;
       readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
         readonly bet: v.NumberSchema<undefined>;
@@ -1583,11 +1594,16 @@ declare class M1LiveDemo {
             })[];
           } | undefined;
           field_level?: {
-            sell_multiplier: number;
-            build_uneven: boolean;
-            build_without_monopoly?: {
-              rent_multiplier: number;
-            } | undefined;
+            build: {
+              uneven: boolean;
+              without_monopoly?: {
+                rent_multiplier: number;
+              } | undefined;
+              only_on_arrival: boolean;
+            };
+            sell: {
+              multiplier: number;
+            };
           } | undefined;
           jackpot?: {
             bet: number;
