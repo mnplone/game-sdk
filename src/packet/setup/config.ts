@@ -37,8 +37,10 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 		),
 		buyout: v.optional(
 			v.object({
-				/** Multiplier for total cost to buy out given field. */
-				premium_multiplier: v.number(),
+				/** Premium for total cost to buy out given field, given to owner. */
+				owner_premium: v.number(),
+				/** Premium for total cost to buy out given field, given to bank. */
+				bank_premium: v.optional(v.number()),
 			}),
 		),
 		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
@@ -186,6 +188,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		AUCTION_BET_STEP: v.optional(v.number()),
 		// mechanics: buyout
 		buyout_premium: v.optional(v.number()),
+		buyout_premium_bank: v.optional(v.number()),
 		// mechanics: chance
 		chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
 		// mechanics: field_level
@@ -269,7 +272,8 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 				buyout:
 					typeof value.buyout_premium === 'number'
 						? {
-								premium_multiplier: value.buyout_premium,
+								owner_premium: value.buyout_premium,
+								bank_premium: value.buyout_premium_bank,
 							}
 						: undefined,
 				chance: value.chance_cards

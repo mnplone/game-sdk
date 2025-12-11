@@ -943,7 +943,10 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
 	mechanics: v.object({
 		auction: v.optional(v.object({ bid_increment: v.number() })),
-		buyout: v.optional(v.object({ premium_multiplier: v.number() })),
+		buyout: v.optional(v.object({
+			owner_premium: v.number(),
+			bank_premium: v.optional(v.number())
+		})),
 		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		field_level: v.optional(v.object({
 			build: v.optional(v.object({
@@ -1016,6 +1019,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	TIME_FOR_ROLL_DICES: v.number(),
 	AUCTION_BET_STEP: v.optional(v.number()),
 	buyout_premium: v.optional(v.number()),
+	buyout_premium_bank: v.optional(v.number()),
 	chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
 	coeff_level_down: v.optional(v.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
@@ -1061,7 +1065,10 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 		monopolies: value.groups,
 		mechanics: {
 			auction: typeof value.AUCTION_BET_STEP === "number" ? { bid_increment: value.AUCTION_BET_STEP } : void 0,
-			buyout: typeof value.buyout_premium === "number" ? { premium_multiplier: value.buyout_premium } : void 0,
+			buyout: typeof value.buyout_premium === "number" ? {
+				owner_premium: value.buyout_premium,
+				bank_premium: value.buyout_premium_bank
+			} : void 0,
 			chance: value.chance_cards ? { cards: value.chance_cards } : void 0,
 			field_level: {
 				build: {
@@ -2913,9 +2920,9 @@ function getRolledDistance(dices, setup) {
 		}
 	} else if (game_submode === 5) {
 		if (typeof dices[1] === "number") {
-			if (dices[1] <= 4) distance += dices[1];
+			if (dices[1] <= 3) distance += dices[1];
 			else if (dices[1] === 5) distance *= 2;
-			else if (dices[1] === 6) return 0;
+			else if (dices[1] === 4 || dices[1] === 6) return 0;
 		}
 	} else distance += dices[1];
 	return distance;

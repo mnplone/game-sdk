@@ -684,8 +684,10 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
       readonly bid_increment: v.NumberSchema<undefined>;
     }, undefined>, undefined>;
     readonly buyout: v.OptionalSchema<v.ObjectSchema<{
-      /** Multiplier for total cost to buy out given field. */
-      readonly premium_multiplier: v.NumberSchema<undefined>;
+      /** Premium for total cost to buy out given field, given to owner. */
+      readonly owner_premium: v.NumberSchema<undefined>;
+      /** Premium for total cost to buy out given field, given to bank. */
+      readonly bank_premium: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>, undefined>;
     readonly chance: v.OptionalSchema<v.StrictObjectSchema<{
       readonly cards: v.ArraySchema<v.UnionSchema<[v.StrictObjectSchema<{
@@ -1016,7 +1018,8 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
         readonly bid_increment: v.NumberSchema<undefined>;
       }, undefined>, undefined>;
       readonly buyout: v.OptionalSchema<v.ObjectSchema<{
-        readonly premium_multiplier: v.NumberSchema<undefined>;
+        readonly owner_premium: v.NumberSchema<undefined>;
+        readonly bank_premium: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
       }, undefined>, undefined>;
       readonly chance: v.OptionalSchema<v.StrictObjectSchema<{
         readonly cards: v.ArraySchema<v.UnionSchema<[v.StrictObjectSchema<{
@@ -1543,7 +1546,8 @@ declare class M1LiveDemo {
             bid_increment: number;
           } | undefined;
           buyout?: {
-            premium_multiplier: number;
+            owner_premium: number;
+            bank_premium?: number | undefined;
           } | undefined;
           chance?: {
             cards: ({

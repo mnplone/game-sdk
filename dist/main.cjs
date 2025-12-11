@@ -963,7 +963,10 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
 	mechanics: valibot.object({
 		auction: valibot.optional(valibot.object({ bid_increment: valibot.number() })),
-		buyout: valibot.optional(valibot.object({ premium_multiplier: valibot.number() })),
+		buyout: valibot.optional(valibot.object({
+			owner_premium: valibot.number(),
+			bank_premium: valibot.optional(valibot.number())
+		})),
 		chance: valibot.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		field_level: valibot.optional(valibot.object({
 			build: valibot.optional(valibot.object({
@@ -1036,6 +1039,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	TIME_FOR_ROLL_DICES: valibot.number(),
 	AUCTION_BET_STEP: valibot.optional(valibot.number()),
 	buyout_premium: valibot.optional(valibot.number()),
+	buyout_premium_bank: valibot.optional(valibot.number()),
 	chance_cards: valibot.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
 	coeff_level_down: valibot.optional(valibot.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
@@ -1081,7 +1085,10 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 		monopolies: value.groups,
 		mechanics: {
 			auction: typeof value.AUCTION_BET_STEP === "number" ? { bid_increment: value.AUCTION_BET_STEP } : void 0,
-			buyout: typeof value.buyout_premium === "number" ? { premium_multiplier: value.buyout_premium } : void 0,
+			buyout: typeof value.buyout_premium === "number" ? {
+				owner_premium: value.buyout_premium,
+				bank_premium: value.buyout_premium_bank
+			} : void 0,
 			chance: value.chance_cards ? { cards: value.chance_cards } : void 0,
 			field_level: {
 				build: {
@@ -2933,9 +2940,9 @@ function getRolledDistance(dices, setup) {
 		}
 	} else if (game_submode === 5) {
 		if (typeof dices[1] === "number") {
-			if (dices[1] <= 4) distance += dices[1];
+			if (dices[1] <= 3) distance += dices[1];
 			else if (dices[1] === 5) distance *= 2;
-			else if (dices[1] === 6) return 0;
+			else if (dices[1] === 4 || dices[1] === 6) return 0;
 		}
 	} else distance += dices[1];
 	return distance;

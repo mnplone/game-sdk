@@ -190,7 +190,7 @@ function getRolledDistance(
 		// if mini die was rolled
 		if (typeof dices[1] === 'number') {
 			// if number was rolled on mini die
-			if (dices[1] <= 4) {
+			if (dices[1] <= 3) {
 				distance += dices[1];
 			}
 			// if doubling was rolled, player moves twice the distance
@@ -198,7 +198,7 @@ function getRolledDistance(
 				distance *= 2;
 			}
 			// if taxi was rolled, no movement
-			else if (dices[1] === 6) {
+			else if (dices[1] === 4 || dices[1] === 6) {
 				return 0;
 			}
 		}
