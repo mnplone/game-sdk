@@ -63,6 +63,11 @@ export const valiSchemas = [
 		user_id: v.number(),
 		restart_price: v.number(),
 	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('skip'),
+		user_id: v.number(),
+	}),
 ];
 
 export const enrichments = {
@@ -260,6 +265,20 @@ export const valiV1Schemas = [
 				type: 'restart' as const,
 				user_id: value.user_id,
 				restart_price: value.money,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('skip'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'skip' as const,
+				user_id: value.user_id,
 			};
 		}),
 	),

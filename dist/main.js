@@ -447,7 +447,8 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 			"wormhole.open",
 			"wormhole.jump",
 			"wormhole.reject",
-			"restart"
+			"restart",
+			"skip"
 		])), v.transform((value) => new Set(value)))
 	}),
 	move_reversed: bit(false),
@@ -1292,7 +1293,8 @@ const action_list_mapping = {
 	wormholeOpen: "wormhole.open",
 	wormholeJump: "wormhole.jump",
 	wormholeDecline: "wormhole.reject",
-	restart: "restart"
+	restart: "restart",
+	skip: "skip"
 };
 const extra_actions_mapping = [
 	["leave", "leave"],
@@ -2285,6 +2287,11 @@ const valiSchemas$11 = [
 		type: v.literal("restart"),
 		user_id: v.number(),
 		restart_price: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("skip"),
+		user_id: v.number()
 	})
 ];
 const enrichments$10 = { chance(options) {
@@ -2418,6 +2425,17 @@ const valiV1Schemas$11 = [
 			type: "restart",
 			user_id: value.user_id,
 			restart_price: value.money
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("skip"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "skip",
+			user_id: value.user_id
 		};
 	}))
 ];

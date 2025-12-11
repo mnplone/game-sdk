@@ -99,6 +99,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					'wormhole.reject',
 					// Other
 					'restart',
+					'skip',
 				]),
 			),
 			v.transform((value) => new Set(value)),

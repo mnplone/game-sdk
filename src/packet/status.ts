@@ -121,6 +121,7 @@ const action_list_mapping = {
 	wormholeDecline: 'wormhole.reject',
 	// Other
 	restart: 'restart',
+	skip: 'skip',
 } as const;
 
 const extra_actions_mapping = [
