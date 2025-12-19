@@ -765,6 +765,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     readonly jail: v.ObjectSchema<{
       readonly release_fee: v.NumberSchema<undefined>;
       readonly double_roll_attempt_limit: v.OptionalSchema<v.NumberSchema<undefined>, 3>;
+      readonly fine: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>;
     readonly loan: v.OptionalSchema<v.ObjectSchema<{
       /** Loan amount. */
@@ -1093,6 +1094,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       readonly jail: v.ObjectSchema<{
         readonly release_fee: v.NumberSchema<undefined>;
         readonly double_roll_attempt_limit: v.OptionalSchema<v.NumberSchema<undefined>, 3>;
+        readonly fine: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
       }, undefined>;
       readonly loan: v.OptionalSchema<v.ObjectSchema<{
         readonly amount: v.NumberSchema<undefined>;
@@ -1621,6 +1623,7 @@ declare class M1LiveDemo {
           jail: {
             release_fee: number;
             double_roll_attempt_limit: number;
+            fine?: number | undefined;
           };
           loan?: {
             amount: number;

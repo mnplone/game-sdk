@@ -966,7 +966,8 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 		})),
 		jail: v.object({
 			release_fee: v.number(),
-			double_roll_attempt_limit: v.optional(v.number(), 3)
+			double_roll_attempt_limit: v.optional(v.number(), 3),
+			fine: v.optional(v.number())
 		}),
 		loan: v.optional(v.object({
 			amount: v.number(),
@@ -1032,6 +1033,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	JACKPOT_SUPERPRIZE_CHANCE: v.optional(v.number()),
 	jailFee: v.number(),
 	UNJAIL_TRIES_LIMIT: v.optional(v.number(), 3),
+	goToJailFine: v.optional(v.number()),
 	CREDIT_SUM: v.optional(v.number()),
 	CREDIT_INTEREST: v.optional(v.number()),
 	CREDIT_PERCENT: v.optional(v.number()),
@@ -1086,7 +1088,8 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 			} : void 0,
 			jail: {
 				release_fee: value.jailFee,
-				double_roll_attempt_limit: value.UNJAIL_TRIES_LIMIT
+				double_roll_attempt_limit: value.UNJAIL_TRIES_LIMIT,
+				fine: value.goToJailFine
 			},
 			loan: typeof value.CREDIT_SUM === "number" ? {
 				amount: value.CREDIT_SUM,
