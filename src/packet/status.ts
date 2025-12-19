@@ -80,6 +80,7 @@ const action_list_mapping = {
 	jackpotPlay: 'jackpot.play',
 	// jackpotPay: 'jackpot.pay',
 	// Jail
+	goToJail: 'jail.put',
 	payForUnjail: 'jail.release.pay',
 	// Levels
 	levelUp: 'level.build',

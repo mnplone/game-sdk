@@ -443,6 +443,7 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"contract.fallback",
 			"jackpot.reject",
 			"jackpot.play",
+			"jail.put",
 			"jail.release.pay",
 			"level.build",
 			"level.sell",
@@ -1296,6 +1297,7 @@ const action_list_mapping = {
 	contractProtestCommit: "contract.review.object",
 	jackpotDecline: "jackpot.reject",
 	jackpotPlay: "jackpot.play",
+	goToJail: "jail.put",
 	payForUnjail: "jail.release.pay",
 	levelUp: "level.build",
 	levelDown: "level.sell",
@@ -1822,6 +1824,11 @@ const valiSchemas$16 = [
 	}),
 	valibot.object({
 		id: valibot.string(),
+		type: valibot.literal("jail.fine"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
 		type: valibot.literal("jail.visit"),
 		user_id: valibot.number()
 	}),
@@ -1874,6 +1881,17 @@ const valiV1Schemas$16 = [
 		return {
 			id: value._id,
 			type: "jail.put.double",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("goToJailFine"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "jail.fine",
 			user_id: value.user_id
 		};
 	})),

@@ -14,6 +14,11 @@ export const valiSchemas = [
 	}),
 	v.object({
 		id: v.string(),
+		type: v.literal('jail.fine'),
+		user_id: v.number(),
+	}),
+	v.object({
+		id: v.string(),
 		type: v.literal('jail.visit'),
 		user_id: v.number(),
 	}),
@@ -90,6 +95,20 @@ export const valiV1Schemas = [
 			return {
 				id: value._id,
 				type: 'jail.put.double' as const,
+				user_id: value.user_id,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('goToJailFine'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'jail.fine' as const,
 				user_id: value.user_id,
 			};
 		}),

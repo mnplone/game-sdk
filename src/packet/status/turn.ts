@@ -61,6 +61,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					'jackpot.play',
 					// 'jackpot.pay',
 					// Jail
+					'jail.put',
 					'jail.release.pay',
 					// Levels
 					'level.build',
