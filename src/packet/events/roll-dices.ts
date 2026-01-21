@@ -209,7 +209,7 @@ function getRolledDistance(
 					return 0;
 
 				case 2: // reverse
-					distance *= -1;
+					// do nothing
 					break;
 
 				case 5: // doubling

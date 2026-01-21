@@ -2942,9 +2942,7 @@ function getRolledDistance(dices, setup) {
 			case 3:
 			case 4:
 			case 6: return 0;
-			case 2:
-				distance *= -1;
-				break;
+			case 2: break;
 			case 5:
 				distance *= 2;
 				break;
