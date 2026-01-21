@@ -13,10 +13,10 @@ export const valiSchemas = [
 			v.transform((value) => new Set(value)),
 		),
 		// This field never returned from the server, it should be computed in SDK.
-		field_ids_move: v.pipe(
-			v.undefined(),
-			v.transform(() => new Set<number>()),
-		),
+		// field_ids_move: v.pipe(
+		// 	v.undefined(),
+		// 	v.transform(() => new Set<number>()),
+		// ),
 	}),
 	v.object({
 		id: v.string(),
@@ -50,14 +50,14 @@ export const enrichments = {
 			]);
 		}
 
-		const player = options.status.players.get(options.event.user_id)!;
-		const direction = options.status.turn.move_reversed ? -1 : 1;
+		// const player = options.status.players.get(options.event.user_id)!;
+		// const direction = options.status.turn.move_reversed ? -1 : 1;
 
-		options.event.field_ids_move = new Set(
-			[...options.event.move_distances].map((value) =>
-				normalizeFieldId(options.setup, player.position + direction * value),
-			),
-		);
+		// options.event.field_ids_move = new Set(
+		// 	[...options.event.move_distances].map((value) =>
+		// 		normalizeFieldId(options.setup, player.position + direction * value),
+		// 	),
+		// );
 	},
 	'bus.move'(options: EventEnrichOptions<'bus.move'>) {
 		const player = options.status.players.get(options.event.user_id)!;
@@ -78,7 +78,7 @@ export const valiV1Schemas = [
 				type: 'bus.select' as const,
 				user_id: value.user_id,
 				move_distances: new Set<number>(),
-				field_ids_move: new Set<number>(),
+				// field_ids_move: new Set<number>(),
 			};
 		}),
 	),

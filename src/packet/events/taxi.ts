@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import { normalizeFieldId } from '../../utils/table.js';
+// import { normalizeFieldId } from '../../utils/table.js';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
@@ -8,12 +8,12 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('taxi.select'),
 		user_id: v.number(),
-		limit: v.number(),
+		limit: v.optional(v.number()),
 		// This field never returned from the server, it should be computed in SDK.
-		field_ids_move: v.pipe(
-			v.undefined(),
-			v.transform(() => new Set<number>()),
-		),
+		// field_ids_move: v.pipe(
+		// 	v.undefined(),
+		// 	v.transform(() => new Set<number>()),
+		// ),
 	}),
 	v.object({
 		id: v.string(),
@@ -35,16 +35,19 @@ export const valiSchemas = [
 ];
 
 export const enrichments = {
-	'taxi.select'(options: EventEnrichOptions<'taxi.select'>) {
-		const player = options.status.players.get(options.event.user_id)!;
-		const direction = options.status.turn.move_reversed ? -1 : 1;
+	// 'taxi.select'(options: EventEnrichOptions<'taxi.select'>) {
+	// 	const player = options.status.players.get(options.event.user_id)!;
+	// 	const direction = options.status.turn.move_reversed ? -1 : 1;
 
-		for (let value = 1; value <= options.event.limit; value++) {
-			options.event.field_ids_move.add(
-				normalizeFieldId(options.setup, player.position + direction * value),
-			);
-		}
-	},
+	// 	for (let increment = 1; increment <= 6; increment++) {
+	// 		options.event.field_ids_move.add(
+	// 			normalizeFieldId(
+	// 				options.setup,
+	// 				player.position + direction * (options.event.taxi_value + increment),
+	// 			),
+	// 		);
+	// 	}
+	// },
 	'taxi.move'(options: EventEnrichOptions<'taxi.move'>) {
 		const player = options.status.players.get(options.event.user_id)!;
 		player.position = options.event.selection.field_id;
@@ -61,7 +64,7 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('chooseTaxiStop'),
 			user_id: v.number(),
-			limit: v.number(),
+			limit: v.optional(v.number()),
 		}),
 		v.transform((value) => {
 			return {
@@ -69,7 +72,7 @@ export const valiV1Schemas = [
 				type: 'taxi.select' as const,
 				user_id: value.user_id,
 				limit: value.limit,
-				field_ids_move: new Set<number>(),
+				// field_ids_move: new Set<number>(),
 			};
 		}),
 	),

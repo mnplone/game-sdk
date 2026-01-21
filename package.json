@@ -22,28 +22,24 @@
 		"node": ">=20"
 	},
 	"dependencies": {
-		"valibot": "1.1.0"
+		"valibot": "1.2.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.1",
-		"@kirick/lint": "0.2.12",
-		"@types/node": "^22.15.13",
+		"@biomejs/biome": "2.3.11",
+		"@kirick/lint": "0.2.13",
+		"@types/node": "22.15.13",
 		"eslint": "9.38.0",
-		"oxlint": "1.24.0",
-		"publint": "0.3.12",
+		"oxlint": "1.39.0",
+		"publint": "0.3.16",
 		"tsdown": "0.14.2",
 		"typescript": "5.9.3",
-		"unplugin-unused": "0.5.2",
-		"vitest": "4.0.4"
+		"unplugin-unused": "0.5.6",
+		"vitest": "4.0.17"
 	},
 	"scripts": {
 		"build": "tsdown src/main.ts --unused --dts --format esm --format cjs",
 		"check": "bun run lint && bun run build",
-		"lint": "biome format && oxlint && eslint . && tsc",
-		"lint:biome": "biome format",
-		"lint:oxlint": "oxlint",
-		"lint:eslint": "eslint .",
-		"lint:tsc": "tsc"
+		"lint": "biome format && oxlint && eslint . && tsc"
 	},
 	"repository": {
 		"type": "git",

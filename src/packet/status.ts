@@ -300,13 +300,24 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				}
 
 				const direction = current_move.move_reverse ? -1 : 1;
+				const offset = current_move.dices[0];
 
 				field_ids_move = new Map(
-					Array.from({ length: current_move.dices[0] }, (_, index) => {
+					// Array.from({ length: current_move.dices[0] }, (_, index) => {
+					// 	const stop_id = index + 1;
+
+					// 	return [
+					// 		action_player_data._status.position + direction * stop_id,
+					// 		// FIXME: rename stop to stop_id
+					// 		{ stop: stop_id },
+					// 	];
+					// }),
+					Array.from({ length: 6 }, (_, index) => {
 						const stop_id = index + 1;
+						const stop_offset = offset + stop_id;
 
 						return [
-							action_player_data._status.position + direction * stop_id,
+							action_player_data._status.position + direction * stop_offset,
 							// FIXME: rename stop to stop_id
 							{ stop: stop_id },
 						];

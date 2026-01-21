@@ -306,8 +306,7 @@ const valiSchemas$19 = [v.object({
 	id: v.string(),
 	type: v.literal("bus.select"),
 	user_id: v.number(),
-	move_distances: v.pipe(v.array(v.number()), v.transform((value) => new Set(value))),
-	field_ids_move: v.pipe(v.undefined(), v.transform(() => /* @__PURE__ */ new Set()))
+	move_distances: v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))
 }), v.object({
 	id: v.string(),
 	type: v.literal("bus.move"),
@@ -334,9 +333,6 @@ const enrichments$18 = {
 				event_roll_dices.dices[0] + event_roll_dices.dices[1]
 			]);
 		}
-		const player = options.status.players.get(options.event.user_id);
-		const direction = options.status.turn.move_reversed ? -1 : 1;
-		options.event.field_ids_move = new Set([...options.event.move_distances].map((value) => normalizeFieldId(options.setup, player.position + direction * value)));
 	},
 	"bus.move"(options) {
 		const player = options.status.players.get(options.event.user_id);
@@ -352,8 +348,7 @@ const valiV1Schemas$19 = [v.pipe(v.object({
 		id: value._id,
 		type: "bus.select",
 		user_id: value.user_id,
-		move_distances: /* @__PURE__ */ new Set(),
-		field_ids_move: /* @__PURE__ */ new Set()
+		move_distances: /* @__PURE__ */ new Set()
 	};
 })), v.pipe(v.object({
 	_id: v.optional(v.string()),
@@ -1392,9 +1387,11 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 		if (action_list.has("taxi.move")) {
 			if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
 			const direction = current_move.move_reverse ? -1 : 1;
-			field_ids_move = new Map(Array.from({ length: current_move.dices[0] }, (_, index) => {
+			const offset = current_move.dices[0];
+			field_ids_move = new Map(Array.from({ length: 6 }, (_, index) => {
 				const stop_id = index + 1;
-				return [action_player_data._status.position + direction * stop_id, { stop: stop_id }];
+				const stop_offset = offset + stop_id;
+				return [action_player_data._status.position + direction * stop_offset, { stop: stop_id }];
 			}));
 		}
 		if (action_list.has("auction.bid")) {
@@ -3155,8 +3152,7 @@ const valiSchemas$4 = [
 		id: v.string(),
 		type: v.literal("taxi.select"),
 		user_id: v.number(),
-		limit: v.number(),
-		field_ids_move: v.pipe(v.undefined(), v.transform(() => /* @__PURE__ */ new Set()))
+		limit: v.optional(v.number())
 	}),
 	v.object({
 		id: v.string(),
@@ -3177,11 +3173,6 @@ const valiSchemas$4 = [
 	})
 ];
 const enrichments$4 = {
-	"taxi.select"(options) {
-		const player = options.status.players.get(options.event.user_id);
-		const direction = options.status.turn.move_reversed ? -1 : 1;
-		for (let value = 1; value <= options.event.limit; value++) options.event.field_ids_move.add(normalizeFieldId(options.setup, player.position + direction * value));
-	},
 	"taxi.move"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.position = options.event.selection.field_id;
@@ -3196,14 +3187,13 @@ const valiV1Schemas$4 = [
 		_id: v.optional(v.string()),
 		type: v.literal("chooseTaxiStop"),
 		user_id: v.number(),
-		limit: v.number()
+		limit: v.optional(v.number())
 	}), v.transform((value) => {
 		return {
 			id: value._id,
 			type: "taxi.select",
 			user_id: value.user_id,
-			limit: value.limit,
-			field_ids_move: /* @__PURE__ */ new Set()
+			limit: value.limit
 		};
 	})),
 	v.pipe(v.object({
