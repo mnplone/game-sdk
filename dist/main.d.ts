@@ -2154,6 +2154,7 @@ declare class M1LiveDemo {
       id: string;
       type: "roll-dices";
       user_id: number;
+      reroll: boolean;
       dices: [number, number] | [number] | [number, number, number];
       move_reversed: boolean;
       double_spent: boolean;
@@ -14507,6 +14508,7 @@ declare class M1LiveDemo {
       id: string;
       type: "roll-dices";
       user_id: number;
+      reroll: boolean;
       dices: [number, number] | [number] | [number, number, number];
       move_reversed: boolean;
       double_spent: boolean;

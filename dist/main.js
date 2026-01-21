@@ -2809,6 +2809,7 @@ const valiSchemas$7 = [
 		id: v.string(),
 		type: v.literal("roll-dices"),
 		user_id: v.number(),
+		reroll: bit(false),
 		dices: v.union([
 			v.strictTuple([v.number()]),
 			v.strictTuple([v.number(), v.number()]),
@@ -2874,6 +2875,7 @@ const valiV1Schemas$7 = [
 		_id: v.optional(v.string()),
 		type: v.literal("rollDices"),
 		user_id: v.number(),
+		reroll: bit(false),
 		dices: v.union([
 			v.strictTuple([v.number()]),
 			v.strictTuple([v.number(), v.number()]),
@@ -2889,6 +2891,7 @@ const valiV1Schemas$7 = [
 			id: value._id,
 			type: "roll-dices",
 			user_id: value.user_id,
+			reroll: value.reroll,
 			dices: value.dices,
 			move_reversed: value.move_reverse,
 			double_spent: false

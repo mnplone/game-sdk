@@ -9,6 +9,7 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('roll-dices'),
 		user_id: v.number(),
+		reroll: bit(false),
 		dices: v.union([
 			v.strictTuple([v.number()]),
 			v.strictTuple([v.number(), v.number()]),
@@ -98,6 +99,7 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('rollDices'),
 			user_id: v.number(),
+			reroll: bit(false),
 			dices: v.union([
 				v.strictTuple([v.number()]),
 				v.strictTuple([v.number(), v.number()]),
@@ -110,6 +112,7 @@ export const valiV1Schemas = [
 				id: value._id,
 				type: 'roll-dices' as const,
 				user_id: value.user_id,
+				reroll: value.reroll,
 				dices: value.dices,
 				move_reversed: value.move_reverse,
 				double_spent: false,
