@@ -32,6 +32,18 @@ export const valiSchemas = [
 		type: v.literal('roll-dices.jail.fail'),
 		user_id: v.number(),
 	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('roll-dices.reroll'),
+		user_id: v.number(),
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('roll-dices.reroll.reject'),
+		user_id: v.number(),
+		move_reversed: bit(false),
+		position: v.number(),
+	}),
 ];
 
 export const enrichments = {
@@ -71,6 +83,12 @@ export const enrichments = {
 			options.setup,
 			player.position + distance,
 		);
+	},
+	'roll-dices.reroll.reject'(
+		options: EventEnrichOptions<'roll-dices.reroll.reject'>,
+	) {
+		const player = options.status.players.get(options.event.user_id)!;
+		player.position = options.event.position;
 	},
 };
 
@@ -149,6 +167,38 @@ export const valiV1Schemas = [
 				id: value._id,
 				type: 'roll-dices.jail.fail' as const,
 				user_id: value.user_id,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('rollDicesReroll'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'roll-dices.reroll' as const,
+				user_id: value.user_id,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('rollDicesRerollCancel'),
+			user_id: v.number(),
+			move_reverse: bit(false),
+			mean_position: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'roll-dices.reroll.reject' as const,
+				user_id: value.user_id,
+				move_reversed: value.move_reverse,
+				position: value.mean_position,
 			};
 		}),
 	),

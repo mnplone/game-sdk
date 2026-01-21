@@ -106,6 +106,7 @@ const action_list_mapping = {
 	payRent: 'rent.pay',
 	// Rolling dices
 	rollDices: 'roll-dices',
+	rollDicesRerollCancel: 'roll-dices.reroll.reject',
 	// Russian roulette
 	russianRoulettePlay: 'russian-roulette.play',
 	russianRouletteDecline: 'russian-roulette.reject',

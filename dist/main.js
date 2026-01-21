@@ -434,6 +434,7 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 			"purchase.buyout.reject",
 			"rent.pay",
 			"roll-dices",
+			"roll-dices.reroll.reject",
 			"russian-roulette.play",
 			"russian-roulette.reject",
 			"start.tax.pay",
@@ -1291,6 +1292,7 @@ const action_list_mapping = {
 	noBuyOut: "purchase.buyout.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
+	rollDicesRerollCancel: "roll-dices.reroll.reject",
 	russianRoulettePlay: "russian-roulette.play",
 	russianRouletteDecline: "russian-roulette.reject",
 	startBypassFee: "start.tax.pay",
@@ -2833,6 +2835,18 @@ const valiSchemas$7 = [
 		id: v.string(),
 		type: v.literal("roll-dices.jail.fail"),
 		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.reroll"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.reroll.reject"),
+		user_id: v.number(),
+		move_reversed: bit(false),
+		position: v.number()
 	})
 ];
 const enrichments$7 = {
@@ -2849,6 +2863,10 @@ const enrichments$7 = {
 		const player = options.status.players.get(options.event.user_id);
 		const distance = getRolledDistance(event_roll_dices.dices, options.setup);
 		player.position = normalizeFieldId(options.setup, player.position + distance);
+	},
+	"roll-dices.reroll.reject"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.position;
 	}
 };
 const valiV1Schemas$7 = [
@@ -2916,6 +2934,32 @@ const valiV1Schemas$7 = [
 			id: value._id,
 			type: "roll-dices.jail.fail",
 			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesReroll"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesRerollCancel"),
+		user_id: v.number(),
+		move_reverse: bit(false),
+		mean_position: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll.reject",
+			user_id: value.user_id,
+			move_reversed: value.move_reverse,
+			position: value.mean_position
 		};
 	}))
 ];

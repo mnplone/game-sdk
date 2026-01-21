@@ -454,6 +454,7 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"purchase.buyout.reject",
 			"rent.pay",
 			"roll-dices",
+			"roll-dices.reroll.reject",
 			"russian-roulette.play",
 			"russian-roulette.reject",
 			"start.tax.pay",
@@ -1311,6 +1312,7 @@ const action_list_mapping = {
 	noBuyOut: "purchase.buyout.reject",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
+	rollDicesRerollCancel: "roll-dices.reroll.reject",
 	russianRoulettePlay: "russian-roulette.play",
 	russianRouletteDecline: "russian-roulette.reject",
 	startBypassFee: "start.tax.pay",
@@ -2853,6 +2855,18 @@ const valiSchemas$7 = [
 		id: valibot.string(),
 		type: valibot.literal("roll-dices.jail.fail"),
 		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices.reroll"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices.reroll.reject"),
+		user_id: valibot.number(),
+		move_reversed: bit(false),
+		position: valibot.number()
 	})
 ];
 const enrichments$7 = {
@@ -2869,6 +2883,10 @@ const enrichments$7 = {
 		const player = options.status.players.get(options.event.user_id);
 		const distance = getRolledDistance(event_roll_dices.dices, options.setup);
 		player.position = normalizeFieldId(options.setup, player.position + distance);
+	},
+	"roll-dices.reroll.reject"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.position;
 	}
 };
 const valiV1Schemas$7 = [
@@ -2936,6 +2954,32 @@ const valiV1Schemas$7 = [
 			id: value._id,
 			type: "roll-dices.jail.fail",
 			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("rollDicesReroll"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("rollDicesRerollCancel"),
+		user_id: valibot.number(),
+		move_reverse: bit(false),
+		mean_position: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll.reject",
+			user_id: value.user_id,
+			move_reversed: value.move_reverse,
+			position: value.mean_position
 		};
 	}))
 ];
