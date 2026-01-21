@@ -2937,10 +2937,18 @@ function getRolledDistance(dices, setup) {
 			} else if (dices[2] === 4 || dices[2] === 6) return 0;
 		}
 	} else if (game_submode === 5) {
-		if (typeof dices[1] === "number") {
-			if (dices[1] <= 3) distance += dices[1];
-			else if (dices[1] === 5) distance *= 2;
-			else if (dices[1] === 4 || dices[1] === 6) return 0;
+		if (typeof dices[1] === "number") switch (dices[1]) {
+			case 1:
+			case 3:
+			case 4:
+			case 6: return 0;
+			case 2:
+				distance *= -1;
+				break;
+			case 5:
+				distance *= 2;
+				break;
+			default: throw new Error(`Invalid mini die value: ${dices[1]}`);
 		}
 	} else distance += dices[1];
 	return distance;
