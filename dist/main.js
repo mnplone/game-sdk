@@ -377,6 +377,93 @@ const valiV1Schemas$19 = [v.pipe(v.object({
 }))];
 
 //#endregion
+//#region src/packet/events/movement.ts
+var movement_exports = /* @__PURE__ */ __export({
+	enrichments: () => enrichments$17,
+	m1DemoMovementSchema: () => m1DemoMovementSchema,
+	valiSchemas: () => valiSchemas$18,
+	valiV1Schemas: () => valiV1Schemas$18
+});
+const m1DemoMovementSchema = v.object({
+	source: v.picklist([
+		"bus",
+		"reverse",
+		"taxi",
+		"triple",
+		"wormhole"
+	]),
+	field_ids: v.array(v.number())
+});
+const valiSchemas$18 = [v.object({
+	id: v.string(),
+	type: v.literal("movement.picker"),
+	user_id: v.number(),
+	movement: m1DemoMovementSchema
+}), v.object({
+	id: v.string(),
+	type: v.literal("movement.go"),
+	user_id: v.number(),
+	field_id: v.number(),
+	move_reversed: bit(false)
+})];
+const enrichments$17 = {
+	"movement.picker"(options) {
+		const { movement } = options.event;
+		if (movement.field_ids.includes(Number.MAX_SAFE_INTEGER)) switch (movement.source) {
+			case "triple": {
+				const movement_options = new Map(Array.from({ length: options.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
+				const { user_id } = options.status.turn.action;
+				if (user_id === null) throw new Error("Invalid state: received movement.picker action without user_id.");
+				const position = options.status.players.get(user_id)?.position;
+				if (position === void 0) throw new Error("Invalid state: received movement.picker action without player's position.");
+				movement_options.delete(position);
+				options.status.turn.movement = {
+					source: "triple",
+					options: movement_options
+				};
+				movement.field_ids = [...movement_options.keys()];
+				break;
+			}
+			default: throw new Error(`Unknown source for movement.picker event: ${movement.source}`);
+		}
+	},
+	"movement.go"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.field_id;
+	}
+};
+const valiV1Schemas$18 = [v.pipe(v.object({
+	_id: v.optional(v.string()),
+	type: v.literal("chooseFieldToMove"),
+	user_id: v.number(),
+	movement: v.optional(m1DemoMovementSchema)
+}), v.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.picker",
+		user_id: value.user_id,
+		movement: value.movement ?? {
+			source: "triple",
+			field_ids: [Number.MAX_SAFE_INTEGER]
+		}
+	};
+})), v.pipe(v.object({
+	_id: v.optional(v.string()),
+	type: v.literal("fieldToMoveChoosed"),
+	user_id: v.number(),
+	field_id: v.number(),
+	move_reverse: bit(false)
+}), v.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.go",
+		user_id: value.user_id,
+		field_id: value.field_id,
+		move_reversed: value.move_reverse
+	};
+}))];
+
+//#endregion
 //#region src/packet/status/turn.ts
 const valiM1DemoContractSchema = v.pipe(v.tuple([v.object({
 	user_id: v.number(),
@@ -461,20 +548,11 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 		to_user_id: v.optional(v.number()),
 		amount: v.number()
 	})),
-	movement: v.optional(v.pipe(v.object({
-		source: v.picklist([
-			"bus",
-			"reverse",
-			"taxi",
-			"triple",
-			"wormhole"
-		]),
-		field_ids: v.pipe(v.array(v.number()), v.transform((value) => new Map(value.map((field_id) => [field_id, { field_id }]))))
-	}), v.transform((value) => {
+	movement: v.optional(v.pipe(m1DemoMovementSchema, v.transform((value) => {
 		const { field_ids,...rest } = value;
 		return {
 			...rest,
-			options: field_ids
+			options: new Map(field_ids.map((field_id) => [field_id, { field_id }]))
 		};
 	}))),
 	field_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
@@ -1482,11 +1560,11 @@ function transformActionsList(list) {
 //#endregion
 //#region src/packet/events/contract.ts
 var contract_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$17,
-	valiSchemas: () => valiSchemas$18,
-	valiV1Schemas: () => valiV1Schemas$18
+	enrichments: () => enrichments$16,
+	valiSchemas: () => valiSchemas$17,
+	valiV1Schemas: () => valiV1Schemas$17
 });
-const valiSchemas$18 = [
+const valiSchemas$17 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("contract.send"),
@@ -1528,8 +1606,8 @@ const valiSchemas$18 = [
 		type: v.literal("contract.revert")
 	})
 ];
-const enrichments$17 = {};
-const valiV1Schemas$18 = [
+const enrichments$16 = {};
+const valiV1Schemas$17 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("contract"),
@@ -1632,11 +1710,11 @@ const valiV1Schemas$18 = [
 //#endregion
 //#region src/packet/events/jackpot.ts
 var jackpot_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$16,
-	valiSchemas: () => valiSchemas$17,
-	valiV1Schemas: () => valiV1Schemas$17
+	enrichments: () => enrichments$15,
+	valiSchemas: () => valiSchemas$16,
+	valiV1Schemas: () => valiV1Schemas$16
 });
-const valiSchemas$17 = [
+const valiSchemas$16 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("jackpot"),
@@ -1688,7 +1766,7 @@ const valiSchemas$17 = [
 		user_id: v.number()
 	})
 ];
-const enrichments$16 = {
+const enrichments$15 = {
 	"jackpot.pay"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.amount;
@@ -1706,7 +1784,7 @@ const enrichments$16 = {
 		player.cash += options.event.amount;
 	}
 };
-const valiV1Schemas$17 = [
+const valiV1Schemas$16 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("jackpot"),
@@ -1820,11 +1898,11 @@ const valiV1Schemas$17 = [
 //#endregion
 //#region src/packet/events/jail.ts
 var jail_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$15,
-	valiSchemas: () => valiSchemas$16,
-	valiV1Schemas: () => valiV1Schemas$16
+	enrichments: () => enrichments$14,
+	valiSchemas: () => valiSchemas$15,
+	valiV1Schemas: () => valiV1Schemas$15
 });
-const valiSchemas$16 = [
+const valiSchemas$15 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("jail.put"),
@@ -1857,7 +1935,7 @@ const valiSchemas$16 = [
 		position_after: v.optional(v.number())
 	})
 ];
-const enrichments$15 = {
+const enrichments$14 = {
 	"jail.put"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.position = options.field_id_jail;
@@ -1874,7 +1952,7 @@ const enrichments$15 = {
 		if (options.event.position_after) player.position = options.event.position_after;
 	}
 };
-const valiV1Schemas$16 = [
+const valiV1Schemas$15 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("goToJail"),
@@ -1948,11 +2026,11 @@ const valiV1Schemas$16 = [
 //#endregion
 //#region src/packet/events/level.ts
 var level_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$14,
-	valiSchemas: () => valiSchemas$15,
-	valiV1Schemas: () => valiV1Schemas$15
+	enrichments: () => enrichments$13,
+	valiSchemas: () => valiSchemas$14,
+	valiV1Schemas: () => valiV1Schemas$14
 });
-const valiSchemas$15 = [v.object({
+const valiSchemas$14 = [v.object({
 	id: v.string(),
 	type: v.literal("level.build"),
 	user_id: v.number(),
@@ -1963,7 +2041,7 @@ const valiSchemas$15 = [v.object({
 	user_id: v.number(),
 	field_id: v.number()
 })];
-const enrichments$14 = {
+const enrichments$13 = {
 	"level.build"(options) {
 		const field = options.status.fields.get(options.event.field_id);
 		field.level++;
@@ -1989,7 +2067,7 @@ const enrichments$14 = {
 		player.cash += monopoly.level_cost;
 	}
 };
-const valiV1Schemas$15 = [v.pipe(v.object({
+const valiV1Schemas$14 = [v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.literal("levelUp"),
 	user_id: v.number(),
@@ -2018,11 +2096,11 @@ const valiV1Schemas$15 = [v.pipe(v.object({
 //#endregion
 //#region src/packet/events/loan.ts
 var loan_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$13,
-	valiSchemas: () => valiSchemas$14,
-	valiV1Schemas: () => valiV1Schemas$14
+	enrichments: () => enrichments$12,
+	valiSchemas: () => valiSchemas$13,
+	valiV1Schemas: () => valiV1Schemas$13
 });
-const valiSchemas$14 = [
+const valiSchemas$13 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("loan.take"),
@@ -2041,7 +2119,7 @@ const valiSchemas$14 = [
 		amount: v.number()
 	})
 ];
-const enrichments$13 = {
+const enrichments$12 = {
 	"loan.take"(options) {
 		const mechanics_loan = options.setup.config.mechanics.loan;
 		const player = options.status.players.get(options.event.user_id);
@@ -2062,7 +2140,7 @@ const enrichments$13 = {
 		};
 	}
 };
-const valiV1Schemas$14 = [
+const valiV1Schemas$13 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("credit_taken"),
@@ -2105,11 +2183,11 @@ const valiV1Schemas$14 = [
 //#endregion
 //#region src/packet/events/m1.ts
 var m1_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$12,
-	valiSchemas: () => valiSchemas$13,
-	valiV1Schemas: () => valiV1Schemas$13
+	enrichments: () => enrichments$11,
+	valiSchemas: () => valiSchemas$12,
+	valiV1Schemas: () => valiV1Schemas$12
 });
-const valiSchemas$13 = [v.object({
+const valiSchemas$12 = [v.object({
 	id: v.string(),
 	type: v.literal("m1.move"),
 	user_id: v.number(),
@@ -2121,11 +2199,11 @@ const valiSchemas$13 = [v.object({
 	type: v.literal("m1.fail"),
 	user_id: v.number()
 })];
-const enrichments$12 = { "m1.move"(options) {
+const enrichments$11 = { "m1.move"(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.position = options.event.field_id;
 } };
-const valiV1Schemas$13 = [v.pipe(v.object({
+const valiV1Schemas$12 = [v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.literal("mrMonopoly"),
 	user_id: v.number(),
@@ -2156,11 +2234,11 @@ const valiV1Schemas$13 = [v.pipe(v.object({
 //#endregion
 //#region src/packet/events/mortgage.ts
 var mortgage_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$11,
-	valiSchemas: () => valiSchemas$12,
-	valiV1Schemas: () => valiV1Schemas$12
+	enrichments: () => enrichments$10,
+	valiSchemas: () => valiSchemas$11,
+	valiV1Schemas: () => valiV1Schemas$11
 });
-const valiSchemas$12 = [
+const valiSchemas$11 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("mortgage.put"),
@@ -2186,7 +2264,7 @@ const valiSchemas$12 = [
 		field_id: v.number()
 	})
 ];
-const enrichments$11 = {
+const enrichments$10 = {
 	"mortgage.put"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
@@ -2234,7 +2312,7 @@ const enrichments$11 = {
 		player.cash += mortgage_price;
 	}
 };
-const valiV1Schemas$12 = [
+const valiV1Schemas$11 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("mortgage"),
@@ -2287,81 +2365,6 @@ const valiV1Schemas$12 = [
 		};
 	}))
 ];
-
-//#endregion
-//#region src/packet/events/movement.ts
-var movement_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$10,
-	valiSchemas: () => valiSchemas$11,
-	valiV1Schemas: () => valiV1Schemas$11
-});
-const valiSchemas$11 = [v.object({
-	id: v.string(),
-	type: v.literal("movement.picker"),
-	user_id: v.number(),
-	source: v.picklist(["reverse", "triple"]),
-	field_ids: v.array(v.number())
-}), v.object({
-	id: v.string(),
-	type: v.literal("movement.go"),
-	user_id: v.number(),
-	field_id: v.number(),
-	move_reversed: bit(false)
-})];
-const enrichments$10 = {
-	"movement.picker"(options) {
-		if (options.event.field_ids.includes(Number.MAX_SAFE_INTEGER)) switch (options.event.source) {
-			case "triple": {
-				const movement_options = new Map(Array.from({ length: options.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
-				const { user_id } = options.status.turn.action;
-				if (user_id === null) throw new Error("Invalid state: received movement.picker action without user_id.");
-				const position = options.status.players.get(user_id)?.position;
-				if (position === void 0) throw new Error("Invalid state: received movement.picker action without player's position.");
-				movement_options.delete(position);
-				options.status.turn.movement = {
-					source: "triple",
-					options: movement_options
-				};
-				options.event.field_ids = [...movement_options.keys()];
-				break;
-			}
-			default: throw new Error(`Unknown source for movement.picker event: ${options.event.source}`);
-		}
-	},
-	"movement.go"(options) {
-		const player = options.status.players.get(options.event.user_id);
-		player.position = options.event.field_id;
-	}
-};
-const valiV1Schemas$11 = [v.pipe(v.object({
-	_id: v.optional(v.string()),
-	type: v.literal("chooseFieldToMove"),
-	user_id: v.number(),
-	source: v.fallback(v.picklist(["reverse", "triple"]), "triple"),
-	fields_to_move: v.optional(v.array(v.number()))
-}), v.transform((value) => {
-	return {
-		id: value._id,
-		type: "movement.picker",
-		user_id: value.user_id,
-		source: value.source,
-		field_ids: value.fields_to_move ?? [Number.MAX_SAFE_INTEGER]
-	};
-})), v.pipe(v.object({
-	_id: v.optional(v.string()),
-	type: v.literal("fieldToMoveChoosed"),
-	user_id: v.number(),
-	field_id: v.number(),
-	move_reverse: bit(false)
-}), v.transform((value) => {
-	return {
-		id: value._id,
-		type: "movement.go",
-		user_id: value.user_id,
-		field_id: value.field_id,
-		move_reversed: value.move_reverse
-	};
-}))];
 
 //#endregion
 //#region src/packet/events/other.ts

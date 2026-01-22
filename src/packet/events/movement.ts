@@ -2,13 +2,17 @@ import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
+export const m1DemoMovementSchema = v.object({
+	source: v.picklist(['bus', 'reverse', 'taxi', 'triple', 'wormhole']),
+	field_ids: v.array(v.number()),
+});
+
 export const valiSchemas = [
 	v.object({
 		id: v.string(),
 		type: v.literal('movement.picker'),
 		user_id: v.number(),
-		source: v.picklist(['reverse', 'triple']),
-		field_ids: v.array(v.number()),
+		movement: m1DemoMovementSchema,
 	}),
 	v.object({
 		id: v.string(),
@@ -21,10 +25,16 @@ export const valiSchemas = [
 
 export const enrichments = {
 	'movement.picker'(options: EventEnrichOptions<'movement.picker'>) {
+		const { movement } = options.event;
 		// default value when server returned no fields (old versions)
-		if (options.event.field_ids.includes(Number.MAX_SAFE_INTEGER)) {
-			// const field_ids_move = [];
-			switch (options.event.source) {
+		if (movement.field_ids.includes(Number.MAX_SAFE_INTEGER)) {
+			switch (movement.source) {
+				// TODO: case 'bus':
+
+				// 'reverse' should never be recalculated here as it was added with "movement"
+
+				// TODO: case 'taxi':
+
 				case 'triple': {
 					const movement_options = new Map(
 						Array.from(
@@ -53,13 +63,15 @@ export const enrichments = {
 						source: 'triple',
 						options: movement_options,
 					};
-					options.event.field_ids = [...movement_options.keys()];
+					movement.field_ids = [...movement_options.keys()];
 					break;
 				}
 
+				// TODO: case 'wormhole':
+
 				default:
 					throw new Error(
-						`Unknown source for movement.picker event: ${options.event.source}`,
+						`Unknown source for movement.picker event: ${movement.source}`,
 					);
 			}
 		}
@@ -76,16 +88,19 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('chooseFieldToMove'),
 			user_id: v.number(),
-			source: v.fallback(v.picklist(['reverse', 'triple']), 'triple'),
-			fields_to_move: v.optional(v.array(v.number())),
+			movement: v.optional(m1DemoMovementSchema),
 		}),
 		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'movement.picker' as const,
 				user_id: value.user_id,
-				source: value.source,
-				field_ids: value.fields_to_move ?? [Number.MAX_SAFE_INTEGER],
+				// this event previously appeared as triple event
+				// so we can confidently assume it was triple and calculate field_ids later in enrichment
+				movement: value.movement ?? {
+					source: 'triple',
+					field_ids: [Number.MAX_SAFE_INTEGER],
+				},
 			};
 		}),
 	),

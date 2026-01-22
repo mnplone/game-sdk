@@ -1,6 +1,7 @@
 import * as v from 'valibot';
 import type { SetElement } from '../../utils/types.js';
 import { bit } from '../../utils/valibot.js';
+import { m1DemoMovementSchema } from '../events/movement.js';
 
 export const valiM1DemoContractSchema = v.pipe(
 	v.tuple([
@@ -134,26 +135,17 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 	/** Fields on which player can move in this action. */
 	movement: v.optional(
 		v.pipe(
-			v.object({
-				source: v.picklist(['bus', 'reverse', 'taxi', 'triple', 'wormhole']),
-				field_ids: v.pipe(
-					v.array(v.number()),
-					v.transform(
-						(value) =>
-							new Map(
-								value.map((field_id) => [
-									field_id,
-									{ field_id } as { field_id: number } | { stop_id: number },
-								]),
-							),
-					),
-				),
-			}),
+			m1DemoMovementSchema,
 			v.transform((value) => {
 				const { field_ids, ...rest } = value;
 				return {
 					...rest,
-					options: field_ids,
+					options: new Map(
+						field_ids.map((field_id) => [
+							field_id,
+							{ field_id } as { field_id: number } | { stop_id: number },
+						]),
+					),
 				};
 			}),
 		),
