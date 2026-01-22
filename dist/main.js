@@ -427,6 +427,7 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 			"mortgage.put",
 			"mortgage.buyback",
 			"mortgage.auction",
+			"movement.go",
 			"waive",
 			"purchase",
 			"purchase.reject",
@@ -439,7 +440,6 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 			"russian-roulette.reject",
 			"start.tax.pay",
 			"taxi.move",
-			"triple.move",
 			"wormhole.use",
 			"wormhole.open",
 			"wormhole.jump",
@@ -461,10 +461,7 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 		to_user_id: v.optional(v.number()),
 		amount: v.number()
 	})),
-	field_ids_move: v.optional(v.pipe(v.array(v.object({
-		field_id: v.number(),
-		data: v.union([v.object({ stop: v.number() }), v.object({ field_id: v.number() })])
-	})), v.transform((value) => new Map(value.map((item) => [item.field_id, item.data]))))),
+	field_ids_move: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Map(value.map((field_id) => [field_id, { field_id }]))))),
 	field_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
 	field_ids_mortgaged: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value))))
 });
@@ -1286,6 +1283,7 @@ const action_list_mapping = {
 	unmortgage: "mortgage.buyback",
 	auctionMortgaged: "mortgage.auction",
 	fieldDrop: "waive",
+	chooseFieldToMove: "movement.go",
 	buy: "purchase",
 	noBuy: "purchase.reject",
 	buyOut: "purchase.buyout",
@@ -1297,7 +1295,6 @@ const action_list_mapping = {
 	russianRouletteDecline: "russian-roulette.reject",
 	startBypassFee: "start.tax.pay",
 	chooseTaxiStop: "taxi.move",
-	chooseFieldToMove: "triple.move",
 	wormholeUse: "wormhole.use",
 	wormholeOpen: "wormhole.open",
 	wormholeJump: "wormhole.jump",
@@ -1381,9 +1378,9 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 			if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
 			const direction = current_move.move_reverse ? -1 : 1;
 			field_ids_move = new Map([
-				[current_move.dices[0], { stop: 0 }],
-				[current_move.dices[1], { stop: 1 }],
-				[current_move.dices[0] + current_move.dices[1], { stop: -1 }]
+				[current_move.dices[0], { stop_id: 0 }],
+				[current_move.dices[1], { stop_id: 1 }],
+				[current_move.dices[0] + current_move.dices[1], { stop_id: -1 }]
 			].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]));
 		}
 		if (action_list.has("taxi.move")) {
@@ -1393,7 +1390,7 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 			field_ids_move = new Map(Array.from({ length: 6 }, (_, index) => {
 				const stop_id = index + 1;
 				const stop_offset = offset + stop_id;
-				return [action_player_data._status.position + direction * stop_offset, { stop: stop_id }];
+				return [action_player_data._status.position + direction * stop_offset, { stop_id }];
 			}));
 		}
 		if (action_list.has("auction.bid")) {
@@ -2258,11 +2255,83 @@ const valiV1Schemas$12 = [
 ];
 
 //#endregion
-//#region src/packet/events/other.ts
-var other_exports = /* @__PURE__ */ __export({
+//#region src/packet/events/movement.ts
+var movement_exports = /* @__PURE__ */ __export({
 	enrichments: () => enrichments$10,
 	valiSchemas: () => valiSchemas$11,
 	valiV1Schemas: () => valiV1Schemas$11
+});
+const valiSchemas$11 = [v.object({
+	id: v.string(),
+	type: v.literal("movement.picker"),
+	user_id: v.number(),
+	source: v.picklist(["reverse", "triple"]),
+	field_ids: v.array(v.number())
+}), v.object({
+	id: v.string(),
+	type: v.literal("movement.go"),
+	user_id: v.number(),
+	field_id: v.number(),
+	move_reversed: bit(false)
+})];
+const enrichments$10 = {
+	"movement.picker"(options) {
+		if (options.event.field_ids.includes(Number.MAX_SAFE_INTEGER)) switch (options.event.source) {
+			case "triple": {
+				const field_ids_move = new Map(Array.from({ length: options.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
+				const { user_id } = options.status.turn.action;
+				if (user_id === null) throw new Error("Invalid state: received movement.picker action without user_id.");
+				const position = options.status.players.get(user_id)?.position;
+				if (position === void 0) throw new Error("Invalid state: received movement.picker action without player's position.");
+				field_ids_move.delete(position);
+				options.status.turn.field_ids_move = field_ids_move;
+				options.event.field_ids = [...field_ids_move.keys()];
+				break;
+			}
+			default: throw new Error(`Unknown source for movement.picker event: ${options.event.source}`);
+		}
+	},
+	"movement.go"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.field_id;
+	}
+};
+const valiV1Schemas$11 = [v.pipe(v.object({
+	_id: v.optional(v.string()),
+	type: v.literal("chooseFieldToMove"),
+	user_id: v.number(),
+	source: v.fallback(v.picklist(["reverse", "triple"]), "triple"),
+	fields_to_move: v.optional(v.array(v.number()))
+}), v.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.picker",
+		user_id: value.user_id,
+		source: value.source,
+		field_ids: value.fields_to_move ?? [Number.MAX_SAFE_INTEGER]
+	};
+})), v.pipe(v.object({
+	_id: v.optional(v.string()),
+	type: v.literal("fieldToMoveChoosed"),
+	user_id: v.number(),
+	field_id: v.number(),
+	move_reverse: bit(false)
+}), v.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.go",
+		user_id: value.user_id,
+		field_id: value.field_id,
+		move_reversed: value.move_reverse
+	};
+}))];
+
+//#endregion
+//#region src/packet/events/other.ts
+var other_exports = /* @__PURE__ */ __export({
+	enrichments: () => enrichments$9,
+	valiSchemas: () => valiSchemas$10,
+	valiV1Schemas: () => valiV1Schemas$10
 });
 const valiChanceDataSchema = v.union([
 	v.strictObject({ amount: v.number() }),
@@ -2272,7 +2341,7 @@ const valiChanceDataSchema = v.union([
 	}),
 	v.undefined_()
 ]);
-const valiSchemas$11 = [
+const valiSchemas$10 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("bankrupt"),
@@ -2321,7 +2390,7 @@ const valiSchemas$11 = [
 		user_id: v.number()
 	})
 ];
-const enrichments$10 = { chance(options) {
+const enrichments$9 = { chance(options) {
 	const chance_card_index = options.event.chance_index;
 	const chance_card = options.setup.config.mechanics.chance.cards[chance_card_index];
 	const player = options.status.players.get(options.event.user_id);
@@ -2350,7 +2419,7 @@ const enrichments$10 = { chance(options) {
 function unescapeHtml(text) {
 	return text.replaceAll("&#39;", "'").replaceAll("&#34;", "\"").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
 }
-const valiV1Schemas$11 = [
+const valiV1Schemas$10 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("bankrupted"),
@@ -2470,17 +2539,17 @@ const valiV1Schemas$11 = [
 //#endregion
 //#region src/packet/events/pause.ts
 var pause_exports = /* @__PURE__ */ __export({
-	valiSchemas: () => valiSchemas$10,
-	valiV1Schemas: () => valiV1Schemas$10
+	valiSchemas: () => valiSchemas$9,
+	valiV1Schemas: () => valiV1Schemas$9
 });
-const valiSchemas$10 = [v.object({
+const valiSchemas$9 = [v.object({
 	id: v.string(),
 	type: v.literal("pause.set")
 }), v.object({
 	id: v.string(),
 	type: v.literal("pause.end")
 })];
-const valiV1Schemas$10 = [v.pipe(v.object({
+const valiV1Schemas$9 = [v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.literal("pauseActive")
 }), v.transform((value) => {
@@ -2501,11 +2570,11 @@ const valiV1Schemas$10 = [v.pipe(v.object({
 //#endregion
 //#region src/packet/events/purchase.ts
 var purchase_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$9,
-	valiSchemas: () => valiSchemas$9,
-	valiV1Schemas: () => valiV1Schemas$9
+	enrichments: () => enrichments$8,
+	valiSchemas: () => valiSchemas$8,
+	valiV1Schemas: () => valiV1Schemas$8
 });
-const valiSchemas$9 = [
+const valiSchemas$8 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("purchase.offer"),
@@ -2540,7 +2609,7 @@ const valiSchemas$9 = [
 		field_id: v.number()
 	})
 ];
-const enrichments$9 = {
+const enrichments$8 = {
 	purchase(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.price;
@@ -2558,7 +2627,7 @@ const enrichments$9 = {
 		options.status.fields.get(options.event.field_id).owner_user_id = options.event.user_id;
 	}
 };
-const valiV1Schemas$9 = [
+const valiV1Schemas$8 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("canBuy"),
@@ -2635,11 +2704,11 @@ const valiV1Schemas$9 = [
 //#endregion
 //#region src/packet/events/rent.ts
 var rent_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$8,
-	valiSchemas: () => valiSchemas$8,
-	valiV1Schemas: () => valiV1Schemas$8
+	enrichments: () => enrichments$7,
+	valiSchemas: () => valiSchemas$7,
+	valiV1Schemas: () => valiV1Schemas$7
 });
-const valiSchemas$8 = [
+const valiSchemas$7 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("rent.pay"),
@@ -2687,7 +2756,7 @@ const valiSchemas$8 = [
 		field_id: v.number()
 	})
 ];
-const enrichments$8 = { "rent.pay.complete"(options) {
+const enrichments$7 = { "rent.pay.complete"(options) {
 	const { amount } = options.event;
 	const player_payer = options.status.players.get(options.event.user_id);
 	player_payer.cash -= amount;
@@ -2695,7 +2764,7 @@ const enrichments$8 = { "rent.pay.complete"(options) {
 	const player_receiver = options.status.players.get(user_id_receiver);
 	player_receiver.cash += amount;
 } };
-const valiV1Schemas$8 = [
+const valiV1Schemas$7 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("payRent"),
@@ -2800,11 +2869,11 @@ const valiV1Schemas$8 = [
 //#endregion
 //#region src/packet/events/roll-dices.ts
 var roll_dices_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$7,
-	valiSchemas: () => valiSchemas$7,
-	valiV1Schemas: () => valiV1Schemas$7
+	enrichments: () => enrichments$6,
+	valiSchemas: () => valiSchemas$6,
+	valiV1Schemas: () => valiV1Schemas$6
 });
-const valiSchemas$7 = [
+const valiSchemas$6 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("roll-dices"),
@@ -2850,7 +2919,7 @@ const valiSchemas$7 = [
 		position: v.number()
 	})
 ];
-const enrichments$7 = {
+const enrichments$6 = {
 	"roll-dices"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
@@ -2870,7 +2939,7 @@ const enrichments$7 = {
 		player.position = options.event.position;
 	}
 };
-const valiV1Schemas$7 = [
+const valiV1Schemas$6 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("rollDices"),
@@ -3002,11 +3071,11 @@ function getRolledDistance(dices, setup) {
 //#endregion
 //#region src/packet/events/russian-roulette.ts
 var russian_roulette_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$6,
-	valiSchemas: () => valiSchemas$6,
-	valiV1Schemas: () => valiV1Schemas$6
+	enrichments: () => enrichments$5,
+	valiSchemas: () => valiSchemas$5,
+	valiV1Schemas: () => valiV1Schemas$5
 });
-const valiSchemas$6 = [
+const valiSchemas$5 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("russian-roulette"),
@@ -3036,11 +3105,11 @@ const valiSchemas$6 = [
 		user_id: v.number()
 	})
 ];
-const enrichments$6 = { "russian-roulette.survive"(options) {
+const enrichments$5 = { "russian-roulette.survive"(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.cash += options.event.reward_amount;
 } };
-const valiV1Schemas$6 = [
+const valiV1Schemas$5 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("russianRoulette"),
@@ -3107,11 +3176,11 @@ const valiV1Schemas$6 = [
 //#endregion
 //#region src/packet/events/start.ts
 var start_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$5,
-	valiSchemas: () => valiSchemas$5,
-	valiV1Schemas: () => valiV1Schemas$5
+	enrichments: () => enrichments$4,
+	valiSchemas: () => valiSchemas$4,
+	valiV1Schemas: () => valiV1Schemas$4
 });
-const valiSchemas$5 = [
+const valiSchemas$4 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("start.income"),
@@ -3134,7 +3203,7 @@ const valiSchemas$5 = [
 		user_id: v.number()
 	})
 ];
-const enrichments$5 = {
+const enrichments$4 = {
 	"start.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash += options.setup.config.mechanics.start.income_amount;
@@ -3144,7 +3213,7 @@ const enrichments$5 = {
 		player.cash += options.setup.config.mechanics.start.bonus_amount;
 	}
 };
-const valiV1Schemas$5 = [
+const valiV1Schemas$4 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("startBypass"),
@@ -3196,11 +3265,11 @@ const valiV1Schemas$5 = [
 //#endregion
 //#region src/packet/events/taxi.ts
 var taxi_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$4,
-	valiSchemas: () => valiSchemas$4,
-	valiV1Schemas: () => valiV1Schemas$4
+	enrichments: () => enrichments$3,
+	valiSchemas: () => valiSchemas$3,
+	valiV1Schemas: () => valiV1Schemas$3
 });
-const valiSchemas$4 = [
+const valiSchemas$3 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("taxi.select"),
@@ -3225,7 +3294,7 @@ const valiSchemas$4 = [
 		move_reversed: bit(false)
 	})
 ];
-const enrichments$4 = {
+const enrichments$3 = {
 	"taxi.move"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.position = options.event.selection.field_id;
@@ -3235,7 +3304,7 @@ const enrichments$4 = {
 		player.position += options.event.move_reversed ? -1 : 1;
 	}
 };
-const valiV1Schemas$4 = [
+const valiV1Schemas$3 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("chooseTaxiStop"),
@@ -3288,17 +3357,17 @@ const valiV1Schemas$4 = [
 //#endregion
 //#region src/packet/events/tournament.ts
 var tournament_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$3,
-	valiSchemas: () => valiSchemas$3,
-	valiV1Schemas: () => valiV1Schemas$3
+	enrichments: () => enrichments$2,
+	valiSchemas: () => valiSchemas$2,
+	valiV1Schemas: () => valiV1Schemas$2
 });
-const valiSchemas$3 = [v.object({
+const valiSchemas$2 = [v.object({
 	id: v.string(),
 	type: v.literal("tournament.drop"),
 	user_ids: v.array(v.number())
 })];
-const enrichments$3 = {};
-const valiV1Schemas$3 = [v.pipe(v.object({
+const enrichments$2 = {};
+const valiV1Schemas$2 = [v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.literal("tournament_drop"),
 	user_id: v.number()
@@ -3317,54 +3386,6 @@ const valiV1Schemas$3 = [v.pipe(v.object({
 		id: value._id,
 		type: "tournament.drop",
 		user_ids: value.user_ids
-	};
-}))];
-
-//#endregion
-//#region src/packet/events/triple.ts
-var triple_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$2,
-	valiSchemas: () => valiSchemas$2,
-	valiV1Schemas: () => valiV1Schemas$2
-});
-const valiSchemas$2 = [v.object({
-	id: v.string(),
-	type: v.literal("triple"),
-	user_id: v.number()
-}), v.object({
-	id: v.string(),
-	type: v.literal("triple.move"),
-	user_id: v.number(),
-	field_id: v.number(),
-	move_reversed: bit(false)
-})];
-const enrichments$2 = { "triple.move"(options) {
-	const player = options.status.players.get(options.event.user_id);
-	player.position = options.event.field_id;
-} };
-const valiV1Schemas$2 = [v.pipe(v.object({
-	_id: v.optional(v.string()),
-	type: v.literal("chooseFieldToMove"),
-	user_id: v.number()
-}), v.transform((value) => {
-	return {
-		id: value._id,
-		type: "triple",
-		user_id: value.user_id
-	};
-})), v.pipe(v.object({
-	_id: v.optional(v.string()),
-	type: v.literal("fieldToMoveChoosed"),
-	user_id: v.number(),
-	field_id: v.number(),
-	move_reverse: bit(false)
-}), v.transform((value) => {
-	return {
-		id: value._id,
-		type: "triple.move",
-		user_id: value.user_id,
-		field_id: value.field_id,
-		move_reversed: value.move_reverse
 	};
 }))];
 
@@ -3477,6 +3498,7 @@ const event_libs = [
 	loan_exports,
 	m1_exports,
 	mortgage_exports,
+	movement_exports,
 	pause_exports,
 	purchase_exports,
 	rent_exports,
@@ -3485,7 +3507,6 @@ const event_libs = [
 	start_exports,
 	taxi_exports,
 	tournament_exports,
-	triple_exports,
 	wormhole_exports,
 	other_exports
 ];
@@ -3763,19 +3784,9 @@ var M1LiveDemo = class {
 			this.setup = packet_raw.setup;
 			this.field_id_jail = this.setup.config.fields.findIndex((field) => field.type === "jail");
 		}
-		if (packet_raw.status) {
-			if (packet_raw.status.turn.field_ids_move) {
-				const pairs = [...packet_raw.status.turn.field_ids_move];
-				packet_raw.status.turn.field_ids_move = new Map(pairs.map(([field_id, move_value]) => [normalizeFieldId(this.setup, field_id), move_value]));
-			}
-			if (packet_raw.status.turn.action.list.has("triple.move")) {
-				packet_raw.status.turn.field_ids_move = new Map(Array.from({ length: this.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
-				const { user_id } = packet_raw.status.turn.action;
-				if (user_id === null) throw new Error("Invalid state: received triple.move action without user_id.");
-				const position = packet_raw.status.players.get(user_id)?.position;
-				if (position === void 0) throw new Error("Invalid state: received triple.move action without player's position.");
-				packet_raw.status.turn.field_ids_move.delete(position);
-			}
+		if (packet_raw.status && packet_raw.status.turn.field_ids_move) {
+			const pairs = [...packet_raw.status.turn.field_ids_move];
+			packet_raw.status.turn.field_ids_move = new Map(pairs.map(([field_id, move_value]) => [normalizeFieldId(this.setup, field_id), move_value]));
 		}
 		const { events,...rest_packet_raw } = packet_raw;
 		const events_new = [];

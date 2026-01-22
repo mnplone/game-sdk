@@ -46,42 +46,16 @@ export class M1LiveDemo {
 			);
 		}
 
-		if (packet_raw.status) {
-			if (packet_raw.status.turn.field_ids_move) {
-				const pairs = [...packet_raw.status.turn.field_ids_move];
+		// TODO: remove this block, normalize field ids in place of their creation
+		if (packet_raw.status && packet_raw.status.turn.field_ids_move) {
+			const pairs = [...packet_raw.status.turn.field_ids_move];
 
-				packet_raw.status.turn.field_ids_move = new Map(
-					pairs.map(([field_id, move_value]) => [
-						normalizeFieldId(this.setup!, field_id),
-						move_value,
-					]),
-				);
-			}
-
-			if (packet_raw.status.turn.action.list.has('triple.move')) {
-				packet_raw.status.turn.field_ids_move = new Map(
-					Array.from(
-						{ length: this.setup!.config.fields.length },
-						(_, index) => [index, { field_id: index }],
-					),
-				);
-
-				const { user_id } = packet_raw.status.turn.action;
-				if (user_id === null) {
-					throw new Error(
-						'Invalid state: received triple.move action without user_id.',
-					);
-				}
-
-				const position = packet_raw.status.players.get(user_id)?.position;
-				if (position === undefined) {
-					throw new Error(
-						"Invalid state: received triple.move action without player's position.",
-					);
-				}
-
-				packet_raw.status.turn.field_ids_move.delete(position);
-			}
+			packet_raw.status.turn.field_ids_move = new Map(
+				pairs.map(([field_id, move_value]) => [
+					normalizeFieldId(this.setup!, field_id),
+					move_value,
+				]),
+			);
 		}
 
 		const { events, ...rest_packet_raw } = packet_raw;

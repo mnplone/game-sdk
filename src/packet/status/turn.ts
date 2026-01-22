@@ -74,6 +74,8 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					'mortgage.buyback',
 					// 'mortgage.transfer',
 					'mortgage.auction',
+					// Movement
+					'movement.go',
 					'waive',
 					// Purchase
 					'purchase',
@@ -92,8 +94,6 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					'start.tax.pay',
 					// Taxi
 					'taxi.move',
-					// Triple
-					'triple.move',
 					// Wormhole
 					'wormhole.use',
 					'wormhole.open',
@@ -134,23 +134,33 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 	/** Fields on which player can move in this action. */
 	field_ids_move: v.optional(
 		v.pipe(
-			v.array(
-				v.object({
-					field_id: v.number(),
-					data: v.union([
-						// bus, taxi
-						v.object({
-							stop: v.number(),
-						}),
-						// triple, wormhole
-						v.object({
-							field_id: v.number(),
-						}),
-					]),
-				}),
-			),
+			// v.array(
+			// 	v.object({
+			// 		field_id: v.number(),
+			// 		data: v.union([
+			// 			// bus, taxi
+			// 			v.object({
+			// 				stop_id: v.number(),
+			// 			}),
+			// 			// movement, wormhole
+			// 			v.object({
+			// 				field_id: v.number(),
+			// 			}),
+			// 		]),
+			// 	}),
+			// ),
+			// v.transform(
+			// 	(value) => new Map(value.map((item) => [item.field_id, item.data])),
+			// ),
+			v.array(v.number()),
 			v.transform(
-				(value) => new Map(value.map((item) => [item.field_id, item.data])),
+				(value) =>
+					new Map(
+						value.map((field_id) => [
+							field_id,
+							{ field_id } as { field_id: number } | { stop_id: number },
+						]),
+					),
 			),
 		),
 	),

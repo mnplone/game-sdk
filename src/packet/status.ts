@@ -94,6 +94,8 @@ const action_list_mapping = {
 	// 'mortgage.transfer',
 	auctionMortgaged: 'mortgage.auction',
 	fieldDrop: 'waive',
+	// Movement
+	chooseFieldToMove: 'movement.go',
 	// Pause ???
 	// 'pause.set',
 	// 'pause.end',
@@ -114,8 +116,6 @@ const action_list_mapping = {
 	startBypassFee: 'start.tax.pay',
 	// Taxi
 	chooseTaxiStop: 'taxi.move',
-	// Triple
-	chooseFieldToMove: 'triple.move',
 	// Wormhole
 	wormholeUse: 'wormhole.use',
 	wormholeOpen: 'wormhole.open',
@@ -283,10 +283,9 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				field_ids_move = new Map(
 					(
 						[
-							// FIXME: rename stop to stop_id
-							[current_move.dices[0], { stop: 0 }],
-							[current_move.dices[1]!, { stop: 1 }],
-							[current_move.dices[0] + current_move.dices[1]!, { stop: -1 }],
+							[current_move.dices[0], { stop_id: 0 }],
+							[current_move.dices[1]!, { stop_id: 1 }],
+							[current_move.dices[0] + current_move.dices[1]!, { stop_id: -1 }],
 						] as const
 					).map(([stop_id, action_data]) => [
 						action_player_data._status.position + direction * stop_id,
@@ -309,8 +308,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 
 					// 	return [
 					// 		action_player_data._status.position + direction * stop_id,
-					// 		// FIXME: rename stop to stop_id
-					// 		{ stop: stop_id },
+					// 		{ stop_id },
 					// 	];
 					// }),
 					Array.from({ length: 6 }, (_, index) => {
@@ -319,8 +317,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 
 						return [
 							action_player_data._status.position + direction * stop_offset,
-							// FIXME: rename stop to stop_id
-							{ stop: stop_id },
+							{ stop_id },
 						];
 					}),
 				);

@@ -447,6 +447,7 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"mortgage.put",
 			"mortgage.buyback",
 			"mortgage.auction",
+			"movement.go",
 			"waive",
 			"purchase",
 			"purchase.reject",
@@ -459,7 +460,6 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"russian-roulette.reject",
 			"start.tax.pay",
 			"taxi.move",
-			"triple.move",
 			"wormhole.use",
 			"wormhole.open",
 			"wormhole.jump",
@@ -481,10 +481,7 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 		to_user_id: valibot.optional(valibot.number()),
 		amount: valibot.number()
 	})),
-	field_ids_move: valibot.optional(valibot.pipe(valibot.array(valibot.object({
-		field_id: valibot.number(),
-		data: valibot.union([valibot.object({ stop: valibot.number() }), valibot.object({ field_id: valibot.number() })])
-	})), valibot.transform((value) => new Map(value.map((item) => [item.field_id, item.data]))))),
+	field_ids_move: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Map(value.map((field_id) => [field_id, { field_id }]))))),
 	field_ids_level_built: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value)))),
 	field_ids_mortgaged: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value))))
 });
@@ -1306,6 +1303,7 @@ const action_list_mapping = {
 	unmortgage: "mortgage.buyback",
 	auctionMortgaged: "mortgage.auction",
 	fieldDrop: "waive",
+	chooseFieldToMove: "movement.go",
 	buy: "purchase",
 	noBuy: "purchase.reject",
 	buyOut: "purchase.buyout",
@@ -1317,7 +1315,6 @@ const action_list_mapping = {
 	russianRouletteDecline: "russian-roulette.reject",
 	startBypassFee: "start.tax.pay",
 	chooseTaxiStop: "taxi.move",
-	chooseFieldToMove: "triple.move",
 	wormholeUse: "wormhole.use",
 	wormholeOpen: "wormhole.open",
 	wormholeJump: "wormhole.jump",
@@ -1401,9 +1398,9 @@ const valiM1DemoPacketV1StatusSchema = valibot.pipe(valibot.object({
 			if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
 			const direction = current_move.move_reverse ? -1 : 1;
 			field_ids_move = new Map([
-				[current_move.dices[0], { stop: 0 }],
-				[current_move.dices[1], { stop: 1 }],
-				[current_move.dices[0] + current_move.dices[1], { stop: -1 }]
+				[current_move.dices[0], { stop_id: 0 }],
+				[current_move.dices[1], { stop_id: 1 }],
+				[current_move.dices[0] + current_move.dices[1], { stop_id: -1 }]
 			].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]));
 		}
 		if (action_list.has("taxi.move")) {
@@ -1413,7 +1410,7 @@ const valiM1DemoPacketV1StatusSchema = valibot.pipe(valibot.object({
 			field_ids_move = new Map(Array.from({ length: 6 }, (_, index) => {
 				const stop_id = index + 1;
 				const stop_offset = offset + stop_id;
-				return [action_player_data._status.position + direction * stop_offset, { stop: stop_id }];
+				return [action_player_data._status.position + direction * stop_offset, { stop_id }];
 			}));
 		}
 		if (action_list.has("auction.bid")) {
@@ -2278,11 +2275,83 @@ const valiV1Schemas$12 = [
 ];
 
 //#endregion
-//#region src/packet/events/other.ts
-var other_exports = /* @__PURE__ */ __export({
+//#region src/packet/events/movement.ts
+var movement_exports = /* @__PURE__ */ __export({
 	enrichments: () => enrichments$10,
 	valiSchemas: () => valiSchemas$11,
 	valiV1Schemas: () => valiV1Schemas$11
+});
+const valiSchemas$11 = [valibot.object({
+	id: valibot.string(),
+	type: valibot.literal("movement.picker"),
+	user_id: valibot.number(),
+	source: valibot.picklist(["reverse", "triple"]),
+	field_ids: valibot.array(valibot.number())
+}), valibot.object({
+	id: valibot.string(),
+	type: valibot.literal("movement.go"),
+	user_id: valibot.number(),
+	field_id: valibot.number(),
+	move_reversed: bit(false)
+})];
+const enrichments$10 = {
+	"movement.picker"(options) {
+		if (options.event.field_ids.includes(Number.MAX_SAFE_INTEGER)) switch (options.event.source) {
+			case "triple": {
+				const field_ids_move = new Map(Array.from({ length: options.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
+				const { user_id } = options.status.turn.action;
+				if (user_id === null) throw new Error("Invalid state: received movement.picker action without user_id.");
+				const position = options.status.players.get(user_id)?.position;
+				if (position === void 0) throw new Error("Invalid state: received movement.picker action without player's position.");
+				field_ids_move.delete(position);
+				options.status.turn.field_ids_move = field_ids_move;
+				options.event.field_ids = [...field_ids_move.keys()];
+				break;
+			}
+			default: throw new Error(`Unknown source for movement.picker event: ${options.event.source}`);
+		}
+	},
+	"movement.go"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.field_id;
+	}
+};
+const valiV1Schemas$11 = [valibot.pipe(valibot.object({
+	_id: valibot.optional(valibot.string()),
+	type: valibot.literal("chooseFieldToMove"),
+	user_id: valibot.number(),
+	source: valibot.fallback(valibot.picklist(["reverse", "triple"]), "triple"),
+	fields_to_move: valibot.optional(valibot.array(valibot.number()))
+}), valibot.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.picker",
+		user_id: value.user_id,
+		source: value.source,
+		field_ids: value.fields_to_move ?? [Number.MAX_SAFE_INTEGER]
+	};
+})), valibot.pipe(valibot.object({
+	_id: valibot.optional(valibot.string()),
+	type: valibot.literal("fieldToMoveChoosed"),
+	user_id: valibot.number(),
+	field_id: valibot.number(),
+	move_reverse: bit(false)
+}), valibot.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.go",
+		user_id: value.user_id,
+		field_id: value.field_id,
+		move_reversed: value.move_reverse
+	};
+}))];
+
+//#endregion
+//#region src/packet/events/other.ts
+var other_exports = /* @__PURE__ */ __export({
+	enrichments: () => enrichments$9,
+	valiSchemas: () => valiSchemas$10,
+	valiV1Schemas: () => valiV1Schemas$10
 });
 const valiChanceDataSchema = valibot.union([
 	valibot.strictObject({ amount: valibot.number() }),
@@ -2292,7 +2361,7 @@ const valiChanceDataSchema = valibot.union([
 	}),
 	valibot.undefined_()
 ]);
-const valiSchemas$11 = [
+const valiSchemas$10 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("bankrupt"),
@@ -2341,7 +2410,7 @@ const valiSchemas$11 = [
 		user_id: valibot.number()
 	})
 ];
-const enrichments$10 = { chance(options) {
+const enrichments$9 = { chance(options) {
 	const chance_card_index = options.event.chance_index;
 	const chance_card = options.setup.config.mechanics.chance.cards[chance_card_index];
 	const player = options.status.players.get(options.event.user_id);
@@ -2370,7 +2439,7 @@ const enrichments$10 = { chance(options) {
 function unescapeHtml(text) {
 	return text.replaceAll("&#39;", "'").replaceAll("&#34;", "\"").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
 }
-const valiV1Schemas$11 = [
+const valiV1Schemas$10 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("bankrupted"),
@@ -2490,17 +2559,17 @@ const valiV1Schemas$11 = [
 //#endregion
 //#region src/packet/events/pause.ts
 var pause_exports = /* @__PURE__ */ __export({
-	valiSchemas: () => valiSchemas$10,
-	valiV1Schemas: () => valiV1Schemas$10
+	valiSchemas: () => valiSchemas$9,
+	valiV1Schemas: () => valiV1Schemas$9
 });
-const valiSchemas$10 = [valibot.object({
+const valiSchemas$9 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("pause.set")
 }), valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("pause.end")
 })];
-const valiV1Schemas$10 = [valibot.pipe(valibot.object({
+const valiV1Schemas$9 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("pauseActive")
 }), valibot.transform((value) => {
@@ -2521,11 +2590,11 @@ const valiV1Schemas$10 = [valibot.pipe(valibot.object({
 //#endregion
 //#region src/packet/events/purchase.ts
 var purchase_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$9,
-	valiSchemas: () => valiSchemas$9,
-	valiV1Schemas: () => valiV1Schemas$9
+	enrichments: () => enrichments$8,
+	valiSchemas: () => valiSchemas$8,
+	valiV1Schemas: () => valiV1Schemas$8
 });
-const valiSchemas$9 = [
+const valiSchemas$8 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("purchase.offer"),
@@ -2560,7 +2629,7 @@ const valiSchemas$9 = [
 		field_id: valibot.number()
 	})
 ];
-const enrichments$9 = {
+const enrichments$8 = {
 	purchase(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.price;
@@ -2578,7 +2647,7 @@ const enrichments$9 = {
 		options.status.fields.get(options.event.field_id).owner_user_id = options.event.user_id;
 	}
 };
-const valiV1Schemas$9 = [
+const valiV1Schemas$8 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("canBuy"),
@@ -2655,11 +2724,11 @@ const valiV1Schemas$9 = [
 //#endregion
 //#region src/packet/events/rent.ts
 var rent_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$8,
-	valiSchemas: () => valiSchemas$8,
-	valiV1Schemas: () => valiV1Schemas$8
+	enrichments: () => enrichments$7,
+	valiSchemas: () => valiSchemas$7,
+	valiV1Schemas: () => valiV1Schemas$7
 });
-const valiSchemas$8 = [
+const valiSchemas$7 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("rent.pay"),
@@ -2707,7 +2776,7 @@ const valiSchemas$8 = [
 		field_id: valibot.number()
 	})
 ];
-const enrichments$8 = { "rent.pay.complete"(options) {
+const enrichments$7 = { "rent.pay.complete"(options) {
 	const { amount } = options.event;
 	const player_payer = options.status.players.get(options.event.user_id);
 	player_payer.cash -= amount;
@@ -2715,7 +2784,7 @@ const enrichments$8 = { "rent.pay.complete"(options) {
 	const player_receiver = options.status.players.get(user_id_receiver);
 	player_receiver.cash += amount;
 } };
-const valiV1Schemas$8 = [
+const valiV1Schemas$7 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("payRent"),
@@ -2820,11 +2889,11 @@ const valiV1Schemas$8 = [
 //#endregion
 //#region src/packet/events/roll-dices.ts
 var roll_dices_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$7,
-	valiSchemas: () => valiSchemas$7,
-	valiV1Schemas: () => valiV1Schemas$7
+	enrichments: () => enrichments$6,
+	valiSchemas: () => valiSchemas$6,
+	valiV1Schemas: () => valiV1Schemas$6
 });
-const valiSchemas$7 = [
+const valiSchemas$6 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("roll-dices"),
@@ -2870,7 +2939,7 @@ const valiSchemas$7 = [
 		position: valibot.number()
 	})
 ];
-const enrichments$7 = {
+const enrichments$6 = {
 	"roll-dices"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
@@ -2890,7 +2959,7 @@ const enrichments$7 = {
 		player.position = options.event.position;
 	}
 };
-const valiV1Schemas$7 = [
+const valiV1Schemas$6 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("rollDices"),
@@ -3022,11 +3091,11 @@ function getRolledDistance(dices, setup) {
 //#endregion
 //#region src/packet/events/russian-roulette.ts
 var russian_roulette_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$6,
-	valiSchemas: () => valiSchemas$6,
-	valiV1Schemas: () => valiV1Schemas$6
+	enrichments: () => enrichments$5,
+	valiSchemas: () => valiSchemas$5,
+	valiV1Schemas: () => valiV1Schemas$5
 });
-const valiSchemas$6 = [
+const valiSchemas$5 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("russian-roulette"),
@@ -3056,11 +3125,11 @@ const valiSchemas$6 = [
 		user_id: valibot.number()
 	})
 ];
-const enrichments$6 = { "russian-roulette.survive"(options) {
+const enrichments$5 = { "russian-roulette.survive"(options) {
 	const player = options.status.players.get(options.event.user_id);
 	player.cash += options.event.reward_amount;
 } };
-const valiV1Schemas$6 = [
+const valiV1Schemas$5 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("russianRoulette"),
@@ -3127,11 +3196,11 @@ const valiV1Schemas$6 = [
 //#endregion
 //#region src/packet/events/start.ts
 var start_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$5,
-	valiSchemas: () => valiSchemas$5,
-	valiV1Schemas: () => valiV1Schemas$5
+	enrichments: () => enrichments$4,
+	valiSchemas: () => valiSchemas$4,
+	valiV1Schemas: () => valiV1Schemas$4
 });
-const valiSchemas$5 = [
+const valiSchemas$4 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("start.income"),
@@ -3154,7 +3223,7 @@ const valiSchemas$5 = [
 		user_id: valibot.number()
 	})
 ];
-const enrichments$5 = {
+const enrichments$4 = {
 	"start.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash += options.setup.config.mechanics.start.income_amount;
@@ -3164,7 +3233,7 @@ const enrichments$5 = {
 		player.cash += options.setup.config.mechanics.start.bonus_amount;
 	}
 };
-const valiV1Schemas$5 = [
+const valiV1Schemas$4 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("startBypass"),
@@ -3216,11 +3285,11 @@ const valiV1Schemas$5 = [
 //#endregion
 //#region src/packet/events/taxi.ts
 var taxi_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$4,
-	valiSchemas: () => valiSchemas$4,
-	valiV1Schemas: () => valiV1Schemas$4
+	enrichments: () => enrichments$3,
+	valiSchemas: () => valiSchemas$3,
+	valiV1Schemas: () => valiV1Schemas$3
 });
-const valiSchemas$4 = [
+const valiSchemas$3 = [
 	valibot.object({
 		id: valibot.string(),
 		type: valibot.literal("taxi.select"),
@@ -3245,7 +3314,7 @@ const valiSchemas$4 = [
 		move_reversed: bit(false)
 	})
 ];
-const enrichments$4 = {
+const enrichments$3 = {
 	"taxi.move"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.position = options.event.selection.field_id;
@@ -3255,7 +3324,7 @@ const enrichments$4 = {
 		player.position += options.event.move_reversed ? -1 : 1;
 	}
 };
-const valiV1Schemas$4 = [
+const valiV1Schemas$3 = [
 	valibot.pipe(valibot.object({
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("chooseTaxiStop"),
@@ -3308,17 +3377,17 @@ const valiV1Schemas$4 = [
 //#endregion
 //#region src/packet/events/tournament.ts
 var tournament_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$3,
-	valiSchemas: () => valiSchemas$3,
-	valiV1Schemas: () => valiV1Schemas$3
+	enrichments: () => enrichments$2,
+	valiSchemas: () => valiSchemas$2,
+	valiV1Schemas: () => valiV1Schemas$2
 });
-const valiSchemas$3 = [valibot.object({
+const valiSchemas$2 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("tournament.drop"),
 	user_ids: valibot.array(valibot.number())
 })];
-const enrichments$3 = {};
-const valiV1Schemas$3 = [valibot.pipe(valibot.object({
+const enrichments$2 = {};
+const valiV1Schemas$2 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("tournament_drop"),
 	user_id: valibot.number()
@@ -3337,54 +3406,6 @@ const valiV1Schemas$3 = [valibot.pipe(valibot.object({
 		id: value._id,
 		type: "tournament.drop",
 		user_ids: value.user_ids
-	};
-}))];
-
-//#endregion
-//#region src/packet/events/triple.ts
-var triple_exports = /* @__PURE__ */ __export({
-	enrichments: () => enrichments$2,
-	valiSchemas: () => valiSchemas$2,
-	valiV1Schemas: () => valiV1Schemas$2
-});
-const valiSchemas$2 = [valibot.object({
-	id: valibot.string(),
-	type: valibot.literal("triple"),
-	user_id: valibot.number()
-}), valibot.object({
-	id: valibot.string(),
-	type: valibot.literal("triple.move"),
-	user_id: valibot.number(),
-	field_id: valibot.number(),
-	move_reversed: bit(false)
-})];
-const enrichments$2 = { "triple.move"(options) {
-	const player = options.status.players.get(options.event.user_id);
-	player.position = options.event.field_id;
-} };
-const valiV1Schemas$2 = [valibot.pipe(valibot.object({
-	_id: valibot.optional(valibot.string()),
-	type: valibot.literal("chooseFieldToMove"),
-	user_id: valibot.number()
-}), valibot.transform((value) => {
-	return {
-		id: value._id,
-		type: "triple",
-		user_id: value.user_id
-	};
-})), valibot.pipe(valibot.object({
-	_id: valibot.optional(valibot.string()),
-	type: valibot.literal("fieldToMoveChoosed"),
-	user_id: valibot.number(),
-	field_id: valibot.number(),
-	move_reverse: bit(false)
-}), valibot.transform((value) => {
-	return {
-		id: value._id,
-		type: "triple.move",
-		user_id: value.user_id,
-		field_id: value.field_id,
-		move_reversed: value.move_reverse
 	};
 }))];
 
@@ -3497,6 +3518,7 @@ const event_libs = [
 	loan_exports,
 	m1_exports,
 	mortgage_exports,
+	movement_exports,
 	pause_exports,
 	purchase_exports,
 	rent_exports,
@@ -3505,7 +3527,6 @@ const event_libs = [
 	start_exports,
 	taxi_exports,
 	tournament_exports,
-	triple_exports,
 	wormhole_exports,
 	other_exports
 ];
@@ -3783,19 +3804,9 @@ var M1LiveDemo = class {
 			this.setup = packet_raw.setup;
 			this.field_id_jail = this.setup.config.fields.findIndex((field) => field.type === "jail");
 		}
-		if (packet_raw.status) {
-			if (packet_raw.status.turn.field_ids_move) {
-				const pairs = [...packet_raw.status.turn.field_ids_move];
-				packet_raw.status.turn.field_ids_move = new Map(pairs.map(([field_id, move_value]) => [normalizeFieldId(this.setup, field_id), move_value]));
-			}
-			if (packet_raw.status.turn.action.list.has("triple.move")) {
-				packet_raw.status.turn.field_ids_move = new Map(Array.from({ length: this.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
-				const { user_id } = packet_raw.status.turn.action;
-				if (user_id === null) throw new Error("Invalid state: received triple.move action without user_id.");
-				const position = packet_raw.status.players.get(user_id)?.position;
-				if (position === void 0) throw new Error("Invalid state: received triple.move action without player's position.");
-				packet_raw.status.turn.field_ids_move.delete(position);
-			}
+		if (packet_raw.status && packet_raw.status.turn.field_ids_move) {
+			const pairs = [...packet_raw.status.turn.field_ids_move];
+			packet_raw.status.turn.field_ids_move = new Map(pairs.map(([field_id, move_value]) => [normalizeFieldId(this.setup, field_id), move_value]));
 		}
 		const { events,...rest_packet_raw } = packet_raw;
 		const events_new = [];

@@ -9,6 +9,7 @@ import * as events_level from './events/level.js';
 import * as events_loan from './events/loan.js';
 import * as events_m1 from './events/m1.js';
 import * as events_mortgage from './events/mortgage.js';
+import * as events_movement from './events/movement.js';
 import * as events_other from './events/other.js';
 import * as events_pause from './events/pause.js';
 import * as events_purchase from './events/purchase.js';
@@ -18,7 +19,6 @@ import * as events_russian_roulette from './events/russian-roulette.js';
 import * as events_start from './events/start.js';
 import * as events_taxi from './events/taxi.js';
 import * as events_tournament from './events/tournament.js';
-import * as events_triple from './events/triple.js';
 import * as events_wormhole from './events/wormhole.js';
 import type { M1DemoRawPacketEvent } from './events.js';
 import type { M1DemoPacketSetup } from './setup.js';
@@ -35,6 +35,7 @@ export const event_libs = [
 	events_loan,
 	events_m1,
 	events_mortgage,
+	events_movement,
 	events_pause,
 	events_purchase,
 	events_rent,
@@ -43,7 +44,6 @@ export const event_libs = [
 	events_start,
 	events_taxi,
 	events_tournament,
-	events_triple,
 	events_wormhole,
 	events_other,
 ];
