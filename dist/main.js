@@ -258,19 +258,6 @@ const valiV1Schemas$20 = [
 ];
 
 //#endregion
-//#region src/utils/table.ts
-/**
-* Returns the field ID normalized to the range of the fields count.
-* @param setup -
-* @param field_id -
-* @returns -
-*/
-function normalizeFieldId(setup, field_id) {
-	const fields_count = setup.config.fields.length;
-	return (field_id + 10 * fields_count) % fields_count;
-}
-
-//#endregion
 //#region src/utils/valibot.ts
 /**
 * Creates bit schema.
@@ -1448,10 +1435,7 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 		contract: v.optional(valiM1DemoPacketV1ContractSchema),
 		contracts: v.optional(v.number()),
 		jackpot_superprize_money: v.optional(v.number()),
-		movement: v.optional(v.object({
-			source: v.picklist(["reverse", "triple"]),
-			field_ids: v.array(v.number())
-		})),
+		movement: v.optional(m1DemoMovementSchema),
 		wormhole_destinations: v.optional(v.array(v.number())),
 		levelUpped: v.optional(v.array(v.number())),
 		mortgaged: v.optional(v.array(v.number()))
@@ -2905,6 +2889,19 @@ const valiV1Schemas$7 = [
 		};
 	}))
 ];
+
+//#endregion
+//#region src/utils/table.ts
+/**
+* Returns the field ID normalized to the range of the fields count.
+* @param setup -
+* @param field_id -
+* @returns -
+*/
+function normalizeFieldId(setup, field_id) {
+	const fields_count = setup.config.fields.length;
+	return (field_id + 10 * fields_count) % fields_count;
+}
 
 //#endregion
 //#region src/packet/events/roll-dices.ts

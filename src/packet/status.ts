@@ -1,4 +1,5 @@
 import * as v from 'valibot';
+import { m1DemoMovementSchema } from './events/movement.js';
 import {
 	valiM1DemoPacketStatusFieldsSchema,
 	valiM1DemoPacketV1StatusFieldsSchema,
@@ -222,12 +223,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				// jackpot
 				jackpot_superprize_money: v.optional(v.number()),
 				// movement
-				movement: v.optional(
-					v.object({
-						source: v.picklist(['reverse', 'triple']),
-						field_ids: v.array(v.number()),
-					}),
-				),
+				movement: v.optional(m1DemoMovementSchema),
 				// wormhole
 				wormhole_destinations: v.optional(v.array(v.number())),
 				// other

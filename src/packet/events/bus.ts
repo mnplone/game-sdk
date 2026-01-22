@@ -1,5 +1,4 @@
 import * as v from 'valibot';
-import { normalizeFieldId } from '../../utils/table.js';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
