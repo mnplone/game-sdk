@@ -256,14 +256,11 @@ function getRolledDistance(
 			// }
 			switch (dices[1]) {
 				case 1: // cancellation
+				case 2: // reverse
 				case 3: // reroll
 				case 4: // taxi
 				case 6: // taxi
 					return 0;
-
-				case 2: // reverse
-					// do nothing
-					break;
 
 				case 5: // doubling
 					distance *= 2;
