@@ -85,11 +85,28 @@ declare const valiM1DemoPacketStatusTurnSchema: v.ObjectSchema<{
     readonly amount: v.NumberSchema<undefined>;
   }, undefined>, undefined>;
   /** Fields on which player can move in this action. */
-  readonly field_ids_move: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Map<number, {
-    field_id: number;
-  } | {
-    stop_id: number;
-  }>>]>, undefined>;
+  readonly movement: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
+    readonly source: v.PicklistSchema<["bus", "reverse", "taxi", "triple", "wormhole"], undefined>;
+    readonly field_ids: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Map<number, {
+      field_id: number;
+    } | {
+      stop_id: number;
+    }>>]>;
+  }, undefined>, v.TransformAction<{
+    source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+    field_ids: Map<number, {
+      field_id: number;
+    } | {
+      stop_id: number;
+    }>;
+  }, {
+    options: Map<number, {
+      field_id: number;
+    } | {
+      stop_id: number;
+    }>;
+    source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+  }>]>, undefined>;
   /** Fields on which player already built a level this turn. */
   readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
   /** Fields which player already mortgaged this turn. */
@@ -335,11 +352,28 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       readonly to_user_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
       readonly amount: v.NumberSchema<undefined>;
     }, undefined>, undefined>;
-    readonly field_ids_move: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Map<number, {
-      field_id: number;
-    } | {
-      stop_id: number;
-    }>>]>, undefined>;
+    readonly movement: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
+      readonly source: v.PicklistSchema<["bus", "reverse", "taxi", "triple", "wormhole"], undefined>;
+      readonly field_ids: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Map<number, {
+        field_id: number;
+      } | {
+        stop_id: number;
+      }>>]>;
+    }, undefined>, v.TransformAction<{
+      source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+      field_ids: Map<number, {
+        field_id: number;
+      } | {
+        stop_id: number;
+      }>;
+    }, {
+      options: Map<number, {
+        field_id: number;
+      } | {
+        stop_id: number;
+      }>;
+      source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+    }>]>, undefined>;
     readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
     readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
   }, undefined>;
@@ -478,7 +512,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly
   type: "jail" | "start";
 } | {
   is_corner: boolean;
-  type: "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury" | "wormhole";
+  type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
 } | {
   is_corner: false;
   type: "company";
@@ -489,7 +523,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly
   type: "jail" | "start";
 } | {
   is_corner: boolean;
-  type: "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury" | "wormhole";
+  type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
 } | {
   item_proto_id: number;
   is_corner: false;
@@ -580,7 +614,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     type: "jail" | "start";
   } | {
     is_corner: boolean;
-    type: "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury" | "wormhole";
+    type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
     is_corner: false;
     type: "company";
@@ -591,7 +625,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     type: "jail" | "start";
   } | {
     is_corner: boolean;
-    type: "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury" | "wormhole";
+    type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
     item_proto_id: number;
     is_corner: false;
@@ -915,7 +949,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       type: "jail" | "start";
     } | {
       is_corner: boolean;
-      type: "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury" | "wormhole";
+      type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
     } | {
       is_corner: false;
       type: "company";
@@ -926,7 +960,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       type: "jail" | "start";
     } | {
       is_corner: boolean;
-      type: "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury" | "wormhole";
+      type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
     } | {
       item_proto_id: number;
       is_corner: false;
@@ -1491,7 +1525,7 @@ declare class M1LiveDemo {
           type: "jail" | "start";
         } | {
           is_corner: boolean;
-          type: "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury" | "wormhole";
+          type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
         } | {
           item_proto_id: number;
           is_corner: false;
@@ -1751,11 +1785,14 @@ declare class M1LiveDemo {
           to_user_id?: number | undefined;
           amount: number;
         } | undefined;
-        field_ids_move?: Map<number, {
-          field_id: number;
-        } | {
-          stop_id: number;
-        }> | undefined;
+        movement?: {
+          options: Map<number, {
+            field_id: number;
+          } | {
+            stop_id: number;
+          }>;
+          source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+        } | undefined;
         field_ids_level_built?: Set<number> | undefined;
         field_ids_mortgaged?: Set<number> | undefined;
       };
@@ -2329,11 +2366,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -2418,11 +2458,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -2520,11 +2563,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -2609,11 +2655,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -2703,11 +2752,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -2792,11 +2844,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -2888,11 +2943,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -2977,11 +3035,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3077,11 +3138,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3166,11 +3230,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3261,11 +3328,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3350,11 +3420,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3446,11 +3519,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3535,11 +3611,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3630,11 +3709,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3719,11 +3801,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3816,11 +3901,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -3905,11 +3993,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4001,11 +4092,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4090,11 +4184,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4185,11 +4282,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4274,11 +4374,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4372,11 +4475,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4461,11 +4567,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4558,11 +4667,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4647,11 +4759,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4743,11 +4858,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4832,11 +4950,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -4928,11 +5049,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5017,11 +5141,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5113,11 +5240,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5202,11 +5332,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5298,11 +5431,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5387,11 +5523,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5483,11 +5622,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5572,11 +5714,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5673,11 +5818,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5762,11 +5910,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5858,11 +6009,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -5947,11 +6101,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6054,11 +6211,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6143,11 +6303,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6239,11 +6402,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6328,11 +6494,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6422,11 +6591,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6511,11 +6683,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6606,11 +6781,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6695,11 +6873,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6790,11 +6971,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6879,11 +7063,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -6973,11 +7160,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7062,11 +7252,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7156,11 +7349,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7245,11 +7441,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7340,11 +7539,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7429,11 +7631,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7526,11 +7731,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7615,11 +7823,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7712,11 +7923,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7801,11 +8015,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7898,11 +8115,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -7987,11 +8207,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8084,11 +8307,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8173,11 +8399,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8269,11 +8498,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8358,11 +8590,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8454,11 +8689,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8543,11 +8781,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8638,11 +8879,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8727,11 +8971,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8822,11 +9069,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -8911,11 +9161,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9006,11 +9259,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9095,11 +9351,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9190,11 +9449,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9279,11 +9541,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9374,11 +9639,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9463,11 +9731,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9558,11 +9829,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9647,11 +9921,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9743,11 +10020,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9832,11 +10112,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -9928,11 +10211,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10017,11 +10303,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10113,11 +10402,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10202,11 +10494,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10297,11 +10592,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10386,11 +10684,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10482,11 +10783,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10571,11 +10875,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10667,11 +10974,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10756,11 +11066,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10854,11 +11167,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -10943,11 +11259,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11038,11 +11357,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11127,11 +11449,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11223,11 +11548,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11312,11 +11640,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11408,11 +11739,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11497,11 +11831,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11593,11 +11930,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11682,11 +12022,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11778,11 +12121,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11867,11 +12213,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -11964,11 +12313,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12053,11 +12405,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12150,11 +12505,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12239,11 +12597,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12333,11 +12694,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12422,11 +12786,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12516,11 +12883,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12605,11 +12975,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12701,11 +13074,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12790,11 +13166,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12887,11 +13266,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -12976,11 +13358,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13072,11 +13457,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13161,11 +13549,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13259,11 +13650,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13348,11 +13742,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13444,11 +13841,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13533,11 +13933,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13630,11 +14033,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13719,11 +14125,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13818,11 +14227,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -13907,11 +14319,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14003,11 +14418,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14092,11 +14510,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14188,11 +14609,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14277,11 +14701,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14373,11 +14800,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14462,11 +14892,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14558,11 +14991,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14647,11 +15083,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14743,11 +15182,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14832,11 +15274,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -14931,11 +15376,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15020,11 +15468,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15115,11 +15566,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15204,11 +15658,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15299,11 +15756,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15388,11 +15848,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15483,11 +15946,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15572,11 +16038,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15667,11 +16136,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15756,11 +16228,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15853,11 +16328,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -15942,11 +16420,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16037,11 +16518,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16126,11 +16610,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16223,11 +16710,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16312,11 +16802,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16408,11 +16901,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16497,11 +16993,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16592,11 +17091,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16681,11 +17183,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16776,11 +17281,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16865,11 +17373,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -16960,11 +17471,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17049,11 +17563,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17144,11 +17661,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17233,11 +17753,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17329,11 +17852,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17418,11 +17944,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17513,11 +18042,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17602,11 +18134,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17698,11 +18233,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17787,11 +18325,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17888,11 +18429,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -17977,11 +18521,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18073,11 +18620,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18162,11 +18712,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18257,11 +18810,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18346,11 +18902,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18441,11 +19000,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18530,11 +19092,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18626,11 +19191,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18715,11 +19283,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18810,11 +19381,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18899,11 +19473,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -18996,11 +19573,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -19085,11 +19665,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -19180,11 +19763,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };
@@ -19269,11 +19855,14 @@ declare class M1LiveDemo {
               to_user_id?: number | undefined;
               amount: number;
             } | undefined;
-            field_ids_move?: Map<number, {
-              field_id: number;
-            } | {
-              stop_id: number;
-            }> | undefined;
+            movement?: {
+              options: Map<number, {
+                field_id: number;
+              } | {
+                stop_id: number;
+              }>;
+              source: "bus" | "reverse" | "taxi" | "triple" | "wormhole";
+            } | undefined;
             field_ids_level_built?: Set<number> | undefined;
             field_ids_mortgaged?: Set<number> | undefined;
           };

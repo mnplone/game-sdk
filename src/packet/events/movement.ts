@@ -26,7 +26,7 @@ export const enrichments = {
 			// const field_ids_move = [];
 			switch (options.event.source) {
 				case 'triple': {
-					const field_ids_move = new Map(
+					const movement_options = new Map(
 						Array.from(
 							{ length: options.setup!.config.fields.length },
 							(_, index) => [index, { field_id: index }],
@@ -47,10 +47,13 @@ export const enrichments = {
 						);
 					}
 
-					field_ids_move.delete(position);
+					movement_options.delete(position);
 
-					options.status.turn.field_ids_move = field_ids_move;
-					options.event.field_ids = [...field_ids_move.keys()];
+					options.status.turn.movement = {
+						source: 'triple',
+						options: movement_options,
+					};
+					options.event.field_ids = [...movement_options.keys()];
 					break;
 				}
 

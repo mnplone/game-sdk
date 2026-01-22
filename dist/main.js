@@ -461,7 +461,22 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 		to_user_id: v.optional(v.number()),
 		amount: v.number()
 	})),
-	field_ids_move: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Map(value.map((field_id) => [field_id, { field_id }]))))),
+	movement: v.optional(v.pipe(v.object({
+		source: v.picklist([
+			"bus",
+			"reverse",
+			"taxi",
+			"triple",
+			"wormhole"
+		]),
+		field_ids: v.pipe(v.array(v.number()), v.transform((value) => new Map(value.map((field_id) => [field_id, { field_id }]))))
+	}), v.transform((value) => {
+		const { field_ids,...rest } = value;
+		return {
+			...rest,
+			options: field_ids
+		};
+	}))),
 	field_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
 	field_ids_mortgaged: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value))))
 });
@@ -1355,7 +1370,10 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 		contract: v.optional(valiM1DemoPacketV1ContractSchema),
 		contracts: v.optional(v.number()),
 		jackpot_superprize_money: v.optional(v.number()),
-		fields_to_move: v.optional(v.array(v.number())),
+		movement: v.optional(v.object({
+			source: v.picklist(["reverse", "triple"]),
+			field_ids: v.array(v.number())
+		})),
 		wormhole_destinations: v.optional(v.array(v.number())),
 		levelUpped: v.optional(v.array(v.number())),
 		mortgaged: v.optional(v.array(v.number()))
@@ -1371,34 +1389,46 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 	const action_list = transformActionsList(action_type);
 	const payment_amount = current_move?.moneyToPay ?? current_move?.pay;
 	let auction;
-	let field_ids_move;
+	let movement;
 	if (current_move) {
 		const action_player_data = value_rest.players.find((player) => player.user_id === action_player);
 		if (!action_player_data) throw new Error(`Player with user_id ${action_player_data} not found.`);
-		if (current_move.fields_to_move) field_ids_move = new Map(current_move.fields_to_move.map((field_id) => [field_id, { field_id }]));
+		if (current_move.movement) movement = {
+			source: current_move.movement.source,
+			options: new Map(current_move.movement.field_ids.map((field_id) => [field_id, { field_id }]))
+		};
 		else {
 			if (action_list.has("bus.move")) {
 				if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
 				const direction = current_move.move_reverse ? -1 : 1;
-				field_ids_move = new Map([
-					[current_move.dices[0], { stop_id: 0 }],
-					[current_move.dices[1], { stop_id: 1 }],
-					[current_move.dices[0] + current_move.dices[1], { stop_id: -1 }]
-				].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]));
+				movement = {
+					source: "bus",
+					options: new Map([
+						[current_move.dices[0], { stop_id: 0 }],
+						[current_move.dices[1], { stop_id: 1 }],
+						[current_move.dices[0] + current_move.dices[1], { stop_id: -1 }]
+					].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]))
+				};
 			}
 			if (action_list.has("taxi.move")) {
 				if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
 				const direction = current_move.move_reverse ? -1 : 1;
 				const offset = current_move.dices[0];
-				field_ids_move = new Map(Array.from({ length: 6 }, (_, index) => {
-					const stop_id = index + 1;
-					const stop_offset = offset + stop_id;
-					return [action_player_data._status.position + direction * stop_offset, { stop_id }];
-				}));
+				movement = {
+					source: "bus",
+					options: new Map(Array.from({ length: 6 }, (_, index) => {
+						const stop_id = index + 1;
+						const stop_offset = offset + stop_id;
+						return [action_player_data._status.position + direction * stop_offset, { stop_id }];
+					}))
+				};
 			}
 			if (action_list.has("wormhole.jump")) {
 				if (!current_move.wormhole_destinations) throw new TypeError("Missing field \"status.current_move.wormhole_destinations\".");
-				field_ids_move = new Map(current_move.wormhole_destinations.map((field_id) => [field_id, { field_id }]));
+				movement = {
+					source: "bus",
+					options: new Map(current_move.wormhole_destinations.map((field_id) => [field_id, { field_id }]))
+				};
 			}
 		}
 		if (action_list.has("auction.bid")) {
@@ -1429,7 +1459,7 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 				amount: payment_amount,
 				to_user_id: current_move?.payTo
 			} : void 0,
-			field_ids_move,
+			movement,
 			field_ids_level_built: current_move?.levelUpped ? new Set(current_move.levelUpped) : void 0,
 			field_ids_mortgaged: current_move?.mortgaged ? new Set(current_move.mortgaged) : void 0
 		},
@@ -2282,14 +2312,17 @@ const enrichments$10 = {
 	"movement.picker"(options) {
 		if (options.event.field_ids.includes(Number.MAX_SAFE_INTEGER)) switch (options.event.source) {
 			case "triple": {
-				const field_ids_move = new Map(Array.from({ length: options.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
+				const movement_options = new Map(Array.from({ length: options.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
 				const { user_id } = options.status.turn.action;
 				if (user_id === null) throw new Error("Invalid state: received movement.picker action without user_id.");
 				const position = options.status.players.get(user_id)?.position;
 				if (position === void 0) throw new Error("Invalid state: received movement.picker action without player's position.");
-				field_ids_move.delete(position);
-				options.status.turn.field_ids_move = field_ids_move;
-				options.event.field_ids = [...field_ids_move.keys()];
+				movement_options.delete(position);
+				options.status.turn.movement = {
+					source: "triple",
+					options: movement_options
+				};
+				options.event.field_ids = [...movement_options.keys()];
 				break;
 			}
 			default: throw new Error(`Unknown source for movement.picker event: ${options.event.source}`);
@@ -3788,9 +3821,9 @@ var M1LiveDemo = class {
 			this.setup = packet_raw.setup;
 			this.field_id_jail = this.setup.config.fields.findIndex((field) => field.type === "jail");
 		}
-		if (packet_raw.status && packet_raw.status.turn.field_ids_move) {
-			const pairs = [...packet_raw.status.turn.field_ids_move];
-			packet_raw.status.turn.field_ids_move = new Map(pairs.map(([field_id, move_value]) => [normalizeFieldId(this.setup, field_id), move_value]));
+		if (packet_raw.status && packet_raw.status.turn.movement) {
+			const pairs = [...packet_raw.status.turn.movement.options];
+			packet_raw.status.turn.movement.options = new Map(pairs.map(([field_id, move_value]) => [normalizeFieldId(this.setup, field_id), move_value]));
 		}
 		const { events,...rest_packet_raw } = packet_raw;
 		const events_new = [];

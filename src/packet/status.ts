@@ -222,7 +222,12 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				// jackpot
 				jackpot_superprize_money: v.optional(v.number()),
 				// movement
-				fields_to_move: v.optional(v.array(v.number())),
+				movement: v.optional(
+					v.object({
+						source: v.picklist(['reverse', 'triple']),
+						field_ids: v.array(v.number()),
+					}),
+				),
 				// wormhole
 				wormhole_destinations: v.optional(v.array(v.number())),
 				// other
@@ -266,7 +271,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 		const payment_amount = current_move?.moneyToPay ?? current_move?.pay;
 
 		let auction: M1DemoPacketStatusTurn['auction'];
-		let field_ids_move: M1DemoPacketStatusTurn['field_ids_move'];
+		let movement: M1DemoPacketStatusTurn['movement'];
 		if (current_move) {
 			const action_player_data = value_rest.players.find(
 				(player) => player.user_id === action_player,
@@ -275,13 +280,16 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				throw new Error(`Player with user_id ${action_player_data} not found.`);
 			}
 
-			if (current_move.fields_to_move) {
-				field_ids_move = new Map(
-					current_move.fields_to_move.map((field_id) => [
-						field_id,
-						{ field_id },
-					]),
-				);
+			if (current_move.movement) {
+				movement = {
+					source: current_move.movement.source,
+					options: new Map(
+						current_move.movement.field_ids.map((field_id) => [
+							field_id,
+							{ field_id },
+						]),
+					),
+				};
 			} else {
 				if (action_list.has('bus.move')) {
 					if (!current_move.dices) {
@@ -290,21 +298,24 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 
 					const direction = current_move.move_reverse ? -1 : 1;
 
-					field_ids_move = new Map(
-						(
-							[
-								[current_move.dices[0], { stop_id: 0 }],
-								[current_move.dices[1]!, { stop_id: 1 }],
+					movement = {
+						source: 'bus',
+						options: new Map(
+							(
 								[
-									current_move.dices[0] + current_move.dices[1]!,
-									{ stop_id: -1 },
-								],
-							] as const
-						).map(([stop_id, action_data]) => [
-							action_player_data._status.position + direction * stop_id,
-							action_data,
-						]),
-					);
+									[current_move.dices[0], { stop_id: 0 }],
+									[current_move.dices[1]!, { stop_id: 1 }],
+									[
+										current_move.dices[0] + current_move.dices[1]!,
+										{ stop_id: -1 },
+									],
+								] as const
+							).map(([stop_id, action_data]) => [
+								action_player_data._status.position + direction * stop_id,
+								action_data,
+							]),
+						),
+					};
 				}
 
 				if (action_list.has('taxi.move')) {
@@ -315,25 +326,20 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 					const direction = current_move.move_reverse ? -1 : 1;
 					const offset = current_move.dices[0];
 
-					field_ids_move = new Map(
-						// Array.from({ length: current_move.dices[0] }, (_, index) => {
-						// 	const stop_id = index + 1;
+					movement = {
+						source: 'bus',
+						options: new Map(
+							Array.from({ length: 6 }, (_, index) => {
+								const stop_id = index + 1;
+								const stop_offset = offset + stop_id;
 
-						// 	return [
-						// 		action_player_data._status.position + direction * stop_id,
-						// 		{ stop_id },
-						// 	];
-						// }),
-						Array.from({ length: 6 }, (_, index) => {
-							const stop_id = index + 1;
-							const stop_offset = offset + stop_id;
-
-							return [
-								action_player_data._status.position + direction * stop_offset,
-								{ stop_id },
-							];
-						}),
-					);
+								return [
+									action_player_data._status.position + direction * stop_offset,
+									{ stop_id },
+								];
+							}),
+						),
+					};
 				}
 
 				if (action_list.has('wormhole.jump')) {
@@ -343,12 +349,15 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 						);
 					}
 
-					field_ids_move = new Map(
-						current_move.wormhole_destinations.map((field_id) => [
-							field_id,
-							{ field_id },
-						]),
-					);
+					movement = {
+						source: 'bus',
+						options: new Map(
+							current_move.wormhole_destinations.map((field_id) => [
+								field_id,
+								{ field_id },
+							]),
+						),
+					};
 				}
 			}
 
@@ -400,7 +409,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 								to_user_id: current_move?.payTo,
 							}
 						: undefined,
-				field_ids_move,
+				movement,
 				field_ids_level_built: current_move?.levelUpped
 					? new Set(current_move.levelUpped)
 					: undefined,

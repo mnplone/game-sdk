@@ -47,10 +47,10 @@ export class M1LiveDemo {
 		}
 
 		// TODO: remove this block, normalize field ids in place of their creation
-		if (packet_raw.status && packet_raw.status.turn.field_ids_move) {
-			const pairs = [...packet_raw.status.turn.field_ids_move];
+		if (packet_raw.status && packet_raw.status.turn.movement) {
+			const pairs = [...packet_raw.status.turn.movement.options];
 
-			packet_raw.status.turn.field_ids_move = new Map(
+			packet_raw.status.turn.movement.options = new Map(
 				pairs.map(([field_id, move_value]) => [
 					normalizeFieldId(this.setup!, field_id),
 					move_value,
