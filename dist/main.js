@@ -1355,6 +1355,7 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 		contract: v.optional(valiM1DemoPacketV1ContractSchema),
 		contracts: v.optional(v.number()),
 		jackpot_superprize_money: v.optional(v.number()),
+		fields_to_move: v.optional(v.array(v.number())),
 		wormhole_destinations: v.optional(v.array(v.number())),
 		levelUpped: v.optional(v.array(v.number())),
 		mortgaged: v.optional(v.array(v.number()))
@@ -1374,24 +1375,31 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 	if (current_move) {
 		const action_player_data = value_rest.players.find((player) => player.user_id === action_player);
 		if (!action_player_data) throw new Error(`Player with user_id ${action_player_data} not found.`);
-		if (action_list.has("bus.move")) {
-			if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
-			const direction = current_move.move_reverse ? -1 : 1;
-			field_ids_move = new Map([
-				[current_move.dices[0], { stop_id: 0 }],
-				[current_move.dices[1], { stop_id: 1 }],
-				[current_move.dices[0] + current_move.dices[1], { stop_id: -1 }]
-			].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]));
-		}
-		if (action_list.has("taxi.move")) {
-			if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
-			const direction = current_move.move_reverse ? -1 : 1;
-			const offset = current_move.dices[0];
-			field_ids_move = new Map(Array.from({ length: 6 }, (_, index) => {
-				const stop_id = index + 1;
-				const stop_offset = offset + stop_id;
-				return [action_player_data._status.position + direction * stop_offset, { stop_id }];
-			}));
+		if (current_move.fields_to_move) field_ids_move = new Map(current_move.fields_to_move.map((field_id) => [field_id, { field_id }]));
+		else {
+			if (action_list.has("bus.move")) {
+				if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
+				const direction = current_move.move_reverse ? -1 : 1;
+				field_ids_move = new Map([
+					[current_move.dices[0], { stop_id: 0 }],
+					[current_move.dices[1], { stop_id: 1 }],
+					[current_move.dices[0] + current_move.dices[1], { stop_id: -1 }]
+				].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]));
+			}
+			if (action_list.has("taxi.move")) {
+				if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
+				const direction = current_move.move_reverse ? -1 : 1;
+				const offset = current_move.dices[0];
+				field_ids_move = new Map(Array.from({ length: 6 }, (_, index) => {
+					const stop_id = index + 1;
+					const stop_offset = offset + stop_id;
+					return [action_player_data._status.position + direction * stop_offset, { stop_id }];
+				}));
+			}
+			if (action_list.has("wormhole.jump")) {
+				if (!current_move.wormhole_destinations) throw new TypeError("Missing field \"status.current_move.wormhole_destinations\".");
+				field_ids_move = new Map(current_move.wormhole_destinations.map((field_id) => [field_id, { field_id }]));
+			}
 		}
 		if (action_list.has("auction.bid")) {
 			if (!current_move.players_auctionStatus) throw new TypeError("Missing field \"status.current_move.players_auctionStatus\".");
@@ -1402,10 +1410,6 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 				bid: current_move.bet,
 				user_ids_rejected: current_move.players_auctionStatus
 			};
-		}
-		if (action_list.has("wormhole.jump")) {
-			if (!current_move.wormhole_destinations) throw new TypeError("Missing field \"status.current_move.wormhole_destinations\".");
-			field_ids_move = new Map(current_move.wormhole_destinations.map((field_id) => [field_id, { field_id }]));
 		}
 	}
 	return {

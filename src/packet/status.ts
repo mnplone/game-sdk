@@ -221,6 +221,8 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				contracts: v.optional(v.number()),
 				// jackpot
 				jackpot_superprize_money: v.optional(v.number()),
+				// movement
+				fields_to_move: v.optional(v.array(v.number())),
 				// wormhole
 				wormhole_destinations: v.optional(v.array(v.number())),
 				// other
@@ -273,54 +275,81 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				throw new Error(`Player with user_id ${action_player_data} not found.`);
 			}
 
-			if (action_list.has('bus.move')) {
-				if (!current_move.dices) {
-					throw new Error('Missing field "status.current_move.dices".');
-				}
-
-				const direction = current_move.move_reverse ? -1 : 1;
-
+			if (current_move.fields_to_move) {
 				field_ids_move = new Map(
-					(
-						[
-							[current_move.dices[0], { stop_id: 0 }],
-							[current_move.dices[1]!, { stop_id: 1 }],
-							[current_move.dices[0] + current_move.dices[1]!, { stop_id: -1 }],
-						] as const
-					).map(([stop_id, action_data]) => [
-						action_player_data._status.position + direction * stop_id,
-						action_data,
+					current_move.fields_to_move.map((field_id) => [
+						field_id,
+						{ field_id },
 					]),
 				);
-			}
+			} else {
+				if (action_list.has('bus.move')) {
+					if (!current_move.dices) {
+						throw new Error('Missing field "status.current_move.dices".');
+					}
 
-			if (action_list.has('taxi.move')) {
-				if (!current_move.dices) {
-					throw new Error('Missing field "status.current_move.dices".');
+					const direction = current_move.move_reverse ? -1 : 1;
+
+					field_ids_move = new Map(
+						(
+							[
+								[current_move.dices[0], { stop_id: 0 }],
+								[current_move.dices[1]!, { stop_id: 1 }],
+								[
+									current_move.dices[0] + current_move.dices[1]!,
+									{ stop_id: -1 },
+								],
+							] as const
+						).map(([stop_id, action_data]) => [
+							action_player_data._status.position + direction * stop_id,
+							action_data,
+						]),
+					);
 				}
 
-				const direction = current_move.move_reverse ? -1 : 1;
-				const offset = current_move.dices[0];
+				if (action_list.has('taxi.move')) {
+					if (!current_move.dices) {
+						throw new Error('Missing field "status.current_move.dices".');
+					}
 
-				field_ids_move = new Map(
-					// Array.from({ length: current_move.dices[0] }, (_, index) => {
-					// 	const stop_id = index + 1;
+					const direction = current_move.move_reverse ? -1 : 1;
+					const offset = current_move.dices[0];
 
-					// 	return [
-					// 		action_player_data._status.position + direction * stop_id,
-					// 		{ stop_id },
-					// 	];
-					// }),
-					Array.from({ length: 6 }, (_, index) => {
-						const stop_id = index + 1;
-						const stop_offset = offset + stop_id;
+					field_ids_move = new Map(
+						// Array.from({ length: current_move.dices[0] }, (_, index) => {
+						// 	const stop_id = index + 1;
 
-						return [
-							action_player_data._status.position + direction * stop_offset,
-							{ stop_id },
-						];
-					}),
-				);
+						// 	return [
+						// 		action_player_data._status.position + direction * stop_id,
+						// 		{ stop_id },
+						// 	];
+						// }),
+						Array.from({ length: 6 }, (_, index) => {
+							const stop_id = index + 1;
+							const stop_offset = offset + stop_id;
+
+							return [
+								action_player_data._status.position + direction * stop_offset,
+								{ stop_id },
+							];
+						}),
+					);
+				}
+
+				if (action_list.has('wormhole.jump')) {
+					if (!current_move.wormhole_destinations) {
+						throw new TypeError(
+							'Missing field "status.current_move.wormhole_destinations".',
+						);
+					}
+
+					field_ids_move = new Map(
+						current_move.wormhole_destinations.map((field_id) => [
+							field_id,
+							{ field_id },
+						]),
+					);
+				}
 			}
 
 			if (action_list.has('auction.bid')) {
@@ -343,21 +372,6 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 					bid: current_move.bet,
 					user_ids_rejected: current_move.players_auctionStatus,
 				};
-			}
-
-			if (action_list.has('wormhole.jump')) {
-				if (!current_move.wormhole_destinations) {
-					throw new TypeError(
-						'Missing field "status.current_move.wormhole_destinations".',
-					);
-				}
-
-				field_ids_move = new Map(
-					current_move.wormhole_destinations.map((field_id) => [
-						field_id,
-						{ field_id },
-					]),
-				);
 			}
 		}
 
