@@ -455,6 +455,9 @@ declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: v.StrictObjectSc
     readonly type: v.LiteralSchema<"go-to-jail", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"go-to-start", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
     readonly type: v.LiteralSchema<"teleport", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
@@ -707,6 +710,9 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
         }, undefined>;
       }, undefined>, v.StrictObjectSchema<{
         readonly type: v.LiteralSchema<"go-to-jail", undefined>;
+        readonly text_id: v.NumberSchema<undefined>;
+      }, undefined>, v.StrictObjectSchema<{
+        readonly type: v.LiteralSchema<"go-to-start", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
         readonly type: v.LiteralSchema<"teleport", undefined>;
@@ -1040,6 +1046,9 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
           }, undefined>;
         }, undefined>, v.StrictObjectSchema<{
           readonly type: v.LiteralSchema<"go-to-jail", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"go-to-start", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
           readonly type: v.LiteralSchema<"teleport", undefined>;
@@ -1569,6 +1578,9 @@ declare class M1LiveDemo {
               };
             } | {
               type: "go-to-jail";
+              text_id: number;
+            } | {
+              type: "go-to-start";
               text_id: number;
             } | {
               type: "teleport";

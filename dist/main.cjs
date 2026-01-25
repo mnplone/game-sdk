@@ -647,6 +647,10 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = valibot.strictObject({ 
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
+		type: valibot.literal("go-to-start"),
+		text_id: valibot.number()
+	}),
+	valibot.strictObject({
 		type: valibot.literal("teleport"),
 		text_id: valibot.number()
 	}),
@@ -693,6 +697,10 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 	}),
 	valibot.strictObject({
 		type: valibot.literal("jail"),
+		text: valibot.string()
+	}),
+	valibot.strictObject({
+		type: valibot.literal("go_to_start"),
 		text: valibot.string()
 	}),
 	valibot.strictObject({
@@ -759,6 +767,12 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 		case "jail":
 			chance_cards_new.push({
 				type: "go-to-jail",
+				text_id: crc32(element.text)
+			});
+			break;
+		case "go_to_start":
+			chance_cards_new.push({
+				type: "go-to-start",
 				text_id: crc32(element.text)
 			});
 			break;

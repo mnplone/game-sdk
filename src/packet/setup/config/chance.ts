@@ -35,6 +35,10 @@ export const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({
 				text_id: v.number(),
 			}),
 			v.strictObject({
+				type: v.literal('go-to-start'),
+				text_id: v.number(),
+			}),
+			v.strictObject({
 				type: v.literal('teleport'),
 				text_id: v.number(),
 			}),
@@ -96,6 +100,10 @@ export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
 			}),
 			v.strictObject({
 				type: v.literal('jail'),
+				text: v.string(),
+			}),
+			v.strictObject({
+				type: v.literal('go_to_start'),
 				text: v.string(),
 			}),
 			v.strictObject({
@@ -171,6 +179,13 @@ export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
 				case 'jail':
 					chance_cards_new.push({
 						type: 'go-to-jail',
+						text_id: crc32(element.text),
+					});
+					break;
+
+				case 'go_to_start':
+					chance_cards_new.push({
+						type: 'go-to-start',
 						text_id: crc32(element.text),
 					});
 					break;
