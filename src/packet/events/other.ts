@@ -97,6 +97,10 @@ export const enrichments = {
 				};
 				break;
 
+			case 'go-to-start':
+				player.position = 0;
+				break;
+
 			case 'teleport':
 				// in some older demos, there can be no "position"
 				if (options.event.data && 'field_id' in options.event.data) {

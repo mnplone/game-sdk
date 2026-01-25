@@ -2462,6 +2462,9 @@ const enrichments$9 = { chance(options) {
 			player.position = options.field_id_jail;
 			player.jail = { roll_double_attempts: 0 };
 			break;
+		case "go-to-start":
+			player.position = 0;
+			break;
 		case "teleport":
 			if (options.event.data && "field_id" in options.event.data) player.position = options.event.data.field_id;
 			break;
