@@ -31,11 +31,11 @@ export const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({
 				}),
 			}),
 			v.strictObject({
-				type: v.literal('go-to-jail'),
+				type: v.literal('goto.jail'),
 				text_id: v.number(),
 			}),
 			v.strictObject({
-				type: v.literal('go-to-start'),
+				type: v.literal('goto.start'),
 				text_id: v.number(),
 			}),
 			v.strictObject({
@@ -43,7 +43,11 @@ export const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({
 				text_id: v.number(),
 			}),
 			v.strictObject({
-				type: v.literal('skip-move'),
+				type: v.literal('move.undo'),
+				text_id: v.number(),
+			}),
+			v.strictObject({
+				type: v.literal('move.skip'),
 				text_id: v.number(),
 			}),
 			v.strictObject({
@@ -115,6 +119,10 @@ export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
 				text: v.string(),
 			}),
 			v.strictObject({
+				type: v.literal('move_undo'),
+				text: v.string(),
+			}),
+			v.strictObject({
 				type: v.literal('insurance'),
 				text: v.string(),
 				sum: v.number(),
@@ -178,14 +186,14 @@ export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
 
 				case 'jail':
 					chance_cards_new.push({
-						type: 'go-to-jail',
+						type: 'goto.jail',
 						text_id: crc32(element.text),
 					});
 					break;
 
 				case 'go_to_start':
 					chance_cards_new.push({
-						type: 'go-to-start',
+						type: 'goto.start',
 						text_id: crc32(element.text),
 					});
 					break;
@@ -200,7 +208,14 @@ export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
 
 				case 'move_skip':
 					chance_cards_new.push({
-						type: 'skip-move',
+						type: 'move.skip',
+						text_id: crc32(element.text),
+					});
+					break;
+
+				case 'move_undo':
+					chance_cards_new.push({
+						type: 'move.undo',
 						text_id: crc32(element.text),
 					});
 					break;

@@ -90,19 +90,20 @@ export const enrichments = {
 				player.cash += options.event.data.amount;
 				break;
 
-			case 'go-to-jail':
+			case 'goto.jail':
 				player.position = options.field_id_jail;
 				player.jail = {
 					roll_double_attempts: 0,
 				};
 				break;
 
-			case 'go-to-start':
+			case 'goto.start':
 				player.position = 0;
 				break;
 
 			case 'teleport':
-				// in some older demos, there can be no "position"
+			case 'move.undo':
+				// in some older demos, there can be no "position" in "teleport"
 				if (options.event.data && 'field_id' in options.event.data) {
 					player.position = options.event.data.field_id;
 				}
@@ -154,14 +155,14 @@ export const valiV1Schemas = [
 			chance_id: v.number(),
 			// cash_in, cash_out, repair, insurance, birthday
 			money: v.optional(v.number()),
-			// teleport
+			// teleport, move_undo
 			move_reverse: v.optional(bit(false)),
 			mean_position: v.optional(v.number()),
 		}),
 		v.transform((value) => {
 			let data: v.InferOutput<typeof valiChanceDataSchema>;
 			// More complex structures first.
-			// teleport
+			// teleport, move_undo
 			if (typeof value.mean_position === 'number') {
 				data = {
 					move_reversed: value.move_reverse ?? false,

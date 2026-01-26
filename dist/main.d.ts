@@ -452,16 +452,19 @@ declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: v.StrictObjectSc
       readonly big: v.NumberSchema<undefined>;
     }, undefined>;
   }, undefined>, v.StrictObjectSchema<{
-    readonly type: v.LiteralSchema<"go-to-jail", undefined>;
+    readonly type: v.LiteralSchema<"goto.jail", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
-    readonly type: v.LiteralSchema<"go-to-start", undefined>;
+    readonly type: v.LiteralSchema<"goto.start", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
     readonly type: v.LiteralSchema<"teleport", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
-    readonly type: v.LiteralSchema<"skip-move", undefined>;
+    readonly type: v.LiteralSchema<"move.undo", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"move.skip", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
     readonly type: v.LiteralSchema<"insurance", undefined>;
@@ -709,16 +712,19 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
           readonly big: v.NumberSchema<undefined>;
         }, undefined>;
       }, undefined>, v.StrictObjectSchema<{
-        readonly type: v.LiteralSchema<"go-to-jail", undefined>;
+        readonly type: v.LiteralSchema<"goto.jail", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
-        readonly type: v.LiteralSchema<"go-to-start", undefined>;
+        readonly type: v.LiteralSchema<"goto.start", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
         readonly type: v.LiteralSchema<"teleport", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
-        readonly type: v.LiteralSchema<"skip-move", undefined>;
+        readonly type: v.LiteralSchema<"move.undo", undefined>;
+        readonly text_id: v.NumberSchema<undefined>;
+      }, undefined>, v.StrictObjectSchema<{
+        readonly type: v.LiteralSchema<"move.skip", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
         readonly type: v.LiteralSchema<"insurance", undefined>;
@@ -1045,16 +1051,19 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
             readonly big: v.NumberSchema<undefined>;
           }, undefined>;
         }, undefined>, v.StrictObjectSchema<{
-          readonly type: v.LiteralSchema<"go-to-jail", undefined>;
+          readonly type: v.LiteralSchema<"goto.jail", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
-          readonly type: v.LiteralSchema<"go-to-start", undefined>;
+          readonly type: v.LiteralSchema<"goto.start", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
           readonly type: v.LiteralSchema<"teleport", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
-          readonly type: v.LiteralSchema<"skip-move", undefined>;
+          readonly type: v.LiteralSchema<"move.undo", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"move.skip", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
           readonly type: v.LiteralSchema<"insurance", undefined>;
@@ -1577,16 +1586,19 @@ declare class M1LiveDemo {
                 big: number;
               };
             } | {
-              type: "go-to-jail";
+              type: "goto.jail";
               text_id: number;
             } | {
-              type: "go-to-start";
+              type: "goto.start";
               text_id: number;
             } | {
               type: "teleport";
               text_id: number;
             } | {
-              type: "skip-move";
+              type: "move.undo";
+              text_id: number;
+            } | {
+              type: "move.skip";
               text_id: number;
             } | {
               type: "insurance";

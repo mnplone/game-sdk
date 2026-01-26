@@ -623,11 +623,11 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({ cards:
 		})
 	}),
 	v.strictObject({
-		type: v.literal("go-to-jail"),
+		type: v.literal("goto.jail"),
 		text_id: v.number()
 	}),
 	v.strictObject({
-		type: v.literal("go-to-start"),
+		type: v.literal("goto.start"),
 		text_id: v.number()
 	}),
 	v.strictObject({
@@ -635,7 +635,11 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({ cards:
 		text_id: v.number()
 	}),
 	v.strictObject({
-		type: v.literal("skip-move"),
+		type: v.literal("move.undo"),
+		text_id: v.number()
+	}),
+	v.strictObject({
+		type: v.literal("move.skip"),
 		text_id: v.number()
 	}),
 	v.strictObject({
@@ -689,6 +693,10 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
 	}),
 	v.strictObject({
 		type: v.literal("move_skip"),
+		text: v.string()
+	}),
+	v.strictObject({
+		type: v.literal("move_undo"),
 		text: v.string()
 	}),
 	v.strictObject({
@@ -746,13 +754,13 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
 			break;
 		case "jail":
 			chance_cards_new.push({
-				type: "go-to-jail",
+				type: "goto.jail",
 				text_id: crc32(element.text)
 			});
 			break;
 		case "go_to_start":
 			chance_cards_new.push({
-				type: "go-to-start",
+				type: "goto.start",
 				text_id: crc32(element.text)
 			});
 			break;
@@ -765,7 +773,13 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
 			break;
 		case "move_skip":
 			chance_cards_new.push({
-				type: "skip-move",
+				type: "move.skip",
+				text_id: crc32(element.text)
+			});
+			break;
+		case "move_undo":
+			chance_cards_new.push({
+				type: "move.undo",
 				text_id: crc32(element.text)
 			});
 			break;
@@ -2438,14 +2452,15 @@ const enrichments$9 = { chance(options) {
 			if (!options.event.data || "amount" in options.event.data !== true) throw new TypeError(`Invalid chance event data: missing "amount" field for "${chance_card.type}" chance card.`);
 			player.cash += options.event.data.amount;
 			break;
-		case "go-to-jail":
+		case "goto.jail":
 			player.position = options.field_id_jail;
 			player.jail = { roll_double_attempts: 0 };
 			break;
-		case "go-to-start":
+		case "goto.start":
 			player.position = 0;
 			break;
 		case "teleport":
+		case "move.undo":
 			if (options.event.data && "field_id" in options.event.data) player.position = options.event.data.field_id;
 			break;
 	}

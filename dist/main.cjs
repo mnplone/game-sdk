@@ -643,11 +643,11 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = valibot.strictObject({ 
 		})
 	}),
 	valibot.strictObject({
-		type: valibot.literal("go-to-jail"),
+		type: valibot.literal("goto.jail"),
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
-		type: valibot.literal("go-to-start"),
+		type: valibot.literal("goto.start"),
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
@@ -655,7 +655,11 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = valibot.strictObject({ 
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
-		type: valibot.literal("skip-move"),
+		type: valibot.literal("move.undo"),
+		text_id: valibot.number()
+	}),
+	valibot.strictObject({
+		type: valibot.literal("move.skip"),
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
@@ -709,6 +713,10 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 	}),
 	valibot.strictObject({
 		type: valibot.literal("move_skip"),
+		text: valibot.string()
+	}),
+	valibot.strictObject({
+		type: valibot.literal("move_undo"),
 		text: valibot.string()
 	}),
 	valibot.strictObject({
@@ -766,13 +774,13 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 			break;
 		case "jail":
 			chance_cards_new.push({
-				type: "go-to-jail",
+				type: "goto.jail",
 				text_id: crc32(element.text)
 			});
 			break;
 		case "go_to_start":
 			chance_cards_new.push({
-				type: "go-to-start",
+				type: "goto.start",
 				text_id: crc32(element.text)
 			});
 			break;
@@ -785,7 +793,13 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 			break;
 		case "move_skip":
 			chance_cards_new.push({
-				type: "skip-move",
+				type: "move.skip",
+				text_id: crc32(element.text)
+			});
+			break;
+		case "move_undo":
+			chance_cards_new.push({
+				type: "move.undo",
 				text_id: crc32(element.text)
 			});
 			break;
@@ -2458,14 +2472,15 @@ const enrichments$9 = { chance(options) {
 			if (!options.event.data || "amount" in options.event.data !== true) throw new TypeError(`Invalid chance event data: missing "amount" field for "${chance_card.type}" chance card.`);
 			player.cash += options.event.data.amount;
 			break;
-		case "go-to-jail":
+		case "goto.jail":
 			player.position = options.field_id_jail;
 			player.jail = { roll_double_attempts: 0 };
 			break;
-		case "go-to-start":
+		case "goto.start":
 			player.position = 0;
 			break;
 		case "teleport":
+		case "move.undo":
 			if (options.event.data && "field_id" in options.event.data) player.position = options.event.data.field_id;
 			break;
 	}
