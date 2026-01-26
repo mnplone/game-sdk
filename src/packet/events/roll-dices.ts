@@ -255,7 +255,10 @@ function getRolledDistance(
 			// 	return 0;
 			// }
 			switch (dices[1]) {
-				case 1: // cancellation
+				case 1: // cash
+					distance += dices[1];
+					break;
+
 				case 2: // reverse
 				case 3: // reroll
 				case 4: // taxi
