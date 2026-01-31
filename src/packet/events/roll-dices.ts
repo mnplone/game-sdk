@@ -256,7 +256,7 @@ function getRolledDistance(
 			// }
 			switch (dices[1]) {
 				case 1: // cash
-					distance += dices[1];
+					// do nothing
 					break;
 
 				case 2: // reverse

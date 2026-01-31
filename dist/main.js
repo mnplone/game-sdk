@@ -3123,9 +3123,7 @@ function getRolledDistance(dices, setup) {
 		}
 	} else if (game_submode === 5) {
 		if (typeof dices[1] === "number") switch (dices[1]) {
-			case 1:
-				distance += dices[1];
-				break;
+			case 1: break;
 			case 2:
 			case 3:
 			case 4:
