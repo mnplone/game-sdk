@@ -838,6 +838,8 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
   }, undefined>;
 }, undefined>;
 type M1DemoPacketSetupConfig = v.InferOutput<typeof valiM1DemoPacketSetupConfigSchema>;
+type M1DemoPacketSetupConfigMechanics = M1DemoPacketSetupConfig['mechanics'];
+type M1DemoPacketSetupConfigMechanicsRules = M1DemoPacketSetupConfigMechanics['rules'];
 //#endregion
 //#region src/packet/setup/player.d.ts
 declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
@@ -19904,4 +19906,4 @@ type ExtractM1DemoPacketEvent<T> = Extract<M1DemoPacketEvent, {
   type: T;
 }>;
 //#endregion
-export { ExtractM1DemoPacketEvent, type M1DemoContract, M1DemoPacket, M1DemoPacketEvent, type M1DemoPacketSetup, type M1DemoPacketSetupConfig, type M1DemoPacketSetupConfigChanceCardType, type M1DemoPacketSetupConfigField, type M1DemoPacketSetupConfigMonopoly, type M1DemoPacketSetupPlayer, type M1DemoPacketSetupPlayerEquippedCard, type M1DemoPacketSetupPlayerEquippedGenerator, type M1DemoPacketSetupPlayerEquippedJoke, type M1DemoPacketStatus, type M1DemoPacketStatusField, type M1DemoPacketStatusPlayer, type M1DemoPacketStatusTurn, type M1DemoPacketTime, M1LiveDemo, packetv1_action_mapping };
+export { ExtractM1DemoPacketEvent, type M1DemoContract, M1DemoPacket, M1DemoPacketEvent, type M1DemoPacketSetup, type M1DemoPacketSetupConfig, type M1DemoPacketSetupConfigChanceCardType, type M1DemoPacketSetupConfigField, type M1DemoPacketSetupConfigMechanics, type M1DemoPacketSetupConfigMechanicsRules, type M1DemoPacketSetupConfigMonopoly, type M1DemoPacketSetupPlayer, type M1DemoPacketSetupPlayerEquippedCard, type M1DemoPacketSetupPlayerEquippedGenerator, type M1DemoPacketSetupPlayerEquippedJoke, type M1DemoPacketStatus, type M1DemoPacketStatusField, type M1DemoPacketStatusPlayer, type M1DemoPacketStatusTurn, type M1DemoPacketTime, M1LiveDemo, packetv1_action_mapping };
