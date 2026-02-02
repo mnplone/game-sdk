@@ -813,23 +813,23 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
       readonly bonus_amount: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
     }, undefined>;
     /** Rules of the match that are based on the match time. */
-    readonly time_rules: v.ArraySchema<v.UnionSchema<[v.ObjectSchema<{
-      readonly type: v.LiteralSchema<"start.none", undefined>;
+    readonly rules: v.ArraySchema<v.IntersectSchema<[v.UnionSchema<[v.ObjectSchema<{
       /** Match time in **milliseconds**. */
       readonly time: v.NumberSchema<undefined>;
     }, undefined>, v.ObjectSchema<{
+      /** Round number when rule applies, inclusive. */
+      readonly round: v.NumberSchema<undefined>;
+    }, undefined>], undefined>, v.VariantSchema<"type", [v.ObjectSchema<{
+      readonly type: v.LiteralSchema<"start.income.off", undefined>;
+    }, undefined>, v.ObjectSchema<{
       readonly type: v.LiteralSchema<"start.tax", undefined>;
-      /** Match time in **milliseconds**. */
-      readonly time: v.NumberSchema<undefined>;
-      /** Sum player should pay when passing "Start". If `0`, player just will not receive money for passing "Start". */
+      /** Sum player should pay when passing "Start". */
       readonly sum: v.NumberSchema<undefined>;
     }, undefined>, v.ObjectSchema<{
       readonly type: v.LiteralSchema<"rent.tax", undefined>;
-      /** Match time in **milliseconds**. */
-      readonly time: v.NumberSchema<undefined>;
       /** Income tax rate. */
       readonly rate: v.NumberSchema<undefined>;
-    }, undefined>], undefined>, undefined>;
+    }, undefined>], undefined>], undefined>, undefined>;
     readonly wormhole: v.OptionalSchema<v.ObjectSchema<{
       readonly exits_free_count: v.OptionalSchema<v.NumberSchema<undefined>, 3>;
       readonly exits_extra_price: v.NumberSchema<undefined>;
@@ -1137,18 +1137,19 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
         readonly income_amount: v.NumberSchema<undefined>;
         readonly bonus_amount: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
       }, undefined>;
-      readonly time_rules: v.ArraySchema<v.UnionSchema<[v.ObjectSchema<{
-        readonly type: v.LiteralSchema<"start.none", undefined>;
+      readonly rules: v.ArraySchema<v.IntersectSchema<[v.UnionSchema<[v.ObjectSchema<{
         readonly time: v.NumberSchema<undefined>;
       }, undefined>, v.ObjectSchema<{
+        readonly round: v.NumberSchema<undefined>;
+      }, undefined>], undefined>, v.VariantSchema<"type", [v.ObjectSchema<{
+        readonly type: v.LiteralSchema<"start.income.off", undefined>;
+      }, undefined>, v.ObjectSchema<{
         readonly type: v.LiteralSchema<"start.tax", undefined>;
-        readonly time: v.NumberSchema<undefined>;
         readonly sum: v.NumberSchema<undefined>;
       }, undefined>, v.ObjectSchema<{
         readonly type: v.LiteralSchema<"rent.tax", undefined>;
-        readonly time: v.NumberSchema<undefined>;
         readonly rate: v.NumberSchema<undefined>;
-      }, undefined>], undefined>, undefined>;
+      }, undefined>], undefined>], undefined>, undefined>;
       readonly wormhole: v.OptionalSchema<v.ObjectSchema<{
         readonly exits_free_count: v.OptionalSchema<v.NumberSchema<undefined>, 3>;
         readonly exits_extra_price: v.NumberSchema<undefined>;
@@ -1672,18 +1673,19 @@ declare class M1LiveDemo {
             income_amount: number;
             bonus_amount: number;
           };
-          time_rules: ({
-            type: "start.none";
+          rules: (({
             time: number;
           } | {
+            round: number;
+          }) & ({
+            type: "start.income.off";
+          } | {
             type: "start.tax";
-            time: number;
             sum: number;
           } | {
             type: "rent.tax";
-            time: number;
             rate: number;
-          })[];
+          }))[];
           wormhole?: {
             exits_free_count: number;
             exits_extra_price: number;

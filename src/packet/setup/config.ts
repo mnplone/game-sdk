@@ -13,12 +13,23 @@ import {
 	valiM1DemoPacketV1ConfigGroupsSchema,
 } from './config/monopolies.js';
 
-export const valiM1DemoPacketSetipConfigRestartVariantSchema = v.object({
+export const valiM1DemoPacketSetupConfigRestartVariantSchema = v.object({
 	round_from: v.number(),
 	round_to: v.number(),
 	count: v.number(),
 	price: v.number(),
 });
+
+const valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema = v.union([
+	v.object({
+		/** Match time in **milliseconds**. */
+		time: v.number(),
+	}),
+	v.object({
+		/** Round number when rule applies, inclusive. */
+		round: v.number(),
+	}),
+]);
 
 export const valiM1DemoPacketSetupConfigSchema = v.object({
 	/** Version of the config. */
@@ -122,7 +133,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 		),
 		restart: v.optional(
 			v.object({
-				variants: v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
+				variants: v.array(valiM1DemoPacketSetupConfigRestartVariantSchema),
 			}),
 		),
 		russian_roulette: v.optional(
@@ -135,27 +146,24 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 			bonus_amount: v.optional(v.number(), 0),
 		}),
 		/** Rules of the match that are based on the match time. */
-		time_rules: v.array(
-			v.union([
-				v.object({
-					type: v.literal('start.none'),
-					/** Match time in **milliseconds**. */
-					time: v.number(),
-				}),
-				v.object({
-					type: v.literal('start.tax'),
-					/** Match time in **milliseconds**. */
-					time: v.number(),
-					/** Sum player should pay when passing "Start". If `0`, player just will not receive money for passing "Start". */
-					sum: v.number(),
-				}),
-				v.object({
-					type: v.literal('rent.tax'),
-					/** Match time in **milliseconds**. */
-					time: v.number(),
-					/** Income tax rate. */
-					rate: v.number(),
-				}),
+		rules: v.array(
+			v.intersect([
+				valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema,
+				v.variant('type', [
+					v.object({
+						type: v.literal('start.income.off'),
+					}),
+					v.object({
+						type: v.literal('start.tax'),
+						/** Sum player should pay when passing "Start". */
+						sum: v.number(),
+					}),
+					v.object({
+						type: v.literal('rent.tax'),
+						/** Income tax rate. */
+						rate: v.number(),
+					}),
+				]),
 			]),
 		),
 		wormhole: v.optional(
@@ -172,10 +180,23 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 export type M1DemoPacketSetupConfig = v.InferOutput<
 	typeof valiM1DemoPacketSetupConfigSchema
 >;
+export type M1DemoPacketSetupConfigMechanics =
+	M1DemoPacketSetupConfig['mechanics'];
+export type M1DemoPacketSetupConfigMechanicsRules =
+	M1DemoPacketSetupConfigMechanics['rules'];
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
+
+const valiM1DemoPacketV1ConfigTaxBaseSchema = v.union([
+	v.object({
+		game_time: v.number(),
+	}),
+	v.object({
+		round: v.number(),
+	}),
+]);
 
 export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 	v.object({
@@ -223,29 +244,33 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		coeff_field_drop: v.optional(v.number()),
 		// mechanics: restart
 		restart_variants: v.optional(
-			v.array(valiM1DemoPacketSetipConfigRestartVariantSchema),
+			v.array(valiM1DemoPacketSetupConfigRestartVariantSchema),
 		),
 		// mechanics: russian_roulette
 		russian_roulette_rewards: v.optional(v.array(v.number())),
 		// mechanics: start_bonus
 		roundCash: v.number(),
 		START_BONUS_SUM: v.optional(v.number(), 0),
-		// mechanics: timer_rules
+		// mechanics: rules
 		roundTaxes: v.optional(
 			v.array(
-				v.object({
-					game_time: v.number(),
-					tax: v.number(),
-				}),
+				v.intersect([
+					valiM1DemoPacketV1ConfigTaxBaseSchema,
+					v.object({
+						tax: v.number(),
+					}),
+				]),
 			),
 			() => [],
 		),
 		incomeTaxes: v.optional(
 			v.array(
-				v.object({
-					game_time: v.number(),
-					tax_rate: v.number(),
-				}),
+				v.intersect([
+					valiM1DemoPacketV1ConfigTaxBaseSchema,
+					v.object({
+						tax_rate: v.number(),
+					}),
+				]),
 			),
 			() => [],
 		),
@@ -359,29 +384,55 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 					income_amount: value.roundCash,
 					bonus_amount: value.START_BONUS_SUM,
 				},
-				time_rules: [
-					...value.roundTaxes.map((rule) => {
-						if (rule.tax === 0) {
-							return {
-								type: 'start.none' as const,
-								time: rule.game_time * 1000,
-							};
-						}
+				rules: (() => {
+					const rules: M1DemoPacketSetupConfigMechanicsRules = [];
 
-						return {
-							type: 'start.tax' as const,
-							time: rule.game_time * 1000,
-							sum: rule.tax,
-						};
-					}),
-					...value.incomeTaxes.map((rule) => {
-						return {
-							type: 'rent.tax' as const,
-							time: rule.game_time * 1000,
-							rate: rule.tax_rate,
-						};
-					}),
-				].toSorted((a, b) => a.time - b.time),
+					for (const rule of value.roundTaxes) {
+						if (rule.tax === 0) {
+							if ('game_time' in rule) {
+								rules.push({
+									type: 'start.income.off',
+									time: rule.game_time * 1000,
+								});
+							} else {
+								rules.push({
+									type: 'start.income.off',
+									round: rule.round,
+								});
+							}
+						} else if ('game_time' in rule) {
+							rules.push({
+								type: 'start.tax',
+								time: rule.game_time * 1000,
+								sum: rule.tax,
+							});
+						} else {
+							rules.push({
+								type: 'start.tax',
+								round: rule.round,
+								sum: rule.tax,
+							});
+						}
+					}
+
+					for (const rule of value.incomeTaxes) {
+						if ('game_time' in rule) {
+							rules.push({
+								type: 'rent.tax',
+								time: rule.game_time * 1000,
+								rate: rule.tax_rate,
+							});
+						} else {
+							rules.push({
+								type: 'rent.tax',
+								round: rule.round,
+								rate: rule.tax_rate,
+							});
+						}
+					}
+
+					return rules;
+				})(),
 				wormhole:
 					typeof value.WORMHOLE_DIRECTLY === 'boolean'
 						? {

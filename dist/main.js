@@ -1031,12 +1031,13 @@ const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(v.record(v.string(), v.union
 
 //#endregion
 //#region src/packet/setup/config.ts
-const valiM1DemoPacketSetipConfigRestartVariantSchema = v.object({
+const valiM1DemoPacketSetupConfigRestartVariantSchema = v.object({
 	round_from: v.number(),
 	round_to: v.number(),
 	count: v.number(),
 	price: v.number()
 });
+const valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema = v.union([v.object({ time: v.number() }), v.object({ round: v.number() })]);
 const valiM1DemoPacketSetupConfigSchema = v.object({
 	version: v.number(),
 	board_size: v.tuple([v.number(), v.number()]),
@@ -1085,28 +1086,23 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 			buyback_multiplier: v.number(),
 			auction_multiplier: v.optional(v.number())
 		}), v.object({ waive_multiplier: v.number() })])),
-		restart: v.optional(v.object({ variants: v.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+		restart: v.optional(v.object({ variants: v.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 		russian_roulette: v.optional(v.object({ rewards: v.array(v.number()) })),
 		start: v.object({
 			income_amount: v.number(),
 			bonus_amount: v.optional(v.number(), 0)
 		}),
-		time_rules: v.array(v.union([
-			v.object({
-				type: v.literal("start.none"),
-				time: v.number()
-			}),
+		rules: v.array(v.intersect([valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema, v.variant("type", [
+			v.object({ type: v.literal("start.income.off") }),
 			v.object({
 				type: v.literal("start.tax"),
-				time: v.number(),
 				sum: v.number()
 			}),
 			v.object({
 				type: v.literal("rent.tax"),
-				time: v.number(),
 				rate: v.number()
 			})
-		])),
+		])])),
 		wormhole: v.optional(v.object({
 			exits_free_count: v.optional(v.number(), 3),
 			exits_extra_price: v.number(),
@@ -1114,6 +1110,7 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 		}))
 	})
 });
+const valiM1DemoPacketV1ConfigTaxBaseSchema = v.union([v.object({ game_time: v.number() }), v.object({ round: v.number() })]);
 const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	version: v.number(),
 	size: v.tuple([v.number(), v.number()]),
@@ -1146,18 +1143,12 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	coeff_unmortgage: v.optional(v.number()),
 	auction_mortgaged: v.optional(v.number()),
 	coeff_field_drop: v.optional(v.number()),
-	restart_variants: v.optional(v.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
+	restart_variants: v.optional(v.array(valiM1DemoPacketSetupConfigRestartVariantSchema)),
 	russian_roulette_rewards: v.optional(v.array(v.number())),
 	roundCash: v.number(),
 	START_BONUS_SUM: v.optional(v.number(), 0),
-	roundTaxes: v.optional(v.array(v.object({
-		game_time: v.number(),
-		tax: v.number()
-	})), () => []),
-	incomeTaxes: v.optional(v.array(v.object({
-		game_time: v.number(),
-		tax_rate: v.number()
-	})), () => []),
+	roundTaxes: v.optional(v.array(v.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, v.object({ tax: v.number() })])), () => []),
+	incomeTaxes: v.optional(v.array(v.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, v.object({ tax_rate: v.number() })])), () => []),
 	WORMHOLE_DIRECTLY: v.optional(bit(false)),
 	WORMHOLE_EXTRA_DESTINATION_COST: v.optional(v.number())
 }), v.transform((value) => {
@@ -1216,23 +1207,38 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 				income_amount: value.roundCash,
 				bonus_amount: value.START_BONUS_SUM
 			},
-			time_rules: [...value.roundTaxes.map((rule) => {
-				if (rule.tax === 0) return {
-					type: "start.none",
+			rules: (() => {
+				const rules = [];
+				for (const rule of value.roundTaxes) if (rule.tax === 0) if ("game_time" in rule) rules.push({
+					type: "start.income.off",
 					time: rule.game_time * 1e3
-				};
-				return {
+				});
+				else rules.push({
+					type: "start.income.off",
+					round: rule.round
+				});
+				else if ("game_time" in rule) rules.push({
 					type: "start.tax",
 					time: rule.game_time * 1e3,
 					sum: rule.tax
-				};
-			}), ...value.incomeTaxes.map((rule) => {
-				return {
+				});
+				else rules.push({
+					type: "start.tax",
+					round: rule.round,
+					sum: rule.tax
+				});
+				for (const rule of value.incomeTaxes) if ("game_time" in rule) rules.push({
 					type: "rent.tax",
 					time: rule.game_time * 1e3,
 					rate: rule.tax_rate
-				};
-			})].toSorted((a, b) => a.time - b.time),
+				});
+				else rules.push({
+					type: "rent.tax",
+					round: rule.round,
+					rate: rule.tax_rate
+				});
+				return rules;
+			})(),
 			wormhole: typeof value.WORMHOLE_DIRECTLY === "boolean" ? {
 				exits_free_count: 3,
 				exits_extra_price: value.WORMHOLE_EXTRA_DESTINATION_COST,
@@ -1259,7 +1265,7 @@ const valiM1DemoPacketStatusPlayersSchema = v.pipe(v.array(v.pipe(v.object({
 		debt: v.number(),
 		return_round: v.number()
 	})]),
-	restart: v.optional(v.object({ variant: v.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+	restart: v.optional(v.object({ variant: v.nullable(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 	stat: v.object({
 		mini_die_cooldown: v.optional(v.number()),
 		rent_history: v.optional(v.number())
@@ -1304,7 +1310,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	credit_nextTakeRound: v.number(),
 	credit_payRound: v.union([v.literal(false), v.number()]),
 	credit_toPay: v.number(),
-	restart: v.optional(v.union([v.pipe(v.literal(0), v.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema])),
+	restart: v.optional(v.union([v.pipe(v.literal(0), v.transform(() => null)), valiM1DemoPacketSetupConfigRestartVariantSchema])),
 	mini_die_cooldown: v.optional(v.number()),
 	rent_last: v.optional(v.number())
 }), v.transform((value) => {

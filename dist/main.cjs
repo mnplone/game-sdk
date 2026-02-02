@@ -1051,12 +1051,13 @@ const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot
 
 //#endregion
 //#region src/packet/setup/config.ts
-const valiM1DemoPacketSetipConfigRestartVariantSchema = valibot.object({
+const valiM1DemoPacketSetupConfigRestartVariantSchema = valibot.object({
 	round_from: valibot.number(),
 	round_to: valibot.number(),
 	count: valibot.number(),
 	price: valibot.number()
 });
+const valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema = valibot.union([valibot.object({ time: valibot.number() }), valibot.object({ round: valibot.number() })]);
 const valiM1DemoPacketSetupConfigSchema = valibot.object({
 	version: valibot.number(),
 	board_size: valibot.tuple([valibot.number(), valibot.number()]),
@@ -1105,28 +1106,23 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 			buyback_multiplier: valibot.number(),
 			auction_multiplier: valibot.optional(valibot.number())
 		}), valibot.object({ waive_multiplier: valibot.number() })])),
-		restart: valibot.optional(valibot.object({ variants: valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+		restart: valibot.optional(valibot.object({ variants: valibot.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 		russian_roulette: valibot.optional(valibot.object({ rewards: valibot.array(valibot.number()) })),
 		start: valibot.object({
 			income_amount: valibot.number(),
 			bonus_amount: valibot.optional(valibot.number(), 0)
 		}),
-		time_rules: valibot.array(valibot.union([
-			valibot.object({
-				type: valibot.literal("start.none"),
-				time: valibot.number()
-			}),
+		rules: valibot.array(valibot.intersect([valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema, valibot.variant("type", [
+			valibot.object({ type: valibot.literal("start.income.off") }),
 			valibot.object({
 				type: valibot.literal("start.tax"),
-				time: valibot.number(),
 				sum: valibot.number()
 			}),
 			valibot.object({
 				type: valibot.literal("rent.tax"),
-				time: valibot.number(),
 				rate: valibot.number()
 			})
-		])),
+		])])),
 		wormhole: valibot.optional(valibot.object({
 			exits_free_count: valibot.optional(valibot.number(), 3),
 			exits_extra_price: valibot.number(),
@@ -1134,6 +1130,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 		}))
 	})
 });
+const valiM1DemoPacketV1ConfigTaxBaseSchema = valibot.union([valibot.object({ game_time: valibot.number() }), valibot.object({ round: valibot.number() })]);
 const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	version: valibot.number(),
 	size: valibot.tuple([valibot.number(), valibot.number()]),
@@ -1166,18 +1163,12 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	coeff_unmortgage: valibot.optional(valibot.number()),
 	auction_mortgaged: valibot.optional(valibot.number()),
 	coeff_field_drop: valibot.optional(valibot.number()),
-	restart_variants: valibot.optional(valibot.array(valiM1DemoPacketSetipConfigRestartVariantSchema)),
+	restart_variants: valibot.optional(valibot.array(valiM1DemoPacketSetupConfigRestartVariantSchema)),
 	russian_roulette_rewards: valibot.optional(valibot.array(valibot.number())),
 	roundCash: valibot.number(),
 	START_BONUS_SUM: valibot.optional(valibot.number(), 0),
-	roundTaxes: valibot.optional(valibot.array(valibot.object({
-		game_time: valibot.number(),
-		tax: valibot.number()
-	})), () => []),
-	incomeTaxes: valibot.optional(valibot.array(valibot.object({
-		game_time: valibot.number(),
-		tax_rate: valibot.number()
-	})), () => []),
+	roundTaxes: valibot.optional(valibot.array(valibot.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, valibot.object({ tax: valibot.number() })])), () => []),
+	incomeTaxes: valibot.optional(valibot.array(valibot.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, valibot.object({ tax_rate: valibot.number() })])), () => []),
 	WORMHOLE_DIRECTLY: valibot.optional(bit(false)),
 	WORMHOLE_EXTRA_DESTINATION_COST: valibot.optional(valibot.number())
 }), valibot.transform((value) => {
@@ -1236,23 +1227,38 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 				income_amount: value.roundCash,
 				bonus_amount: value.START_BONUS_SUM
 			},
-			time_rules: [...value.roundTaxes.map((rule) => {
-				if (rule.tax === 0) return {
-					type: "start.none",
+			rules: (() => {
+				const rules = [];
+				for (const rule of value.roundTaxes) if (rule.tax === 0) if ("game_time" in rule) rules.push({
+					type: "start.income.off",
 					time: rule.game_time * 1e3
-				};
-				return {
+				});
+				else rules.push({
+					type: "start.income.off",
+					round: rule.round
+				});
+				else if ("game_time" in rule) rules.push({
 					type: "start.tax",
 					time: rule.game_time * 1e3,
 					sum: rule.tax
-				};
-			}), ...value.incomeTaxes.map((rule) => {
-				return {
+				});
+				else rules.push({
+					type: "start.tax",
+					round: rule.round,
+					sum: rule.tax
+				});
+				for (const rule of value.incomeTaxes) if ("game_time" in rule) rules.push({
 					type: "rent.tax",
 					time: rule.game_time * 1e3,
 					rate: rule.tax_rate
-				};
-			})].toSorted((a, b) => a.time - b.time),
+				});
+				else rules.push({
+					type: "rent.tax",
+					round: rule.round,
+					rate: rule.tax_rate
+				});
+				return rules;
+			})(),
 			wormhole: typeof value.WORMHOLE_DIRECTLY === "boolean" ? {
 				exits_free_count: 3,
 				exits_extra_price: value.WORMHOLE_EXTRA_DESTINATION_COST,
@@ -1279,7 +1285,7 @@ const valiM1DemoPacketStatusPlayersSchema = valibot.pipe(valibot.array(valibot.p
 		debt: valibot.number(),
 		return_round: valibot.number()
 	})]),
-	restart: valibot.optional(valibot.object({ variant: valibot.nullable(valiM1DemoPacketSetipConfigRestartVariantSchema) })),
+	restart: valibot.optional(valibot.object({ variant: valibot.nullable(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 	stat: valibot.object({
 		mini_die_cooldown: valibot.optional(valibot.number()),
 		rent_history: valibot.optional(valibot.number())
@@ -1324,7 +1330,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 	credit_nextTakeRound: valibot.number(),
 	credit_payRound: valibot.union([valibot.literal(false), valibot.number()]),
 	credit_toPay: valibot.number(),
-	restart: valibot.optional(valibot.union([valibot.pipe(valibot.literal(0), valibot.transform(() => null)), valiM1DemoPacketSetipConfigRestartVariantSchema])),
+	restart: valibot.optional(valibot.union([valibot.pipe(valibot.literal(0), valibot.transform(() => null)), valiM1DemoPacketSetupConfigRestartVariantSchema])),
 	mini_die_cooldown: valibot.optional(valibot.number()),
 	rent_last: valibot.optional(valibot.number())
 }), valibot.transform((value) => {

@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 import type { MapElement } from '../../utils/types.js';
-import { valiM1DemoPacketSetipConfigRestartVariantSchema } from '../setup/config.js';
+import { valiM1DemoPacketSetupConfigRestartVariantSchema } from '../setup/config.js';
 
 export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 	v.array(
@@ -46,7 +46,7 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 				restart: v.optional(
 					v.object({
 						variant: v.nullable(
-							valiM1DemoPacketSetipConfigRestartVariantSchema,
+							valiM1DemoPacketSetupConfigRestartVariantSchema,
 						),
 					}),
 				),
@@ -151,7 +151,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 						v.literal(0),
 						v.transform(() => null),
 					),
-					valiM1DemoPacketSetipConfigRestartVariantSchema,
+					valiM1DemoPacketSetupConfigRestartVariantSchema,
 				]),
 			),
 			// stat
