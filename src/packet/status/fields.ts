@@ -13,6 +13,7 @@ export const valiM1DemoPacketStatusFieldsSchema = v.pipe(
 						round_until: v.optional(v.number()),
 					}),
 				),
+				last_rent_round: v.optional(v.number()),
 			}),
 			v.transform((value) => value),
 		),
@@ -38,6 +39,7 @@ export const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(
 			level: v.number(),
 			mortgaged: v.boolean(),
 			mortgage_lose_round: v.optional(v.number()),
+			last_rent_round: v.optional(v.number()),
 		}),
 	),
 	v.transform(
@@ -57,6 +59,7 @@ export const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(
 										round_until: field.mortgage_lose_round,
 									}
 								: undefined,
+							last_rent_round: field.last_rent_round,
 						},
 					];
 				}),

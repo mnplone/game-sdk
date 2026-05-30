@@ -551,20 +551,23 @@ const valiM1DemoPacketStatusFieldsSchema = v.pipe(v.array(v.pipe(v.object({
 	field_id: v.number(),
 	owner_user_id: v.number(),
 	level: v.number(),
-	mortgage: v.optional(v.object({ round_until: v.optional(v.number()) }))
+	mortgage: v.optional(v.object({ round_until: v.optional(v.number()) })),
+	last_rent_round: v.optional(v.number())
 }), v.transform((value) => value))), v.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
 const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.object({
 	owner: v.number(),
 	level: v.number(),
 	mortgaged: v.boolean(),
-	mortgage_lose_round: v.optional(v.number())
+	mortgage_lose_round: v.optional(v.number()),
+	last_rent_round: v.optional(v.number())
 })), v.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
 	const field_id = Number.parseInt(field_id_string, 10);
 	return [field_id, {
 		field_id,
 		owner_user_id: field.owner,
 		level: field.level,
-		mortgage: field.mortgaged ? { round_until: field.mortgage_lose_round } : void 0
+		mortgage: field.mortgaged ? { round_until: field.mortgage_lose_round } : void 0,
+		last_rent_round: field.last_rent_round
 	}];
 }))));
 //#endregion
@@ -970,7 +973,10 @@ const valiM1DemoPacketSetupConfigMonopoliesSchema = v.pipe(v.record(v.string(), 
 	}),
 	v.object({
 		buy_price: v.number(),
-		return_multipliers: v.array(v.number())
+		rent_grow: v.object({
+			by_round: v.number(),
+			max: v.number()
+		})
 	})
 ])), v.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
 const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(v.record(v.string(), v.union([
@@ -995,14 +1001,17 @@ const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(v.record(v.string(), v.union
 	v.object({
 		buy: v.number(),
 		levels: v.literal(false),
-		coeffs_rentmirror: v.array(v.number()),
+		rent_grow: v.object({
+			by_round: v.number(),
+			max: v.number()
+		}),
 		levelUpCost: v.literal(false)
 	})
 ])), v.transform((value) => new Map(Object.entries(value).map(([monopoly_id_string, group]) => {
 	let monopoly;
-	if ("coeffs_rentmirror" in group) monopoly = {
+	if ("rent_grow" in group) monopoly = {
 		buy_price: group.buy,
-		return_multipliers: [0, ...group.coeffs_rentmirror]
+		rent_grow: group.rent_grow
 	};
 	else if ("coeffs" in group) monopoly = {
 		buy_price: group.buy,

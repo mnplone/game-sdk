@@ -572,20 +572,23 @@ const valiM1DemoPacketStatusFieldsSchema = valibot.pipe(valibot.array(valibot.pi
 	field_id: valibot.number(),
 	owner_user_id: valibot.number(),
 	level: valibot.number(),
-	mortgage: valibot.optional(valibot.object({ round_until: valibot.optional(valibot.number()) }))
+	mortgage: valibot.optional(valibot.object({ round_until: valibot.optional(valibot.number()) })),
+	last_rent_round: valibot.optional(valibot.number())
 }), valibot.transform((value) => value))), valibot.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
 const valiM1DemoPacketV1StatusFieldsSchema = valibot.pipe(valibot.record(valibot.string(), valibot.object({
 	owner: valibot.number(),
 	level: valibot.number(),
 	mortgaged: valibot.boolean(),
-	mortgage_lose_round: valibot.optional(valibot.number())
+	mortgage_lose_round: valibot.optional(valibot.number()),
+	last_rent_round: valibot.optional(valibot.number())
 })), valibot.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
 	const field_id = Number.parseInt(field_id_string, 10);
 	return [field_id, {
 		field_id,
 		owner_user_id: field.owner,
 		level: field.level,
-		mortgage: field.mortgaged ? { round_until: field.mortgage_lose_round } : void 0
+		mortgage: field.mortgaged ? { round_until: field.mortgage_lose_round } : void 0,
+		last_rent_round: field.last_rent_round
 	}];
 }))));
 //#endregion
@@ -991,7 +994,10 @@ const valiM1DemoPacketSetupConfigMonopoliesSchema = valibot.pipe(valibot.record(
 	}),
 	valibot.object({
 		buy_price: valibot.number(),
-		return_multipliers: valibot.array(valibot.number())
+		rent_grow: valibot.object({
+			by_round: valibot.number(),
+			max: valibot.number()
+		})
 	})
 ])), valibot.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
 const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot.string(), valibot.union([
@@ -1016,14 +1022,17 @@ const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot
 	valibot.object({
 		buy: valibot.number(),
 		levels: valibot.literal(false),
-		coeffs_rentmirror: valibot.array(valibot.number()),
+		rent_grow: valibot.object({
+			by_round: valibot.number(),
+			max: valibot.number()
+		}),
 		levelUpCost: valibot.literal(false)
 	})
 ])), valibot.transform((value) => new Map(Object.entries(value).map(([monopoly_id_string, group]) => {
 	let monopoly;
-	if ("coeffs_rentmirror" in group) monopoly = {
+	if ("rent_grow" in group) monopoly = {
 		buy_price: group.buy,
-		return_multipliers: [0, ...group.coeffs_rentmirror]
+		rent_grow: group.rent_grow
 	};
 	else if ("coeffs" in group) monopoly = {
 		buy_price: group.buy,
