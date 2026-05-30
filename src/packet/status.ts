@@ -106,6 +106,7 @@ const action_list_mapping = {
 	noBuy: 'purchase.reject',
 	buyOut: 'purchase.buyout',
 	noBuyOut: 'purchase.buyout.reject',
+	buyoutProtect: 'purchase.buyout.protect',
 	// Rent
 	payRent: 'rent.pay',
 	// Rolling dices

@@ -504,6 +504,7 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 			"purchase.reject",
 			"purchase.buyout",
 			"purchase.buyout.reject",
+			"purchase.buyout.protect",
 			"rent.pay",
 			"roll-dices",
 			"roll-dices.reroll.reject",
@@ -1061,6 +1062,12 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 			bank_premium: v.optional(v.number())
 		})),
 		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		charges: v.optional(v.object({
+			default: v.number(),
+			per_move: v.number(),
+			limit: v.number(),
+			features: v.record(v.string(), v.object({ charges: v.number() }))
+		})),
 		field_level: v.optional(v.object({
 			build: v.optional(v.object({
 				/** When true, player can build uneven levels on the field. */
@@ -1156,6 +1163,12 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	buyout_premium: v.optional(v.number()),
 	buyout_premium_bank: v.optional(v.number()),
 	chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+	charges: v.optional(v.object({
+		default: v.number(),
+		per_move: v.number(),
+		limit: v.number(),
+		features: v.record(v.string(), v.object({ charges: v.number() }))
+	})),
 	coeff_level_down: v.optional(v.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
@@ -1205,6 +1218,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 				bank_premium: value.buyout_premium_bank
 			} : void 0,
 			chance: value.chance_cards ? { cards: value.chance_cards } : void 0,
+			charges: value.charges,
 			field_level: {
 				build: {
 					uneven: value.UNEVEN_LEVEL_CHANGE,
@@ -1313,6 +1327,8 @@ const valiM1DemoPacketStatusPlayersSchema = v.pipe(v.array(v.pipe(v.object({
 	position: v.number(),
 	/** Player's cash. */
 	cash: v.number(),
+	/** Player's charges. */
+	charges: v.optional(v.number(), 0),
 	/** Player's score: how much rent they have collected. */
 	score: v.number(),
 	/** Player's jail status */
@@ -1327,7 +1343,6 @@ const valiM1DemoPacketStatusPlayersSchema = v.pipe(v.array(v.pipe(v.object({
 	})]),
 	restart: v.optional(v.object({ variant: v.nullable(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 	stat: v.object({
-		mini_die_cooldown: v.optional(v.number()),
 		rent_history: v.optional(v.number(), 0),
 		income_tax_base: v.optional(v.number(), 0)
 	})
@@ -1365,6 +1380,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	status: v.number(),
 	position: v.number(),
 	money: v.number(),
+	charges: v.optional(v.number(), 0),
 	score: v.number(),
 	jailed: v.boolean(),
 	unjailAttempts: v.number(),
@@ -1372,7 +1388,6 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	credit_payRound: v.union([v.literal(false), v.number()]),
 	credit_toPay: v.number(),
 	restart: v.optional(v.union([v.pipe(v.literal(0), v.transform(() => null)), valiM1DemoPacketSetupConfigRestartVariantSchema])),
-	mini_die_cooldown: v.optional(v.number()),
 	rent_last: v.optional(v.number(), 0),
 	income_tax_base: v.optional(v.number(), 0)
 }), v.transform((value) => {
@@ -1401,6 +1416,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 			status: value.status,
 			position: value.position,
 			cash: value.money,
+			charges: value.charges,
 			score: value.score,
 			jail: value.jailed ? { roll_double_attempts: value.unjailAttempts } : void 0,
 			loan: value.credit_payRound === false ? {
@@ -1413,7 +1429,6 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 			},
 			restart: value.restart === void 0 ? void 0 : { variant: value.restart },
 			stat: {
-				mini_die_cooldown: value.mini_die_cooldown === void 0 ? void 0 : Math.max(value.mini_die_cooldown, 0),
 				rent_history: value.rent_last,
 				income_tax_base: value.income_tax_base
 			}
@@ -1479,6 +1494,7 @@ const action_list_mapping = {
 	noBuy: "purchase.reject",
 	buyOut: "purchase.buyout",
 	noBuyOut: "purchase.buyout.reject",
+	buyoutProtect: "purchase.buyout.protect",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
 	rollDicesRerollCancel: "roll-dices.reroll.reject",
@@ -2776,6 +2792,12 @@ const valiSchemas$8 = [
 		type: v.literal("purchase.buyout.reject"),
 		user_id: v.number(),
 		field_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("purchase.buyout.protect"),
+		user_id: v.number(),
+		field_id: v.number()
 	})
 ];
 const enrichments$8 = {
@@ -2864,6 +2886,19 @@ const valiV1Schemas$8 = [
 		return {
 			id: value._id,
 			type: "purchase.buyout.reject",
+			user_id: value.user_id,
+			field_id: value.field
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("buyoutProtected"),
+		user_id: v.number(),
+		field: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "purchase.buyout.protect",
 			user_id: value.user_id,
 			field_id: value.field
 		};

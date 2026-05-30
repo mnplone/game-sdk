@@ -55,6 +55,19 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 			}),
 		),
 		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		charges: v.optional(
+			v.object({
+				default: v.number(),
+				per_move: v.number(),
+				limit: v.number(),
+				features: v.record(
+					v.string(),
+					v.object({
+						charges: v.number(),
+					}),
+				),
+			}),
+		),
 		field_level: v.optional(
 			v.object({
 				build: v.optional(
@@ -225,6 +238,20 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		buyout_premium_bank: v.optional(v.number()),
 		// mechanics: chance
 		chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+		// mechanics: charges
+		charges: v.optional(
+			v.object({
+				default: v.number(),
+				per_move: v.number(),
+				limit: v.number(),
+				features: v.record(
+					v.string(),
+					v.object({
+						charges: v.number(),
+					}),
+				),
+			}),
+		),
 		// mechanics: field_level
 		coeff_level_down: v.optional(v.number(), 1),
 		UNEVEN_LEVEL_CHANGE: bit(false),
@@ -326,6 +353,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 							cards: value.chance_cards,
 						}
 					: undefined,
+				charges: value.charges,
 				field_level: {
 					build: {
 						uneven: value.UNEVEN_LEVEL_CHANGE,

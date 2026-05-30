@@ -18,6 +18,8 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 				position: v.number(),
 				/** Player's cash. */
 				cash: v.number(),
+				/** Player's charges. */
+				charges: v.optional(v.number(), 0),
 				/** Player's score: how much rent they have collected. */
 				score: v.number(),
 				/** Player's jail status */
@@ -51,7 +53,7 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 					}),
 				),
 				stat: v.object({
-					mini_die_cooldown: v.optional(v.number()),
+					// mini_die_cooldown: v.optional(v.number()),
 					rent_history: v.optional(v.number(), 0),
 					income_tax_base: v.optional(v.number(), 0),
 				}),
@@ -137,6 +139,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 			status: v.number(),
 			position: v.number(),
 			money: v.number(),
+			charges: v.optional(v.number(), 0),
 			score: v.number(),
 			// jail
 			jailed: v.boolean(),
@@ -156,7 +159,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 				]),
 			),
 			// stat
-			mini_die_cooldown: v.optional(v.number()),
+			// mini_die_cooldown: v.optional(v.number()),
 			rent_last: v.optional(v.number(), 0),
 			income_tax_base: v.optional(v.number(), 0),
 		}),
@@ -196,6 +199,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 					status: value.status,
 					position: value.position,
 					cash: value.money,
+					charges: value.charges,
 					score: value.score,
 					jail: value.jailed
 						? {
@@ -220,10 +224,10 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 									variant: value.restart,
 								},
 					stat: {
-						mini_die_cooldown:
-							value.mini_die_cooldown === undefined
-								? undefined
-								: Math.max(value.mini_die_cooldown, 0),
+						// mini_die_cooldown:
+						// 	value.mini_die_cooldown === undefined
+						// 		? undefined
+						// 		: Math.max(value.mini_die_cooldown, 0),
 						rent_history: value.rent_last,
 						income_tax_base: value.income_tax_base,
 					},

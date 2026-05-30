@@ -525,6 +525,7 @@ const valiM1DemoPacketStatusTurnSchema = valibot.object({
 			"purchase.reject",
 			"purchase.buyout",
 			"purchase.buyout.reject",
+			"purchase.buyout.protect",
 			"rent.pay",
 			"roll-dices",
 			"roll-dices.reroll.reject",
@@ -1082,6 +1083,12 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 			bank_premium: valibot.optional(valibot.number())
 		})),
 		chance: valibot.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		charges: valibot.optional(valibot.object({
+			default: valibot.number(),
+			per_move: valibot.number(),
+			limit: valibot.number(),
+			features: valibot.record(valibot.string(), valibot.object({ charges: valibot.number() }))
+		})),
 		field_level: valibot.optional(valibot.object({
 			build: valibot.optional(valibot.object({
 				/** When true, player can build uneven levels on the field. */
@@ -1177,6 +1184,12 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	buyout_premium: valibot.optional(valibot.number()),
 	buyout_premium_bank: valibot.optional(valibot.number()),
 	chance_cards: valibot.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+	charges: valibot.optional(valibot.object({
+		default: valibot.number(),
+		per_move: valibot.number(),
+		limit: valibot.number(),
+		features: valibot.record(valibot.string(), valibot.object({ charges: valibot.number() }))
+	})),
 	coeff_level_down: valibot.optional(valibot.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
@@ -1226,6 +1239,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 				bank_premium: value.buyout_premium_bank
 			} : void 0,
 			chance: value.chance_cards ? { cards: value.chance_cards } : void 0,
+			charges: value.charges,
 			field_level: {
 				build: {
 					uneven: value.UNEVEN_LEVEL_CHANGE,
@@ -1334,6 +1348,8 @@ const valiM1DemoPacketStatusPlayersSchema = valibot.pipe(valibot.array(valibot.p
 	position: valibot.number(),
 	/** Player's cash. */
 	cash: valibot.number(),
+	/** Player's charges. */
+	charges: valibot.optional(valibot.number(), 0),
 	/** Player's score: how much rent they have collected. */
 	score: valibot.number(),
 	/** Player's jail status */
@@ -1348,7 +1364,6 @@ const valiM1DemoPacketStatusPlayersSchema = valibot.pipe(valibot.array(valibot.p
 	})]),
 	restart: valibot.optional(valibot.object({ variant: valibot.nullable(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 	stat: valibot.object({
-		mini_die_cooldown: valibot.optional(valibot.number()),
 		rent_history: valibot.optional(valibot.number(), 0),
 		income_tax_base: valibot.optional(valibot.number(), 0)
 	})
@@ -1386,6 +1401,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 	status: valibot.number(),
 	position: valibot.number(),
 	money: valibot.number(),
+	charges: valibot.optional(valibot.number(), 0),
 	score: valibot.number(),
 	jailed: valibot.boolean(),
 	unjailAttempts: valibot.number(),
@@ -1393,7 +1409,6 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 	credit_payRound: valibot.union([valibot.literal(false), valibot.number()]),
 	credit_toPay: valibot.number(),
 	restart: valibot.optional(valibot.union([valibot.pipe(valibot.literal(0), valibot.transform(() => null)), valiM1DemoPacketSetupConfigRestartVariantSchema])),
-	mini_die_cooldown: valibot.optional(valibot.number()),
 	rent_last: valibot.optional(valibot.number(), 0),
 	income_tax_base: valibot.optional(valibot.number(), 0)
 }), valibot.transform((value) => {
@@ -1422,6 +1437,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 			status: value.status,
 			position: value.position,
 			cash: value.money,
+			charges: value.charges,
 			score: value.score,
 			jail: value.jailed ? { roll_double_attempts: value.unjailAttempts } : void 0,
 			loan: value.credit_payRound === false ? {
@@ -1434,7 +1450,6 @@ const valiM1DemoPacketV1StatusPlayersSchema = valibot.array(valibot.pipe(valibot
 			},
 			restart: value.restart === void 0 ? void 0 : { variant: value.restart },
 			stat: {
-				mini_die_cooldown: value.mini_die_cooldown === void 0 ? void 0 : Math.max(value.mini_die_cooldown, 0),
 				rent_history: value.rent_last,
 				income_tax_base: value.income_tax_base
 			}
@@ -1500,6 +1515,7 @@ const action_list_mapping = {
 	noBuy: "purchase.reject",
 	buyOut: "purchase.buyout",
 	noBuyOut: "purchase.buyout.reject",
+	buyoutProtect: "purchase.buyout.protect",
 	payRent: "rent.pay",
 	rollDices: "roll-dices",
 	rollDicesRerollCancel: "roll-dices.reroll.reject",
@@ -2797,6 +2813,12 @@ const valiSchemas$8 = [
 		type: valibot.literal("purchase.buyout.reject"),
 		user_id: valibot.number(),
 		field_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("purchase.buyout.protect"),
+		user_id: valibot.number(),
+		field_id: valibot.number()
 	})
 ];
 const enrichments$8 = {
@@ -2885,6 +2907,19 @@ const valiV1Schemas$8 = [
 		return {
 			id: value._id,
 			type: "purchase.buyout.reject",
+			user_id: value.user_id,
+			field_id: value.field
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("buyoutProtected"),
+		user_id: valibot.number(),
+		field: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "purchase.buyout.protect",
 			user_id: value.user_id,
 			field_id: value.field
 		};

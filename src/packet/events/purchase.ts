@@ -35,6 +35,12 @@ export const valiSchemas = [
 		user_id: v.number(),
 		field_id: v.number(),
 	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('purchase.buyout.protect'),
+		user_id: v.number(),
+		field_id: v.number(),
+	}),
 ];
 
 export const enrichments = {
@@ -144,6 +150,22 @@ export const valiV1Schemas = [
 			return {
 				id: value._id,
 				type: 'purchase.buyout.reject' as const,
+				user_id: value.user_id,
+				field_id: value.field,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('buyoutProtected'),
+			user_id: v.number(),
+			field: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'purchase.buyout.protect' as const,
 				user_id: value.user_id,
 				field_id: value.field,
 			};
