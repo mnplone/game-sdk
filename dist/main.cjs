@@ -80,7 +80,8 @@ const enrichments$20 = {
 		options.status.fields.set(options.event.field_id, {
 			field_id: options.event.field_id,
 			owner_user_id: options.event.user_id,
-			level: 0
+			level: 0,
+			protection: options.setup.config.mechanics.charges?.features.buyoutProtection ? 1 : 0
 		});
 		const { user_id_seller } = options.event;
 		if (typeof user_id_seller === "number") {
@@ -574,14 +575,16 @@ const valiM1DemoPacketStatusFieldsSchema = valibot.pipe(valibot.array(valibot.pi
 	owner_user_id: valibot.number(),
 	level: valibot.number(),
 	mortgage: valibot.optional(valibot.object({ round_until: valibot.optional(valibot.number()) })),
-	last_rent_round: valibot.optional(valibot.number())
+	last_rent_round: valibot.optional(valibot.number()),
+	protection: valibot.optional(valibot.number(), 0)
 }), valibot.transform((value) => value))), valibot.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
 const valiM1DemoPacketV1StatusFieldsSchema = valibot.pipe(valibot.record(valibot.string(), valibot.object({
 	owner: valibot.number(),
 	level: valibot.number(),
 	mortgaged: valibot.boolean(),
 	mortgage_lose_round: valibot.optional(valibot.number()),
-	last_rent_round: valibot.optional(valibot.number())
+	last_rent_round: valibot.optional(valibot.number()),
+	protection: valibot.optional(valibot.number(), 0)
 })), valibot.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
 	const field_id = Number.parseInt(field_id_string, 10);
 	return [field_id, {
@@ -589,7 +592,8 @@ const valiM1DemoPacketV1StatusFieldsSchema = valibot.pipe(valibot.record(valibot
 		owner_user_id: field.owner,
 		level: field.level,
 		mortgage: field.mortgaged ? { round_until: field.mortgage_lose_round } : void 0,
-		last_rent_round: field.last_rent_round
+		last_rent_round: field.last_rent_round,
+		protection: field.protection
 	}];
 }))));
 //#endregion
@@ -2828,7 +2832,8 @@ const enrichments$8 = {
 		options.status.fields.set(options.event.field_id, {
 			field_id: options.event.field_id,
 			owner_user_id: options.event.user_id,
-			level: 0
+			level: 0,
+			protection: options.setup.config.mechanics.charges?.features.buyoutProtection ? 1 : 0
 		});
 	},
 	"purchase.buyout"(options) {

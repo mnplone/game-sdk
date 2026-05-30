@@ -59,7 +59,8 @@ const enrichments$20 = {
 		options.status.fields.set(options.event.field_id, {
 			field_id: options.event.field_id,
 			owner_user_id: options.event.user_id,
-			level: 0
+			level: 0,
+			protection: options.setup.config.mechanics.charges?.features.buyoutProtection ? 1 : 0
 		});
 		const { user_id_seller } = options.event;
 		if (typeof user_id_seller === "number") {
@@ -553,14 +554,16 @@ const valiM1DemoPacketStatusFieldsSchema = v.pipe(v.array(v.pipe(v.object({
 	owner_user_id: v.number(),
 	level: v.number(),
 	mortgage: v.optional(v.object({ round_until: v.optional(v.number()) })),
-	last_rent_round: v.optional(v.number())
+	last_rent_round: v.optional(v.number()),
+	protection: v.optional(v.number(), 0)
 }), v.transform((value) => value))), v.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
 const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.object({
 	owner: v.number(),
 	level: v.number(),
 	mortgaged: v.boolean(),
 	mortgage_lose_round: v.optional(v.number()),
-	last_rent_round: v.optional(v.number())
+	last_rent_round: v.optional(v.number()),
+	protection: v.optional(v.number(), 0)
 })), v.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
 	const field_id = Number.parseInt(field_id_string, 10);
 	return [field_id, {
@@ -568,7 +571,8 @@ const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.objec
 		owner_user_id: field.owner,
 		level: field.level,
 		mortgage: field.mortgaged ? { round_until: field.mortgage_lose_round } : void 0,
-		last_rent_round: field.last_rent_round
+		last_rent_round: field.last_rent_round,
+		protection: field.protection
 	}];
 }))));
 //#endregion
@@ -2807,7 +2811,8 @@ const enrichments$8 = {
 		options.status.fields.set(options.event.field_id, {
 			field_id: options.event.field_id,
 			owner_user_id: options.event.user_id,
-			level: 0
+			level: 0,
+			protection: options.setup.config.mechanics.charges?.features.buyoutProtection ? 1 : 0
 		});
 	},
 	"purchase.buyout"(options) {

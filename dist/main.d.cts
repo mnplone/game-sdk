@@ -264,6 +264,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       readonly round_until: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>, undefined>;
     readonly last_rent_round: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+    readonly protection: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
   }, undefined>, v.TransformAction<{
     field_id: number;
     owner_user_id: number;
@@ -272,6 +273,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       round_until?: number | undefined;
     } | undefined;
     last_rent_round?: number | undefined;
+    protection: number;
   }, {
     field_id: number;
     owner_user_id: number;
@@ -280,6 +282,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       round_until?: number | undefined;
     } | undefined;
     last_rent_round?: number | undefined;
+    protection: number;
   }>]>, undefined>, v.TransformAction<{
     field_id: number;
     owner_user_id: number;
@@ -288,6 +291,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       round_until?: number | undefined;
     } | undefined;
     last_rent_round?: number | undefined;
+    protection: number;
   }[], Map<number, {
     field_id: number;
     owner_user_id: number;
@@ -296,6 +300,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       round_until?: number | undefined;
     } | undefined;
     last_rent_round?: number | undefined;
+    protection: number;
   }>>]>; /** Information about current turn. */
   readonly turn: v.ObjectSchema<{
     readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
@@ -1330,6 +1335,7 @@ declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.A
     readonly round_until: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   }, undefined>, undefined>;
   readonly last_rent_round: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly protection: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
 }, undefined>, v.TransformAction<{
   field_id: number;
   owner_user_id: number;
@@ -1338,6 +1344,7 @@ declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.A
     round_until?: number | undefined;
   } | undefined;
   last_rent_round?: number | undefined;
+  protection: number;
 }, {
   field_id: number;
   owner_user_id: number;
@@ -1346,6 +1353,7 @@ declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.A
     round_until?: number | undefined;
   } | undefined;
   last_rent_round?: number | undefined;
+  protection: number;
 }>]>, undefined>, v.TransformAction<{
   field_id: number;
   owner_user_id: number;
@@ -1354,6 +1362,7 @@ declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.A
     round_until?: number | undefined;
   } | undefined;
   last_rent_round?: number | undefined;
+  protection: number;
 }[], Map<number, {
   field_id: number;
   owner_user_id: number;
@@ -1362,6 +1371,7 @@ declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.A
     round_until?: number | undefined;
   } | undefined;
   last_rent_round?: number | undefined;
+  protection: number;
 }>>]>;
 type M1DemoPacketStatusField = MapElement<v.InferOutput<typeof valiM1DemoPacketStatusFieldsSchema>>;
 //#endregion
@@ -1821,6 +1831,7 @@ declare class M1LiveDemo {
           round_until?: number | undefined;
         } | undefined;
         last_rent_round?: number | undefined;
+        protection: number;
       }>;
       turn: {
         user_id: number | null;
@@ -2420,6 +2431,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -2514,6 +2526,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -2621,6 +2634,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -2715,6 +2729,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -2814,6 +2829,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -2908,6 +2924,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3009,6 +3026,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3103,6 +3121,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3208,6 +3227,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3302,6 +3322,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3402,6 +3423,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3496,6 +3518,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3597,6 +3620,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3691,6 +3715,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3791,6 +3816,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3885,6 +3911,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -3987,6 +4014,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4081,6 +4109,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4182,6 +4211,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4276,6 +4306,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4376,6 +4407,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4470,6 +4502,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4573,6 +4606,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4667,6 +4701,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4769,6 +4804,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4863,6 +4899,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -4964,6 +5001,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5058,6 +5096,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5159,6 +5198,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5253,6 +5293,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5354,6 +5395,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5448,6 +5490,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5549,6 +5592,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5643,6 +5687,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5744,6 +5789,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5838,6 +5884,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -5944,6 +5991,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6038,6 +6086,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6139,6 +6188,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6233,6 +6283,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6345,6 +6396,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6439,6 +6491,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6540,6 +6593,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6634,6 +6688,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6733,6 +6788,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6827,6 +6883,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -6927,6 +6984,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7021,6 +7079,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7121,6 +7180,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7215,6 +7275,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7314,6 +7375,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7408,6 +7470,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7507,6 +7570,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7601,6 +7665,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7701,6 +7766,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7795,6 +7861,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7897,6 +7964,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -7991,6 +8059,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8093,6 +8162,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8187,6 +8257,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8289,6 +8360,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8383,6 +8455,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8485,6 +8558,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8579,6 +8653,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8680,6 +8755,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8774,6 +8850,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8875,6 +8952,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -8969,6 +9047,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9069,6 +9148,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9163,6 +9243,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9264,6 +9345,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9358,6 +9440,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9458,6 +9541,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9552,6 +9636,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9652,6 +9737,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9746,6 +9832,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9846,6 +9933,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -9940,6 +10028,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10040,6 +10129,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10134,6 +10224,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10235,6 +10326,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10329,6 +10421,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10429,6 +10522,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10523,6 +10617,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10623,6 +10718,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10717,6 +10813,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10818,6 +10915,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -10912,6 +11010,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11013,6 +11112,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11107,6 +11207,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11207,6 +11308,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11301,6 +11403,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11402,6 +11505,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11496,6 +11600,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11597,6 +11702,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11691,6 +11797,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11794,6 +11901,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11888,6 +11996,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -11988,6 +12097,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12082,6 +12192,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12183,6 +12294,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12277,6 +12389,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12378,6 +12491,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12472,6 +12586,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12573,6 +12688,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12667,6 +12783,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12768,6 +12885,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12862,6 +12980,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -12961,6 +13080,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13055,6 +13175,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13154,6 +13275,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13248,6 +13370,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13349,6 +13472,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13443,6 +13567,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13545,6 +13670,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13639,6 +13765,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13740,6 +13867,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13834,6 +13962,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -13937,6 +14066,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14031,6 +14161,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14132,6 +14263,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14226,6 +14358,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14327,6 +14460,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14421,6 +14555,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14523,6 +14658,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14617,6 +14753,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14721,6 +14858,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14815,6 +14953,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -14916,6 +15055,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15010,6 +15150,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15111,6 +15252,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15205,6 +15347,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15306,6 +15449,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15400,6 +15544,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15501,6 +15646,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15595,6 +15741,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15696,6 +15843,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15790,6 +15938,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15894,6 +16043,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -15988,6 +16138,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16088,6 +16239,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16182,6 +16334,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16282,6 +16435,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16376,6 +16530,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16476,6 +16631,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16570,6 +16726,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16670,6 +16827,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16764,6 +16922,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16866,6 +17025,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -16960,6 +17120,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17060,6 +17221,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17154,6 +17316,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17256,6 +17419,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17350,6 +17514,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17451,6 +17616,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17545,6 +17711,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17645,6 +17812,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17739,6 +17907,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17839,6 +18008,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -17933,6 +18103,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18033,6 +18204,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18127,6 +18299,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18227,6 +18400,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18321,6 +18495,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18422,6 +18597,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18516,6 +18692,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18616,6 +18793,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18710,6 +18888,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18811,6 +18990,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -18905,6 +19085,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19011,6 +19192,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19105,6 +19287,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19206,6 +19389,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19300,6 +19484,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19400,6 +19585,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19494,6 +19680,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19594,6 +19781,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19688,6 +19876,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19789,6 +19978,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19883,6 +20073,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -19983,6 +20174,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20077,6 +20269,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20179,6 +20372,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20273,6 +20467,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20377,6 +20572,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20471,6 +20667,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20573,6 +20770,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20667,6 +20865,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20767,6 +20966,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;
@@ -20861,6 +21061,7 @@ declare class M1LiveDemo {
               round_until?: number | undefined;
             } | undefined;
             last_rent_round?: number | undefined;
+            protection: number;
           }>;
           turn: {
             user_id: number | null;

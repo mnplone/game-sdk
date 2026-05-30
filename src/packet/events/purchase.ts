@@ -52,6 +52,10 @@ export const enrichments = {
 			field_id: options.event.field_id,
 			owner_user_id: options.event.user_id,
 			level: 0,
+			protection: options.setup.config.mechanics.charges?.features
+				.buyoutProtection
+				? 1
+				: 0,
 		});
 	},
 	'purchase.buyout'(options: EventEnrichOptions<'purchase.buyout'>) {
