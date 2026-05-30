@@ -83,6 +83,7 @@ const action_list_mapping = {
 	// Jail
 	goToJail: 'jail.put',
 	payForUnjail: 'jail.release.pay',
+	stayInJail: 'jail.stay',
 	// Levels
 	levelUp: 'level.build',
 	levelDown: 'level.sell',
@@ -246,7 +247,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 
 		return value;
 	}),
-	// eslint-disable-next-line complexity, max-lines-per-function
+	// oxlint-disable-next-line complexity, max-lines-per-function
 	v.transform((value) => {
 		const {
 			// turn

@@ -1,4 +1,5 @@
 import * as v from 'valibot';
+import { bit } from '@/utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
@@ -6,6 +7,7 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('jail.put'),
 		user_id: v.number(),
+		income_tax: bit(false),
 	}),
 	v.object({
 		id: v.string(),
@@ -24,7 +26,7 @@ export const valiSchemas = [
 	}),
 	v.object({
 		id: v.string(),
-		type: v.literal('jail.release.pay'),
+		type: v.literal('jail.stay'),
 		user_id: v.number(),
 	}),
 	v.object({
@@ -32,6 +34,16 @@ export const valiSchemas = [
 		type: v.literal('jail.release'),
 		user_id: v.number(),
 		position_after: v.optional(v.number()),
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('jail.release.pay'),
+		user_id: v.number(),
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal('jail.release.income-tax-write-off'),
+		user_id: v.number(),
 	}),
 ];
 
@@ -76,12 +88,14 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('goToJail'),
 			user_id: v.number(),
+			income_tax: bit(false),
 		}),
 		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'jail.put' as const,
 				user_id: value.user_id,
+				income_tax: value.income_tax,
 			};
 		}),
 	),
@@ -130,13 +144,13 @@ export const valiV1Schemas = [
 	v.pipe(
 		v.object({
 			_id: v.optional(v.string()),
-			type: v.literal('payForUnjail'),
+			type: v.literal('stayInJail'),
 			user_id: v.number(),
 		}),
 		v.transform((value) => {
 			return {
 				id: value._id,
-				type: 'jail.release.pay' as const,
+				type: 'jail.stay' as const,
 				user_id: value.user_id,
 			};
 		}),
@@ -154,6 +168,34 @@ export const valiV1Schemas = [
 				type: 'jail.release' as const,
 				user_id: value.user_id,
 				position_after: value.mean_position,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('payForUnjail'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'jail.release.pay' as const,
+				user_id: value.user_id,
+			};
+		}),
+	),
+	v.pipe(
+		v.object({
+			_id: v.optional(v.string()),
+			type: v.literal('unjailedByIncomeTaxWriteOff'),
+			user_id: v.number(),
+		}),
+		v.transform((value) => {
+			return {
+				id: value._id,
+				type: 'jail.release.income-tax-write-off' as const,
+				user_id: value.user_id,
 			};
 		}),
 	),

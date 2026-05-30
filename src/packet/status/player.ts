@@ -52,7 +52,8 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 				),
 				stat: v.object({
 					mini_die_cooldown: v.optional(v.number()),
-					rent_history: v.optional(v.number()),
+					rent_history: v.optional(v.number(), 0),
+					income_tax_base: v.optional(v.number(), 0),
 				}),
 			}),
 			v.transform((value) => value),
@@ -156,7 +157,8 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 			),
 			// stat
 			mini_die_cooldown: v.optional(v.number()),
-			rent_last: v.optional(v.number()),
+			rent_last: v.optional(v.number(), 0),
+			income_tax_base: v.optional(v.number(), 0),
 		}),
 		v.transform((value) => {
 			return {
@@ -223,6 +225,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 								? undefined
 								: Math.max(value.mini_die_cooldown, 0),
 						rent_history: value.rent_last,
+						income_tax_base: value.income_tax_base,
 					},
 				},
 			};

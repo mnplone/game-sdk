@@ -80,6 +80,17 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 				}),
 			}),
 		),
+		income_tax: v.optional(
+			v.object({
+				v: v.optional(v.picklist([1, 2]), 1),
+				rate: v.number(),
+				jail: v.optional(
+					v.object({
+						base_reduction: v.number(),
+					}),
+				),
+			}),
+		),
 		jackpot: v.optional(
 			v.object({
 				// FIXME make it work with older jackpot
@@ -96,6 +107,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 			release_fee: v.number(),
 			double_roll_attempt_limit: v.optional(v.number(), 3),
 			fine: v.optional(v.number()),
+			rent_multiplier: v.optional(v.number()),
 		}),
 		loan: v.optional(
 			v.object({
@@ -159,7 +171,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 						sum: v.number(),
 					}),
 					v.object({
-						type: v.literal('rent.tax'),
+						type: v.literal('cashflow.tax'),
 						/** Income tax rate. */
 						rate: v.number(),
 					}),
@@ -225,10 +237,16 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		// JACKPOT_SUPERPRIZE_START: v.optional(v.number()),
 		JACKPOT_SUPERPRIZE_CHANCE: v.optional(v.number()),
 		// JACKPOT_SUPERPRIZE_SHARE: v.optional(v.number()),
+		// mechanics: income tax
+		income_tax_v: v.optional(v.picklist([1, 2]), 1),
+		income_tax_rate: v.optional(v.number(), 0.1),
+		income_tax_jail: bit(false),
+		income_tax_jail_base_reduction: v.optional(v.number()),
 		// mechanics: jail
 		jailFee: v.number(),
 		UNJAIL_TRIES_LIMIT: v.optional(v.number(), 3),
 		goToJailFine: v.optional(v.number()),
+		jailed_rent_multiplier: v.optional(v.number()),
 		// mechanics: loan
 		CREDIT_SUM: v.optional(v.number()),
 		CREDIT_INTEREST: v.optional(v.number()),
@@ -322,6 +340,23 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 						multiplier: value.coeff_level_down,
 					},
 				},
+				income_tax: {
+					v: value.income_tax_v,
+					rate: value.income_tax_rate,
+					jail: (() => {
+						if (value.income_tax_jail) {
+							if (typeof value.income_tax_jail_base_reduction !== 'number') {
+								throw new TypeError(
+									'Config property income_tax_jail_base_reduction must be a number when income_tax_jail is true.',
+								);
+							}
+
+							return {
+								base_reduction: value.income_tax_jail_base_reduction,
+							};
+						}
+					})(),
+				},
 				jackpot:
 					typeof value.JACKPOT_BET === 'number'
 						? {
@@ -338,6 +373,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 					release_fee: value.jailFee,
 					double_roll_attempt_limit: value.UNJAIL_TRIES_LIMIT,
 					fine: value.goToJailFine,
+					rent_multiplier: value.jailed_rent_multiplier,
 				},
 				loan:
 					typeof value.CREDIT_SUM === 'number'
@@ -418,13 +454,13 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 					for (const rule of value.incomeTaxes) {
 						if ('game_time' in rule) {
 							rules.push({
-								type: 'rent.tax',
+								type: 'cashflow.tax',
 								time: rule.game_time * 1000,
 								rate: rule.tax_rate,
 							});
 						} else {
 							rules.push({
-								type: 'rent.tax',
+								type: 'cashflow.tax',
 								round: rule.round,
 								rate: rule.tax_rate,
 							});

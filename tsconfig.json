@@ -12,6 +12,7 @@
 		"module": "preserve",
 		"noEmit": true,
 		"lib": ["es2023", "DOM"],
+		"types": ["node"],
 		"declaration": true,
 		"isolatedDeclarations": false,
 		"importHelpers": true,

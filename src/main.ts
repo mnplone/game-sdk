@@ -17,7 +17,7 @@ export class M1LiveDemo {
 	private field_id_jail: number | null = null;
 	private status_before: M1DemoPacketStatus | null = null;
 
-	// eslint-disable-next-line max-statements, complexity, max-lines-per-function
+	// oxlint-disable-next-line max-statements, complexity, max-lines-per-function
 	process(value: unknown) {
 		if (isRecord(value) !== true) {
 			throw new TypeError('Packet is not an object.');

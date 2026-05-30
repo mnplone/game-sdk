@@ -107,6 +107,7 @@ export const enrichments = {
 				if (options.event.data && 'field_id' in options.event.data) {
 					player.position = options.event.data.field_id;
 				}
+
 				break;
 
 			// no default

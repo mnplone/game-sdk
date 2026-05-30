@@ -64,6 +64,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.object({
 					// Jail
 					'jail.put',
 					'jail.release.pay',
+					'jail.stay',
 					// Levels
 					'level.build',
 					'level.sell',

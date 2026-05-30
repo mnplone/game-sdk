@@ -1,12 +1,13 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
 	"extends": [
-		"./node_modules/@kirick/lint/configs/oxlint/correctness.jsonc",
-		"./node_modules/@kirick/lint/configs/oxlint/pedantic.jsonc",
-		"./node_modules/@kirick/lint/configs/oxlint/perf.jsonc",
-		"./node_modules/@kirick/lint/configs/oxlint/restriction.jsonc",
-		"./node_modules/@kirick/lint/configs/oxlint/style.jsonc",
-		"./node_modules/@kirick/lint/configs/oxlint/suspicious.jsonc"
+		"./node_modules/@kirick/lint/configs/oxlint/eslint.jsonc",
+		"./node_modules/@kirick/lint/configs/oxlint/jsdoc.jsonc",
+		"./node_modules/@kirick/lint/configs/oxlint/node.jsonc",
+		"./node_modules/@kirick/lint/configs/oxlint/oxc.jsonc",
+		"./node_modules/@kirick/lint/configs/oxlint/promise.jsonc",
+		"./node_modules/@kirick/lint/configs/oxlint/typescript.jsonc",
+		"./node_modules/@kirick/lint/configs/oxlint/unicorn.jsonc"
 	],
 	"ignorePatterns": ["dist"]
 }
