@@ -172,6 +172,30 @@ const valiV1Schemas$21 = [
 	}))
 ];
 //#endregion
+//#region src/utils/valibot.ts
+/**
+* Creates bit schema.
+* @param default_value Default value for a bit.
+* @returns -
+*/
+function bit(default_value) {
+	return valibot.pipe(valibot.optional(valibot.picklist([0, 1]), default_value ? 1 : 0), valibot.transform((value) => value === 1));
+}
+function parse(schema, value) {
+	return parser(schema)(value);
+}
+function parser(schema) {
+	const fn = valibot.parser(schema);
+	return (value) => {
+		try {
+			return fn(value);
+		} catch (error) {
+			if (valibot.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${valibot.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
+			throw error;
+		}
+	};
+}
+//#endregion
 //#region src/packet/events/bank.ts
 var bank_exports = /* @__PURE__ */ __exportAll({
 	enrichments: () => enrichments$19,
@@ -189,7 +213,8 @@ const valiSchemas$20 = [
 		id: valibot.string(),
 		type: valibot.literal("bank.fee"),
 		user_id: valibot.number(),
-		amount: valibot.number()
+		amount: valibot.number(),
+		shield: bit(false)
 	}),
 	valibot.object({
 		id: valibot.string(),
@@ -240,13 +265,15 @@ const valiV1Schemas$20 = [
 			"tax_luxury"
 		]),
 		user_id: valibot.number(),
-		money: valibot.number()
+		money: valibot.number(),
+		shield: bit(false)
 	}), valibot.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.fee",
 			user_id: value.user_id,
-			amount: value.money
+			amount: value.money,
+			shield: value.shield
 		};
 	})),
 	valibot.pipe(valibot.object({
@@ -276,30 +303,6 @@ const valiV1Schemas$20 = [
 		};
 	}))
 ];
-//#endregion
-//#region src/utils/valibot.ts
-/**
-* Creates bit schema.
-* @param default_value Default value for a bit.
-* @returns -
-*/
-function bit(default_value) {
-	return valibot.pipe(valibot.optional(valibot.picklist([0, 1]), default_value ? 1 : 0), valibot.transform((value) => value === 1));
-}
-function parse(schema, value) {
-	return parser(schema)(value);
-}
-function parser(schema) {
-	const fn = valibot.parser(schema);
-	return (value) => {
-		try {
-			return fn(value);
-		} catch (error) {
-			if (valibot.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${valibot.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
-			throw error;
-		}
-	};
-}
 //#endregion
 //#region src/packet/events/bus.ts
 var bus_exports = /* @__PURE__ */ __exportAll({
@@ -2561,6 +2564,7 @@ const valiSchemas$10 = [
 		type: valibot.literal("chance"),
 		user_id: valibot.number(),
 		chance_index: valibot.number(),
+		shield: bit(false),
 		data: valiChanceDataSchema
 	}),
 	valibot.object({
@@ -2650,6 +2654,7 @@ const valiV1Schemas$10 = [
 		type: valibot.literal("chance"),
 		user_id: valibot.number(),
 		chance_id: valibot.number(),
+		shield: bit(false),
 		money: valibot.optional(valibot.number()),
 		move_reverse: valibot.optional(bit(false)),
 		mean_position: valibot.optional(valibot.number())
@@ -2665,6 +2670,7 @@ const valiV1Schemas$10 = [
 			type: "chance",
 			user_id: value.user_id,
 			chance_index: value.chance_id,
+			shield: value.shield,
 			data
 		};
 	})),

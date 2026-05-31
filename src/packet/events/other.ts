@@ -28,6 +28,7 @@ export const valiSchemas = [
 		type: v.literal('chance'),
 		user_id: v.number(),
 		chance_index: v.number(),
+		shield: bit(false),
 		data: valiChanceDataSchema,
 	}),
 	v.object({
@@ -154,6 +155,7 @@ export const valiV1Schemas = [
 			type: v.literal('chance'),
 			user_id: v.number(),
 			chance_id: v.number(),
+			shield: bit(false),
 			// cash_in, cash_out, repair, insurance, birthday
 			money: v.optional(v.number()),
 			// teleport, move_undo
@@ -182,6 +184,7 @@ export const valiV1Schemas = [
 				type: 'chance' as const,
 				user_id: value.user_id,
 				chance_index: value.chance_id,
+				shield: value.shield,
 				data,
 			};
 		}),

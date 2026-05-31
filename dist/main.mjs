@@ -151,6 +151,30 @@ const valiV1Schemas$21 = [
 	}))
 ];
 //#endregion
+//#region src/utils/valibot.ts
+/**
+* Creates bit schema.
+* @param default_value Default value for a bit.
+* @returns -
+*/
+function bit(default_value) {
+	return v.pipe(v.optional(v.picklist([0, 1]), default_value ? 1 : 0), v.transform((value) => value === 1));
+}
+function parse(schema, value) {
+	return parser(schema)(value);
+}
+function parser(schema) {
+	const fn = v.parser(schema);
+	return (value) => {
+		try {
+			return fn(value);
+		} catch (error) {
+			if (v.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${v.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
+			throw error;
+		}
+	};
+}
+//#endregion
 //#region src/packet/events/bank.ts
 var bank_exports = /* @__PURE__ */ __exportAll({
 	enrichments: () => enrichments$19,
@@ -168,7 +192,8 @@ const valiSchemas$20 = [
 		id: v.string(),
 		type: v.literal("bank.fee"),
 		user_id: v.number(),
-		amount: v.number()
+		amount: v.number(),
+		shield: bit(false)
 	}),
 	v.object({
 		id: v.string(),
@@ -219,13 +244,15 @@ const valiV1Schemas$20 = [
 			"tax_luxury"
 		]),
 		user_id: v.number(),
-		money: v.number()
+		money: v.number(),
+		shield: bit(false)
 	}), v.transform((value) => {
 		return {
 			id: value._id,
 			type: "bank.fee",
 			user_id: value.user_id,
-			amount: value.money
+			amount: value.money,
+			shield: value.shield
 		};
 	})),
 	v.pipe(v.object({
@@ -255,30 +282,6 @@ const valiV1Schemas$20 = [
 		};
 	}))
 ];
-//#endregion
-//#region src/utils/valibot.ts
-/**
-* Creates bit schema.
-* @param default_value Default value for a bit.
-* @returns -
-*/
-function bit(default_value) {
-	return v.pipe(v.optional(v.picklist([0, 1]), default_value ? 1 : 0), v.transform((value) => value === 1));
-}
-function parse(schema, value) {
-	return parser(schema)(value);
-}
-function parser(schema) {
-	const fn = v.parser(schema);
-	return (value) => {
-		try {
-			return fn(value);
-		} catch (error) {
-			if (v.isValiError(error)) for (const issue of error.issues) console.error(`Valibot found an issue at ${v.getDotPath(issue)}. Received ${issue.received}, which does not match expected type ${issue.expected}`, issue);
-			throw error;
-		}
-	};
-}
 //#endregion
 //#region src/packet/events/bus.ts
 var bus_exports = /* @__PURE__ */ __exportAll({
@@ -2540,6 +2543,7 @@ const valiSchemas$10 = [
 		type: v.literal("chance"),
 		user_id: v.number(),
 		chance_index: v.number(),
+		shield: bit(false),
 		data: valiChanceDataSchema
 	}),
 	v.object({
@@ -2629,6 +2633,7 @@ const valiV1Schemas$10 = [
 		type: v.literal("chance"),
 		user_id: v.number(),
 		chance_id: v.number(),
+		shield: bit(false),
 		money: v.optional(v.number()),
 		move_reverse: v.optional(bit(false)),
 		mean_position: v.optional(v.number())
@@ -2644,6 +2649,7 @@ const valiV1Schemas$10 = [
 			type: "chance",
 			user_id: value.user_id,
 			chance_index: value.chance_id,
+			shield: value.shield,
 			data
 		};
 	})),

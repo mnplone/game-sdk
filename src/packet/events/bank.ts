@@ -1,4 +1,5 @@
 import * as v from 'valibot';
+import { bit } from '@/utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
@@ -13,6 +14,7 @@ export const valiSchemas = [
 		type: v.literal('bank.fee'),
 		user_id: v.number(),
 		amount: v.number(),
+		shield: bit(false),
 	}),
 	v.object({
 		id: v.string(),
@@ -66,6 +68,7 @@ export const valiV1Schemas = [
 			type: v.picklist(['cash_minus', 'tax_income', 'tax_luxury']),
 			user_id: v.number(),
 			money: v.number(),
+			shield: bit(false),
 		}),
 		v.transform((value) => {
 			return {
@@ -73,6 +76,7 @@ export const valiV1Schemas = [
 				type: 'bank.fee' as const,
 				user_id: value.user_id,
 				amount: value.money,
+				shield: value.shield,
 			};
 		}),
 	),

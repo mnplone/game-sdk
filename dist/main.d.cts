@@ -1902,6 +1902,7 @@ declare class M1LiveDemo {
       type: "chance";
       user_id: number;
       chance_index: number;
+      shield: boolean;
       data: {
         amount: number;
       } | {
@@ -1976,6 +1977,7 @@ declare class M1LiveDemo {
       type: "bank.fee";
       user_id: number;
       amount: number;
+      shield: boolean;
     } | {
       id: string;
       type: "bank.fee.pay";
@@ -2586,6 +2588,7 @@ declare class M1LiveDemo {
       type: "chance";
       user_id: number;
       chance_index: number;
+      shield: boolean;
       data: {
         amount: number;
       } | {
@@ -5156,6 +5159,7 @@ declare class M1LiveDemo {
       type: "bank.fee";
       user_id: number;
       amount: number;
+      shield: boolean;
       status: {
         before: {
           round: number;
