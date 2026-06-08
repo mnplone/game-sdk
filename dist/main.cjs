@@ -1095,7 +1095,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 			limit: valibot.number(),
 			features: valibot.record(valibot.string(), valibot.object({
 				charges: valibot.number(),
-				no_cap: valibot.boolean()
+				no_cap: valibot.optional(valibot.boolean(), false)
 			}))
 		})),
 		field_level: valibot.optional(valibot.object({
@@ -1196,7 +1196,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 		limit: valibot.number(),
 		features: valibot.record(valibot.string(), valibot.object({
 			charges: valibot.number(),
-			no_cap: valibot.boolean()
+			no_cap: valibot.optional(valibot.boolean(), false)
 		}))
 	})),
 	coeff_level_down: valibot.optional(valibot.number(), 1),

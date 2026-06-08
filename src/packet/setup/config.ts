@@ -63,7 +63,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 					v.string(),
 					v.object({
 						charges: v.number(),
-						no_cap: v.boolean(),
+						no_cap: v.optional(v.boolean(), false),
 					}),
 				),
 			}),
@@ -247,7 +247,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 					v.string(),
 					v.object({
 						charges: v.number(),
-						no_cap: v.boolean(),
+						no_cap: v.optional(v.boolean(), false),
 					}),
 				),
 			}),

@@ -1074,7 +1074,7 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 			limit: v.number(),
 			features: v.record(v.string(), v.object({
 				charges: v.number(),
-				no_cap: v.boolean()
+				no_cap: v.optional(v.boolean(), false)
 			}))
 		})),
 		field_level: v.optional(v.object({
@@ -1175,7 +1175,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 		limit: v.number(),
 		features: v.record(v.string(), v.object({
 			charges: v.number(),
-			no_cap: v.boolean()
+			no_cap: v.optional(v.boolean(), false)
 		}))
 	})),
 	coeff_level_down: v.optional(v.number(), 1),

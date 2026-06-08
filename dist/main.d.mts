@@ -765,7 +765,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
       readonly limit: v.NumberSchema<undefined>;
       readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
         readonly charges: v.NumberSchema<undefined>;
-        readonly no_cap: v.BooleanSchema<undefined>;
+        readonly no_cap: v.OptionalSchema<v.BooleanSchema<undefined>, false>;
       }, undefined>, undefined>;
     }, undefined>, undefined>;
     readonly field_level: v.OptionalSchema<v.ObjectSchema<{
@@ -1110,7 +1110,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
         readonly limit: v.NumberSchema<undefined>;
         readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
           readonly charges: v.NumberSchema<undefined>;
-          readonly no_cap: v.BooleanSchema<undefined>;
+          readonly no_cap: v.OptionalSchema<v.BooleanSchema<undefined>, false>;
         }, undefined>, undefined>;
       }, undefined>, undefined>;
       readonly field_level: v.OptionalSchema<v.ObjectSchema<{
