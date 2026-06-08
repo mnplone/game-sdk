@@ -2970,7 +2970,8 @@ const valiSchemas$7 = [
 		id: valibot.string(),
 		type: valibot.literal("rent.zero"),
 		user_id: valibot.number(),
-		field_id: valibot.number()
+		field_id: valibot.number(),
+		shield: bit(false)
 	}),
 	valibot.object({
 		id: valibot.string(),
@@ -3051,13 +3052,15 @@ const valiV1Schemas$7 = [
 		_id: valibot.optional(valibot.string()),
 		type: valibot.literal("payRentZero"),
 		user_id: valibot.number(),
-		field: valibot.number()
+		field: valibot.number(),
+		shield: bit(false)
 	}), valibot.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero",
 			user_id: value.user_id,
-			field_id: value.field
+			field_id: value.field,
+			shield: value.shield
 		};
 	})),
 	valibot.pipe(valibot.object({

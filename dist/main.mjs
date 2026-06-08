@@ -2949,7 +2949,8 @@ const valiSchemas$7 = [
 		id: v.string(),
 		type: v.literal("rent.zero"),
 		user_id: v.number(),
-		field_id: v.number()
+		field_id: v.number(),
+		shield: bit(false)
 	}),
 	v.object({
 		id: v.string(),
@@ -3030,13 +3031,15 @@ const valiV1Schemas$7 = [
 		_id: v.optional(v.string()),
 		type: v.literal("payRentZero"),
 		user_id: v.number(),
-		field: v.number()
+		field: v.number(),
+		shield: bit(false)
 	}), v.transform((value) => {
 		return {
 			id: value._id,
 			type: "rent.zero",
 			user_id: value.user_id,
-			field_id: value.field
+			field_id: value.field,
+			shield: value.shield
 		};
 	})),
 	v.pipe(v.object({

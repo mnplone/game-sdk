@@ -1,4 +1,5 @@
 import * as v from 'valibot';
+import { bit } from '@/utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
@@ -29,6 +30,7 @@ export const valiSchemas = [
 		type: v.literal('rent.zero'),
 		user_id: v.number(),
 		field_id: v.number(),
+		shield: bit(false),
 	}),
 	v.object({
 		id: v.string(),
@@ -128,6 +130,7 @@ export const valiV1Schemas = [
 			type: v.literal('payRentZero'),
 			user_id: v.number(),
 			field: v.number(),
+			shield: bit(false),
 		}),
 		v.transform((value) => {
 			return {
@@ -135,6 +138,7 @@ export const valiV1Schemas = [
 				type: 'rent.zero' as const,
 				user_id: value.user_id,
 				field_id: value.field,
+				shield: value.shield,
 			};
 		}),
 	),

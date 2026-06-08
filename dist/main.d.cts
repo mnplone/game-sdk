@@ -2237,6 +2237,7 @@ declare class M1LiveDemo {
       type: "rent.zero";
       user_id: number;
       field_id: number;
+      shield: boolean;
     } | {
       id: string;
       type: "rent.zero.self";
@@ -15211,6 +15212,7 @@ declare class M1LiveDemo {
       type: "rent.zero";
       user_id: number;
       field_id: number;
+      shield: boolean;
       status: {
         before: {
           round: number;
