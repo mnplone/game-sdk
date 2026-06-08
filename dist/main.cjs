@@ -1092,18 +1092,18 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 		chance: valibot.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		charges: valibot.optional(valibot.object({
 			default: valibot.number(),
-			per_move: valibot.number(),
 			limit: valibot.number(),
-			features: valibot.record(valibot.string(), valibot.object({ charges: valibot.number() }))
+			features: valibot.record(valibot.string(), valibot.object({
+				charges: valibot.number(),
+				no_cap: valibot.boolean()
+			}))
 		})),
 		field_level: valibot.optional(valibot.object({
 			build: valibot.optional(valibot.object({
 				/** When true, player can build uneven levels on the field. */
 				uneven: bit(false),
 				/** When true, player can build levels on the field without owning the whole monopoly. */
-				without_monopoly: valibot.optional(valibot.object({ rent_multiplier: valibot.optional(valibot.number(), 1) })),
-				/** When true, player can build level on the field only when they arrive in that field. */
-				only_on_arrival: bit(false)
+				without_monopoly: valibot.optional(valibot.object({ rent_multiplier: valibot.optional(valibot.number(), 1) }))
 			}), () => {
 				return {};
 			}),
@@ -1193,15 +1193,16 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	chance_cards: valibot.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
 	charges: valibot.optional(valibot.object({
 		default: valibot.number(),
-		per_move: valibot.number(),
 		limit: valibot.number(),
-		features: valibot.record(valibot.string(), valibot.object({ charges: valibot.number() }))
+		features: valibot.record(valibot.string(), valibot.object({
+			charges: valibot.number(),
+			no_cap: valibot.boolean()
+		}))
 	})),
 	coeff_level_down: valibot.optional(valibot.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
 	coeff_level_no_mnpl: valibot.optional(valibot.number(), 1),
-	level_build_only_on_arrival: bit(false),
 	JACKPOT_BET: valibot.optional(valibot.number()),
 	JACKPOT_COEFFS: valibot.optional(valibot.array(valibot.number())),
 	JACKPOT_SUPERPRIZE_CHANCE: valibot.optional(valibot.number()),
@@ -1250,8 +1251,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 			field_level: {
 				build: {
 					uneven: value.UNEVEN_LEVEL_CHANGE,
-					without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0,
-					only_on_arrival: value.level_build_only_on_arrival
+					without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0
 				},
 				sell: { multiplier: value.coeff_level_down }
 			},

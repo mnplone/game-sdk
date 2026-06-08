@@ -762,10 +762,10 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     }, undefined>, undefined>;
     readonly charges: v.OptionalSchema<v.ObjectSchema<{
       readonly default: v.NumberSchema<undefined>;
-      readonly per_move: v.NumberSchema<undefined>;
       readonly limit: v.NumberSchema<undefined>;
       readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
         readonly charges: v.NumberSchema<undefined>;
+        readonly no_cap: v.BooleanSchema<undefined>;
       }, undefined>, undefined>;
     }, undefined>, undefined>;
     readonly field_level: v.OptionalSchema<v.ObjectSchema<{
@@ -773,8 +773,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
         /** When true, player can build uneven levels on the field. */readonly uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>; /** When true, player can build levels on the field without owning the whole monopoly. */
         readonly without_monopoly: v.OptionalSchema<v.ObjectSchema<{
           readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
-        }, undefined>, undefined>; /** When true, player can build level on the field only when they arrive in that field. */
-        readonly only_on_arrival: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+        }, undefined>, undefined>;
       }, undefined>, () => {}>;
       readonly sell: v.ObjectSchema<{
         /** Price multiplier when selling a level (house) on the field, applies to the level buy price. */readonly multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
@@ -1108,10 +1107,10 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       }, undefined>, undefined>;
       readonly charges: v.OptionalSchema<v.ObjectSchema<{
         readonly default: v.NumberSchema<undefined>;
-        readonly per_move: v.NumberSchema<undefined>;
         readonly limit: v.NumberSchema<undefined>;
         readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
           readonly charges: v.NumberSchema<undefined>;
+          readonly no_cap: v.BooleanSchema<undefined>;
         }, undefined>, undefined>;
       }, undefined>, undefined>;
       readonly field_level: v.OptionalSchema<v.ObjectSchema<{
@@ -1120,7 +1119,6 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
           readonly without_monopoly: v.OptionalSchema<v.ObjectSchema<{
             readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
           }, undefined>, undefined>;
-          readonly only_on_arrival: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
         }, undefined>, () => {}>;
         readonly sell: v.ObjectSchema<{
           readonly multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
@@ -1668,11 +1666,11 @@ declare class M1LiveDemo {
           } | undefined;
           charges?: {
             default: number;
-            per_move: number;
             limit: number;
             features: {
               [x: string]: {
                 charges: number;
+                no_cap: boolean;
               };
             };
           } | undefined;
@@ -1682,7 +1680,6 @@ declare class M1LiveDemo {
               without_monopoly?: {
                 rent_multiplier: number;
               } | undefined;
-              only_on_arrival: boolean;
             };
             sell: {
               multiplier: number;

@@ -1071,18 +1071,18 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
 		charges: v.optional(v.object({
 			default: v.number(),
-			per_move: v.number(),
 			limit: v.number(),
-			features: v.record(v.string(), v.object({ charges: v.number() }))
+			features: v.record(v.string(), v.object({
+				charges: v.number(),
+				no_cap: v.boolean()
+			}))
 		})),
 		field_level: v.optional(v.object({
 			build: v.optional(v.object({
 				/** When true, player can build uneven levels on the field. */
 				uneven: bit(false),
 				/** When true, player can build levels on the field without owning the whole monopoly. */
-				without_monopoly: v.optional(v.object({ rent_multiplier: v.optional(v.number(), 1) })),
-				/** When true, player can build level on the field only when they arrive in that field. */
-				only_on_arrival: bit(false)
+				without_monopoly: v.optional(v.object({ rent_multiplier: v.optional(v.number(), 1) }))
 			}), () => {
 				return {};
 			}),
@@ -1172,15 +1172,16 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
 	charges: v.optional(v.object({
 		default: v.number(),
-		per_move: v.number(),
 		limit: v.number(),
-		features: v.record(v.string(), v.object({ charges: v.number() }))
+		features: v.record(v.string(), v.object({
+			charges: v.number(),
+			no_cap: v.boolean()
+		}))
 	})),
 	coeff_level_down: v.optional(v.number(), 1),
 	UNEVEN_LEVEL_CHANGE: bit(false),
 	LEVEL_CHANGE_NO_MNPL: bit(false),
 	coeff_level_no_mnpl: v.optional(v.number(), 1),
-	level_build_only_on_arrival: bit(false),
 	JACKPOT_BET: v.optional(v.number()),
 	JACKPOT_COEFFS: v.optional(v.array(v.number())),
 	JACKPOT_SUPERPRIZE_CHANCE: v.optional(v.number()),
@@ -1229,8 +1230,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 			field_level: {
 				build: {
 					uneven: value.UNEVEN_LEVEL_CHANGE,
-					without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0,
-					only_on_arrival: value.level_build_only_on_arrival
+					without_monopoly: value.LEVEL_CHANGE_NO_MNPL ? { rent_multiplier: value.coeff_level_no_mnpl } : void 0
 				},
 				sell: { multiplier: value.coeff_level_down }
 			},

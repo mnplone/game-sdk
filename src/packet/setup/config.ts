@@ -58,12 +58,12 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 		charges: v.optional(
 			v.object({
 				default: v.number(),
-				per_move: v.number(),
 				limit: v.number(),
 				features: v.record(
 					v.string(),
 					v.object({
 						charges: v.number(),
+						no_cap: v.boolean(),
 					}),
 				),
 			}),
@@ -80,8 +80,8 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 								rent_multiplier: v.optional(v.number(), 1),
 							}),
 						),
-						/** When true, player can build level on the field only when they arrive in that field. */
-						only_on_arrival: bit(false),
+						// /** When true, player can build level on the field only when they arrive in that field. */
+						// only_on_arrival: bit(false),
 					}),
 					() => {
 						return {};
@@ -242,12 +242,12 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		charges: v.optional(
 			v.object({
 				default: v.number(),
-				per_move: v.number(),
 				limit: v.number(),
 				features: v.record(
 					v.string(),
 					v.object({
 						charges: v.number(),
+						no_cap: v.boolean(),
 					}),
 				),
 			}),
@@ -257,7 +257,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		UNEVEN_LEVEL_CHANGE: bit(false),
 		LEVEL_CHANGE_NO_MNPL: bit(false),
 		coeff_level_no_mnpl: v.optional(v.number(), 1),
-		level_build_only_on_arrival: bit(false),
+		// level_build_only_on_arrival: bit(false),
 		// mechanics: jackpot
 		JACKPOT_BET: v.optional(v.number()),
 		JACKPOT_COEFFS: v.optional(v.array(v.number())),
@@ -362,7 +362,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 									rent_multiplier: value.coeff_level_no_mnpl,
 								}
 							: undefined,
-						only_on_arrival: value.level_build_only_on_arrival,
+						// only_on_arrival: value.level_build_only_on_arrival,
 					},
 					sell: {
 						multiplier: value.coeff_level_down,
