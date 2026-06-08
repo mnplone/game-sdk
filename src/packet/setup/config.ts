@@ -60,6 +60,16 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 				default: v.number(),
 				limit: v.number(),
 				features: v.record(
+					// FIXME: valibot does not infer types to record keys
+					// v.picklist([
+					// 	'before_move',
+					// 	'start_pass',
+					// 	'mini_die',
+					// 	'buyout',
+					// 	'buyout_protect',
+					// 	'buyout_protected',
+					// 	'field_waive',
+					// ]),
 					v.string(),
 					v.object({
 						charges: v.number(),

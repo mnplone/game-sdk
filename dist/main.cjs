@@ -664,11 +664,15 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = valibot.strictObject({ 
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
-		type: valibot.literal("move.undo"),
+		type: valibot.literal("move.one"),
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
 		type: valibot.literal("move.skip"),
+		text_id: valibot.number()
+	}),
+	valibot.strictObject({
+		type: valibot.literal("move.undo"),
 		text_id: valibot.number()
 	}),
 	valibot.strictObject({
@@ -718,6 +722,10 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 	}),
 	valibot.strictObject({
 		type: valibot.literal("teleport"),
+		text: valibot.string()
+	}),
+	valibot.strictObject({
+		type: valibot.literal("move_one"),
 		text: valibot.string()
 	}),
 	valibot.strictObject({
@@ -797,6 +805,12 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 		case "reverse":
 			chance_cards_new.push({
 				type: element.type,
+				text_id: crc32(element.text)
+			});
+			break;
+		case "move_one":
+			chance_cards_new.push({
+				type: "move.one",
 				text_id: crc32(element.text)
 			});
 			break;

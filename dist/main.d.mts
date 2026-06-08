@@ -464,10 +464,13 @@ declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: v.StrictObjectSc
     readonly type: v.LiteralSchema<"teleport", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
-    readonly type: v.LiteralSchema<"move.undo", undefined>;
+    readonly type: v.LiteralSchema<"move.one", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
     readonly type: v.LiteralSchema<"move.skip", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"move.undo", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
     readonly type: v.LiteralSchema<"insurance", undefined>;
@@ -739,10 +742,13 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
         readonly type: v.LiteralSchema<"teleport", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
-        readonly type: v.LiteralSchema<"move.undo", undefined>;
+        readonly type: v.LiteralSchema<"move.one", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
         readonly type: v.LiteralSchema<"move.skip", undefined>;
+        readonly text_id: v.NumberSchema<undefined>;
+      }, undefined>, v.StrictObjectSchema<{
+        readonly type: v.LiteralSchema<"move.undo", undefined>;
         readonly text_id: v.NumberSchema<undefined>;
       }, undefined>, v.StrictObjectSchema<{
         readonly type: v.LiteralSchema<"insurance", undefined>;
@@ -1084,10 +1090,13 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
           readonly type: v.LiteralSchema<"teleport", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
-          readonly type: v.LiteralSchema<"move.undo", undefined>;
+          readonly type: v.LiteralSchema<"move.one", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
           readonly type: v.LiteralSchema<"move.skip", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"move.undo", undefined>;
           readonly text_id: v.NumberSchema<undefined>;
         }, undefined>, v.StrictObjectSchema<{
           readonly type: v.LiteralSchema<"insurance", undefined>;
@@ -1643,10 +1652,13 @@ declare class M1LiveDemo {
               type: "teleport";
               text_id: number;
             } | {
-              type: "move.undo";
+              type: "move.one";
               text_id: number;
             } | {
               type: "move.skip";
+              text_id: number;
+            } | {
+              type: "move.undo";
               text_id: number;
             } | {
               type: "insurance";

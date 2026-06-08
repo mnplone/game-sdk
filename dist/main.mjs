@@ -643,11 +643,15 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({ cards:
 		text_id: v.number()
 	}),
 	v.strictObject({
-		type: v.literal("move.undo"),
+		type: v.literal("move.one"),
 		text_id: v.number()
 	}),
 	v.strictObject({
 		type: v.literal("move.skip"),
+		text_id: v.number()
+	}),
+	v.strictObject({
+		type: v.literal("move.undo"),
 		text_id: v.number()
 	}),
 	v.strictObject({
@@ -697,6 +701,10 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
 	}),
 	v.strictObject({
 		type: v.literal("teleport"),
+		text: v.string()
+	}),
+	v.strictObject({
+		type: v.literal("move_one"),
 		text: v.string()
 	}),
 	v.strictObject({
@@ -776,6 +784,12 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
 		case "reverse":
 			chance_cards_new.push({
 				type: element.type,
+				text_id: crc32(element.text)
+			});
+			break;
+		case "move_one":
+			chance_cards_new.push({
+				type: "move.one",
 				text_id: crc32(element.text)
 			});
 			break;
