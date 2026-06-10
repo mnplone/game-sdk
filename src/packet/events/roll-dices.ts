@@ -246,7 +246,7 @@ function getRolledDistance(
 				case 1: // number
 				case 2: // number
 				case 3: // number
-					distance += dices[1];
+					// do nothing
 					break;
 				case 4: // reroll
 				case 6: // taxi
