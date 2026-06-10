@@ -242,33 +242,18 @@ function getRolledDistance(
 	} else if (game_submode === 5) {
 		// if mini die was rolled
 		if (typeof dices[1] === 'number') {
-			// // if number was rolled on mini die
-			// if (dices[1] <= 3) {
-			// 	distance += dices[1];
-			// }
-			// // if doubling was rolled, player moves twice the distance
-			// else if (dices[1] === 5) {
-			// 	distance *= 2;
-			// }
-			// // if taxi was rolled, no movement
-			// else if (dices[1] === 4 || dices[1] === 6) {
-			// 	return 0;
-			// }
 			switch (dices[1]) {
-				case 1: // cash
-					// do nothing
+				case 1: // number
+				case 2: // number
+				case 3: // number
+					distance += dices[1];
 					break;
-
-				case 2: // reverse
-				case 3: // reroll
-				case 4: // taxi
+				case 4: // reroll
 				case 6: // taxi
 					return 0;
-
 				case 5: // doubling
 					distance *= 2;
 					break;
-
 				default:
 					throw new Error(`Invalid mini die value: ${dices[1]}`);
 			}
