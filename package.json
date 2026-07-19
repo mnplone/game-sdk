@@ -16,6 +16,22 @@
 			},
 			"import": "./dist/main.mjs",
 			"require": "./dist/main.cjs"
+		},
+		"./schemas": {
+			"types": {
+				"import": "./dist/schemas.d.mts",
+				"require": "./dist/schemas.d.cts"
+			},
+			"import": "./dist/schemas.mjs",
+			"require": "./dist/schemas.cjs"
+		},
+		"./types": {
+			"types": {
+				"import": "./dist/types.d.mts",
+				"require": "./dist/types.d.cts"
+			},
+			"import": "./dist/types.mjs",
+			"require": "./dist/types.cjs"
 		}
 	},
 	"engines": {
@@ -37,7 +53,7 @@
 		"vitest": "4.1.7"
 	},
 	"scripts": {
-		"build": "tsdown src/main.ts --unused --dts --format esm --format cjs",
+		"build": "tsdown src/main.ts src/schemas.ts src/types.ts --unused --dts --format esm --format cjs",
 		"check": "bun run lint && bun run build",
 		"lint": "biome format && oxlint && eslint . && tsc"
 	},
