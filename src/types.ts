@@ -1,3 +1,4 @@
+export type { M1DemoPacketEvent } from './main.js';
 export type { M1DemoPacketSetupConfig } from './packet/setup/config.js';
 export type { M1DemoPacketSetupPlayer } from './packet/setup/player.js';
 export type { M1DemoPacketStatusField } from './packet/status/fields.js';
