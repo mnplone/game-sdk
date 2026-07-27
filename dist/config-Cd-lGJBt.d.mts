@@ -263,8 +263,6 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
   }, undefined>;
 }, undefined>;
 type M1DemoPacketSetupConfig = v.InferOutput<typeof valiM1DemoPacketSetupConfigSchema>;
-type M1DemoPacketSetupConfigMechanics = M1DemoPacketSetupConfig['mechanics'];
-type M1DemoPacketSetupConfigMechanicsRules = M1DemoPacketSetupConfigMechanics['rules'];
 declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly version: v.NumberSchema<undefined>;
   readonly size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
@@ -1008,4 +1006,4 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   };
 }>]>;
 //#endregion
-export { valiM1DemoPacketV1ConfigSchema as a, valiM1DemoPacketSetupConfigSchema as i, M1DemoPacketSetupConfigMechanics as n, M1DemoPacketSetupConfigMechanicsRules as r, M1DemoPacketSetupConfig as t };
+export { valiM1DemoPacketSetupConfigSchema as n, valiM1DemoPacketV1ConfigSchema as r, M1DemoPacketSetupConfig as t };

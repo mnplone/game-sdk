@@ -759,7 +759,7 @@ const extra_actions_mapping = [
 	["pause.end", "pauseRemove"],
 	["contract.fallback", "contractFallback"]
 ];
-const packetv1_action_mapping = Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
+Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
 const valiM1DemoPacketV1StatusActiontypeSchema = v.array(v.picklist(Object.keys(action_list_mapping)));
 const valiM1DemoPacketV1ContractSchema = v.pipe(v.object({
 	from: v.number(),
@@ -3283,4 +3283,4 @@ var M1LiveDemo = class {
 	}
 };
 //#endregion
-export { M1LiveDemo, packetv1_action_mapping };
+export { M1LiveDemo };

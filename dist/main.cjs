@@ -749,7 +749,7 @@ const extra_actions_mapping = [
 	["pause.end", "pauseRemove"],
 	["contract.fallback", "contractFallback"]
 ];
-const packetv1_action_mapping = Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
+Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
 const valiM1DemoPacketV1StatusActiontypeSchema = valibot.array(valibot.picklist(Object.keys(action_list_mapping)));
 const valiM1DemoPacketV1ContractSchema = valibot.pipe(valibot.object({
 	from: valibot.number(),
@@ -3274,4 +3274,3 @@ var M1LiveDemo = class {
 };
 //#endregion
 exports.M1LiveDemo = M1LiveDemo;
-exports.packetv1_action_mapping = packetv1_action_mapping;
