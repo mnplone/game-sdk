@@ -2010,6 +2010,7 @@ declare const valiM1DemoRawPacketSchema: v.ObjectSchema<{
     ts_inactive?: number | undefined;
   }>]>;
 }, undefined>;
+type M1DemoTransportPacket = v.InferInput<typeof valiM1DemoRawPacketSchema>;
 type M1DemoRawPacket = v.InferOutput<typeof valiM1DemoRawPacketSchema>;
 //#endregion
-export type { M1DemoPacketEventType, M1DemoPacketSetupConfig, M1DemoPacketSetupPlayer, M1DemoPacketStatus, M1DemoPacketStatusField, M1DemoPacketStatusPlayer, M1DemoRawPacket, M1DemoRawPacketEvent };
+export type { M1DemoPacketEventType, M1DemoPacketSetupConfig, M1DemoPacketSetupPlayer, M1DemoPacketStatus, M1DemoPacketStatusField, M1DemoPacketStatusPlayer, M1DemoRawPacket, M1DemoRawPacketEvent, M1DemoTransportPacket };

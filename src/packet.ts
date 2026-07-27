@@ -26,6 +26,9 @@ export const valiM1DemoRawPacketSchema = v.object({
 	time: valiM1DemoPacketTimeSchema,
 });
 
+export type M1DemoTransportPacket = v.InferInput<
+	typeof valiM1DemoRawPacketSchema
+>;
 export type M1DemoRawPacket = v.InferOutput<typeof valiM1DemoRawPacketSchema>;
 
 // -------------------------------------------------
