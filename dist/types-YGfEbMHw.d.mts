@@ -277,525 +277,6 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
 }, undefined>;
 type M1DemoPacketStatus = v.InferOutput<typeof valiM1DemoPacketStatusSchema>;
 //#endregion
-//#region src/packet/events.d.ts
-declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bankrupt", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly user_id_bankrupt: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"chance", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly chance_index: v.NumberSchema<undefined>;
-  readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  readonly data: v.UnionSchema<[v.StrictObjectSchema<{
-    readonly amount: v.NumberSchema<undefined>;
-  }, undefined>, v.StrictObjectSchema<{
-    readonly field_id: v.NumberSchema<undefined>;
-    readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined>, v.UndefinedSchema<undefined>], undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"game-over", undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"leave", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly kicked: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"message", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly private: v.OptionalSchema<v.ObjectSchema<{
-    readonly user_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-  }, undefined>, undefined>;
-  readonly is_forced: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  readonly text: v.StringSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"park", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"restart", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly restart_price: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"skip", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"auction.put", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly bid: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"auction.bid", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly bid: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"auction.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"auction.win", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly user_id_seller: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-  readonly price: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"auction.cancel", undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly user_id_seller: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-  readonly price: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bank.income", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bank.fee", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-  readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bank.fee.pay", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bank.return", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bus.select", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly move_distances: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bus.move", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly selection: v.ObjectSchema<{
-    readonly stop_id: v.PicklistSchema<[0, 1, -1], undefined>;
-    readonly field_id: v.NumberSchema<undefined>;
-    readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.send", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly user_id_to: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.accept", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly contract: v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-    readonly cash: v.NumberSchema<undefined>;
-  }, undefined>, v.ObjectSchema<{
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-    readonly cash: v.NumberSchema<undefined>;
-  }, undefined>], undefined>, v.TransformAction<[{
-    user_id: number;
-    field_ids: number[];
-    cash: number;
-  }, {
-    user_id: number;
-    field_ids: number[];
-    cash: number;
-  }], {
-    initiator: {
-      user_id: number;
-      field_ids: Set<number>;
-      cash: number;
-    };
-    responder: {
-      user_id: number;
-      field_ids: Set<number>;
-      cash: number;
-    };
-  }>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly timeout: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.review.init", undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.review.approve", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.review.object", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.review.pass", undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"contract.revert", undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot.pay", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-  readonly jackpot_size: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot.play", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly dice_bet: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-  readonly dice_rolled: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot.win", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-  readonly dice_rolled: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot.lose", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-  readonly dice_rolled: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot.superprize.win", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot.superprize.increase", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly superprize: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jackpot.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.put", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly income_tax: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.put.double", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.fine", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.visit", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.stay", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.release", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly position_after: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.release.pay", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"jail.release.income-tax-write-off", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"level.build", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"level.sell", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"loan.take", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"loan.deadline", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"loan.repay", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"m1.move", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly rule: v.SchemaWithPipe<readonly [v.PicklistSchema<[0, 1], undefined>, v.TransformAction<0 | 1, "free" | "enemy_owned">]>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"m1.fail", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"mortgage.put", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"mortgage.buyback", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"mortgage.expire", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"waive", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"movement.picker", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"movement.go", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"pause.set", undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"pause.end", undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"purchase.offer", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"purchase", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly price: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"purchase.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"purchase.buyout", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly user_id_receiver: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly price: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"purchase.buyout.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"purchase.buyout.protect", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"rent.pay", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"rent.pay.complete", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly user_id_receiver: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-  readonly amount_received: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"rent.pay.cancel", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly user_id_receiver: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"rent.zero", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"rent.zero.self", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"rent.zero.teammate", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"rent.zero.mortgaged", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"russian-roulette", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"russian-roulette.play", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly bullets_count: v.NumberSchema<undefined>;
-  readonly reward_amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"russian-roulette.survive", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly reward_amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"russian-roulette.die", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"russian-roulette.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"start.income", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"start.bonus", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"start.tax", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"start.tax.pay", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"taxi.select", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly limit: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"taxi.move", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly selection: v.ObjectSchema<{
-    readonly stop_id: v.NumberSchema<undefined>;
-    readonly field_id: v.NumberSchema<undefined>;
-    readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"taxi.fail", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"tournament.drop", undefined>;
-  readonly user_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"wormhole", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"wormhole.open", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly exits_count: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"wormhole.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"wormhole.move", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"roll-dices", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly reroll: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  readonly dices: v.UnionSchema<[v.StrictTupleSchema<[v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>], undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  readonly double_spent: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"roll-dices.doubling", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"roll-dices.jail.success", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"roll-dices.jail.fail", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"roll-dices.reroll", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"roll-dices.reroll.reject", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  readonly position: v.NumberSchema<undefined>;
-}, undefined>)[], v.SchemaWithPipe<readonly [v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.StringSchema<undefined>;
-}, undefined>, v.TransformAction<{
-  id: string;
-  type: string;
-}, {
-  id: string;
-  type: "_unknown";
-  type_received: string;
-}>]>], undefined>, undefined>;
-type M1DemoPacketEvents = v.InferOutput<typeof valiM1DemoPacketEventsSchema>;
-type M1DemoPacketEvent = M1DemoPacketEvents[number];
-type M1DemoPacketEventType = M1DemoPacketEvent['type'];
-//#endregion
 //#region src/packet.d.ts
 declare const valiM1DemoPacketSchema: v.ObjectSchema<{
   /** Various information about the match which is never changes. */readonly setup: v.OptionalSchema<v.ObjectSchema<{
@@ -1987,6 +1468,525 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
 type M1DemoTransportPacket = v.InferInput<typeof valiM1DemoPacketSchema>;
 type M1DemoPacket = v.InferOutput<typeof valiM1DemoPacketSchema>;
 //#endregion
+//#region src/packet/events.d.ts
+declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"bankrupt", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly user_id_bankrupt: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"chance", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly chance_index: v.NumberSchema<undefined>;
+  readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly data: v.UnionSchema<[v.StrictObjectSchema<{
+    readonly amount: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly field_id: v.NumberSchema<undefined>;
+    readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  }, undefined>, v.UndefinedSchema<undefined>], undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"game-over", undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"leave", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly kicked: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"message", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly private: v.OptionalSchema<v.ObjectSchema<{
+    readonly user_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  }, undefined>, undefined>;
+  readonly is_forced: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly text: v.StringSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"park", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"restart", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly restart_price: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"skip", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"auction.put", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly bid: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"auction.bid", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly bid: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"auction.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"auction.win", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly user_id_seller: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly price: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"auction.cancel", undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly user_id_seller: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly price: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"bank.income", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"bank.fee", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+  readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"bank.fee.pay", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"bank.return", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"bus.select", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly move_distances: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"bus.move", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly selection: v.ObjectSchema<{
+    readonly stop_id: v.PicklistSchema<[0, 1, -1], undefined>;
+    readonly field_id: v.NumberSchema<undefined>;
+    readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  }, undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.send", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly user_id_to: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.accept", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly contract: v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
+    readonly user_id: v.NumberSchema<undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    readonly cash: v.NumberSchema<undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly user_id: v.NumberSchema<undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    readonly cash: v.NumberSchema<undefined>;
+  }, undefined>], undefined>, v.TransformAction<[{
+    user_id: number;
+    field_ids: number[];
+    cash: number;
+  }, {
+    user_id: number;
+    field_ids: number[];
+    cash: number;
+  }], {
+    initiator: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+    responder: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+  }>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly timeout: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.review.init", undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.review.approve", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.review.object", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.review.pass", undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"contract.revert", undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot.pay", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+  readonly jackpot_size: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot.play", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly dice_bet: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  readonly dice_rolled: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot.win", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+  readonly dice_rolled: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot.lose", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly dice_rolled: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot.superprize.win", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot.superprize.increase", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly superprize: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jackpot.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.put", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly income_tax: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.put.double", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.fine", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.visit", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.stay", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.release", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly position_after: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.release.pay", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"jail.release.income-tax-write-off", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"level.build", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"level.sell", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"loan.take", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"loan.deadline", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"loan.repay", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"m1.move", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly rule: v.SchemaWithPipe<readonly [v.PicklistSchema<[0, 1], undefined>, v.TransformAction<0 | 1, "free" | "enemy_owned">]>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"m1.fail", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"mortgage.put", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"mortgage.buyback", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"mortgage.expire", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"waive", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"movement.picker", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"movement.go", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"pause.set", undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"pause.end", undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"purchase.offer", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"purchase", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly price: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"purchase.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"purchase.buyout", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly user_id_receiver: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly price: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"purchase.buyout.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"purchase.buyout.protect", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"rent.pay", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"rent.pay.complete", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly user_id_receiver: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+  readonly amount_received: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"rent.pay.cancel", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly user_id_receiver: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"rent.zero", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"rent.zero.self", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"rent.zero.teammate", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"rent.zero.mortgaged", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"russian-roulette", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"russian-roulette.play", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly bullets_count: v.NumberSchema<undefined>;
+  readonly reward_amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"russian-roulette.survive", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly reward_amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"russian-roulette.die", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"russian-roulette.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"start.income", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"start.bonus", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"start.tax", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"start.tax.pay", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"taxi.select", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly limit: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"taxi.move", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly selection: v.ObjectSchema<{
+    readonly stop_id: v.NumberSchema<undefined>;
+    readonly field_id: v.NumberSchema<undefined>;
+    readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  }, undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"taxi.fail", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"tournament.drop", undefined>;
+  readonly user_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"wormhole", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"wormhole.open", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly exits_count: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"wormhole.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"wormhole.move", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_id: v.NumberSchema<undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"roll-dices", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly reroll: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly dices: v.UnionSchema<[v.StrictTupleSchema<[v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>], undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly double_spent: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"roll-dices.doubling", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"roll-dices.jail.success", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"roll-dices.jail.fail", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"roll-dices.reroll", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+}, undefined> | v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.LiteralSchema<"roll-dices.reroll.reject", undefined>;
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly position: v.NumberSchema<undefined>;
+}, undefined>)[], v.SchemaWithPipe<readonly [v.ObjectSchema<{
+  readonly id: v.StringSchema<undefined>;
+  readonly type: v.StringSchema<undefined>;
+}, undefined>, v.TransformAction<{
+  id: string;
+  type: string;
+}, {
+  id: string;
+  type: "_unknown";
+  type_received: string;
+}>]>], undefined>, undefined>;
+type M1DemoPacketEvents = v.InferOutput<typeof valiM1DemoPacketEventsSchema>;
+type M1DemoPacketEvent = M1DemoPacketEvents[number];
+type M1DemoPacketEventType = M1DemoPacketEvent['type'];
+//#endregion
 //#region src/packet/setup/player.d.ts
 declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly user_id: v.NumberSchema<undefined>;
@@ -2282,8 +2282,9 @@ type M1DemoRichPacket = M1DemoPacket & {
     };
   })[];
 };
-type ExtractM1DemoPacketEvent<T> = Extract<M1DemoPacketEvent, {
+type M1DemoRichPacketEvent = M1DemoRichPacket['events'][number];
+type ExtractM1DemoRichPacketEvent<T> = Extract<M1DemoRichPacketEvent, {
   type: T;
 }>;
 //#endregion
-export { M1DemoPacketSetupPlayer as a, M1DemoPacketEvent as c, M1DemoPacketStatusField as i, M1DemoPacketEventType as l, M1DemoRichPacket as n, M1DemoPacket as o, M1DemoPacketStatusPlayer as r, M1DemoTransportPacket as s, ExtractM1DemoPacketEvent as t, M1DemoPacketStatus as u };
+export { M1DemoPacketSetupPlayer as a, M1DemoPacket as c, M1DemoPacketStatusField as i, M1DemoTransportPacket as l, M1DemoRichPacket as n, M1DemoPacketEvent as o, M1DemoPacketStatusPlayer as r, M1DemoPacketEventType as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketStatus as u };

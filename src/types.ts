@@ -1,4 +1,3 @@
-import type { M1DemoPacketEvent } from './packet/events.js';
 import type { M1DemoPacketStatus } from './packet/status.js';
 import type { M1DemoPacket } from './packet.js';
 
@@ -10,9 +9,9 @@ export type M1DemoRichPacket = M1DemoPacket & {
 		};
 	})[];
 };
-
-export type ExtractM1DemoPacketEvent<T> = Extract<
-	M1DemoPacketEvent,
+type M1DemoRichPacketEvent = M1DemoRichPacket['events'][number];
+export type ExtractM1DemoRichPacketEvent<T> = Extract<
+	M1DemoRichPacketEvent,
 	{ type: T }
 >;
 
