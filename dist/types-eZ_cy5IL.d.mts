@@ -24,7 +24,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       type: "jail" | "start";
     } | {
       is_corner: boolean;
-      type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+      type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
     } | {
       is_corner: false;
       type: "company";
@@ -35,7 +35,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       type: "jail" | "start";
     } | {
       is_corner: boolean;
-      type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+      type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
     } | {
       item_proto_id: number;
       is_corner: false;
@@ -392,6 +392,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
 type M1DemoPacketSetup = v.InferOutput<typeof valiM1DemoPacketSetupSchema>;
 //#endregion
 //#region src/utils/types.d.ts
+type SetElement<T> = T extends Set<infer V> ? V : never;
 type MapElement<T> = T extends Map<infer _, infer V> ? V : never;
 //#endregion
 //#region src/packet/status/turn.d.ts
@@ -483,6 +484,7 @@ declare const valiM1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.Obj
   readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
 }, undefined>]>;
 type M1DemoPacketStatusTurn = v.InferOutput<typeof valiM1DemoPacketStatusTurnSchema>;
+type M1DemoPacketStatusTurnActionType = SetElement<M1DemoPacketStatusTurn['action']['list']>;
 //#endregion
 //#region src/packet/status.d.ts
 declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
@@ -757,6 +759,52 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
   readonly viewers_count: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
 }, undefined>;
 type M1DemoPacketStatus = v.InferOutput<typeof valiM1DemoPacketStatusSchema>;
+declare const action_list_mapping: {
+  readonly toAuction: "auction.put";
+  readonly auctionAccept: "auction.bid";
+  readonly auctionDecline: "auction.reject";
+  readonly payToBank: "bank.fee.pay";
+  readonly chooseBusStop: "bus.move";
+  readonly contract: "contract.send";
+  readonly contract_accept: "contract.accept";
+  readonly contract_decline: "contract.reject";
+  readonly contractProtestRefuse: "contract.review.approve";
+  readonly contractProtestCommit: "contract.review.object";
+  readonly jackpotDecline: "jackpot.reject";
+  readonly jackpotPlay: "jackpot.play";
+  readonly goToJail: "jail.put";
+  readonly payForUnjail: "jail.release.pay";
+  readonly stayInJail: "jail.stay";
+  readonly levelUp: "level.build";
+  readonly levelDown: "level.sell";
+  readonly credit_take: "loan.take";
+  readonly credit_pay: "loan.repay";
+  readonly mortgage: "mortgage.put";
+  readonly unmortgage: "mortgage.buyback";
+  readonly auctionMortgaged: "mortgage.auction";
+  readonly fieldDrop: "waive";
+  readonly chooseFieldToMove: "movement.go";
+  readonly buy: "purchase";
+  readonly noBuy: "purchase.reject";
+  readonly buyOut: "purchase.buyout";
+  readonly noBuyOut: "purchase.buyout.reject";
+  readonly buyoutProtect: "purchase.buyout.protect";
+  readonly payRent: "rent.pay";
+  readonly rollDices: "roll-dices";
+  readonly rollDicesRerollCancel: "roll-dices.reroll.reject";
+  readonly russianRoulettePlay: "russian-roulette.play";
+  readonly russianRouletteDecline: "russian-roulette.reject";
+  readonly startBypassFee: "start.tax.pay";
+  readonly chooseTaxiStop: "taxi.move";
+  readonly wormholeUse: "wormhole.use";
+  readonly wormholeOpen: "wormhole.open";
+  readonly wormholeJump: "wormhole.jump";
+  readonly wormholeDecline: "wormhole.reject";
+  readonly restart: "restart";
+  readonly skip: "skip";
+};
+declare const extra_actions_mapping: readonly [readonly ["leave", "leave"], readonly ["message", "message"], readonly ["pause.set", "pause"], readonly ["pause.end", "pauseRemove"], readonly ["contract.fallback", "contractFallback"]];
+declare const packet_v1_action_mapping: Record<M1DemoPacketStatusTurnActionType | (typeof extra_actions_mapping)[number][0], keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]>;
 //#endregion
 //#region src/packet.d.ts
 declare const valiM1DemoPacketSchema: v.ObjectSchema<{
@@ -783,7 +831,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         type: "jail" | "start";
       } | {
         is_corner: boolean;
-        type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+        type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
       } | {
         is_corner: false;
         type: "company";
@@ -794,7 +842,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         type: "jail" | "start";
       } | {
         is_corner: boolean;
-        type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+        type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
       } | {
         item_proto_id: number;
         is_corner: false;
@@ -2547,7 +2595,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly
   type: "jail" | "start";
 } | {
   is_corner: boolean;
-  type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+  type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
 } | {
   is_corner: false;
   type: "company";
@@ -2558,7 +2606,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly
   type: "jail" | "start";
 } | {
   is_corner: boolean;
-  type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+  type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
 } | {
   item_proto_id: number;
   is_corner: false;
@@ -2957,4 +3005,4 @@ type ExtractM1DemoRichPacketEvent<T> = Extract<M1DemoRichPacketEvent, {
   type: T;
 }>;
 //#endregion
-export { M1DemoTransportPacket as _, M1DemoPacketStatusPlayer as a, M1DemoPacketStatusTurn as b, M1DemoPacketSetupPlayerEquippedCard as c, M1DemoPacketSetupConfigMonopoly as d, M1DemoPacketSetupConfigField as f, M1DemoPacket as g, M1DemoPacketEventType as h, M1DemoPacketTime as i, M1DemoPacketSetupPlayerEquippedGenerator as l, M1DemoPacketEvent as m, M1DemoRichPacket as n, M1DemoPacketStatusField as o, M1DemoPacketSetupConfigChanceCardType as p, M1DemoRichPacketEvent as r, M1DemoPacketSetupPlayer as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketSetupPlayerEquippedJoke as u, M1DemoPacketStatus as v, M1DemoPacketSetup as x, M1DemoContract as y };
+export { M1DemoPacketSetup as S, M1DemoTransportPacket as _, M1DemoPacketStatusPlayer as a, M1DemoContract as b, M1DemoPacketSetupPlayerEquippedCard as c, M1DemoPacketSetupConfigMonopoly as d, M1DemoPacketSetupConfigField as f, M1DemoPacket as g, M1DemoPacketEventType as h, M1DemoPacketTime as i, M1DemoPacketSetupPlayerEquippedGenerator as l, M1DemoPacketEvent as m, M1DemoRichPacket as n, M1DemoPacketStatusField as o, M1DemoPacketSetupConfigChanceCardType as p, M1DemoRichPacketEvent as r, M1DemoPacketSetupPlayer as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketSetupPlayerEquippedJoke as u, M1DemoPacketStatus as v, M1DemoPacketStatusTurn as x, packet_v1_action_mapping as y };

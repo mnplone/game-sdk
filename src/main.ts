@@ -123,3 +123,5 @@ export class M1LiveDemo {
 		return normalizeFieldId(this.#setup!, field_id);
 	}
 }
+
+export { packet_v1_action_mapping } from './packet/status.js';

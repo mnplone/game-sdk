@@ -125,7 +125,7 @@ const extra_actions_mapping = [
 	['contract.fallback', 'contractFallback'],
 ] as const;
 
-export const packetv1_action_mapping = Object.fromEntries([
+export const packet_v1_action_mapping = Object.fromEntries([
 	...Object.entries(action_list_mapping).map(([key, value]) => [value, key]),
 	...extra_actions_mapping,
 ]) as Record<
