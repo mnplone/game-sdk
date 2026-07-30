@@ -144,7 +144,7 @@ export const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(
 						};
 					}
 
-					return [Number.parseInt(monopoly_id_string, 10), monopoly];
+					return [Math.trunc(Number(monopoly_id_string)), monopoly];
 				}),
 			),
 	),

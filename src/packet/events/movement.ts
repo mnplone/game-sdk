@@ -1,18 +1,19 @@
 import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
+// import { m1DemoPacketStatusTurnMovementSchema } from '../status/turn/movement.js';
 
-export const m1DemoMovementSchema = v.object({
-	source: v.picklist(['bus', 'reverse', 'taxi', 'triple', 'wormhole']),
-	field_ids: v.array(v.number()),
-});
+// export const m1DemoMovementSchema = v.object({
+// 	source: v.picklist(['bus', 'reverse', 'taxi', 'triple', 'wormhole']),
+// 	field_ids: v.array(v.number()),
+// });
 
 export const valiSchemas = [
 	v.object({
 		id: v.string(),
 		type: v.literal('movement.picker'),
 		user_id: v.number(),
-		movement: m1DemoMovementSchema,
+		// movement: m1DemoMovementSchema,
 	}),
 	v.object({
 		id: v.string(),
@@ -24,58 +25,58 @@ export const valiSchemas = [
 ];
 
 export const enrichments = {
-	'movement.picker'(options: EventEnrichOptions<'movement.picker'>) {
-		const { movement } = options.event;
-		// default value when server returned no fields (old versions)
-		if (movement.field_ids.includes(Number.MAX_SAFE_INTEGER)) {
-			switch (movement.source) {
-				// TODO: case 'bus':
+	// 'movement.picker'(options: EventEnrichOptions<'movement.picker'>) {
+	// 	const { movement } = options.event;
+	// 	// default value when server returned no fields (old versions)
+	// 	if (movement.field_ids.includes(Number.MAX_SAFE_INTEGER)) {
+	// 		switch (movement.source) {
+	// 			// TODO: case 'bus':
 
-				// 'reverse' should never be recalculated here as it was added with "movement"
+	// 			// 'reverse' should never be recalculated here as it was added with "movement"
 
-				// TODO: case 'taxi':
+	// 			// TODO: case 'taxi':
 
-				case 'triple': {
-					const movement_options = new Map(
-						Array.from(
-							{ length: options.setup!.config.fields.length },
-							(_, index) => [index, { field_id: index }],
-						),
-					);
+	// 			case 'triple': {
+	// 				const movement_options = new Map(
+	// 					Array.from(
+	// 						{ length: options.setup!.config.fields.length },
+	// 						(_, index) => [index, { field_id: index }],
+	// 					),
+	// 				);
 
-					const { user_id } = options.status.turn.action;
-					if (user_id === null) {
-						throw new Error(
-							'Invalid state: received movement.picker action without user_id.',
-						);
-					}
+	// 				const { user_id } = options.status.turn.action;
+	// 				if (user_id === null) {
+	// 					throw new Error(
+	// 						'Invalid state: received movement.picker action without user_id.',
+	// 					);
+	// 				}
 
-					const position = options.status.players.get(user_id)?.position;
-					if (position === undefined) {
-						throw new Error(
-							"Invalid state: received movement.picker action without player's position.",
-						);
-					}
+	// 				const position = options.status.players.get(user_id)?.position;
+	// 				if (position === undefined) {
+	// 					throw new Error(
+	// 						"Invalid state: received movement.picker action without player's position.",
+	// 					);
+	// 				}
 
-					movement_options.delete(position);
+	// 				movement_options.delete(position);
 
-					options.status.turn.movement = {
-						source: 'triple',
-						options: movement_options,
-					};
-					movement.field_ids = [...movement_options.keys()];
-					break;
-				}
+	// 				options.status.turn.movement = {
+	// 					source: 'triple',
+	// 					options: movement_options,
+	// 				};
+	// 				movement.field_ids = movement_options.keys().toArray();
+	// 				break;
+	// 			}
 
-				// TODO: case 'wormhole':
+	// 			// TODO: case 'wormhole':
 
-				default:
-					throw new Error(
-						`Unknown source for movement.picker event: ${movement.source}`,
-					);
-			}
-		}
-	},
+	// 			default:
+	// 				throw new Error(
+	// 					`Unknown source for movement.picker event: ${movement.source}`,
+	// 				);
+	// 		}
+	// 	}
+	// },
 	'movement.go'(options: EventEnrichOptions<'movement.go'>) {
 		const player = options.status.players.get(options.event.user_id)!;
 		player.position = options.event.field_id;
@@ -88,19 +89,19 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('chooseFieldToMove'),
 			user_id: v.number(),
-			movement: v.optional(m1DemoMovementSchema),
+			// movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
 		}),
 		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'movement.picker' as const,
 				user_id: value.user_id,
-				// this event previously appeared as triple event
-				// so we can confidently assume it was triple and calculate field_ids later in enrichment
-				movement: value.movement ?? {
-					source: 'triple',
-					field_ids: [Number.MAX_SAFE_INTEGER],
-				},
+				// // this event previously appeared as triple event
+				// // so we can confidently assume it was triple and calculate field_ids later in enrichment
+				// movement: value.movement ?? {
+				// 	source: 'triple',
+				// 	field_ids: [Number.MAX_SAFE_INTEGER],
+				// },
 			};
 		}),
 	),

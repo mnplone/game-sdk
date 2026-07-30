@@ -41,21 +41,23 @@
 		"valibot": "1.4.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.10",
-		"@kirick/lint": "0.3.1",
+		"@biomejs/biome": "2.5.4",
+		"@kirick/lint": "0.4.0",
 		"@types/node": "22.15.13",
-		"eslint": "10.2.0",
-		"oxlint": "1.58.0",
+		"eslint": "10.7.0",
+		"oxlint": "1.74.0",
 		"publint": "0.3.21",
 		"tsdown": "0.22.1",
-		"typescript": "6.0.2",
+		"typescript": "npm:typescript-native-bridge@6.0.3-bridge.6.tsgo.7.0.2",
 		"unplugin-unused": "0.5.7",
 		"vitest": "4.1.7"
 	},
+	"_devpack": {
+		"@kirick/lint": "../../github/lint"
+	},
 	"scripts": {
 		"build": "tsdown src/main.ts src/schemas.ts src/types.ts --unused --dts --format esm --format cjs",
-		"check": "bun run lint && bun run build",
-		"lint": "biome format && oxlint && eslint . && tsc"
+		"check": "bunx lint && bun run build"
 	},
 	"repository": {
 		"type": "git",

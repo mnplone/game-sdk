@@ -34,7 +34,7 @@ export const enrichments = {
 
 		const { monopoly_id } = field_setup;
 		const monopoly = options.setup.config.monopolies.get(monopoly_id)!;
-		if ('rent_by_level' in monopoly === false) {
+		if (!('rent_by_level' in monopoly)) {
 			throw new Error(`Levels cannot be built for monopoly ${monopoly_id}`);
 		}
 
@@ -59,7 +59,7 @@ export const enrichments = {
 
 		const { monopoly_id } = field_setup;
 		const monopoly = options.setup.config.monopolies.get(monopoly_id)!;
-		if ('rent_by_level' in monopoly === false) {
+		if (!('rent_by_level' in monopoly)) {
 			throw new Error(`Levels cannot be built for monopoly ${monopoly_id}`);
 		}
 

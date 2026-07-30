@@ -37,7 +37,7 @@ export const enrichments = {
 			);
 		}
 
-		if ('multiplier' in mechanics_mortgage !== true) {
+		if (!('multiplier' in mechanics_mortgage)) {
 			throw new Error(
 				'Mechanics "mortgage" does not allow mortgaging in match config.',
 			);
@@ -75,7 +75,7 @@ export const enrichments = {
 			);
 		}
 
-		if ('multiplier' in mechanics_mortgage !== true) {
+		if (!('multiplier' in mechanics_mortgage)) {
 			throw new Error(
 				'Mechanics "mortgage" does not allow mortgaging in match config.',
 			);
@@ -123,7 +123,7 @@ export const enrichments = {
 			);
 		}
 
-		if ('waive_multiplier' in mechanics_mortgage !== true) {
+		if (!('waive_multiplier' in mechanics_mortgage)) {
 			throw new Error(
 				'Mechanics "mortgage" does not allow waiving the property ownership in match config.',
 			);

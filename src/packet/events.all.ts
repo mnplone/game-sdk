@@ -20,7 +20,7 @@ import * as events_start from './events/start.js';
 import * as events_taxi from './events/taxi.js';
 import * as events_tournament from './events/tournament.js';
 import * as events_wormhole from './events/wormhole.js';
-import type { M1DemoRawPacketEvent } from './events.js';
+import type { M1DemoPacketEvent } from './events.js';
 import type { M1DemoPacketSetup } from './setup.js';
 import type { M1DemoPacketStatus } from './status.js';
 
@@ -94,8 +94,8 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
 type EnrichableEventType = keyof UnionToIntersection<EventLib>['enrichments'];
 export type EventEnrichOptions<T> = {
 	event: ExtractEvent<T>;
-	events_before: M1DemoRawPacketEvent[];
-	events_after: M1DemoRawPacketEvent[];
+	events_before: M1DemoPacketEvent[];
+	events_after: M1DemoPacketEvent[];
 	setup: M1DemoPacketSetup;
 	field_id_jail: number;
 	status: M1DemoPacketStatus;
@@ -127,7 +127,7 @@ const enrichments: { [T in EnrichableEventType]: Enrichment<T> } = (() => {
  * @returns -
  */
 export function hasEnrichment(
-	event: M1DemoRawPacketEvent,
+	event: M1DemoPacketEvent,
 ): event is Extract<typeof event, { type: EnrichableEventType }> {
 	return event.type in enrichments;
 }
@@ -137,7 +137,7 @@ export function hasEnrichment(
  * @param event Event to get enrichment for.
  * @returns -
  */
-export function getEntrichment<const E extends M1DemoRawPacketEvent>(
+export function getEntrichment<const E extends M1DemoPacketEvent>(
 	event: E,
 ): E['type'] extends EnrichableEventType ? Enrichment<E['type']> : undefined {
 	// oxlint-disable-next-line typescript/no-explicit-any

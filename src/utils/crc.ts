@@ -3,7 +3,7 @@
 const table = new Uint32Array(256);
 
 // Pre-generate crc32 polynomial lookup table
-// http://wiki.osdev.org/CRC32#Building_the_Lookup_Table
+// https://wiki.osdev.org/CRC32#Building_the_Lookup_Table
 for (let index = 256; index--; ) {
 	let tmp = index;
 
@@ -42,7 +42,7 @@ export function crc32(data: string) {
 export function crc32Hex(data: string) {
 	let result = crc32(data);
 	if (result < 0) {
-		result = 0xffffffff - result * -1 + 1;
+		result = 0xffffffff - -result + 1;
 	}
 
 	return result.toString(16).padStart(8, '0');

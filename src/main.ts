@@ -1,130 +1,128 @@
 import { getEntrichment, hasEnrichment } from './packet/events.all.js';
 import type { M1DemoPacketSetup } from './packet/setup.js';
+import type { M1DemoMovementOptions } from './packet/status/turn/movement.js';
+import { getMovementOptions } from './packet/status/turn/movement.js';
 import type { M1DemoPacketStatus } from './packet/status.js';
 import {
-	type M1DemoRawPacket,
-	valiM1DemoRawPacketSchema,
-	valiM1DemoRawPacketV1Schema,
+	type M1DemoPacket,
+	valiM1DemoPacketSchema,
+	valiM1DemoPacketV1Schema,
 } from './packet.js';
+import type { M1DemoRichPacket } from './types.js';
 import { isRecord } from './utils/guards.js';
 import { normalizeFieldId } from './utils/table.js';
 import { parse } from './utils/valibot.js';
 
 export class M1LiveDemo {
 	/** Packet versions in this game. Value `null` is a placeholder until first packet arrives. */
-	private packet_version: number | null = null;
-	private setup: M1DemoPacketSetup | null = null;
-	private field_id_jail: number | null = null;
-	private status_before: M1DemoPacketStatus | null = null;
+	#packet_version: number | null = null;
+	#setup: M1DemoPacketSetup | null = null;
+	#field_id_jail: number | null = null;
+	#status_before: M1DemoPacketStatus | null = null;
 
 	// oxlint-disable-next-line max-statements, complexity, max-lines-per-function
-	process(value: unknown) {
+	process(value: unknown): M1DemoRichPacket {
 		if (isRecord(value) !== true) {
 			throw new TypeError('Packet is not an object.');
 		}
 
-		this.packet_version ??= typeof value.v === 'number' ? value.v : 1;
+		this.#packet_version ??= typeof value.v === 'number' ? value.v : 1;
 
-		let packet_raw: M1DemoRawPacket;
-		switch (this.packet_version) {
+		let packet: M1DemoPacket;
+		switch (this.#packet_version) {
 			case 2:
-				packet_raw = parse(valiM1DemoRawPacketSchema, value);
+				packet = parse(valiM1DemoPacketSchema, value);
 				break;
 
 			case 1:
-				packet_raw = parse(valiM1DemoRawPacketV1Schema, value);
+				packet = parse(valiM1DemoPacketV1Schema, value);
 				break;
 
 			default:
-				throw new Error(`Unsupported packet version ${this.packet_version}.`);
+				throw new Error(`Unsupported packet version ${this.#packet_version}.`);
 		}
 
-		if (packet_raw.setup) {
-			this.setup = packet_raw.setup;
-			this.field_id_jail = this.setup.config.fields.findIndex(
+		if (packet.setup) {
+			this.#setup = packet.setup;
+			this.#field_id_jail = this.#setup.config.fields.findIndex(
 				(field) => field.type === 'jail',
 			);
 		}
 
-		// TODO: remove this block, normalize field ids in place of their creation
-		if (packet_raw.status && packet_raw.status.turn.movement) {
-			const pairs = [...packet_raw.status.turn.movement.options];
-
-			packet_raw.status.turn.movement.options = new Map(
-				pairs.map(([field_id, move_value]) => [
-					normalizeFieldId(this.setup!, field_id),
-					move_value,
-				]),
-			);
+		if (this.#setup === null) {
+			throw new Error('Invalid state: received events before setup.');
 		}
 
-		const { events, ...rest_packet_raw } = packet_raw;
+		const { events, ...rest_packet } = packet;
 
-		const events_new = [];
+		const events_rich = [];
 		if (events.length > 0) {
-			if (this.setup === null) {
-				throw new Error('Invalid state: received events before setup.');
-			}
-
-			if (this.status_before === null) {
+			if (this.#status_before === null) {
 				throw new Error('Invalid state: received events before status.');
 			}
 
-			if (packet_raw.status) {
-				for (const [index, event] of packet_raw.events.entries()) {
+			if (packet.status) {
+				for (const [index, event] of packet.events.entries()) {
 					const status_after: M1DemoPacketStatus = structuredClone(
-						this.status_before,
+						this.#status_before,
 					);
 					// const updates:
 
 					if (hasEnrichment(event)) {
 						getEntrichment(event)({
 							event,
-							events_before: packet_raw.events.slice(0, index).toReversed(),
-							events_after: packet_raw.events.slice(index),
-							setup: this.setup,
-							field_id_jail: this.field_id_jail!,
+							events_before: packet.events.slice(0, index).toReversed(),
+							events_after: packet.events.slice(index),
+							setup: this.#setup,
+							field_id_jail: this.#field_id_jail!,
 							status: status_after,
 						});
 					}
 
-					events_new.push({
+					events_rich.push({
 						status: {
-							before: structuredClone(this.status_before),
+							before: structuredClone(this.#status_before),
 							after: structuredClone(status_after),
 						},
 						...event,
 					});
 
-					this.status_before = status_after;
+					this.#status_before = status_after;
 				}
 			} else {
-				events_new.push(...packet_raw.events);
+				events_rich.push(...packet.events);
 			}
 		}
 
-		if (rest_packet_raw.status) {
-			this.status_before = rest_packet_raw.status;
+		if (rest_packet.status) {
+			this.#status_before = rest_packet.status;
 		}
 
+		this.#movement_options = null;
+
 		return {
-			events: events_new,
-			...rest_packet_raw,
+			events: events_rich,
+			...rest_packet,
 		};
 	}
-}
 
-export type M1DemoPacket = ReturnType<M1LiveDemo['process']>;
-export type M1DemoPacketEvent = M1DemoPacket['events'][number] & {
-	status?: {
-		before: M1DemoPacketStatus;
-		after: M1DemoPacketStatus;
-	};
-};
-export type ExtractM1DemoPacketEvent<T> = Extract<
-	M1DemoPacketEvent,
-	{ type: T }
->;
+	#movement_options: M1DemoMovementOptions | undefined | null = null;
+
+	get movement_options(): M1DemoMovementOptions | undefined {
+		if (this.#movement_options === null) {
+			this.#movement_options = getMovementOptions(
+				this.#setup!,
+				this.#status_before!,
+			);
+		}
+
+		return this.#movement_options;
+	}
+
+	normalizeFieldId(field_id: number): number {
+		return normalizeFieldId(this.#setup!, field_id);
+	}
+}
 
 // export type { M1DemoPacketSetupConfigChanceCardType } from './packet/setup/config/chance.js';
 // export type { M1DemoPacketSetupConfigField } from './packet/setup/config/fields.js';

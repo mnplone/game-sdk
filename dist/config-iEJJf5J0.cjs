@@ -35,7 +35,6 @@ valibot = __toESM(valibot, 1);
 /**
 * Creates bit schema.
 * @param default_value Default value for a bit.
-* @returns -
 */
 function bit(default_value) {
 	return valibot.pipe(valibot.optional(valibot.picklist([0, 1]), default_value ? 1 : 0), valibot.transform((value) => value === 1));
@@ -528,7 +527,7 @@ const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot
 			rent_by_level: group.levels_last
 		} : void 0
 	};
-	return [Number.parseInt(monopoly_id_string, 10), monopoly];
+	return [Math.trunc(Number(monopoly_id_string)), monopoly];
 }))));
 //#endregion
 //#region src/packet/setup/config.ts

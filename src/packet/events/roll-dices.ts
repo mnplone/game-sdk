@@ -4,17 +4,19 @@ import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions, ExtractEvent } from '../events.all.js';
 import type { M1DemoPacketSetup } from '../setup.js';
 
+export const m1DemoDicesSchema = v.union([
+	v.strictTuple([v.number()]),
+	v.strictTuple([v.number(), v.number()]),
+	v.strictTuple([v.number(), v.number(), v.number()]),
+]);
+
 export const valiSchemas = [
 	v.object({
 		id: v.string(),
 		type: v.literal('roll-dices'),
 		user_id: v.number(),
 		reroll: bit(false),
-		dices: v.union([
-			v.strictTuple([v.number()]),
-			v.strictTuple([v.number(), v.number()]),
-			v.strictTuple([v.number(), v.number(), v.number()]),
-		]),
+		dices: m1DemoDicesSchema,
 		move_reversed: bit(false),
 		double_spent: bit(false),
 	}),

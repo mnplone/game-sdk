@@ -8,7 +8,7 @@ const valiRecordParser = v.safeParser(v.record(v.string(), v.unknown()));
  * @returns -
  */
 export function isRecord(value: unknown): value is Record<string, unknown> {
-	return Array.isArray(value) === false && valiRecordParser(value).success;
+	return !Array.isArray(value) && valiRecordParser(value).success;
 }
 
 /**

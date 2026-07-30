@@ -82,7 +82,7 @@ export const enrichments = {
 		switch (chance_card?.type) {
 			case 'income':
 			case 'birthday':
-				if (!options.event.data || 'amount' in options.event.data !== true) {
+				if (!options.event.data || !('amount' in options.event.data)) {
 					throw new TypeError(
 						`Invalid chance event data: missing "amount" field for "${chance_card.type}" chance card.`,
 					);

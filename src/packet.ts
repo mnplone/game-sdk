@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import {
-	valiM1DemoRawPacketEventsSchema,
-	valiM1DemoRawPacketV1EventsSchema,
+	valiM1DemoPacketEventsSchema,
+	valiM1DemoPacketV1EventsSchema,
 } from './packet/events.js';
 import { valiM1DemoPacketV1ConfigSchema } from './packet/setup/config.js';
 import { valiM1DemoPacketSetupSchema } from './packet/setup.js';
@@ -15,27 +15,25 @@ import {
 } from './packet/time.js';
 import { bit } from './utils/valibot.js';
 
-export const valiM1DemoRawPacketSchema = v.object({
+export const valiM1DemoPacketSchema = v.object({
 	/** Various information about the match which is never changes. */
 	setup: v.optional(valiM1DemoPacketSetupSchema),
 	/** Events happened before game went to the "status". */
-	events: valiM1DemoRawPacketEventsSchema,
+	events: valiM1DemoPacketEventsSchema,
 	/** Current status of the match. */
 	status: v.optional(valiM1DemoPacketStatusSchema),
 	/** Information about match time. */
 	time: valiM1DemoPacketTimeSchema,
 });
 
-export type M1DemoTransportPacket = v.InferInput<
-	typeof valiM1DemoRawPacketSchema
->;
-export type M1DemoRawPacket = v.InferOutput<typeof valiM1DemoRawPacketSchema>;
+export type M1DemoTransportPacket = v.InferInput<typeof valiM1DemoPacketSchema>;
+export type M1DemoPacket = v.InferOutput<typeof valiM1DemoPacketSchema>;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoRawPacketV1Schema = v.intersect([
+export const valiM1DemoPacketV1Schema = v.intersect([
 	valiM1DemoPacketV1TimeSchema,
 	v.pipe(
 		v.object({
@@ -48,7 +46,7 @@ export const valiM1DemoRawPacketV1Schema = v.intersect([
 					match_title: v.optional(v.string()),
 				}),
 			),
-			events: valiM1DemoRawPacketV1EventsSchema,
+			events: valiM1DemoPacketV1EventsSchema,
 			status: v.optional(valiM1DemoPacketV1StatusSchema),
 		}),
 		v.transform((value) => {
@@ -114,10 +112,3 @@ export const valiM1DemoRawPacketV1Schema = v.intersect([
 		}),
 	),
 ]);
-
-// [ hand type checking zone ]
-type _M1DemoRawPacketV1 = v.InferOutput<typeof valiM1DemoRawPacketV1Schema>;
-type _M1DemoRawPacketV1Setup = _M1DemoRawPacketV1['setup'];
-type _M1DemoRawPacketV1Event = _M1DemoRawPacketV1['events'][number];
-type _M1DemoRawPacketV1Status = _M1DemoRawPacketV1['status'];
-type _M1DemoRawPacketV1Time = _M1DemoRawPacketV1['time'];

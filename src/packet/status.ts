@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import { m1DemoMovementSchema } from './events/movement.js';
+import { m1DemoDicesSchema } from './events/roll-dices.js';
 import {
 	valiM1DemoPacketStatusFieldsSchema,
 	valiM1DemoPacketV1StatusFieldsSchema,
@@ -8,10 +8,14 @@ import {
 	valiM1DemoPacketStatusPlayersSchema,
 	valiM1DemoPacketV1StatusPlayersSchema,
 } from './status/player.js';
+import type { M1DemoPacketStatusTimer } from './status/timer.js';
+import { m1DemoPacketStatusTimerSchema } from './status/timer.js';
+import type { M1DemoPacketStatusTurnMovement } from './status/turn/movement.js';
+import { m1DemoPacketStatusTurnMovementSchema } from './status/turn/movement.js';
 import {
 	type M1DemoContract,
 	type M1DemoPacketStatusTurn,
-	type M1DemoPacketStatusTurnActionListElement,
+	type M1DemoPacketStatusTurnActionType,
 	valiM1DemoPacketStatusTurnSchema,
 } from './status/turn.js';
 // import { normalizeFieldId } from '@/js/table/.tools.js';
@@ -30,22 +34,7 @@ export const valiM1DemoPacketStatusSchema = v.object({
 	 *
 	 * If match set up with no timers, this object is not defined.
 	 */
-	timer: v.optional(
-		v.union([
-			v.object({
-				/** Unix timestamp when timer for an action expires, in **milliseconds**. */
-				ts_expires: v.number(),
-				/** If timer is extra timer. */
-				is_extra: v.boolean(),
-			}),
-			v.object({
-				/** When match paused, time left in **milliseconds**. */
-				expires_in: v.number(),
-				/** If timer is extra timer. */
-				is_extra: v.boolean(),
-			}),
-		]),
-	),
+	timer: v.optional(m1DemoPacketStatusTimerSchema),
 	/** Number of viewers. */
 	viewers_count: v.optional(v.number(), 0),
 });
@@ -53,7 +42,6 @@ export const valiM1DemoPacketStatusSchema = v.object({
 export type M1DemoPacketStatus = v.InferOutput<
 	typeof valiM1DemoPacketStatusSchema
 >;
-export type M1DemoPacketStatusTimer = M1DemoPacketStatus['timer'];
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
@@ -141,8 +129,7 @@ export const packetv1_action_mapping = Object.fromEntries([
 	...Object.entries(action_list_mapping).map(([key, value]) => [value, key]),
 	...extra_actions_mapping,
 ]) as Record<
-	| M1DemoPacketStatusTurnActionListElement
-	| (typeof extra_actions_mapping)[number][0],
+	M1DemoPacketStatusTurnActionType | (typeof extra_actions_mapping)[number][0],
 	keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]
 >;
 
@@ -151,7 +138,7 @@ const valiM1DemoPacketV1StatusActiontypeSchema = v.array(
 		Object.keys(action_list_mapping) as (keyof typeof action_list_mapping)[],
 	),
 );
-type M1DemoPacketV1StatusActiontype = v.InferOutput<
+type M1DemoPacketV1StatusActionType = v.InferOutput<
 	typeof valiM1DemoPacketV1StatusActiontypeSchema
 >;
 
@@ -194,9 +181,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 		action_type: valiM1DemoPacketV1StatusActiontypeSchema,
 		current_move: v.optional(
 			v.object({
-				dices: v.optional(
-					v.tuple([v.number(), v.optional(v.number()), v.optional(v.number())]),
-				),
+				dices: v.optional(m1DemoDicesSchema),
 				move_reverse: v.optional(v.boolean(), false),
 				pay: v.optional(v.number()),
 				moneyToPay: v.optional(v.number()),
@@ -211,7 +196,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 									Object.entries(value)
 										.filter(([_, status]) => status === 0)
 										.map(([user_id_string]) =>
-											Number.parseInt(user_id_string, 10),
+											Math.trunc(Number(user_id_string)),
 										),
 								),
 						),
@@ -225,7 +210,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				// jackpot
 				jackpot_superprize_money: v.optional(v.number()),
 				// movement
-				movement: v.optional(m1DemoMovementSchema),
+				movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
 				// wormhole
 				wormhole_destinations: v.optional(v.array(v.number())),
 				// other
@@ -269,7 +254,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 		const payment_amount = current_move?.moneyToPay ?? current_move?.pay;
 
 		let auction: M1DemoPacketStatusTurn['auction'];
-		let movement: M1DemoPacketStatusTurn['movement'];
+		let movement: M1DemoPacketStatusTurnMovement | undefined;
 		if (current_move) {
 			const action_player_data = value_rest.players.find(
 				(player) => player.user_id === action_player,
@@ -279,64 +264,11 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 			}
 
 			if (current_move.movement) {
-				movement = {
-					source: current_move.movement.source,
-					options: new Map(
-						current_move.movement.field_ids.map((field_id) => [
-							field_id,
-							{ field_id },
-						]),
-					),
-				};
+				movement = current_move.movement;
 			} else {
 				if (action_list.has('bus.move')) {
-					if (!current_move.dices) {
-						throw new Error('Missing field "status.current_move.dices".');
-					}
-
-					const direction = current_move.move_reverse ? -1 : 1;
-
 					movement = {
 						source: 'bus',
-						options: new Map(
-							(
-								[
-									[current_move.dices[0], { stop_id: 0 }],
-									[current_move.dices[1]!, { stop_id: 1 }],
-									[
-										current_move.dices[0] + current_move.dices[1]!,
-										{ stop_id: -1 },
-									],
-								] as const
-							).map(([stop_id, action_data]) => [
-								action_player_data._status.position + direction * stop_id,
-								action_data,
-							]),
-						),
-					};
-				}
-
-				if (action_list.has('taxi.move')) {
-					if (!current_move.dices) {
-						throw new Error('Missing field "status.current_move.dices".');
-					}
-
-					const direction = current_move.move_reverse ? -1 : 1;
-					const offset = current_move.dices[0];
-
-					movement = {
-						source: 'bus',
-						options: new Map(
-							Array.from({ length: 6 }, (_, index) => {
-								const stop_id = index + 1;
-								const stop_offset = offset + stop_id;
-
-								return [
-									action_player_data._status.position + direction * stop_offset,
-									{ stop_id },
-								];
-							}),
-						),
 					};
 				}
 
@@ -348,13 +280,8 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 					}
 
 					movement = {
-						source: 'bus',
-						options: new Map(
-							current_move.wormhole_destinations.map((field_id) => [
-								field_id,
-								{ field_id },
-							]),
-						),
+						source: 'wormhole',
+						field_ids: current_move.wormhole_destinations,
 					};
 				}
 			}
@@ -394,6 +321,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				auction,
 				contract: current_move?.contract,
 				contracts_sent: current_move?.contracts,
+				dices: current_move?.dices ?? undefined,
 				jackpot:
 					typeof current_move?.jackpot_superprize_money === 'number'
 						? {
@@ -431,8 +359,8 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 );
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-function transformActionsList(list: M1DemoPacketV1StatusActiontype) {
-	const list_new = new Set<M1DemoPacketStatusTurnActionListElement>();
+function transformActionsList(list: M1DemoPacketV1StatusActionType) {
+	const list_new = new Set<M1DemoPacketStatusTurnActionType>();
 
 	for (const action of list) {
 		list_new.add(action_list_mapping[action]);

@@ -48,7 +48,7 @@ export const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(
 		(value) =>
 			new Map(
 				Object.entries(value).map(([field_id_string, field]) => {
-					const field_id = Number.parseInt(field_id_string, 10);
+					const field_id = Math.trunc(Number(field_id_string));
 
 					return [
 						field_id,

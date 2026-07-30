@@ -7,8 +7,8 @@ export type ValiBaseSchema = Parameters<typeof v.parser>[0];
 /**
  * Creates bit schema.
  * @param default_value Default value for a bit.
- * @returns -
  */
+// eslint-disable-next-line unicorn/consistent-boolean-name
 export function bit(default_value: boolean) {
 	return v.pipe(
 		v.optional(v.picklist([0, 1]), default_value ? 1 : 0),

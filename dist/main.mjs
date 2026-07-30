@@ -1,4 +1,4 @@
-import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-Dsm8Ttd_.mjs";
+import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-exSVwZIb.mjs";
 import * as v from "valibot";
 //#region \0rolldown/runtime.js
 var __defProp = Object.defineProperty;
@@ -340,91 +340,256 @@ const valiV1Schemas$19 = [v.pipe(v.object({
 	};
 }))];
 //#endregion
-//#region src/packet/events/movement.ts
-var movement_exports = /* @__PURE__ */ __exportAll({
+//#region src/utils/table.ts
+/**
+* Returns the field ID normalized to the range of the fields count.
+* @param setup -
+* @param field_id -
+* @returns -
+*/
+function normalizeFieldId(setup, field_id) {
+	const fields_count = setup.config.fields.length;
+	return (field_id + 10 * fields_count) % fields_count;
+}
+//#endregion
+//#region src/packet/events/roll-dices.ts
+var roll_dices_exports = /* @__PURE__ */ __exportAll({
 	enrichments: () => enrichments$17,
-	m1DemoMovementSchema: () => m1DemoMovementSchema,
+	m1DemoDicesSchema: () => m1DemoDicesSchema,
 	valiSchemas: () => valiSchemas$18,
 	valiV1Schemas: () => valiV1Schemas$18
 });
-const m1DemoMovementSchema = v.object({
-	source: v.picklist([
-		"bus",
-		"reverse",
-		"taxi",
-		"triple",
-		"wormhole"
-	]),
-	field_ids: v.array(v.number())
-});
-const valiSchemas$18 = [v.object({
-	id: v.string(),
-	type: v.literal("movement.picker"),
-	user_id: v.number(),
-	movement: m1DemoMovementSchema
-}), v.object({
-	id: v.string(),
-	type: v.literal("movement.go"),
-	user_id: v.number(),
-	field_id: v.number(),
-	move_reversed: bit(false)
-})];
+const m1DemoDicesSchema = v.union([
+	v.strictTuple([v.number()]),
+	v.strictTuple([v.number(), v.number()]),
+	v.strictTuple([
+		v.number(),
+		v.number(),
+		v.number()
+	])
+]);
+const valiSchemas$18 = [
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices"),
+		user_id: v.number(),
+		reroll: bit(false),
+		dices: m1DemoDicesSchema,
+		move_reversed: bit(false),
+		double_spent: bit(false)
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.doubling"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.jail.success"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.jail.fail"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.reroll"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.reroll.reject"),
+		user_id: v.number(),
+		move_reversed: bit(false),
+		position: v.number()
+	})
+];
 const enrichments$17 = {
-	"movement.picker"(options) {
-		const { movement } = options.event;
-		if (movement.field_ids.includes(Number.MAX_SAFE_INTEGER)) switch (movement.source) {
-			case "triple": {
-				const movement_options = new Map(Array.from({ length: options.setup.config.fields.length }, (_, index) => [index, { field_id: index }]));
-				const { user_id } = options.status.turn.action;
-				if (user_id === null) throw new Error("Invalid state: received movement.picker action without user_id.");
-				const position = options.status.players.get(user_id)?.position;
-				if (position === void 0) throw new Error("Invalid state: received movement.picker action without player's position.");
-				movement_options.delete(position);
-				options.status.turn.movement = {
-					source: "triple",
-					options: movement_options
-				};
-				movement.field_ids = [...movement_options.keys()];
-				break;
-			}
-			default: throw new Error(`Unknown source for movement.picker event: ${movement.source}`);
-		}
-	},
-	"movement.go"(options) {
+	"roll-dices"(options) {
 		const player = options.status.players.get(options.event.user_id);
-		player.position = options.event.field_id;
+		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
+		const distance = player.jail || event_zero_distance ? 0 : getRolledDistance(options.event.dices, options.setup);
+		player.position = normalizeFieldId(options.setup, player.position + (options.event.move_reversed ? -1 : 1) * distance);
+	},
+	"roll-dices.jail.success"(options) {
+		options.status.players.get(options.event.user_id).jail = void 0;
+		const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
+		if (!event_roll_dices) throw new Error("Invalid state: no \"roll-dices\" event found before \"roll-dices.jail.success\".");
+		const player = options.status.players.get(options.event.user_id);
+		const distance = getRolledDistance(event_roll_dices.dices, options.setup);
+		player.position = normalizeFieldId(options.setup, player.position + distance);
+	},
+	"roll-dices.reroll.reject"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.position;
 	}
 };
-const valiV1Schemas$18 = [v.pipe(v.object({
-	_id: v.optional(v.string()),
-	type: v.literal("chooseFieldToMove"),
-	user_id: v.number(),
-	movement: v.optional(m1DemoMovementSchema)
-}), v.transform((value) => {
-	return {
-		id: value._id,
-		type: "movement.picker",
-		user_id: value.user_id,
-		movement: value.movement ?? {
-			source: "triple",
-			field_ids: [Number.MAX_SAFE_INTEGER]
+const valiV1Schemas$18 = [
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDices"),
+		user_id: v.number(),
+		reroll: bit(false),
+		dices: v.union([
+			v.strictTuple([v.number()]),
+			v.strictTuple([v.number(), v.number()]),
+			v.strictTuple([
+				v.number(),
+				v.number(),
+				v.number()
+			])
+		]),
+		move_reverse: bit(false)
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices",
+			user_id: value.user_id,
+			reroll: value.reroll,
+			dices: value.dices,
+			move_reversed: value.move_reverse,
+			double_spent: false
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("doubleRolledOnDice"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.doubling",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("double_spended")
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: value.type
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesForUnjailSuccess"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.jail.success",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesForUnjailFail"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.jail.fail",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesReroll"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesRerollCancel"),
+		user_id: v.number(),
+		move_reverse: bit(false),
+		mean_position: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll.reject",
+			user_id: value.user_id,
+			move_reversed: value.move_reverse,
+			position: value.mean_position
+		};
+	}))
+];
+/**
+* Get distance by rolled dices.
+* @param dices - Rolled dices.
+* @param setup - Game setup.
+* @returns -
+*/
+function getRolledDistance(dices, setup) {
+	const { game_submode } = setup.flags;
+	let distance = dices[0];
+	if (game_submode === 2) {
+		distance += dices[1];
+		if (typeof dices[2] === "number") {
+			if (dices[2] <= 3) {
+				if (dices[0] === dices[1] && dices[1] === dices[2]) return 0;
+				distance += dices[2];
+			} else if (dices[2] === 4 || dices[2] === 6) return 0;
 		}
-	};
-})), v.pipe(v.object({
-	_id: v.optional(v.string()),
-	type: v.literal("fieldToMoveChoosed"),
-	user_id: v.number(),
-	field_id: v.number(),
-	move_reverse: bit(false)
-}), v.transform((value) => {
-	return {
-		id: value._id,
-		type: "movement.go",
-		user_id: value.user_id,
-		field_id: value.field_id,
-		move_reversed: value.move_reverse
-	};
-}))];
+	} else if (game_submode === 5) {
+		if (typeof dices[1] === "number") switch (dices[1]) {
+			case 1:
+			case 2:
+			case 3: break;
+			case 4:
+			case 6: return 0;
+			case 5:
+				distance *= 2;
+				break;
+			default: throw new Error(`Invalid mini die value: ${dices[1]}`);
+		}
+	} else distance += dices[1];
+	return distance;
+}
+//#endregion
+//#region src/packet/status/turn/movement.ts
+const m1DemoPacketStatusTurnMovementSchema = v.variant("source", [v.object({ source: v.picklist([
+	"bus",
+	"taxi",
+	"triple"
+]) }), v.object({
+	source: v.picklist(["wormhole"]),
+	field_ids: v.array(v.number())
+})]);
+/** Returns movement options, building them from the game context. */
+function getMovementOptions(setup, status) {
+	if (status.turn.movement === void 0) return;
+	const { movement } = status.turn;
+	if ("field_ids" in movement) return new Map(movement.field_ids.map((field_id) => [field_id, { field_id }]));
+	const { config } = setup;
+	const action_user_id = status.turn.action.user_id;
+	if (action_user_id === null) throw new Error("Invalid demo state: no action player available.");
+	const { position } = status.players.get(action_user_id);
+	const { dices } = status.turn;
+	if (dices === void 0) return;
+	const direction = status.turn.move_reversed ? -1 : 1;
+	switch (movement.source) {
+		case "bus": return new Map([
+			[dices[0], { stop_id: 0 }],
+			[dices[1], { stop_id: 1 }],
+			[dices[0] + dices[1], { stop_id: -1 }]
+		].map(([stop_id, action_data]) => [normalizeFieldId(setup, position + direction * stop_id), action_data]));
+		case "triple": {
+			const movement_options = new Map(Array.from({ length: config.fields.length }, (_, index) => [index, { field_id: index }]));
+			movement_options.delete(position);
+			return movement_options;
+		}
+		default: throw new Error(`Unknown source for movement.picker event: ${movement.source}`);
+	}
+}
 //#endregion
 //#region src/packet/status/turn.ts
 const valiM1DemoContractSchema = v.pipe(v.tuple([v.object({
@@ -449,7 +614,7 @@ const valiM1DemoContractSchema = v.pipe(v.tuple([v.object({
 		}
 	};
 }));
-const valiM1DemoPacketStatusTurnSchema = v.object({
+const valiM1DemoPacketStatusTurnSchema = v.pipe(v.object({
 	/** User ID of the player whose turn it is. */
 	user_id: v.nullable(v.number()),
 	action: v.object({
@@ -509,24 +674,19 @@ const valiM1DemoPacketStatusTurnSchema = v.object({
 	})),
 	contract: v.optional(valiM1DemoContractSchema),
 	contracts_sent: v.optional(v.number()),
+	dices: v.optional(m1DemoDicesSchema),
 	jackpot: v.optional(v.object({ superprize: v.number() })),
 	payment: v.optional(v.object({
 		to_user_id: v.optional(v.number()),
 		amount: v.number()
 	})),
 	/** Fields on which player can move in this action. */
-	movement: v.optional(v.pipe(m1DemoMovementSchema, v.transform((value) => {
-		const { field_ids, ...rest } = value;
-		return {
-			...rest,
-			options: new Map(field_ids.map((field_id) => [field_id, { field_id }]))
-		};
-	}))),
+	movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
 	/** Fields on which player already built a level this turn. */
 	field_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
 	/** Fields which player already mortgaged this turn. */
 	field_ids_mortgaged: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value))))
-});
+}));
 //#endregion
 //#region src/packet/status/fields.ts
 const valiM1DemoPacketStatusFieldsSchema = v.pipe(v.array(v.pipe(v.object({
@@ -545,7 +705,7 @@ const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.objec
 	last_rent_round: v.optional(v.number()),
 	protection: v.optional(v.number(), 0)
 })), v.transform((value) => new Map(Object.entries(value).map(([field_id_string, field]) => {
-	const field_id = Number.parseInt(field_id_string, 10);
+	const field_id = Math.trunc(Number(field_id_string));
 	return [field_id, {
 		field_id,
 		owner_user_id: field.owner,
@@ -643,7 +803,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 			is_loan_available: value.can_use_credit,
 			equipment: {
 				cards: new Map(Object.entries(value.cards_equipped).map(([field_id_string, card_equipped]) => {
-					const field_id = Number.parseInt(field_id_string, 10);
+					const field_id = Math.trunc(Number(field_id_string));
 					return [field_id, {
 						field_id,
 						item_proto_id: 0,
@@ -679,6 +839,19 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	};
 })));
 //#endregion
+//#region src/packet/status/timer.ts
+const m1DemoPacketStatusTimerSchema = v.union([v.object({
+	/** Unix timestamp when timer for an action expires, in **milliseconds**. */
+	ts_expires: v.number(),
+	/** If timer is extra timer. */
+	is_extra: v.boolean()
+}), v.object({
+	/** When match paused, time left in **milliseconds**. */
+	expires_in: v.number(),
+	/** If timer is extra timer. */
+	is_extra: v.boolean()
+})]);
+//#endregion
 //#region src/packet/status.ts
 const valiM1DemoPacketStatusSchema = v.object({
 	/** Round number. */
@@ -694,17 +867,7 @@ const valiM1DemoPacketStatusSchema = v.object({
 	*
 	* If match set up with no timers, this object is not defined.
 	*/
-	timer: v.optional(v.union([v.object({
-		/** Unix timestamp when timer for an action expires, in **milliseconds**. */
-		ts_expires: v.number(),
-		/** If timer is extra timer. */
-		is_extra: v.boolean()
-	}), v.object({
-		/** When match paused, time left in **milliseconds**. */
-		expires_in: v.number(),
-		/** If timer is extra timer. */
-		is_extra: v.boolean()
-	})])),
+	timer: v.optional(m1DemoPacketStatusTimerSchema),
 	/** Number of viewers. */
 	viewers_count: v.optional(v.number(), 0)
 });
@@ -791,22 +954,18 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 	action_player: v.nullable(v.number()),
 	action_type: valiM1DemoPacketV1StatusActiontypeSchema,
 	current_move: v.optional(v.object({
-		dices: v.optional(v.tuple([
-			v.number(),
-			v.optional(v.number()),
-			v.optional(v.number())
-		])),
+		dices: v.optional(m1DemoDicesSchema),
 		move_reverse: v.optional(v.boolean(), false),
 		pay: v.optional(v.number()),
 		moneyToPay: v.optional(v.number()),
 		payTo: v.optional(v.number()),
-		players_auctionStatus: v.optional(v.pipe(v.record(v.string(), v.number()), v.transform((value) => new Set(Object.entries(value).filter(([_, status]) => status === 0).map(([user_id_string]) => Number.parseInt(user_id_string, 10)))))),
+		players_auctionStatus: v.optional(v.pipe(v.record(v.string(), v.number()), v.transform((value) => new Set(Object.entries(value).filter(([_, status]) => status === 0).map(([user_id_string]) => Math.trunc(Number(user_id_string))))))),
 		field: v.optional(v.number()),
 		bet: v.optional(v.number()),
 		contract: v.optional(valiM1DemoPacketV1ContractSchema),
 		contracts: v.optional(v.number()),
 		jackpot_superprize_money: v.optional(v.number()),
-		movement: v.optional(m1DemoMovementSchema),
+		movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
 		wormhole_destinations: v.optional(v.array(v.number())),
 		levelUpped: v.optional(v.array(v.number())),
 		mortgaged: v.optional(v.array(v.number()))
@@ -826,41 +985,14 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 	if (current_move) {
 		const action_player_data = value_rest.players.find((player) => player.user_id === action_player);
 		if (!action_player_data) throw new Error(`Player with user_id ${action_player_data} not found.`);
-		if (current_move.movement) movement = {
-			source: current_move.movement.source,
-			options: new Map(current_move.movement.field_ids.map((field_id) => [field_id, { field_id }]))
-		};
+		if (current_move.movement) movement = current_move.movement;
 		else {
-			if (action_list.has("bus.move")) {
-				if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
-				const direction = current_move.move_reverse ? -1 : 1;
-				movement = {
-					source: "bus",
-					options: new Map([
-						[current_move.dices[0], { stop_id: 0 }],
-						[current_move.dices[1], { stop_id: 1 }],
-						[current_move.dices[0] + current_move.dices[1], { stop_id: -1 }]
-					].map(([stop_id, action_data]) => [action_player_data._status.position + direction * stop_id, action_data]))
-				};
-			}
-			if (action_list.has("taxi.move")) {
-				if (!current_move.dices) throw new Error("Missing field \"status.current_move.dices\".");
-				const direction = current_move.move_reverse ? -1 : 1;
-				const offset = current_move.dices[0];
-				movement = {
-					source: "bus",
-					options: new Map(Array.from({ length: 6 }, (_, index) => {
-						const stop_id = index + 1;
-						const stop_offset = offset + stop_id;
-						return [action_player_data._status.position + direction * stop_offset, { stop_id }];
-					}))
-				};
-			}
+			if (action_list.has("bus.move")) movement = { source: "bus" };
 			if (action_list.has("wormhole.jump")) {
 				if (!current_move.wormhole_destinations) throw new TypeError("Missing field \"status.current_move.wormhole_destinations\".");
 				movement = {
-					source: "bus",
-					options: new Map(current_move.wormhole_destinations.map((field_id) => [field_id, { field_id }]))
+					source: "wormhole",
+					field_ids: current_move.wormhole_destinations
 				};
 			}
 		}
@@ -887,6 +1019,7 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 			auction,
 			contract: current_move?.contract,
 			contracts_sent: current_move?.contracts,
+			dices: current_move?.dices ?? void 0,
 			jackpot: typeof current_move?.jackpot_superprize_money === "number" ? { superprize: current_move.jackpot_superprize_money } : void 0,
 			payment: typeof payment_amount === "number" ? {
 				amount: payment_amount,
@@ -1440,7 +1573,7 @@ const enrichments$13 = {
 		if (field_setup.type !== "company") throw new Error(`Field ${field} is not a company`);
 		const { monopoly_id } = field_setup;
 		const monopoly = options.setup.config.monopolies.get(monopoly_id);
-		if ("rent_by_level" in monopoly === false) throw new Error(`Levels cannot be built for monopoly ${monopoly_id}`);
+		if (!("rent_by_level" in monopoly)) throw new Error(`Levels cannot be built for monopoly ${monopoly_id}`);
 		const player = options.status.players.get(field.owner_user_id);
 		player.cash -= monopoly.level_cost;
 	},
@@ -1452,7 +1585,7 @@ const enrichments$13 = {
 		if (field_setup.type !== "company") throw new Error(`Field ${field} is not a company`);
 		const { monopoly_id } = field_setup;
 		const monopoly = options.setup.config.monopolies.get(monopoly_id);
-		if ("rent_by_level" in monopoly === false) throw new Error(`Levels cannot be built for monopoly ${monopoly_id}`);
+		if (!("rent_by_level" in monopoly)) throw new Error(`Levels cannot be built for monopoly ${monopoly_id}`);
 		const player = options.status.players.get(field.owner_user_id);
 		player.cash += monopoly.level_cost;
 	}
@@ -1655,7 +1788,7 @@ const enrichments$10 = {
 	"mortgage.put"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
-		if ("multiplier" in mechanics_mortgage !== true) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
+		if (!("multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		field.mortgage = { round_until: typeof mechanics_mortgage.duration === "number" ? options.status.round + mechanics_mortgage.duration : void 0 };
 		const field_setup = options.setup.config.fields[options.event.field_id];
@@ -1669,7 +1802,7 @@ const enrichments$10 = {
 	"mortgage.buyback"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
-		if ("multiplier" in mechanics_mortgage !== true) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
+		if (!("multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		field.mortgage = void 0;
 		const field_setup = options.setup.config.fields[options.event.field_id];
@@ -1687,7 +1820,7 @@ const enrichments$10 = {
 	waive(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
-		if ("waive_multiplier" in mechanics_mortgage !== true) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
+		if (!("waive_multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		options.status.fields.delete(options.event.field_id);
 		const field_setup = options.setup.config.fields[options.event.field_id];
@@ -1753,11 +1886,58 @@ const valiV1Schemas$11 = [
 	}))
 ];
 //#endregion
-//#region src/packet/events/other.ts
-var other_exports = /* @__PURE__ */ __exportAll({
+//#region src/packet/events/movement.ts
+var movement_exports = /* @__PURE__ */ __exportAll({
 	enrichments: () => enrichments$9,
 	valiSchemas: () => valiSchemas$10,
 	valiV1Schemas: () => valiV1Schemas$10
+});
+const valiSchemas$10 = [v.object({
+	id: v.string(),
+	type: v.literal("movement.picker"),
+	user_id: v.number()
+}), v.object({
+	id: v.string(),
+	type: v.literal("movement.go"),
+	user_id: v.number(),
+	field_id: v.number(),
+	move_reversed: bit(false)
+})];
+const enrichments$9 = { "movement.go"(options) {
+	const player = options.status.players.get(options.event.user_id);
+	player.position = options.event.field_id;
+} };
+const valiV1Schemas$10 = [v.pipe(v.object({
+	_id: v.optional(v.string()),
+	type: v.literal("chooseFieldToMove"),
+	user_id: v.number()
+}), v.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.picker",
+		user_id: value.user_id
+	};
+})), v.pipe(v.object({
+	_id: v.optional(v.string()),
+	type: v.literal("fieldToMoveChoosed"),
+	user_id: v.number(),
+	field_id: v.number(),
+	move_reverse: bit(false)
+}), v.transform((value) => {
+	return {
+		id: value._id,
+		type: "movement.go",
+		user_id: value.user_id,
+		field_id: value.field_id,
+		move_reversed: value.move_reverse
+	};
+}))];
+//#endregion
+//#region src/packet/events/other.ts
+var other_exports = /* @__PURE__ */ __exportAll({
+	enrichments: () => enrichments$8,
+	valiSchemas: () => valiSchemas$9,
+	valiV1Schemas: () => valiV1Schemas$9
 });
 const valiChanceDataSchema = v.union([
 	v.strictObject({ amount: v.number() }),
@@ -1767,7 +1947,7 @@ const valiChanceDataSchema = v.union([
 	}),
 	v.undefined_()
 ]);
-const valiSchemas$10 = [
+const valiSchemas$9 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("bankrupt"),
@@ -1817,14 +1997,14 @@ const valiSchemas$10 = [
 		user_id: v.number()
 	})
 ];
-const enrichments$9 = { chance(options) {
+const enrichments$8 = { chance(options) {
 	const chance_card_index = options.event.chance_index;
 	const chance_card = options.setup.config.mechanics.chance.cards[chance_card_index];
 	const player = options.status.players.get(options.event.user_id);
 	switch (chance_card?.type) {
 		case "income":
 		case "birthday":
-			if (!options.event.data || "amount" in options.event.data !== true) throw new TypeError(`Invalid chance event data: missing "amount" field for "${chance_card.type}" chance card.`);
+			if (!options.event.data || !("amount" in options.event.data)) throw new TypeError(`Invalid chance event data: missing "amount" field for "${chance_card.type}" chance card.`);
 			player.cash += options.event.data.amount;
 			break;
 		case "goto.jail":
@@ -1850,7 +2030,7 @@ const enrichments$9 = { chance(options) {
 function unescapeHtml(text) {
 	return text.replaceAll("&#39;", "'").replaceAll("&#34;", "\"").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
 }
-const valiV1Schemas$10 = [
+const valiV1Schemas$9 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("bankrupted"),
@@ -1971,17 +2151,17 @@ const valiV1Schemas$10 = [
 //#endregion
 //#region src/packet/events/pause.ts
 var pause_exports = /* @__PURE__ */ __exportAll({
-	valiSchemas: () => valiSchemas$9,
-	valiV1Schemas: () => valiV1Schemas$9
+	valiSchemas: () => valiSchemas$8,
+	valiV1Schemas: () => valiV1Schemas$8
 });
-const valiSchemas$9 = [v.object({
+const valiSchemas$8 = [v.object({
 	id: v.string(),
 	type: v.literal("pause.set")
 }), v.object({
 	id: v.string(),
 	type: v.literal("pause.end")
 })];
-const valiV1Schemas$9 = [v.pipe(v.object({
+const valiV1Schemas$8 = [v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.literal("pauseActive")
 }), v.transform((value) => {
@@ -2001,11 +2181,11 @@ const valiV1Schemas$9 = [v.pipe(v.object({
 //#endregion
 //#region src/packet/events/purchase.ts
 var purchase_exports = /* @__PURE__ */ __exportAll({
-	enrichments: () => enrichments$8,
-	valiSchemas: () => valiSchemas$8,
-	valiV1Schemas: () => valiV1Schemas$8
+	enrichments: () => enrichments$7,
+	valiSchemas: () => valiSchemas$7,
+	valiV1Schemas: () => valiV1Schemas$7
 });
-const valiSchemas$8 = [
+const valiSchemas$7 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("purchase.offer"),
@@ -2046,7 +2226,7 @@ const valiSchemas$8 = [
 		field_id: v.number()
 	})
 ];
-const enrichments$8 = {
+const enrichments$7 = {
 	purchase(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.price;
@@ -2065,7 +2245,7 @@ const enrichments$8 = {
 		options.status.fields.get(options.event.field_id).owner_user_id = options.event.user_id;
 	}
 };
-const valiV1Schemas$8 = [
+const valiV1Schemas$7 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("canBuy"),
@@ -2154,11 +2334,11 @@ const valiV1Schemas$8 = [
 //#endregion
 //#region src/packet/events/rent.ts
 var rent_exports = /* @__PURE__ */ __exportAll({
-	enrichments: () => enrichments$7,
-	valiSchemas: () => valiSchemas$7,
-	valiV1Schemas: () => valiV1Schemas$7
+	enrichments: () => enrichments$6,
+	valiSchemas: () => valiSchemas$6,
+	valiV1Schemas: () => valiV1Schemas$6
 });
-const valiSchemas$7 = [
+const valiSchemas$6 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("rent.pay"),
@@ -2207,7 +2387,7 @@ const valiSchemas$7 = [
 		field_id: v.number()
 	})
 ];
-const enrichments$7 = { "rent.pay.complete"(options) {
+const enrichments$6 = { "rent.pay.complete"(options) {
 	const { amount } = options.event;
 	const player_payer = options.status.players.get(options.event.user_id);
 	player_payer.cash -= amount;
@@ -2215,7 +2395,7 @@ const enrichments$7 = { "rent.pay.complete"(options) {
 	const player_receiver = options.status.players.get(user_id_receiver);
 	player_receiver.cash += amount;
 } };
-const valiV1Schemas$7 = [
+const valiV1Schemas$6 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("payRent"),
@@ -2318,219 +2498,6 @@ const valiV1Schemas$7 = [
 		};
 	}))
 ];
-//#endregion
-//#region src/utils/table.ts
-/**
-* Returns the field ID normalized to the range of the fields count.
-* @param setup -
-* @param field_id -
-* @returns -
-*/
-function normalizeFieldId(setup, field_id) {
-	const fields_count = setup.config.fields.length;
-	return (field_id + 10 * fields_count) % fields_count;
-}
-//#endregion
-//#region src/packet/events/roll-dices.ts
-var roll_dices_exports = /* @__PURE__ */ __exportAll({
-	enrichments: () => enrichments$6,
-	valiSchemas: () => valiSchemas$6,
-	valiV1Schemas: () => valiV1Schemas$6
-});
-const valiSchemas$6 = [
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices"),
-		user_id: v.number(),
-		reroll: bit(false),
-		dices: v.union([
-			v.strictTuple([v.number()]),
-			v.strictTuple([v.number(), v.number()]),
-			v.strictTuple([
-				v.number(),
-				v.number(),
-				v.number()
-			])
-		]),
-		move_reversed: bit(false),
-		double_spent: bit(false)
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.doubling"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.jail.success"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.jail.fail"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.reroll"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.reroll.reject"),
-		user_id: v.number(),
-		move_reversed: bit(false),
-		position: v.number()
-	})
-];
-const enrichments$6 = {
-	"roll-dices"(options) {
-		const player = options.status.players.get(options.event.user_id);
-		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
-		const distance = player.jail || event_zero_distance ? 0 : getRolledDistance(options.event.dices, options.setup);
-		player.position = normalizeFieldId(options.setup, player.position + (options.event.move_reversed ? -1 : 1) * distance);
-	},
-	"roll-dices.jail.success"(options) {
-		options.status.players.get(options.event.user_id).jail = void 0;
-		const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
-		if (!event_roll_dices) throw new Error("Invalid state: no \"roll-dices\" event found before \"roll-dices.jail.success\".");
-		const player = options.status.players.get(options.event.user_id);
-		const distance = getRolledDistance(event_roll_dices.dices, options.setup);
-		player.position = normalizeFieldId(options.setup, player.position + distance);
-	},
-	"roll-dices.reroll.reject"(options) {
-		const player = options.status.players.get(options.event.user_id);
-		player.position = options.event.position;
-	}
-};
-const valiV1Schemas$6 = [
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDices"),
-		user_id: v.number(),
-		reroll: bit(false),
-		dices: v.union([
-			v.strictTuple([v.number()]),
-			v.strictTuple([v.number(), v.number()]),
-			v.strictTuple([
-				v.number(),
-				v.number(),
-				v.number()
-			])
-		]),
-		move_reverse: bit(false)
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices",
-			user_id: value.user_id,
-			reroll: value.reroll,
-			dices: value.dices,
-			move_reversed: value.move_reverse,
-			double_spent: false
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("doubleRolledOnDice"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.doubling",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("double_spended")
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: value.type
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesForUnjailSuccess"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.jail.success",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesForUnjailFail"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.jail.fail",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesReroll"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.reroll",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesRerollCancel"),
-		user_id: v.number(),
-		move_reverse: bit(false),
-		mean_position: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.reroll.reject",
-			user_id: value.user_id,
-			move_reversed: value.move_reverse,
-			position: value.mean_position
-		};
-	}))
-];
-/**
-* Get distance by rolled dices.
-* @param dices - Rolled dices.
-* @param setup - Game setup.
-* @returns -
-*/
-function getRolledDistance(dices, setup) {
-	const { game_submode } = setup.flags;
-	let distance = dices[0];
-	if (game_submode === 2) {
-		distance += dices[1];
-		if (typeof dices[2] === "number") {
-			if (dices[2] <= 3) {
-				if (dices[0] === dices[1] && dices[1] === dices[2]) return 0;
-				distance += dices[2];
-			} else if (dices[2] === 4 || dices[2] === 6) return 0;
-		}
-	} else if (game_submode === 5) {
-		if (typeof dices[1] === "number") switch (dices[1]) {
-			case 1:
-			case 2:
-			case 3: break;
-			case 4:
-			case 6: return 0;
-			case 5:
-				distance *= 2;
-				break;
-			default: throw new Error(`Invalid mini die value: ${dices[1]}`);
-		}
-	} else distance += dices[1];
-	return distance;
-}
 //#endregion
 //#region src/packet/events/russian-roulette.ts
 var russian_roulette_exports = /* @__PURE__ */ __exportAll({
@@ -3008,11 +2975,11 @@ const valiRecordParser = v.safeParser(v.record(v.string(), v.unknown()));
 * @returns -
 */
 function isRecord(value) {
-	return Array.isArray(value) === false && valiRecordParser(value).success;
+	return !Array.isArray(value) && valiRecordParser(value).success;
 }
 //#endregion
 //#region src/packet/events.ts
-const valiM1DemoRawPacketEventsSchema = v.array(v.union([...valiSchemas, v.pipe(v.object({
+const valiM1DemoPacketEventsSchema = v.array(v.union([...valiSchemas, v.pipe(v.object({
 	id: v.string(),
 	type: v.string()
 }), v.transform(({ type, ...value_rest }) => {
@@ -3022,7 +2989,7 @@ const valiM1DemoRawPacketEventsSchema = v.array(v.union([...valiSchemas, v.pipe(
 		...value_rest
 	};
 }))]));
-const valiM1DemoRawPacketV1EventElementSchema = v.union([...valiV1Schemas, v.pipe(v.object({
+const valiM1DemoPacketV1EventElementSchema = v.union([...valiV1Schemas, v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.string()
 }), v.transform(({ _id, type, ...value_rest }) => {
@@ -3033,7 +3000,7 @@ const valiM1DemoRawPacketV1EventElementSchema = v.union([...valiV1Schemas, v.pip
 		...value_rest
 	};
 }))]);
-const valiM1DemoRawPacketV1EventsSchema = v.pipe(v.union([v.array(valiM1DemoRawPacketV1EventElementSchema), v.record(v.string(), valiM1DemoRawPacketV1EventElementSchema)]), v.transform((value) => {
+const valiM1DemoPacketV1EventsSchema = v.pipe(v.union([v.array(valiM1DemoPacketV1EventElementSchema), v.record(v.string(), valiM1DemoPacketV1EventElementSchema)]), v.transform((value) => {
 	if (isRecord(value)) return Object.entries(value).map(([_id, event]) => {
 		return {
 			_id,
@@ -3163,17 +3130,17 @@ const valiM1DemoPacketV1TimeSchema = v.union([
 ]);
 //#endregion
 //#region src/packet.ts
-const valiM1DemoRawPacketSchema = v.object({
+const valiM1DemoPacketSchema = v.object({
 	/** Various information about the match which is never changes. */
 	setup: v.optional(valiM1DemoPacketSetupSchema),
 	/** Events happened before game went to the "status". */
-	events: valiM1DemoRawPacketEventsSchema,
+	events: valiM1DemoPacketEventsSchema,
 	/** Current status of the match. */
 	status: v.optional(valiM1DemoPacketStatusSchema),
 	/** Information about match time. */
 	time: valiM1DemoPacketTimeSchema
 });
-const valiM1DemoRawPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v.pipe(v.object({
+const valiM1DemoPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v.pipe(v.object({
 	config: v.optional(valiM1DemoPacketV1ConfigSchema),
 	flags: v.optional(v.object({
 		game_mode: v.number(),
@@ -3181,7 +3148,7 @@ const valiM1DemoRawPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v
 		game_2x2: bit(false),
 		match_title: v.optional(v.string())
 	})),
-	events: valiM1DemoRawPacketV1EventsSchema,
+	events: valiM1DemoPacketV1EventsSchema,
 	status: v.optional(valiM1DemoPacketV1StatusSchema)
 }), v.transform((value) => {
 	const { config, flags, status, ...value_rest } = value;
@@ -3224,62 +3191,67 @@ const valiM1DemoRawPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v
 //#region src/main.ts
 var M1LiveDemo = class {
 	/** Packet versions in this game. Value `null` is a placeholder until first packet arrives. */
-	packet_version = null;
-	setup = null;
-	field_id_jail = null;
-	status_before = null;
+	#packet_version = null;
+	#setup = null;
+	#field_id_jail = null;
+	#status_before = null;
 	process(value) {
 		if (isRecord(value) !== true) throw new TypeError("Packet is not an object.");
-		this.packet_version ??= typeof value.v === "number" ? value.v : 1;
-		let packet_raw;
-		switch (this.packet_version) {
+		this.#packet_version ??= typeof value.v === "number" ? value.v : 1;
+		let packet;
+		switch (this.#packet_version) {
 			case 2:
-				packet_raw = parse(valiM1DemoRawPacketSchema, value);
+				packet = parse(valiM1DemoPacketSchema, value);
 				break;
 			case 1:
-				packet_raw = parse(valiM1DemoRawPacketV1Schema, value);
+				packet = parse(valiM1DemoPacketV1Schema, value);
 				break;
-			default: throw new Error(`Unsupported packet version ${this.packet_version}.`);
+			default: throw new Error(`Unsupported packet version ${this.#packet_version}.`);
 		}
-		if (packet_raw.setup) {
-			this.setup = packet_raw.setup;
-			this.field_id_jail = this.setup.config.fields.findIndex((field) => field.type === "jail");
+		if (packet.setup) {
+			this.#setup = packet.setup;
+			this.#field_id_jail = this.#setup.config.fields.findIndex((field) => field.type === "jail");
 		}
-		if (packet_raw.status && packet_raw.status.turn.movement) {
-			const pairs = [...packet_raw.status.turn.movement.options];
-			packet_raw.status.turn.movement.options = new Map(pairs.map(([field_id, move_value]) => [normalizeFieldId(this.setup, field_id), move_value]));
-		}
-		const { events, ...rest_packet_raw } = packet_raw;
-		const events_new = [];
+		if (this.#setup === null) throw new Error("Invalid state: received events before setup.");
+		const { events, ...rest_packet } = packet;
+		const events_rich = [];
 		if (events.length > 0) {
-			if (this.setup === null) throw new Error("Invalid state: received events before setup.");
-			if (this.status_before === null) throw new Error("Invalid state: received events before status.");
-			if (packet_raw.status) for (const [index, event] of packet_raw.events.entries()) {
-				const status_after = structuredClone(this.status_before);
+			if (this.#status_before === null) throw new Error("Invalid state: received events before status.");
+			if (packet.status) for (const [index, event] of packet.events.entries()) {
+				const status_after = structuredClone(this.#status_before);
 				if (hasEnrichment(event)) getEntrichment(event)({
 					event,
-					events_before: packet_raw.events.slice(0, index).toReversed(),
-					events_after: packet_raw.events.slice(index),
-					setup: this.setup,
-					field_id_jail: this.field_id_jail,
+					events_before: packet.events.slice(0, index).toReversed(),
+					events_after: packet.events.slice(index),
+					setup: this.#setup,
+					field_id_jail: this.#field_id_jail,
 					status: status_after
 				});
-				events_new.push({
+				events_rich.push({
 					status: {
-						before: structuredClone(this.status_before),
+						before: structuredClone(this.#status_before),
 						after: structuredClone(status_after)
 					},
 					...event
 				});
-				this.status_before = status_after;
+				this.#status_before = status_after;
 			}
-			else events_new.push(...packet_raw.events);
+			else events_rich.push(...packet.events);
 		}
-		if (rest_packet_raw.status) this.status_before = rest_packet_raw.status;
+		if (rest_packet.status) this.#status_before = rest_packet.status;
+		this.#movement_options = null;
 		return {
-			events: events_new,
-			...rest_packet_raw
+			events: events_rich,
+			...rest_packet
 		};
+	}
+	#movement_options = null;
+	get movement_options() {
+		if (this.#movement_options === null) this.#movement_options = getMovementOptions(this.#setup, this.#status_before);
+		return this.#movement_options;
+	}
+	normalizeFieldId(field_id) {
+		return normalizeFieldId(this.#setup, field_id);
 	}
 };
 //#endregion
