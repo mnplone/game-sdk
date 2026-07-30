@@ -1,7 +1,488 @@
 import * as v from "valibot";
 
+//#region src/packet/setup.d.ts
+declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
+  /** Constants that define basic rules of the match. */readonly config: v.ObjectSchema<{
+    readonly version: v.NumberSchema<undefined>;
+    readonly board_size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
+    readonly timers: v.ObjectSchema<{
+      readonly roll_dices: v.NumberSchema<undefined>;
+    }, undefined>;
+    readonly fields: v.SchemaWithPipe<readonly [v.ArraySchema<v.UnionSchema<[v.ObjectSchema<{
+      readonly is_corner: v.SchemaWithPipe<readonly [v.LiteralSchema<1, undefined>, v.TransformAction<1, true>]>;
+      readonly type: v.PicklistSchema<["start", "jail"], undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly is_corner: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+      readonly type: v.PicklistSchema<["cash.pay", "cash.receive", "chance", "jackpot", "jail.goto", "park", "russian-roulette", "tax.income", "tax.luxury", "wormhole"], undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly is_corner: v.SchemaWithPipe<readonly [v.UndefinedSchema<undefined>, v.TransformAction<undefined, false>]>;
+      readonly type: v.LiteralSchema<"company", undefined>;
+      readonly monopoly_id: v.NumberSchema<undefined>;
+      readonly is_last: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+    }, undefined>], undefined>, undefined>, v.TransformAction<({
+      is_corner: true;
+      type: "jail" | "start";
+    } | {
+      is_corner: boolean;
+      type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    } | {
+      is_corner: false;
+      type: "company";
+      monopoly_id: number;
+      is_last: boolean;
+    })[], ({
+      is_corner: true;
+      type: "jail" | "start";
+    } | {
+      is_corner: boolean;
+      type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    } | {
+      item_proto_id: number;
+      is_corner: false;
+      type: "company";
+      monopoly_id: number;
+      is_last: boolean;
+    })[]>]>;
+    readonly monopolies: v.SchemaWithPipe<readonly [v.RecordSchema<v.StringSchema<undefined>, v.UnionSchema<[v.ObjectSchema<{
+      readonly buy_price: v.NumberSchema<undefined>;
+      readonly rent_by_level: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+      readonly level_cost: v.NumberSchema<undefined>;
+      readonly last_field: v.OptionalSchema<v.ObjectSchema<{
+        readonly buy_price: v.NumberSchema<undefined>;
+        readonly rent_by_level: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+      }, undefined>, undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly buy_price: v.NumberSchema<undefined>;
+      readonly rent_by_count: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly buy_price: v.NumberSchema<undefined>;
+      readonly dice_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly buy_price: v.NumberSchema<undefined>;
+      readonly rent_grow: v.ObjectSchema<{
+        readonly by_round: v.NumberSchema<undefined>;
+        readonly max: v.NumberSchema<undefined>;
+      }, undefined>;
+    }, undefined>], undefined>, undefined>, v.TransformAction<{
+      [x: string]: {
+        buy_price: number;
+        rent_by_level: number[];
+        level_cost: number;
+        last_field?: {
+          buy_price: number;
+          rent_by_level: number[];
+        } | undefined;
+      } | {
+        buy_price: number;
+        rent_by_count: number[];
+      } | {
+        buy_price: number;
+        dice_multipliers: number[];
+      } | {
+        buy_price: number;
+        rent_grow: {
+          by_round: number;
+          max: number;
+        };
+      };
+    }, Map<number, {
+      buy_price: number;
+      rent_by_level: number[];
+      level_cost: number;
+      last_field?: {
+        buy_price: number;
+        rent_by_level: number[];
+      } | undefined;
+    } | {
+      buy_price: number;
+      rent_by_count: number[];
+    } | {
+      buy_price: number;
+      dice_multipliers: number[];
+    } | {
+      buy_price: number;
+      rent_grow: {
+        by_round: number;
+        max: number;
+      };
+    }>>]>;
+    readonly mechanics: v.ObjectSchema<{
+      readonly auction: v.OptionalSchema<v.ObjectSchema<{
+        readonly bid_increment: v.NumberSchema<undefined>;
+      }, undefined>, undefined>;
+      readonly buyout: v.OptionalSchema<v.ObjectSchema<{
+        readonly owner_premium: v.NumberSchema<undefined>;
+        readonly bank_premium: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly chance: v.OptionalSchema<v.StrictObjectSchema<{
+        readonly cards: v.ArraySchema<v.UnionSchema<[v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"income", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+          readonly range: v.StrictObjectSchema<{
+            readonly min: v.NumberSchema<undefined>;
+            readonly max: v.NumberSchema<undefined>;
+            readonly step: v.NumberSchema<undefined>;
+          }, undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"expense", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+          readonly range: v.StrictObjectSchema<{
+            readonly min: v.NumberSchema<undefined>;
+            readonly max: v.NumberSchema<undefined>;
+            readonly step: v.NumberSchema<undefined>;
+          }, undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"repair", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+          readonly cost: v.StrictObjectSchema<{
+            readonly small: v.NumberSchema<undefined>;
+            readonly big: v.NumberSchema<undefined>;
+          }, undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"goto.jail", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"goto.start", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"teleport", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"move.one", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"move.skip", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"move.undo", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"insurance", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+          readonly price: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"birthday", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+          readonly amount: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"reverse", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>, v.StrictObjectSchema<{
+          readonly type: v.LiteralSchema<"disaster", undefined>;
+          readonly text_id: v.NumberSchema<undefined>;
+        }, undefined>], undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly charges: v.OptionalSchema<v.ObjectSchema<{
+        readonly default: v.NumberSchema<undefined>;
+        readonly limit: v.NumberSchema<undefined>;
+        readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
+          readonly charges: v.NumberSchema<undefined>;
+          readonly no_cap: v.OptionalSchema<v.BooleanSchema<undefined>, false>;
+        }, undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly field_level: v.OptionalSchema<v.ObjectSchema<{
+        readonly build: v.OptionalSchema<v.ObjectSchema<{
+          readonly uneven: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+          readonly without_monopoly: v.OptionalSchema<v.ObjectSchema<{
+            readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+          }, undefined>, undefined>;
+        }, undefined>, () => {}>;
+        readonly sell: v.ObjectSchema<{
+          readonly multiplier: v.OptionalSchema<v.NumberSchema<undefined>, 1>;
+        }, undefined>;
+      }, undefined>, undefined>;
+      readonly income_tax: v.OptionalSchema<v.ObjectSchema<{
+        readonly v: v.OptionalSchema<v.PicklistSchema<[1, 2], undefined>, 1>;
+        readonly rate: v.NumberSchema<undefined>;
+        readonly jail: v.OptionalSchema<v.ObjectSchema<{
+          readonly base_reduction: v.NumberSchema<undefined>;
+        }, undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
+        readonly bet: v.NumberSchema<undefined>;
+        readonly multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+        readonly superprize: v.ObjectSchema<{
+          readonly chance: v.NumberSchema<undefined>;
+        }, undefined>;
+      }, undefined>, undefined>;
+      readonly jail: v.ObjectSchema<{
+        readonly release_fee: v.NumberSchema<undefined>;
+        readonly double_roll_attempt_limit: v.OptionalSchema<v.NumberSchema<undefined>, 3>;
+        readonly fine: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+        readonly rent_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+      }, undefined>;
+      readonly loan: v.OptionalSchema<v.ObjectSchema<{
+        readonly amount: v.NumberSchema<undefined>;
+        readonly repay_multiplier: v.NumberSchema<undefined>;
+        readonly duration: v.NumberSchema<undefined>;
+        readonly cooldown: v.ObjectSchema<{
+          readonly match_start: v.NumberSchema<undefined>;
+          readonly repay: v.NumberSchema<undefined>;
+        }, undefined>;
+      }, undefined>, undefined>;
+      readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{
+        readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+        readonly multiplier: v.NumberSchema<undefined>;
+        readonly buyback_multiplier: v.NumberSchema<undefined>;
+        readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+      }, undefined>, v.ObjectSchema<{
+        readonly waive_multiplier: v.NumberSchema<undefined>;
+      }, undefined>], undefined>, undefined>;
+      readonly restart: v.OptionalSchema<v.ObjectSchema<{
+        readonly variants: v.ArraySchema<v.ObjectSchema<{
+          readonly round_from: v.NumberSchema<undefined>;
+          readonly round_to: v.NumberSchema<undefined>;
+          readonly count: v.NumberSchema<undefined>;
+          readonly price: v.NumberSchema<undefined>;
+        }, undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly russian_roulette: v.OptionalSchema<v.ObjectSchema<{
+        readonly rewards: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly start: v.ObjectSchema<{
+        readonly income_amount: v.NumberSchema<undefined>;
+        readonly bonus_amount: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
+      }, undefined>;
+      readonly rules: v.ArraySchema<v.IntersectSchema<[v.UnionSchema<[v.ObjectSchema<{
+        readonly time: v.NumberSchema<undefined>;
+      }, undefined>, v.ObjectSchema<{
+        readonly round: v.NumberSchema<undefined>;
+      }, undefined>], undefined>, v.VariantSchema<"type", [v.ObjectSchema<{
+        readonly type: v.LiteralSchema<"start.income.off", undefined>;
+      }, undefined>, v.ObjectSchema<{
+        readonly type: v.LiteralSchema<"start.tax", undefined>;
+        readonly sum: v.NumberSchema<undefined>;
+      }, undefined>, v.ObjectSchema<{
+        readonly type: v.LiteralSchema<"cashflow.tax", undefined>;
+        readonly rate: v.NumberSchema<undefined>;
+      }, undefined>], undefined>], undefined>, undefined>;
+      readonly wormhole: v.OptionalSchema<v.ObjectSchema<{
+        readonly exits_free_count: v.OptionalSchema<v.NumberSchema<undefined>, 3>;
+        readonly exits_extra_price: v.NumberSchema<undefined>;
+        readonly move_direct: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+      }, undefined>, undefined>;
+    }, undefined>;
+  }, undefined>;
+  readonly flags: v.ObjectSchema<{
+    readonly game_mode: v.NumberSchema<undefined>;
+    readonly game_submode: v.NumberSchema<undefined>;
+    readonly game_2x2: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+    readonly title: v.OptionalSchema<v.StringSchema<undefined>, undefined>;
+  }, undefined>;
+  readonly players: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
+    readonly user_id: v.NumberSchema<undefined>;
+    readonly team: v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, undefined>;
+    readonly is_vip: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+    readonly is_loan_available: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+    readonly equipment: v.ObjectSchema<{
+      readonly cards: v.SchemaWithPipe<readonly [v.ArraySchema<v.ObjectSchema<{
+        readonly field_id: v.NumberSchema<undefined>;
+        readonly item_proto_id: v.NumberSchema<undefined>;
+        readonly item_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+        readonly rent_multiplier: v.NumberSchema<undefined>;
+      }, undefined>, undefined>, v.TransformAction<{
+        field_id: number;
+        item_proto_id: number;
+        item_id?: number | undefined;
+        rent_multiplier: number;
+      }[], Map<number, {
+        field_id: number;
+        item_proto_id: number;
+        item_id?: number | undefined;
+        rent_multiplier: number;
+      }>>]>;
+      readonly generator: v.OptionalSchema<v.ObjectSchema<{
+        readonly item_proto_id: v.NumberSchema<undefined>;
+        readonly variant_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+        readonly seed: v.OptionalSchema<v.StringSchema<undefined>, undefined>;
+      }, undefined>, undefined>;
+      readonly joke: v.OptionalSchema<v.ObjectSchema<{
+        readonly item_proto_id: v.NumberSchema<undefined>;
+      }, undefined>, undefined>;
+    }, undefined>;
+  }, undefined>, v.TransformAction<{
+    user_id: number;
+    team?: 0 | 1 | undefined;
+    is_vip: boolean;
+    is_loan_available: boolean;
+    equipment: {
+      cards: Map<number, {
+        field_id: number;
+        item_proto_id: number;
+        item_id?: number | undefined;
+        rent_multiplier: number;
+      }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
+    };
+  }, {
+    index: number;
+    user_id: number;
+    team?: 0 | 1 | undefined;
+    is_vip: boolean;
+    is_loan_available: boolean;
+    equipment: {
+      cards: Map<number, {
+        field_id: number;
+        item_proto_id: number;
+        item_id?: number | undefined;
+        rent_multiplier: number;
+      }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
+    };
+  }>]>, undefined>, v.TransformAction<{
+    index: number;
+    user_id: number;
+    team?: 0 | 1 | undefined;
+    is_vip: boolean;
+    is_loan_available: boolean;
+    equipment: {
+      cards: Map<number, {
+        field_id: number;
+        item_proto_id: number;
+        item_id?: number | undefined;
+        rent_multiplier: number;
+      }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
+    };
+  }[], Map<number, {
+    index: number;
+    user_id: number;
+    team?: 0 | 1 | undefined;
+    is_vip: boolean;
+    is_loan_available: boolean;
+    equipment: {
+      cards: Map<number, {
+        field_id: number;
+        item_proto_id: number;
+        item_id?: number | undefined;
+        rent_multiplier: number;
+      }>;
+      generator?: {
+        item_proto_id: number;
+        variant_id?: number | undefined;
+        seed?: string | undefined;
+      } | undefined;
+      joke?: {
+        item_proto_id: number;
+      } | undefined;
+    };
+  }>>]>;
+}, undefined>;
+type M1DemoPacketSetup = v.InferOutput<typeof valiM1DemoPacketSetupSchema>;
+//#endregion
 //#region src/utils/types.d.ts
 type MapElement<T> = T extends Map<infer _, infer V> ? V : never;
+//#endregion
+//#region src/packet/status/turn.d.ts
+declare const valiM1DemoContractSchema: v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  readonly cash: v.NumberSchema<undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  readonly cash: v.NumberSchema<undefined>;
+}, undefined>], undefined>, v.TransformAction<[{
+  user_id: number;
+  field_ids: number[];
+  cash: number;
+}, {
+  user_id: number;
+  field_ids: number[];
+  cash: number;
+}], {
+  initiator: {
+    user_id: number;
+    field_ids: Set<number>;
+    cash: number;
+  };
+  responder: {
+    user_id: number;
+    field_ids: Set<number>;
+    cash: number;
+  };
+}>]>;
+type M1DemoContract = v.InferOutput<typeof valiM1DemoContractSchema>;
+declare const valiM1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
+  /** User ID of the player whose turn it is. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
+  readonly action: v.ObjectSchema<{
+    /** User ID of the player from which action is expected. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
+    readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.auction", "movement.go", "waive", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "taxi.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.auction" | "movement.go" | "waive" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.auction" | "movement.go" | "waive" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
+  }, undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly auction: v.OptionalSchema<v.ObjectSchema<{
+    readonly field_id: v.NumberSchema<undefined>;
+    readonly bid: v.NumberSchema<undefined>;
+    readonly user_ids_rejected: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>;
+  }, undefined>, undefined>;
+  readonly contract: v.OptionalSchema<v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
+    readonly user_id: v.NumberSchema<undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    readonly cash: v.NumberSchema<undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly user_id: v.NumberSchema<undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    readonly cash: v.NumberSchema<undefined>;
+  }, undefined>], undefined>, v.TransformAction<[{
+    user_id: number;
+    field_ids: number[];
+    cash: number;
+  }, {
+    user_id: number;
+    field_ids: number[];
+    cash: number;
+  }], {
+    initiator: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+    responder: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+  }>]>, undefined>;
+  readonly contracts_sent: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly dices: v.OptionalSchema<v.UnionSchema<[v.StrictTupleSchema<[v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>], undefined>, undefined>;
+  readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
+    readonly superprize: v.NumberSchema<undefined>;
+  }, undefined>, undefined>;
+  readonly payment: v.OptionalSchema<v.ObjectSchema<{
+    readonly to_user_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+    readonly amount: v.NumberSchema<undefined>;
+  }, undefined>, undefined>; /** Fields on which player can move in this action. */
+  readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
+    readonly source: v.PicklistSchema<["bus", "taxi", "triple"], undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly source: v.PicklistSchema<["wormhole"], undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  }, undefined>], undefined>, undefined>; /** Fields on which player already built a level this turn. */
+  readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>; /** Fields which player already mortgaged this turn. */
+  readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
+}, undefined>]>;
+type M1DemoPacketStatusTurn = v.InferOutput<typeof valiM1DemoPacketStatusTurnSchema>;
 //#endregion
 //#region src/packet/status.d.ts
 declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
@@ -299,10 +780,10 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         readonly is_last: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
       }, undefined>], undefined>, undefined>, v.TransformAction<({
         is_corner: true;
-        type: "start" | "jail";
+        type: "jail" | "start";
       } | {
         is_corner: boolean;
-        type: "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+        type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
       } | {
         is_corner: false;
         type: "company";
@@ -310,10 +791,10 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         is_last: boolean;
       })[], ({
         is_corner: true;
-        type: "start" | "jail";
+        type: "jail" | "start";
       } | {
         is_corner: boolean;
-        type: "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+        type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
       } | {
         item_proto_id: number;
         is_corner: false;
@@ -1987,6 +2468,172 @@ type M1DemoPacketEvents = v.InferOutput<typeof valiM1DemoPacketEventsSchema>;
 type M1DemoPacketEvent = M1DemoPacketEvents[number];
 type M1DemoPacketEventType = M1DemoPacketEvent['type'];
 //#endregion
+//#region src/packet/setup/config/chance.d.ts
+declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: v.StrictObjectSchema<{
+  readonly cards: v.ArraySchema<v.UnionSchema<[v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"income", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+    readonly range: v.StrictObjectSchema<{
+      readonly min: v.NumberSchema<undefined>;
+      readonly max: v.NumberSchema<undefined>;
+      readonly step: v.NumberSchema<undefined>;
+    }, undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"expense", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+    readonly range: v.StrictObjectSchema<{
+      readonly min: v.NumberSchema<undefined>;
+      readonly max: v.NumberSchema<undefined>;
+      readonly step: v.NumberSchema<undefined>;
+    }, undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"repair", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+    readonly cost: v.StrictObjectSchema<{
+      readonly small: v.NumberSchema<undefined>;
+      readonly big: v.NumberSchema<undefined>;
+    }, undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"goto.jail", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"goto.start", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"teleport", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"move.one", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"move.skip", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"move.undo", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"insurance", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+    readonly price: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"birthday", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+    readonly amount: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"reverse", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>, v.StrictObjectSchema<{
+    readonly type: v.LiteralSchema<"disaster", undefined>;
+    readonly text_id: v.NumberSchema<undefined>;
+  }, undefined>], undefined>, undefined>;
+}, undefined>;
+type M1DemoPacketSetupConfigChanceCard = v.InferOutput<typeof valiM1DemoPacketSetupConfigMechanicsChanceSchema>['cards'][0];
+type M1DemoPacketSetupConfigChanceCardType = M1DemoPacketSetupConfigChanceCard['type'];
+//#endregion
+//#region src/packet/setup/config/fields.d.ts
+declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.UnionSchema<[v.ObjectSchema<{
+  readonly is_corner: v.SchemaWithPipe<readonly [v.LiteralSchema<1, undefined>, v.TransformAction<1, true>]>;
+  readonly type: v.PicklistSchema<["start", "jail"], undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly is_corner: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly type: v.PicklistSchema<["cash.pay", "cash.receive", "chance", "jackpot", "jail.goto", "park", "russian-roulette", "tax.income", "tax.luxury", "wormhole"], undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly is_corner: v.SchemaWithPipe<readonly [v.UndefinedSchema<undefined>, v.TransformAction<undefined, false>]>;
+  readonly type: v.LiteralSchema<"company", undefined>;
+  readonly monopoly_id: v.NumberSchema<undefined>;
+  readonly is_last: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+}, undefined>], undefined>, undefined>, v.TransformAction<({
+  is_corner: true;
+  type: "jail" | "start";
+} | {
+  is_corner: boolean;
+  type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+} | {
+  is_corner: false;
+  type: "company";
+  monopoly_id: number;
+  is_last: boolean;
+})[], ({
+  is_corner: true;
+  type: "jail" | "start";
+} | {
+  is_corner: boolean;
+  type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+} | {
+  item_proto_id: number;
+  is_corner: false;
+  type: "company";
+  monopoly_id: number;
+  is_last: boolean;
+})[]>]>;
+type M1DemoPacketSetupConfigField = v.InferOutput<typeof valiM1DemoPacketSetupConfigFieldsSchema>[0];
+//#endregion
+//#region src/packet/setup/config/monopolies.d.ts
+declare const valiM1DemoPacketSetupConfigMonopoliesSchema: v.SchemaWithPipe<readonly [v.RecordSchema<v.StringSchema<undefined>, v.UnionSchema<[v.ObjectSchema<{
+  readonly buy_price: v.NumberSchema<undefined>;
+  readonly rent_by_level: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  readonly level_cost: v.NumberSchema<undefined>;
+  readonly last_field: v.OptionalSchema<v.ObjectSchema<{
+    readonly buy_price: v.NumberSchema<undefined>;
+    readonly rent_by_level: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  }, undefined>, undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly buy_price: v.NumberSchema<undefined>;
+  readonly rent_by_count: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly buy_price: v.NumberSchema<undefined>;
+  readonly dice_multipliers: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly buy_price: v.NumberSchema<undefined>;
+  readonly rent_grow: v.ObjectSchema<{
+    readonly by_round: v.NumberSchema<undefined>;
+    readonly max: v.NumberSchema<undefined>;
+  }, undefined>;
+}, undefined>], undefined>, undefined>, v.TransformAction<{
+  [x: string]: {
+    buy_price: number;
+    rent_by_level: number[];
+    level_cost: number;
+    last_field?: {
+      buy_price: number;
+      rent_by_level: number[];
+    } | undefined;
+  } | {
+    buy_price: number;
+    rent_by_count: number[];
+  } | {
+    buy_price: number;
+    dice_multipliers: number[];
+  } | {
+    buy_price: number;
+    rent_grow: {
+      by_round: number;
+      max: number;
+    };
+  };
+}, Map<number, {
+  buy_price: number;
+  rent_by_level: number[];
+  level_cost: number;
+  last_field?: {
+    buy_price: number;
+    rent_by_level: number[];
+  } | undefined;
+} | {
+  buy_price: number;
+  rent_by_count: number[];
+} | {
+  buy_price: number;
+  dice_multipliers: number[];
+} | {
+  buy_price: number;
+  rent_grow: {
+    by_round: number;
+    max: number;
+  };
+}>>]>;
+type M1DemoPacketSetupConfigMonopoly = MapElement<v.InferOutput<typeof valiM1DemoPacketSetupConfigMonopoliesSchema>>;
+//#endregion
 //#region src/packet/setup/player.d.ts
 declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly user_id: v.NumberSchema<undefined>;
@@ -2064,6 +2711,9 @@ declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.Ob
   };
 }>]>;
 type M1DemoPacketSetupPlayer = v.InferOutput<typeof valiM1DemoPacketSetupPlayerSchema>;
+type M1DemoPacketSetupPlayerEquippedCard = MapElement<M1DemoPacketSetupPlayer['equipment']['cards']>;
+type M1DemoPacketSetupPlayerEquippedGenerator = Exclude<M1DemoPacketSetupPlayer['equipment']['generator'], undefined>;
+type M1DemoPacketSetupPlayerEquippedJoke = Exclude<M1DemoPacketSetupPlayer['equipment']['joke'], undefined>;
 //#endregion
 //#region src/packet/status/fields.d.ts
 declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
@@ -2273,6 +2923,26 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
 }>>]>;
 type M1DemoPacketStatusPlayer = MapElement<v.InferOutput<typeof valiM1DemoPacketStatusPlayersSchema>>;
 //#endregion
+//#region src/packet/time.d.ts
+declare const valiM1DemoPacketTimeSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
+  /** Unix timestamp of the start of the game in **milliseconds**. */readonly ts_start: v.NumberSchema<undefined>; /** Unix timestamp of the packet in **milliseconds**. */
+  readonly ts_now: v.NumberSchema<undefined>; /** Total length of all pauses in the game excluding one that is currently active in **milliseconds**. */
+  readonly inactive: v.NumberSchema<undefined>; /** Unix timestamp of the start of the current pause in **milliseconds**. */
+  readonly ts_inactive: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+}, undefined>, v.TransformAction<{
+  ts_start: number;
+  ts_now: number;
+  inactive: number;
+  ts_inactive?: number | undefined;
+}, {
+  /** Difference between server's and browser's time in **milliseconds**. */delta: number;
+  ts_start: number;
+  ts_now: number;
+  inactive: number;
+  ts_inactive?: number | undefined;
+}>]>;
+type M1DemoPacketTime = v.InferOutput<typeof valiM1DemoPacketTimeSchema>;
+//#endregion
 //#region src/types.d.ts
 type M1DemoRichPacket = M1DemoPacket & {
   events: (M1DemoPacket['events'][number] & {
@@ -2287,4 +2957,4 @@ type ExtractM1DemoRichPacketEvent<T> = Extract<M1DemoRichPacketEvent, {
   type: T;
 }>;
 //#endregion
-export { M1DemoPacketSetupPlayer as a, M1DemoPacket as c, M1DemoPacketStatusField as i, M1DemoTransportPacket as l, M1DemoRichPacket as n, M1DemoPacketEvent as o, M1DemoPacketStatusPlayer as r, M1DemoPacketEventType as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketStatus as u };
+export { M1DemoTransportPacket as _, M1DemoPacketStatusPlayer as a, M1DemoPacketStatusTurn as b, M1DemoPacketSetupPlayerEquippedCard as c, M1DemoPacketSetupConfigMonopoly as d, M1DemoPacketSetupConfigField as f, M1DemoPacket as g, M1DemoPacketEventType as h, M1DemoPacketTime as i, M1DemoPacketSetupPlayerEquippedGenerator as l, M1DemoPacketEvent as m, M1DemoRichPacket as n, M1DemoPacketStatusField as o, M1DemoPacketSetupConfigChanceCardType as p, M1DemoRichPacketEvent as r, M1DemoPacketSetupPlayer as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketSetupPlayerEquippedJoke as u, M1DemoPacketStatus as v, M1DemoPacketSetup as x, M1DemoContract as y };

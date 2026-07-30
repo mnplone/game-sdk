@@ -20,10 +20,10 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     readonly is_last: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
   }, undefined>], undefined>, undefined>, v.TransformAction<({
     is_corner: true;
-    type: "start" | "jail";
+    type: "jail" | "start";
   } | {
     is_corner: boolean;
-    type: "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
     is_corner: false;
     type: "company";
@@ -31,10 +31,10 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     is_last: boolean;
   })[], ({
     is_corner: true;
-    type: "start" | "jail";
+    type: "jail" | "start";
   } | {
     is_corner: boolean;
-    type: "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
     item_proto_id: number;
     is_corner: false;
@@ -263,6 +263,8 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
   }, undefined>;
 }, undefined>;
 type M1DemoPacketSetupConfig = v.InferOutput<typeof valiM1DemoPacketSetupConfigSchema>;
+type M1DemoPacketSetupConfigMechanics = M1DemoPacketSetupConfig['mechanics'];
+type M1DemoPacketSetupConfigMechanicsRules = M1DemoPacketSetupConfigMechanics['rules'];
 declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly version: v.NumberSchema<undefined>;
   readonly size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
@@ -290,7 +292,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   } | {
     design?: "corner" | undefined;
     type: "special";
-    action: "wormhole" | "chance" | "jackpot" | "cash_minus" | "cash_plus" | "goToJail" | "relax" | "russianRoulette" | "tax_income" | "tax_luxury";
+    action: "wormhole" | "jackpot" | "goToJail" | "chance" | "cash_minus" | "cash_plus" | "relax" | "russianRoulette" | "tax_income" | "tax_luxury";
   } | {
     design?: undefined;
     type: "field";
@@ -298,7 +300,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     is_last: boolean;
   })[], ({
     readonly is_corner: true;
-    readonly type: "start" | "jail";
+    readonly type: "jail" | "start";
   } | {
     readonly monopoly_id: number;
     readonly item_proto_id: number;
@@ -307,7 +309,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     readonly type: "company";
   } | {
     readonly is_corner: boolean;
-    readonly type: "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    readonly type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   })[]>]>;
   readonly groups: v.SchemaWithPipe<readonly [v.RecordSchema<v.StringSchema<undefined>, v.UnionSchema<[v.ObjectSchema<{
     readonly buy: v.NumberSchema<undefined>;
@@ -612,7 +614,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   size: [number, number];
   fields: ({
     readonly is_corner: true;
-    readonly type: "start" | "jail";
+    readonly type: "jail" | "start";
   } | {
     readonly monopoly_id: number;
     readonly item_proto_id: number;
@@ -621,7 +623,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     readonly type: "company";
   } | {
     readonly is_corner: boolean;
-    readonly type: "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    readonly type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   })[];
   groups: Map<number, {
     buy_price: number;
@@ -791,7 +793,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   };
   fields: ({
     readonly is_corner: true;
-    readonly type: "start" | "jail";
+    readonly type: "jail" | "start";
   } | {
     readonly monopoly_id: number;
     readonly item_proto_id: number;
@@ -800,7 +802,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     readonly type: "company";
   } | {
     readonly is_corner: boolean;
-    readonly type: "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jackpot" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    readonly type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   })[];
   monopolies: Map<number, {
     buy_price: number;
@@ -1006,4 +1008,4 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   };
 }>]>;
 //#endregion
-export { valiM1DemoPacketSetupConfigSchema as n, valiM1DemoPacketV1ConfigSchema as r, M1DemoPacketSetupConfig as t };
+export { valiM1DemoPacketV1ConfigSchema as a, valiM1DemoPacketSetupConfigSchema as i, M1DemoPacketSetupConfigMechanics as n, M1DemoPacketSetupConfigMechanicsRules as r, M1DemoPacketSetupConfig as t };
