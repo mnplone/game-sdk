@@ -67,8 +67,7 @@ export const valiM1DemoPacketV1EventsSchema = v.pipe(
 		return value;
 	}),
 	v.transform((value) => {
-		const events_new /* : Exclude<(typeof value)[number], { type: 'double_spended' }>[] */ =
-			[];
+		const events_new = [];
 
 		for (const { id, ...event_rest } of value) {
 			if (typeof id !== 'string') {

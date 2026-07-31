@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import type { M1DemoPacketSetup } from '@/packet/setup.js';
 import type { M1DemoPacketStatus } from '@/packet/status.js';
-import { normalizeFieldId } from '@/utils/table';
+import { normalizeFieldId } from '@/utils/table.js';
 
 export const m1DemoPacketStatusTurnMovementSchema = v.variant('source', [
 	v.object({
@@ -16,10 +16,10 @@ export type M1DemoPacketStatusTurnMovement = v.InferOutput<
 	typeof m1DemoPacketStatusTurnMovementSchema
 >;
 
-export type M1DemoMovementOptions = Map<
-	number,
-	{ field_id: number } | { stop_id: number }
->;
+export type M1DemoMovementOptions = {
+	field_id: number;
+	option_id?: number;
+}[];
 
 /** Returns movement options, building them from the game context. */
 export function getMovementOptions(
@@ -33,9 +33,9 @@ export function getMovementOptions(
 	const { movement } = status.turn;
 
 	if ('field_ids' in movement) {
-		return new Map(
-			movement.field_ids.map((field_id) => [field_id, { field_id }]),
-		) as M1DemoMovementOptions;
+		return movement.field_ids.map((field_id) => {
+			return { field_id };
+		});
 	}
 
 	const { config } = setup;
@@ -54,46 +54,42 @@ export function getMovementOptions(
 	const direction = status.turn.move_reversed ? -1 : 1;
 
 	switch (movement.source) {
-		case 'bus':
-			return new Map(
-				(
-					[
-						[dices[0], { stop_id: 0 }],
-						[dices[1]!, { stop_id: 1 }],
-						[dices[0] + dices[1]!, { stop_id: -1 }],
-					] as const
-				).map(([stop_id, action_data]) => [
-					normalizeFieldId(setup, position + direction * stop_id),
-					action_data,
-				]),
-			);
+		case 'bus': {
+			const movement_options: M1DemoMovementOptions = [];
+
+			const dice_0 = dices[0];
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dice_0),
+				option_id: 0,
+			});
+
+			const dice_1 = dices[1]!;
+			if (dice_0 !== dice_1) {
+				movement_options.push({
+					field_id: normalizeFieldId(setup, position + direction * dice_1),
+					option_id: 1,
+				});
+			}
+
+			const dices_sum = dice_0 + dice_1;
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dices_sum),
+				option_id: -1,
+			});
+
+			return movement_options;
+		}
 
 		// FIXME: right now, 'taxi' has field_ids, but we should move calculation from server to SDK
-		// case 'taxi': {
-		// 	const offset = dices[0];
-
-		// 	return new Map(
-		// 		Array.from({ length: 6 }, (_, index) => {
-		// 			const stop_id = index + 1;
-		// 			const stop_offset = offset + stop_id;
-
-		// 			return [
-		// 				normalizeFieldId(setup, position + direction * stop_offset),
-		// 				{ stop_id },
-		// 			];
-		// 		}),
-		// 	);
-		// }
+		// case 'taxi':
 
 		case 'triple': {
-			const movement_options = new Map(
-				Array.from({ length: config.fields.length }, (_, index) => [
-					index,
-					{ field_id: index },
-				]),
-			) as M1DemoMovementOptions;
-
-			movement_options.delete(position);
+			const movement_options: M1DemoMovementOptions = [];
+			for (let field_id = 0; field_id < config.fields.length; field_id++) {
+				if (field_id !== position) {
+					movement_options.push({ field_id });
+				}
+			}
 
 			return movement_options;
 		}

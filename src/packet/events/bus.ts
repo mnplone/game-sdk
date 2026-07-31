@@ -1,6 +1,5 @@
 import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
-import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
 	v.object({
@@ -11,11 +10,6 @@ export const valiSchemas = [
 			v.array(v.number()),
 			v.transform((value) => new Set(value)),
 		),
-		// This field never returned from the server, it should be computed in SDK.
-		// field_ids_move: v.pipe(
-		// 	v.undefined(),
-		// 	v.transform(() => new Set<number>()),
-		// ),
 	}),
 	v.object({
 		id: v.string(),
@@ -30,39 +24,30 @@ export const valiSchemas = [
 	}),
 ];
 
-export const enrichments = {
-	'bus.select'(options: EventEnrichOptions<'bus.select'>) {
-		// for packet v1
-		if (options.event.move_distances.size === 0) {
-			const event_roll_dices = options.events_before.find(
-				(event) => event.type === 'roll-dices',
-			);
+// export const enrichments = {
+// 	'bus.select'(options: EventEnrichOptions<'bus.select'>) {
+// 		// for packet v1
+// 		if (options.event.move_distances.size === 0) {
+// 			const event_roll_dices = options.events_before.find(
+// 				(event) => event.type === 'roll-dices',
+// 			);
 
-			if (!event_roll_dices) {
-				throw new Error('No "roll-dices" event found before "bus.select".');
-			}
+// 			if (!event_roll_dices) {
+// 				throw new Error('No "roll-dices" event found before "bus.select".');
+// 			}
 
-			options.event.move_distances = new Set([
-				event_roll_dices.dices[0],
-				event_roll_dices.dices[1]!,
-				event_roll_dices.dices[0] + event_roll_dices.dices[1]!,
-			]);
-		}
-
-		// const player = options.status.players.get(options.event.user_id)!;
-		// const direction = options.status.turn.move_reversed ? -1 : 1;
-
-		// options.event.field_ids_move = new Set(
-		// 	[...options.event.move_distances].map((value) =>
-		// 		normalizeFieldId(options.setup, player.position + direction * value),
-		// 	),
-		// );
-	},
-	'bus.move'(options: EventEnrichOptions<'bus.move'>) {
-		const player = options.status.players.get(options.event.user_id)!;
-		player.position = options.event.selection.field_id;
-	},
-};
+// 			options.event.move_distances = new Set([
+// 				event_roll_dices.dices[0],
+// 				event_roll_dices.dices[1]!,
+// 				event_roll_dices.dices[0] + event_roll_dices.dices[1]!,
+// 			]);
+// 		}
+// 	},
+// 	'bus.move'(options: EventEnrichOptions<'bus.move'>) {
+// 		const player = options.status.players.get(options.event.user_id)!;
+// 		player.position = options.event.selection.field_id;
+// 	},
+// };
 
 export const valiV1Schemas = [
 	v.pipe(
@@ -70,6 +55,7 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('chooseBusStop'),
 			user_id: v.number(),
+			stops: v.array(v.number()),
 		}),
 		v.transform((value) => {
 			return {
@@ -77,8 +63,16 @@ export const valiV1Schemas = [
 				type: 'bus.select' as const,
 				user_id: value.user_id,
 				move_distances: new Set<number>(),
-				// field_ids_move: new Set<number>(),
 			};
+			// return {
+			// 	id: value._id,
+			// 	type: 'movement.picker' as const,
+			// 	user_id: value.user_id,
+			// 	movement: {
+			// 		source: 'bus',
+			// 		distances: value.stops,
+			// 	},
+			// };
 		}),
 	),
 	v.pipe(
@@ -86,7 +80,7 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('busStopChoosed'),
 			user_id: v.number(),
-			stop: v.picklist([0, 1, -1]),
+			stop: v.picklist([-1, 0, 1]),
 			mean_position: v.number(),
 			move_reverse: bit(false),
 			auto_selected: bit(false),
@@ -103,6 +97,18 @@ export const valiV1Schemas = [
 				},
 				move_reversed: value.move_reverse,
 			};
+			// return {
+			// 	id: value._id,
+			// 	type: 'movement.go' as const,
+			// 	user_id: value.user_id,
+			// 	field_id: value.mean_position,
+			// 	move_reversed: value.move_reverse,
+			// 	auto_selected: value.auto_selected,
+			// 	movement: {
+			// 		source: 'bus',
+			// 		stop_id: value.stop,
+			// 	},
+			// };
 		}),
 	),
 ];

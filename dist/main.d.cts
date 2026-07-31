@@ -1,10 +1,9 @@
-import { n as M1DemoRichPacket, y as packet_v1_action_mapping } from "./types-B64341jU.cjs";
+import { n as M1DemoRichPacket, y as packet_v1_action_mapping } from "./types-DU5gjCcF.cjs";
 //#region src/packet/status/turn/movement.d.ts
-type M1DemoMovementOptions = Map<number, {
+type M1DemoMovementOptions = {
   field_id: number;
-} | {
-  stop_id: number;
-}>;
+  option_id?: number;
+}[];
 //#endregion
 //#region src/main.d.ts
 declare class M1LiveDemo {

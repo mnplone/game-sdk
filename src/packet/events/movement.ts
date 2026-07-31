@@ -1,19 +1,36 @@
 import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
-// import { m1DemoPacketStatusTurnMovementSchema } from '../status/turn/movement.js';
 
-// export const m1DemoMovementSchema = v.object({
-// 	source: v.picklist(['bus', 'reverse', 'taxi', 'triple', 'wormhole']),
-// 	field_ids: v.array(v.number()),
-// });
+const movementPickerMovementSchema = v.variant('source', [
+	v.object({
+		source: v.literal('bus'),
+		distances: v.array(v.number()),
+	}),
+	v.object({
+		source: v.literal('wormhole'),
+		exits_count: v.number(),
+	}),
+	v.object({
+		source: v.picklist(['taxi', 'triple']),
+	}),
+]);
+const movementGoMovementSchema = v.variant('source', [
+	v.object({
+		source: v.literal('bus'),
+		stop_id: v.picklist([-1, 0, 1]),
+	}),
+	v.object({
+		source: v.picklist(['taxi', 'triple', 'wormhole']),
+	}),
+]);
 
 export const valiSchemas = [
 	v.object({
 		id: v.string(),
 		type: v.literal('movement.picker'),
 		user_id: v.number(),
-		// movement: m1DemoMovementSchema,
+		movement: movementPickerMovementSchema,
 	}),
 	v.object({
 		id: v.string(),
@@ -21,6 +38,8 @@ export const valiSchemas = [
 		user_id: v.number(),
 		field_id: v.number(),
 		move_reversed: bit(false),
+		auto_selected: bit(false),
+		movement: movementGoMovementSchema,
 	}),
 ];
 
@@ -89,19 +108,18 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('chooseFieldToMove'),
 			user_id: v.number(),
-			// movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
+			movement: v.optional(movementPickerMovementSchema),
 		}),
 		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'movement.picker' as const,
 				user_id: value.user_id,
-				// // this event previously appeared as triple event
-				// // so we can confidently assume it was triple and calculate field_ids later in enrichment
-				// movement: value.movement ?? {
-				// 	source: 'triple',
-				// 	field_ids: [Number.MAX_SAFE_INTEGER],
-				// },
+				// this event previously appeared as triple event
+				// so, when no "movement" is provided, we assume it was a triple from old format
+				movement: value.movement ?? {
+					source: 'triple',
+				},
 			};
 		}),
 	),
@@ -112,6 +130,7 @@ export const valiV1Schemas = [
 			user_id: v.number(),
 			field_id: v.number(),
 			move_reverse: bit(false),
+			movement: v.optional(movementGoMovementSchema),
 		}),
 		v.transform((value) => {
 			return {
@@ -120,6 +139,12 @@ export const valiV1Schemas = [
 				user_id: value.user_id,
 				field_id: value.field_id,
 				move_reversed: value.move_reverse,
+				auto_selected: false,
+				// this event previously appeared as triple event
+				// so, when no "movement" is provided, we assume it was a triple from old format
+				movement: value.movement ?? {
+					source: 'triple',
+				},
 			};
 		}),
 	),

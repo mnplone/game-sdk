@@ -4,7 +4,7 @@ let valibot = require("valibot");
 valibot = require_config.__toESM(valibot, 1);
 //#region src/packet/events/auction.ts
 var auction_exports = /* @__PURE__ */ require_config.__exportAll({
-	enrichments: () => enrichments$20,
+	enrichments: () => enrichments$19,
 	valiSchemas: () => valiSchemas$21,
 	valiV1Schemas: () => valiV1Schemas$21
 });
@@ -43,7 +43,7 @@ const valiSchemas$21 = [
 		price: valibot.optional(valibot.number())
 	})
 ];
-const enrichments$20 = {
+const enrichments$19 = {
 	"auction.win"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.price;
@@ -144,7 +144,7 @@ const valiV1Schemas$21 = [
 //#endregion
 //#region src/packet/events/bank.ts
 var bank_exports = /* @__PURE__ */ require_config.__exportAll({
-	enrichments: () => enrichments$19,
+	enrichments: () => enrichments$18,
 	valiSchemas: () => valiSchemas$20,
 	valiV1Schemas: () => valiV1Schemas$20
 });
@@ -175,7 +175,7 @@ const valiSchemas$20 = [
 		amount: valibot.number()
 	})
 ];
-const enrichments$19 = {
+const enrichments$18 = {
 	"bank.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash += options.event.amount;
@@ -252,7 +252,6 @@ const valiV1Schemas$20 = [
 //#endregion
 //#region src/packet/events/bus.ts
 var bus_exports = /* @__PURE__ */ require_config.__exportAll({
-	enrichments: () => enrichments$18,
 	valiSchemas: () => valiSchemas$19,
 	valiV1Schemas: () => valiV1Schemas$19
 });
@@ -276,27 +275,11 @@ const valiSchemas$19 = [valibot.object({
 	}),
 	move_reversed: require_config.bit(false)
 })];
-const enrichments$18 = {
-	"bus.select"(options) {
-		if (options.event.move_distances.size === 0) {
-			const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
-			if (!event_roll_dices) throw new Error("No \"roll-dices\" event found before \"bus.select\".");
-			options.event.move_distances = new Set([
-				event_roll_dices.dices[0],
-				event_roll_dices.dices[1],
-				event_roll_dices.dices[0] + event_roll_dices.dices[1]
-			]);
-		}
-	},
-	"bus.move"(options) {
-		const player = options.status.players.get(options.event.user_id);
-		player.position = options.event.selection.field_id;
-	}
-};
 const valiV1Schemas$19 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("chooseBusStop"),
-	user_id: valibot.number()
+	user_id: valibot.number(),
+	stops: valibot.array(valibot.number())
 }), valibot.transform((value) => {
 	return {
 		id: value._id,
@@ -309,9 +292,9 @@ const valiV1Schemas$19 = [valibot.pipe(valibot.object({
 	type: valibot.literal("busStopChoosed"),
 	user_id: valibot.number(),
 	stop: valibot.picklist([
+		-1,
 		0,
-		1,
-		-1
+		1
 	]),
 	mean_position: valibot.number(),
 	move_reverse: require_config.bit(false),
@@ -558,7 +541,9 @@ const m1DemoPacketStatusTurnMovementSchema = valibot.variant("source", [valibot.
 function getMovementOptions(setup, status) {
 	if (status.turn.movement === void 0) return;
 	const { movement } = status.turn;
-	if ("field_ids" in movement) return new Map(movement.field_ids.map((field_id) => [field_id, { field_id }]));
+	if ("field_ids" in movement) return movement.field_ids.map((field_id) => {
+		return { field_id };
+	});
 	const { config } = setup;
 	const action_user_id = status.turn.action.user_id;
 	if (action_user_id === null) throw new Error("Invalid demo state: no action player available.");
@@ -567,14 +552,28 @@ function getMovementOptions(setup, status) {
 	if (dices === void 0) return;
 	const direction = status.turn.move_reversed ? -1 : 1;
 	switch (movement.source) {
-		case "bus": return new Map([
-			[dices[0], { stop_id: 0 }],
-			[dices[1], { stop_id: 1 }],
-			[dices[0] + dices[1], { stop_id: -1 }]
-		].map(([stop_id, action_data]) => [normalizeFieldId(setup, position + direction * stop_id), action_data]));
+		case "bus": {
+			const movement_options = [];
+			const dice_0 = dices[0];
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dice_0),
+				option_id: 0
+			});
+			const dice_1 = dices[1];
+			if (dice_0 !== dice_1) movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dice_1),
+				option_id: 1
+			});
+			const dices_sum = dice_0 + dice_1;
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dices_sum),
+				option_id: -1
+			});
+			return movement_options;
+		}
 		case "triple": {
-			const movement_options = new Map(Array.from({ length: config.fields.length }, (_, index) => [index, { field_id: index }]));
-			movement_options.delete(position);
+			const movement_options = [];
+			for (let field_id = 0; field_id < config.fields.length; field_id++) if (field_id !== position) movement_options.push({ field_id });
 			return movement_options;
 		}
 		default: throw new Error(`Unknown source for movement.picker event: ${movement.source}`);
@@ -1882,16 +1881,42 @@ var movement_exports = /* @__PURE__ */ require_config.__exportAll({
 	valiSchemas: () => valiSchemas$10,
 	valiV1Schemas: () => valiV1Schemas$10
 });
+const movementPickerMovementSchema = valibot.variant("source", [
+	valibot.object({
+		source: valibot.literal("bus"),
+		distances: valibot.array(valibot.number())
+	}),
+	valibot.object({
+		source: valibot.literal("wormhole"),
+		exits_count: valibot.number()
+	}),
+	valibot.object({ source: valibot.picklist(["taxi", "triple"]) })
+]);
+const movementGoMovementSchema = valibot.variant("source", [valibot.object({
+	source: valibot.literal("bus"),
+	stop_id: valibot.picklist([
+		-1,
+		0,
+		1
+	])
+}), valibot.object({ source: valibot.picklist([
+	"taxi",
+	"triple",
+	"wormhole"
+]) })]);
 const valiSchemas$10 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("movement.picker"),
-	user_id: valibot.number()
+	user_id: valibot.number(),
+	movement: movementPickerMovementSchema
 }), valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("movement.go"),
 	user_id: valibot.number(),
 	field_id: valibot.number(),
-	move_reversed: require_config.bit(false)
+	move_reversed: require_config.bit(false),
+	auto_selected: require_config.bit(false),
+	movement: movementGoMovementSchema
 })];
 const enrichments$9 = { "movement.go"(options) {
 	const player = options.status.players.get(options.event.user_id);
@@ -1900,26 +1925,31 @@ const enrichments$9 = { "movement.go"(options) {
 const valiV1Schemas$10 = [valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("chooseFieldToMove"),
-	user_id: valibot.number()
+	user_id: valibot.number(),
+	movement: valibot.optional(movementPickerMovementSchema)
 }), valibot.transform((value) => {
 	return {
 		id: value._id,
 		type: "movement.picker",
-		user_id: value.user_id
+		user_id: value.user_id,
+		movement: value.movement ?? { source: "triple" }
 	};
 })), valibot.pipe(valibot.object({
 	_id: valibot.optional(valibot.string()),
 	type: valibot.literal("fieldToMoveChoosed"),
 	user_id: valibot.number(),
 	field_id: valibot.number(),
-	move_reverse: require_config.bit(false)
+	move_reverse: require_config.bit(false),
+	movement: valibot.optional(movementGoMovementSchema)
 }), valibot.transform((value) => {
 	return {
 		id: value._id,
 		type: "movement.go",
 		user_id: value.user_id,
 		field_id: value.field_id,
-		move_reversed: value.move_reverse
+		move_reversed: value.move_reverse,
+		auto_selected: false,
+		movement: value.movement ?? { source: "triple" }
 	};
 }))];
 //#endregion

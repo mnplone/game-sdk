@@ -1501,12 +1501,28 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"movement.picker", undefined>;
     readonly user_id: v.NumberSchema<undefined>;
+    readonly movement: v.VariantSchema<"source", [v.ObjectSchema<{
+      readonly source: v.LiteralSchema<"bus", undefined>;
+      readonly distances: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly source: v.LiteralSchema<"wormhole", undefined>;
+      readonly exits_count: v.NumberSchema<undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly source: v.PicklistSchema<["taxi", "triple"], undefined>;
+    }, undefined>], undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"movement.go", undefined>;
     readonly user_id: v.NumberSchema<undefined>;
     readonly field_id: v.NumberSchema<undefined>;
     readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+    readonly auto_selected: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+    readonly movement: v.VariantSchema<"source", [v.ObjectSchema<{
+      readonly source: v.LiteralSchema<"bus", undefined>;
+      readonly stop_id: v.PicklistSchema<[-1, 0, 1], undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly source: v.PicklistSchema<["taxi", "triple", "wormhole"], undefined>;
+    }, undefined>], undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"pause.set", undefined>;
@@ -2303,12 +2319,28 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"movement.picker", undefined>;
   readonly user_id: v.NumberSchema<undefined>;
+  readonly movement: v.VariantSchema<"source", [v.ObjectSchema<{
+    readonly source: v.LiteralSchema<"bus", undefined>;
+    readonly distances: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly source: v.LiteralSchema<"wormhole", undefined>;
+    readonly exits_count: v.NumberSchema<undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly source: v.PicklistSchema<["taxi", "triple"], undefined>;
+  }, undefined>], undefined>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"movement.go", undefined>;
   readonly user_id: v.NumberSchema<undefined>;
   readonly field_id: v.NumberSchema<undefined>;
   readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly auto_selected: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly movement: v.VariantSchema<"source", [v.ObjectSchema<{
+    readonly source: v.LiteralSchema<"bus", undefined>;
+    readonly stop_id: v.PicklistSchema<[-1, 0, 1], undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly source: v.PicklistSchema<["taxi", "triple", "wormhole"], undefined>;
+  }, undefined>], undefined>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"pause.set", undefined>;
