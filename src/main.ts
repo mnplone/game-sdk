@@ -8,7 +8,7 @@ import {
 	valiM1DemoPacketSchema,
 	valiM1DemoPacketV1Schema,
 } from './packet.js';
-import type { M1DemoRichPacket } from './types.js';
+import type { M1DemoRichPacket, M1DemoRichPacketEvent } from './types.js';
 import { isRecord } from './utils/guards.js';
 import { normalizeFieldId } from './utils/table.js';
 import { parse } from './utils/valibot.js';
@@ -55,7 +55,7 @@ export class M1LiveDemo {
 
 		const { events, ...rest_packet } = packet;
 
-		const events_rich = [];
+		const events_rich: M1DemoRichPacketEvent[] = [];
 		if (events.length > 0) {
 			if (this.#status_before === null) {
 				throw new Error('Invalid state: received events before status.');
@@ -90,7 +90,15 @@ export class M1LiveDemo {
 					this.#status_before = status_after;
 				}
 			} else {
-				events_rich.push(...packet.events);
+				const status = structuredClone(this.#status_before);
+				events_rich.push(
+					...packet.events.map((event) => {
+						return {
+							status: { before: status, after: status },
+							...event,
+						};
+					}),
+				);
 			}
 		}
 

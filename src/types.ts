@@ -3,7 +3,7 @@ import type { M1DemoPacket } from './packet.js';
 
 export type M1DemoRichPacket = M1DemoPacket & {
 	events: (M1DemoPacket['events'][number] & {
-		status?: {
+		status: {
 			before: M1DemoPacketStatus;
 			after: M1DemoPacketStatus;
 		};

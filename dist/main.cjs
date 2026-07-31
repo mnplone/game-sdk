@@ -3226,7 +3226,18 @@ var M1LiveDemo = class {
 				});
 				this.#status_before = status_after;
 			}
-			else events_rich.push(...packet.events);
+			else {
+				const status = structuredClone(this.#status_before);
+				events_rich.push(...packet.events.map((event) => {
+					return {
+						status: {
+							before: status,
+							after: status
+						},
+						...event
+					};
+				}));
+			}
 		}
 		if (rest_packet.status) this.#status_before = rest_packet.status;
 		this.#movement_options = null;

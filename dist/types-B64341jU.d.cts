@@ -2994,7 +2994,7 @@ type M1DemoPacketTime = v.InferOutput<typeof valiM1DemoPacketTimeSchema>;
 //#region src/types.d.ts
 type M1DemoRichPacket = M1DemoPacket & {
   events: (M1DemoPacket['events'][number] & {
-    status?: {
+    status: {
       before: M1DemoPacketStatus;
       after: M1DemoPacketStatus;
     };
