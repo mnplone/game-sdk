@@ -24,7 +24,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       type: "jail" | "start";
     } | {
       is_corner: boolean;
-      type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+      type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
     } | {
       is_corner: false;
       type: "company";
@@ -35,7 +35,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       type: "jail" | "start";
     } | {
       is_corner: boolean;
-      type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+      type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
     } | {
       item_proto_id: number;
       is_corner: false;
@@ -475,9 +475,9 @@ declare const valiM1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.Obj
     readonly amount: v.NumberSchema<undefined>;
   }, undefined>, undefined>; /** Fields on which player can move in this action. */
   readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
-    readonly source: v.PicklistSchema<["bus", "taxi", "triple"], undefined>;
+    readonly source: v.PicklistSchema<["bus", "triple"], undefined>;
   }, undefined>, v.ObjectSchema<{
-    readonly source: v.PicklistSchema<["wormhole"], undefined>;
+    readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
     readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
   }, undefined>], undefined>, undefined>; /** Fields on which player already built a level this turn. */
   readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>; /** Fields which player already mortgaged this turn. */
@@ -736,9 +736,9 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       readonly amount: v.NumberSchema<undefined>;
     }, undefined>, undefined>;
     readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
-      readonly source: v.PicklistSchema<["bus", "taxi", "triple"], undefined>;
+      readonly source: v.PicklistSchema<["bus", "triple"], undefined>;
     }, undefined>, v.ObjectSchema<{
-      readonly source: v.PicklistSchema<["wormhole"], undefined>;
+      readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
       readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>], undefined>, undefined>;
     readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
@@ -831,7 +831,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         type: "jail" | "start";
       } | {
         is_corner: boolean;
-        type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+        type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
       } | {
         is_corner: false;
         type: "company";
@@ -842,7 +842,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         type: "jail" | "start";
       } | {
         is_corner: boolean;
-        type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+        type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
       } | {
         item_proto_id: number;
         is_corner: false;
@@ -1294,21 +1294,6 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly amount: v.NumberSchema<undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
-    readonly type: v.LiteralSchema<"bus.select", undefined>;
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly move_distances: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>;
-  }, undefined> | v.ObjectSchema<{
-    readonly id: v.StringSchema<undefined>;
-    readonly type: v.LiteralSchema<"bus.move", undefined>;
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly selection: v.ObjectSchema<{
-      readonly stop_id: v.PicklistSchema<[0, 1, -1], undefined>;
-      readonly field_id: v.NumberSchema<undefined>;
-      readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-    }, undefined>;
-    readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined> | v.ObjectSchema<{
-    readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"contract.send", undefined>;
     readonly user_id: v.NumberSchema<undefined>;
     readonly user_id_to: v.NumberSchema<undefined>;
@@ -1506,7 +1491,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
       readonly distances: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>, v.ObjectSchema<{
       readonly source: v.LiteralSchema<"wormhole", undefined>;
-      readonly exits_count: v.NumberSchema<undefined>;
+      readonly exit_count: v.NumberSchema<undefined>;
     }, undefined>, v.ObjectSchema<{
       readonly source: v.PicklistSchema<["taxi", "triple"], undefined>;
     }, undefined>], undefined>;
@@ -1672,19 +1657,8 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly user_id: v.NumberSchema<undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
-    readonly type: v.LiteralSchema<"wormhole.open", undefined>;
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly exits_count: v.NumberSchema<undefined>;
-  }, undefined> | v.ObjectSchema<{
-    readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"wormhole.reject", undefined>;
     readonly user_id: v.NumberSchema<undefined>;
-  }, undefined> | v.ObjectSchema<{
-    readonly id: v.StringSchema<undefined>;
-    readonly type: v.LiteralSchema<"wormhole.move", undefined>;
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly field_id: v.NumberSchema<undefined>;
-    readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"roll-dices", undefined>;
@@ -1975,9 +1949,9 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         readonly amount: v.NumberSchema<undefined>;
       }, undefined>, undefined>;
       readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
-        readonly source: v.PicklistSchema<["bus", "taxi", "triple"], undefined>;
+        readonly source: v.PicklistSchema<["bus", "triple"], undefined>;
       }, undefined>, v.ObjectSchema<{
-        readonly source: v.PicklistSchema<["wormhole"], undefined>;
+        readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
         readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
       }, undefined>], undefined>, undefined>;
       readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
@@ -2110,21 +2084,6 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   readonly type: v.LiteralSchema<"bank.return", undefined>;
   readonly user_id: v.NumberSchema<undefined>;
   readonly amount: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bus.select", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly move_distances: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"bus.move", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly selection: v.ObjectSchema<{
-    readonly stop_id: v.PicklistSchema<[0, 1, -1], undefined>;
-    readonly field_id: v.NumberSchema<undefined>;
-    readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"contract.send", undefined>;
@@ -2324,7 +2283,7 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
     readonly distances: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
   }, undefined>, v.ObjectSchema<{
     readonly source: v.LiteralSchema<"wormhole", undefined>;
-    readonly exits_count: v.NumberSchema<undefined>;
+    readonly exit_count: v.NumberSchema<undefined>;
   }, undefined>, v.ObjectSchema<{
     readonly source: v.PicklistSchema<["taxi", "triple"], undefined>;
   }, undefined>], undefined>;
@@ -2490,19 +2449,8 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   readonly user_id: v.NumberSchema<undefined>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"wormhole.open", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly exits_count: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"wormhole.reject", undefined>;
   readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"wormhole.move", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_id: v.NumberSchema<undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"roll-dices", undefined>;
@@ -2627,7 +2575,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly
   type: "jail" | "start";
 } | {
   is_corner: boolean;
-  type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+  type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
 } | {
   is_corner: false;
   type: "company";
@@ -2638,7 +2586,7 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly
   type: "jail" | "start";
 } | {
   is_corner: boolean;
-  type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+  type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
 } | {
   item_proto_id: number;
   is_corner: false;

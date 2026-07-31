@@ -2,26 +2,26 @@ import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 
 export const valiSchemas = [
-	v.object({
-		id: v.string(),
-		type: v.literal('bus.select'),
-		user_id: v.number(),
-		move_distances: v.pipe(
-			v.array(v.number()),
-			v.transform((value) => new Set(value)),
-		),
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal('bus.move'),
-		user_id: v.number(),
-		selection: v.object({
-			stop_id: v.picklist([0, 1, -1]),
-			field_id: v.number(),
-			auto: bit(false),
-		}),
-		move_reversed: bit(false),
-	}),
+	// v.object({
+	// 	id: v.string(),
+	// 	type: v.literal('bus.select'),
+	// 	user_id: v.number(),
+	// 	move_distances: v.pipe(
+	// 		v.array(v.number()),
+	// 		v.transform((value) => new Set(value)),
+	// 	),
+	// }),
+	// v.object({
+	// 	id: v.string(),
+	// 	type: v.literal('bus.move'),
+	// 	user_id: v.number(),
+	// 	selection: v.object({
+	// 		stop_id: v.picklist([0, 1, -1]),
+	// 		field_id: v.number(),
+	// 		auto: bit(false),
+	// 	}),
+	// 	move_reversed: bit(false),
+	// }),
 ];
 
 // export const enrichments = {
@@ -58,21 +58,21 @@ export const valiV1Schemas = [
 			stops: v.array(v.number()),
 		}),
 		v.transform((value) => {
-			return {
-				id: value._id,
-				type: 'bus.select' as const,
-				user_id: value.user_id,
-				move_distances: new Set<number>(),
-			};
 			// return {
 			// 	id: value._id,
-			// 	type: 'movement.picker' as const,
+			// 	type: 'bus.select' as const,
 			// 	user_id: value.user_id,
-			// 	movement: {
-			// 		source: 'bus',
-			// 		distances: value.stops,
-			// 	},
+			// 	move_distances: new Set<number>(),
 			// };
+			return {
+				id: value._id,
+				type: 'movement.picker' as const,
+				user_id: value.user_id,
+				movement: {
+					source: 'bus' as const,
+					distances: value.stops.toSorted((a, b) => a - b),
+				},
+			};
 		}),
 	),
 	v.pipe(
@@ -86,29 +86,29 @@ export const valiV1Schemas = [
 			auto_selected: bit(false),
 		}),
 		v.transform((value) => {
-			return {
-				id: value._id,
-				type: 'bus.move' as const,
-				user_id: value.user_id,
-				selection: {
-					stop_id: value.stop,
-					field_id: value.mean_position,
-					auto: value.auto_selected,
-				},
-				move_reversed: value.move_reverse,
-			};
 			// return {
 			// 	id: value._id,
-			// 	type: 'movement.go' as const,
+			// 	type: 'bus.move' as const,
 			// 	user_id: value.user_id,
-			// 	field_id: value.mean_position,
-			// 	move_reversed: value.move_reverse,
-			// 	auto_selected: value.auto_selected,
-			// 	movement: {
-			// 		source: 'bus',
+			// 	selection: {
 			// 		stop_id: value.stop,
+			// 		field_id: value.mean_position,
+			// 		auto: value.auto_selected,
 			// 	},
+			// 	move_reversed: value.move_reverse,
 			// };
+			return {
+				id: value._id,
+				type: 'movement.go' as const,
+				user_id: value.user_id,
+				field_id: value.mean_position,
+				move_reversed: value.move_reverse,
+				auto_selected: value.auto_selected,
+				movement: {
+					source: 'bus' as const,
+					stop_id: value.stop,
+				},
+			};
 		}),
 	),
 ];

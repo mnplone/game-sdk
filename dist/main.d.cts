@@ -1,8 +1,8 @@
-import { n as M1DemoRichPacket, y as packet_v1_action_mapping } from "./types-DU5gjCcF.cjs";
+import { n as M1DemoRichPacket, y as packet_v1_action_mapping } from "./types-pw-tRvFI.cjs";
 //#region src/packet/status/turn/movement.d.ts
 type M1DemoMovementOptions = {
   field_id: number;
-  option_id?: number;
+  stop_id?: number;
 }[];
 //#endregion
 //#region src/main.d.ts

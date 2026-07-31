@@ -9,7 +9,7 @@ const movementPickerMovementSchema = v.variant('source', [
 	}),
 	v.object({
 		source: v.literal('wormhole'),
-		exits_count: v.number(),
+		exit_count: v.number(),
 	}),
 	v.object({
 		source: v.picklist(['taxi', 'triple']),
@@ -44,6 +44,7 @@ export const valiSchemas = [
 ];
 
 export const enrichments = {
+	// FIXME: decrease cash when wormhole is opened
 	// 'movement.picker'(options: EventEnrichOptions<'movement.picker'>) {
 	// 	const { movement } = options.event;
 	// 	// default value when server returned no fields (old versions)

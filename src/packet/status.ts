@@ -265,25 +265,25 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 
 			if (current_move.movement) {
 				movement = current_move.movement;
-			} else {
-				if (action_list.has('bus.move')) {
-					movement = {
-						source: 'bus',
-					};
+			} else if (action_type.includes('chooseBusStop')) {
+				movement = {
+					source: 'bus',
+				};
+			} else if (action_type.includes('chooseFieldToMove')) {
+				movement = {
+					source: 'triple',
+				};
+			} else if (action_type.includes('wormholeJump')) {
+				if (!current_move.wormhole_destinations) {
+					throw new TypeError(
+						'Missing field "status.current_move.wormhole_destinations".',
+					);
 				}
 
-				if (action_list.has('wormhole.jump')) {
-					if (!current_move.wormhole_destinations) {
-						throw new TypeError(
-							'Missing field "status.current_move.wormhole_destinations".',
-						);
-					}
-
-					movement = {
-						source: 'wormhole',
-						field_ids: current_move.wormhole_destinations,
-					};
-				}
+				movement = {
+					source: 'wormhole',
+					field_ids: current_move.wormhole_destinations,
+				};
 			}
 
 			if (action_list.has('auction.bid')) {

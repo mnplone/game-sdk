@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
-import type { EventEnrichOptions } from '../events.all.js';
+// import type { EventEnrichOptions } from '../events.all.js';
 
 export const valiSchemas = [
 	v.object({
@@ -8,41 +8,41 @@ export const valiSchemas = [
 		type: v.literal('wormhole'),
 		user_id: v.number(),
 	}),
-	v.object({
-		id: v.string(),
-		type: v.literal('wormhole.open'),
-		user_id: v.number(),
-		exits_count: v.number(),
-	}),
+	// v.object({
+	// 	id: v.string(),
+	// 	type: v.literal('wormhole.open'),
+	// 	user_id: v.number(),
+	// 	exits_count: v.number(),
+	// }),
 	v.object({
 		id: v.string(),
 		type: v.literal('wormhole.reject'),
 		user_id: v.number(),
 	}),
-	v.object({
-		id: v.string(),
-		type: v.literal('wormhole.move'),
-		user_id: v.number(),
-		field_id: v.number(),
-		move_reversed: bit(false),
-	}),
+	// v.object({
+	// 	id: v.string(),
+	// 	type: v.literal('wormhole.move'),
+	// 	user_id: v.number(),
+	// 	field_id: v.number(),
+	// 	move_reversed: bit(false),
+	// }),
 ];
 
-export const enrichments = {
-	'wormhole.open'(options: EventEnrichOptions<'wormhole.open'>) {
-		const mechanics_wormhole = options.setup.config.mechanics.wormhole!;
-		const player = options.status.players.get(options.event.user_id)!;
-		player.cash -=
-			Math.max(
-				0,
-				options.event.exits_count - mechanics_wormhole.exits_free_count,
-			) * mechanics_wormhole.exits_extra_price;
-	},
-	'wormhole.move'(options: EventEnrichOptions<'wormhole.move'>) {
-		const player = options.status.players.get(options.event.user_id)!;
-		player.position = options.event.field_id;
-	},
-};
+// export const enrichments = {
+// 	'wormhole.open'(options: EventEnrichOptions<'wormhole.open'>) {
+// 		const mechanics_wormhole = options.setup.config.mechanics.wormhole!;
+// 		const player = options.status.players.get(options.event.user_id)!;
+// 		player.cash -=
+// 			Math.max(
+// 				0,
+// 				options.event.exits_count - mechanics_wormhole.exits_free_count,
+// 			) * mechanics_wormhole.exits_extra_price;
+// 	},
+// 	'wormhole.move'(options: EventEnrichOptions<'wormhole.move'>) {
+// 		const player = options.status.players.get(options.event.user_id)!;
+// 		player.position = options.event.field_id;
+// 	},
+// };
 
 export const valiV1Schemas = [
 	v.pipe(
@@ -67,11 +67,20 @@ export const valiV1Schemas = [
 			destinations_count: v.number(),
 		}),
 		v.transform((value) => {
+			// return {
+			// 	id: value._id,
+			// 	type: 'wormhole.open' as const,
+			// 	user_id: value.user_id,
+			// 	exits_count: value.destinations_count,
+			// };
 			return {
 				id: value._id,
-				type: 'wormhole.open' as const,
+				type: 'movement.picker' as const,
 				user_id: value.user_id,
-				exits_count: value.destinations_count,
+				movement: {
+					source: 'wormhole' as const,
+					exit_count: value.destinations_count,
+				},
 			};
 		}),
 	),
@@ -98,12 +107,23 @@ export const valiV1Schemas = [
 			move_reverse: bit(false),
 		}),
 		v.transform((value) => {
+			// return {
+			// 	id: value._id,
+			// 	type: 'wormhole.move' as const,
+			// 	user_id: value.user_id,
+			// 	field_id: value.field_id,
+			// 	move_reversed: value.move_reverse,
+			// };
 			return {
 				id: value._id,
-				type: 'wormhole.move' as const,
+				type: 'movement.go' as const,
 				user_id: value.user_id,
 				field_id: value.field_id,
 				move_reversed: value.move_reverse,
+				auto_selected: false,
+				movement: {
+					source: 'wormhole' as const,
+				},
 			};
 		}),
 	),

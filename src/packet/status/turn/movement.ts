@@ -5,10 +5,11 @@ import { normalizeFieldId } from '@/utils/table.js';
 
 export const m1DemoPacketStatusTurnMovementSchema = v.variant('source', [
 	v.object({
-		source: v.picklist(['bus', 'taxi', 'triple']),
+		source: v.picklist(['bus', 'triple']),
 	}),
 	v.object({
-		source: v.picklist(['wormhole']),
+		// FIXME: right now, 'taxi' has field_ids, but we should move calculation from server to SDK
+		source: v.picklist(['taxi', 'wormhole']),
 		field_ids: v.array(v.number()),
 	}),
 ]);
@@ -18,7 +19,7 @@ export type M1DemoPacketStatusTurnMovement = v.InferOutput<
 
 export type M1DemoMovementOptions = {
 	field_id: number;
-	option_id?: number;
+	stop_id?: number;
 }[];
 
 /** Returns movement options, building them from the game context. */
@@ -60,21 +61,21 @@ export function getMovementOptions(
 			const dice_0 = dices[0];
 			movement_options.push({
 				field_id: normalizeFieldId(setup, position + direction * dice_0),
-				option_id: 0,
+				stop_id: 0,
 			});
 
 			const dice_1 = dices[1]!;
 			if (dice_0 !== dice_1) {
 				movement_options.push({
 					field_id: normalizeFieldId(setup, position + direction * dice_1),
-					option_id: 1,
+					stop_id: 1,
 				});
 			}
 
 			const dices_sum = dice_0 + dice_1;
 			movement_options.push({
 				field_id: normalizeFieldId(setup, position + direction * dices_sum),
-				option_id: -1,
+				stop_id: -1,
 			});
 
 			return movement_options;
@@ -98,6 +99,7 @@ export function getMovementOptions(
 
 		default:
 			throw new Error(
+				// @ts-expect-error "movement" should have type "never"
 				`Unknown source for movement.picker event: ${movement.source}`,
 			);
 	}
