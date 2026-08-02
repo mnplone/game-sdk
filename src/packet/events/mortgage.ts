@@ -135,7 +135,7 @@ export const enrichments = {
 			);
 		}
 
-		if (mechanics_mortgage.waive_multiplier === undefined) {
+		if (!('waive_multiplier' in mechanics_mortgage)) {
 			throw new Error(
 				'Mechanics "mortgage" does not allow waiving the property ownership in match config.',
 			);

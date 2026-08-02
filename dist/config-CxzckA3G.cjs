@@ -609,7 +609,7 @@ multiplier: valibot.optional(valibot.number(), 1) })
 				repay: valibot.number()
 			})
 		})),
-		mortgage: valibot.optional(valibot.union([valibot.object({
+		mortgage: valibot.optional(valibot.union([valibot.intersect([valibot.object({
 			/** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */
 			multiplier: valibot.number(),
 			/**
@@ -619,12 +619,16 @@ multiplier: valibot.optional(valibot.number(), 1) })
 			*/
 			duration: valibot.optional(valibot.number()),
 			/** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
-			buyback_multiplier: valibot.number(),
+			buyback_multiplier: valibot.number()
+		}), valibot.union([
+			valibot.object({}),
+			valibot.object({ 
 			/** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
-			auction_multiplier: valibot.optional(valibot.number()),
+auction_multiplier: valibot.number() }),
+			valibot.object({ 
 			/** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
-			waive_multiplier: valibot.optional(valibot.number())
-		}), valibot.object({ 
+waive_multiplier: valibot.number() })
+		])]), valibot.object({ 
 		/** What fraction of company value owner receives when waiving the field, applies to company buying price. */
 waive_multiplier: valibot.number() })])),
 		restart: valibot.optional(valibot.object({ variants: valibot.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
@@ -761,12 +765,22 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 				}
 			} : void 0,
 			mortgage: (() => {
-				if (value.coeff_mortgage !== void 0) return {
-					duration: value.MORTGAGE_ROUND_LIMIT,
-					multiplier: value.coeff_mortgage,
-					buyback_multiplier: value.coeff_unmortgage ?? 1,
-					auction_multiplier: value.auction_mortgaged
-				};
+				if (value.coeff_mortgage !== void 0) {
+					const base = {
+						duration: value.MORTGAGE_ROUND_LIMIT,
+						multiplier: value.coeff_mortgage,
+						buyback_multiplier: value.coeff_unmortgage ?? 1
+					};
+					if (value.auction_mortgaged !== void 0) return {
+						...base,
+						auction_multiplier: value.auction_mortgaged
+					};
+					if (value.coeff_reject_mortgaged !== void 0) return {
+						...base,
+						waive_multiplier: value.coeff_reject_mortgaged
+					};
+					return base;
+				}
 				if (value.coeff_field_drop !== void 0) return { waive_multiplier: value.coeff_field_drop };
 			})(),
 			restart: value.restart_variants ? { variants: value.restart_variants } : void 0,

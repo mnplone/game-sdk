@@ -1,4 +1,4 @@
-import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-DiGf19bp.mjs";
+import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-ozZk_iFi.mjs";
 import * as v from "valibot";
 //#region \0rolldown/runtime.js
 var __defProp = Object.defineProperty;
@@ -1808,7 +1808,7 @@ const enrichments$9 = {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
 		if (!("multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
-		if (mechanics_mortgage.waive_multiplier === void 0) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
+		if (!("waive_multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		options.status.fields.delete(options.event.field_id);
 		const field_setup = options.setup.config.fields[options.event.field_id];

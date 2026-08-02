@@ -150,22 +150,31 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 		),
 		mortgage: v.optional(
 			v.union([
-				v.object({
-					/** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */
-					multiplier: v.number(),
-					/**
-					 * Limits mortgage duration in rounds: after some rounds, player will lose the field.
-					 *
-					 * If `undefined`, mortgage duration is unlimited.
-					 */
-					duration: v.optional(v.number()),
-					/** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
-					buyback_multiplier: v.number(),
-					/** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
-					auction_multiplier: v.optional(v.number()),
-					/** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
-					waive_multiplier: v.optional(v.number()),
-				}),
+				v.intersect([
+					v.object({
+						/** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */
+						multiplier: v.number(),
+						/**
+						 * Limits mortgage duration in rounds: after some rounds, player will lose the field.
+						 *
+						 * If `undefined`, mortgage duration is unlimited.
+						 */
+						duration: v.optional(v.number()),
+						/** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
+						buyback_multiplier: v.number(),
+					}),
+					v.union([
+						v.object({}),
+						v.object({
+							/** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
+							auction_multiplier: v.number(),
+						}),
+						v.object({
+							/** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
+							waive_multiplier: v.number(),
+						}),
+					]),
+				]),
 				v.object({
 					/** What fraction of company value owner receives when waiving the field, applies to company buying price. */
 					waive_multiplier: v.number(),
@@ -437,12 +446,27 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 						: undefined,
 				mortgage: (() => {
 					if (value.coeff_mortgage !== undefined) {
-						return {
+						const base = {
 							duration: value.MORTGAGE_ROUND_LIMIT,
 							multiplier: value.coeff_mortgage,
 							buyback_multiplier: value.coeff_unmortgage ?? 1,
-							auction_multiplier: value.auction_mortgaged,
 						};
+
+						if (value.auction_mortgaged !== undefined) {
+							return {
+								...base,
+								auction_multiplier: value.auction_mortgaged,
+							};
+						}
+
+						if (value.coeff_reject_mortgaged !== undefined) {
+							return {
+								...base,
+								waive_multiplier: value.coeff_reject_mortgaged,
+							};
+						}
+
+						return base;
 					}
 
 					if (value.coeff_field_drop !== undefined) {

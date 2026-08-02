@@ -577,7 +577,7 @@ multiplier: v.optional(v.number(), 1) })
 				repay: v.number()
 			})
 		})),
-		mortgage: v.optional(v.union([v.object({
+		mortgage: v.optional(v.union([v.intersect([v.object({
 			/** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */
 			multiplier: v.number(),
 			/**
@@ -587,12 +587,16 @@ multiplier: v.optional(v.number(), 1) })
 			*/
 			duration: v.optional(v.number()),
 			/** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
-			buyback_multiplier: v.number(),
+			buyback_multiplier: v.number()
+		}), v.union([
+			v.object({}),
+			v.object({ 
 			/** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
-			auction_multiplier: v.optional(v.number()),
+auction_multiplier: v.number() }),
+			v.object({ 
 			/** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
-			waive_multiplier: v.optional(v.number())
-		}), v.object({ 
+waive_multiplier: v.number() })
+		])]), v.object({ 
 		/** What fraction of company value owner receives when waiving the field, applies to company buying price. */
 waive_multiplier: v.number() })])),
 		restart: v.optional(v.object({ variants: v.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
@@ -729,12 +733,22 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 				}
 			} : void 0,
 			mortgage: (() => {
-				if (value.coeff_mortgage !== void 0) return {
-					duration: value.MORTGAGE_ROUND_LIMIT,
-					multiplier: value.coeff_mortgage,
-					buyback_multiplier: value.coeff_unmortgage ?? 1,
-					auction_multiplier: value.auction_mortgaged
-				};
+				if (value.coeff_mortgage !== void 0) {
+					const base = {
+						duration: value.MORTGAGE_ROUND_LIMIT,
+						multiplier: value.coeff_mortgage,
+						buyback_multiplier: value.coeff_unmortgage ?? 1
+					};
+					if (value.auction_mortgaged !== void 0) return {
+						...base,
+						auction_multiplier: value.auction_mortgaged
+					};
+					if (value.coeff_reject_mortgaged !== void 0) return {
+						...base,
+						waive_multiplier: value.coeff_reject_mortgaged
+					};
+					return base;
+				}
 				if (value.coeff_field_drop !== void 0) return { waive_multiplier: value.coeff_field_drop };
 			})(),
 			restart: value.restart_variants ? { variants: value.restart_variants } : void 0,

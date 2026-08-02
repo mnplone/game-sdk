@@ -1,5 +1,5 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-const require_config = require("./config-Cxu-SPW9.cjs");
+const require_config = require("./config-CxzckA3G.cjs");
 let valibot = require("valibot");
 valibot = require_config.__toESM(valibot, 1);
 //#region src/packet/events/auction.ts
@@ -1798,7 +1798,7 @@ const enrichments$9 = {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
 		if (!("multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
-		if (mechanics_mortgage.waive_multiplier === void 0) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
+		if (!("waive_multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		options.status.fields.delete(options.event.field_id);
 		const field_setup = options.setup.config.fields[options.event.field_id];

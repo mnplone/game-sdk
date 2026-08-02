@@ -220,13 +220,15 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
           readonly repay: v.NumberSchema<undefined>;
         }, undefined>;
       }, undefined>, undefined>;
-      readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{
+      readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.IntersectSchema<[v.ObjectSchema<{
         readonly multiplier: v.NumberSchema<undefined>;
         readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
         readonly buyback_multiplier: v.NumberSchema<undefined>;
-        readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-        readonly waive_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+      }, undefined>, v.UnionSchema<[v.ObjectSchema<{}, undefined>, v.ObjectSchema<{
+        readonly auction_multiplier: v.NumberSchema<undefined>;
       }, undefined>, v.ObjectSchema<{
+        readonly waive_multiplier: v.NumberSchema<undefined>;
+      }, undefined>], undefined>], undefined>, v.ObjectSchema<{
         readonly waive_multiplier: v.NumberSchema<undefined>;
       }, undefined>], undefined>, undefined>;
       readonly restart: v.OptionalSchema<v.ObjectSchema<{
@@ -1029,13 +1031,15 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
             readonly repay: v.NumberSchema<undefined>;
           }, undefined>;
         }, undefined>, undefined>;
-        readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{
+        readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.IntersectSchema<[v.ObjectSchema<{
           readonly multiplier: v.NumberSchema<undefined>;
           readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
           readonly buyback_multiplier: v.NumberSchema<undefined>;
-          readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-          readonly waive_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+        }, undefined>, v.UnionSchema<[v.ObjectSchema<{}, undefined>, v.ObjectSchema<{
+          readonly auction_multiplier: v.NumberSchema<undefined>;
         }, undefined>, v.ObjectSchema<{
+          readonly waive_multiplier: v.NumberSchema<undefined>;
+        }, undefined>], undefined>], undefined>, v.ObjectSchema<{
           readonly waive_multiplier: v.NumberSchema<undefined>;
         }, undefined>], undefined>, undefined>;
         readonly restart: v.OptionalSchema<v.ObjectSchema<{

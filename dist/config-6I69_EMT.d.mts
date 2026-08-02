@@ -219,7 +219,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
         readonly repay: v.NumberSchema<undefined>;
       }, undefined>;
     }, undefined>, undefined>;
-    readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{
+    readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.IntersectSchema<[v.ObjectSchema<{
       /** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */readonly multiplier: v.NumberSchema<undefined>;
       /**
        * Limits mortgage duration in rounds: after some rounds, player will lose the field.
@@ -227,10 +227,12 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
        * If `undefined`, mortgage duration is unlimited.
        */
       readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>; /** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
-      readonly buyback_multiplier: v.NumberSchema<undefined>; /** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
-      readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>; /** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
-      readonly waive_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+      readonly buyback_multiplier: v.NumberSchema<undefined>;
+    }, undefined>, v.UnionSchema<[v.ObjectSchema<{}, undefined>, v.ObjectSchema<{
+      /** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */readonly auction_multiplier: v.NumberSchema<undefined>;
     }, undefined>, v.ObjectSchema<{
+      /** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */readonly waive_multiplier: v.NumberSchema<undefined>;
+    }, undefined>], undefined>], undefined>, v.ObjectSchema<{
       /** What fraction of company value owner receives when waiving the field, applies to company buying price. */readonly waive_multiplier: v.NumberSchema<undefined>;
     }, undefined>], undefined>, undefined>;
     readonly restart: v.OptionalSchema<v.ObjectSchema<{
@@ -971,14 +973,19 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
       duration: number | undefined;
       multiplier: number;
       buyback_multiplier: number;
-      auction_multiplier: number | undefined;
+    } | {
+      auction_multiplier: number;
+      duration: number | undefined;
+      multiplier: number;
+      buyback_multiplier: number;
       waive_multiplier?: undefined;
     } | {
       waive_multiplier: number;
-      duration?: undefined;
-      multiplier?: undefined;
-      buyback_multiplier?: undefined;
-      auction_multiplier?: undefined;
+      duration: number | undefined;
+      multiplier: number;
+      buyback_multiplier: number;
+    } | {
+      waive_multiplier: number;
     } | undefined;
     restart: {
       variants: {
