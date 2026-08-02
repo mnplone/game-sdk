@@ -578,16 +578,22 @@ multiplier: v.optional(v.number(), 1) })
 			})
 		})),
 		mortgage: v.optional(v.union([v.object({
-			/** Limits mortgage duration in rounds. After this rounds, player will lose the field. If undefined, mortgage duration is unlimited. */
-			duration: v.optional(v.number()),
-			/** Price multiplier when mortgaging the field, applies to the company buying price. */
+			/** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */
 			multiplier: v.number(),
-			/** Price multiplier when buying back the field, applies to the mortgage price. */
+			/**
+			* Limits mortgage duration in rounds: after some rounds, player will lose the field.
+			*
+			* If `undefined`, mortgage duration is unlimited.
+			*/
+			duration: v.optional(v.number()),
+			/** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
 			buyback_multiplier: v.number(),
-			/** Price multiplier when auctioning the mortgaged field, applies to the company buying price minus mortgage price. */
-			auction_multiplier: v.optional(v.number())
+			/** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
+			auction_multiplier: v.optional(v.number()),
+			/** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
+			waive_multiplier: v.optional(v.number())
 		}), v.object({ 
-		/** Price multiplier when waiving the ownership of the field, applies to the company buying price. */
+		/** What fraction of company value owner receives when waiving the field, applies to company buying price. */
 waive_multiplier: v.number() })])),
 		restart: v.optional(v.object({ variants: v.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 		russian_roulette: v.optional(v.object({ rewards: v.array(v.number()) })),
@@ -658,6 +664,7 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	START_CREDIT_COOLDOWN_ROUNDS: v.optional(v.number()),
 	MORTGAGE_ROUND_LIMIT: v.optional(v.number()),
 	coeff_mortgage: v.optional(v.number()),
+	coeff_reject_mortgaged: v.optional(v.number()),
 	coeff_unmortgage: v.optional(v.number()),
 	auction_mortgaged: v.optional(v.number()),
 	coeff_field_drop: v.optional(v.number()),

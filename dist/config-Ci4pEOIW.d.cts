@@ -23,7 +23,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     type: "jail" | "start";
   } | {
     is_corner: boolean;
-    type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
     is_corner: false;
     type: "company";
@@ -34,7 +34,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     type: "jail" | "start";
   } | {
     is_corner: boolean;
-    type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
     item_proto_id: number;
     is_corner: false;
@@ -220,12 +220,18 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
       }, undefined>;
     }, undefined>, undefined>;
     readonly mortgage: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{
-      /** Limits mortgage duration in rounds. After this rounds, player will lose the field. If undefined, mortgage duration is unlimited. */readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>; /** Price multiplier when mortgaging the field, applies to the company buying price. */
-      readonly multiplier: v.NumberSchema<undefined>; /** Price multiplier when buying back the field, applies to the mortgage price. */
-      readonly buyback_multiplier: v.NumberSchema<undefined>; /** Price multiplier when auctioning the mortgaged field, applies to the company buying price minus mortgage price. */
-      readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+      /** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */readonly multiplier: v.NumberSchema<undefined>;
+      /**
+       * Limits mortgage duration in rounds: after some rounds, player will lose the field.
+       *
+       * If `undefined`, mortgage duration is unlimited.
+       */
+      readonly duration: v.OptionalSchema<v.NumberSchema<undefined>, undefined>; /** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
+      readonly buyback_multiplier: v.NumberSchema<undefined>; /** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
+      readonly auction_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>; /** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
+      readonly waive_multiplier: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>, v.ObjectSchema<{
-      /** Price multiplier when waiving the ownership of the field, applies to the company buying price. */readonly waive_multiplier: v.NumberSchema<undefined>;
+      /** What fraction of company value owner receives when waiving the field, applies to company buying price. */readonly waive_multiplier: v.NumberSchema<undefined>;
     }, undefined>], undefined>, undefined>;
     readonly restart: v.OptionalSchema<v.ObjectSchema<{
       readonly variants: v.ArraySchema<v.ObjectSchema<{
@@ -292,7 +298,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   } | {
     design?: "corner" | undefined;
     type: "special";
-    action: "wormhole" | "jackpot" | "goToJail" | "chance" | "cash_minus" | "cash_plus" | "relax" | "russianRoulette" | "tax_income" | "tax_luxury";
+    action: "jackpot" | "wormhole" | "goToJail" | "chance" | "cash_minus" | "cash_plus" | "relax" | "russianRoulette" | "tax_income" | "tax_luxury";
   } | {
     design?: undefined;
     type: "field";
@@ -309,7 +315,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     readonly type: "company";
   } | {
     readonly is_corner: boolean;
-    readonly type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    readonly type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   })[]>]>;
   readonly groups: v.SchemaWithPipe<readonly [v.RecordSchema<v.StringSchema<undefined>, v.UnionSchema<[v.ObjectSchema<{
     readonly buy: v.NumberSchema<undefined>;
@@ -581,6 +587,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   readonly START_CREDIT_COOLDOWN_ROUNDS: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   readonly MORTGAGE_ROUND_LIMIT: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   readonly coeff_mortgage: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly coeff_reject_mortgaged: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   readonly coeff_unmortgage: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   readonly auction_mortgaged: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   readonly coeff_field_drop: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
@@ -623,7 +630,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     readonly type: "company";
   } | {
     readonly is_corner: boolean;
-    readonly type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    readonly type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   })[];
   groups: Map<number, {
     buy_price: number;
@@ -757,6 +764,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   START_CREDIT_COOLDOWN_ROUNDS?: number | undefined;
   MORTGAGE_ROUND_LIMIT?: number | undefined;
   coeff_mortgage?: number | undefined;
+  coeff_reject_mortgaged?: number | undefined;
   coeff_unmortgage?: number | undefined;
   auction_mortgaged?: number | undefined;
   coeff_field_drop?: number | undefined;
@@ -802,7 +810,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     readonly type: "company";
   } | {
     readonly is_corner: boolean;
-    readonly type: "wormhole" | "jackpot" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
+    readonly type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   })[];
   monopolies: Map<number, {
     buy_price: number;

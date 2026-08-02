@@ -81,7 +81,7 @@ const action_list_mapping = {
 	// Mortgage
 	mortgage: 'mortgage.put',
 	unmortgage: 'mortgage.buyback',
-	// 'mortgage.transfer',
+	rejectMortgaged: 'mortgage.waive',
 	auctionMortgaged: 'mortgage.auction',
 	fieldDrop: 'waive',
 	// Movement

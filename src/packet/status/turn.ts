@@ -76,11 +76,11 @@ export const valiM1DemoPacketStatusTurnSchema = v.pipe(
 						// Mortgage
 						'mortgage.put',
 						'mortgage.buyback',
-						// 'mortgage.transfer',
+						'mortgage.waive',
 						'mortgage.auction',
+						'waive',
 						// Movement
 						'movement.go',
-						'waive',
 						// Purchase
 						'purchase',
 						'purchase.reject',

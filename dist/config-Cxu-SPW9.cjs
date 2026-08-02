@@ -610,16 +610,22 @@ multiplier: valibot.optional(valibot.number(), 1) })
 			})
 		})),
 		mortgage: valibot.optional(valibot.union([valibot.object({
-			/** Limits mortgage duration in rounds. After this rounds, player will lose the field. If undefined, mortgage duration is unlimited. */
-			duration: valibot.optional(valibot.number()),
-			/** Price multiplier when mortgaging the field, applies to the company buying price. */
+			/** What fraction of the company value owner receives when mortgaging the field, applies to the company buying price. */
 			multiplier: valibot.number(),
-			/** Price multiplier when buying back the field, applies to the mortgage price. */
+			/**
+			* Limits mortgage duration in rounds: after some rounds, player will lose the field.
+			*
+			* If `undefined`, mortgage duration is unlimited.
+			*/
+			duration: valibot.optional(valibot.number()),
+			/** Price multiplier when buying back the field, applies to value that player received for mortgaging the field. */
 			buyback_multiplier: valibot.number(),
-			/** Price multiplier when auctioning the mortgaged field, applies to the company buying price minus mortgage price. */
-			auction_multiplier: valibot.optional(valibot.number())
+			/** Price multiplier when auctioning the mortgaged field, applies to the rest of the company value after mortgage. */
+			auction_multiplier: valibot.optional(valibot.number()),
+			/** What fraction of company value owner receives when waiving the field, applies to the rest of the company value after mortgage. */
+			waive_multiplier: valibot.optional(valibot.number())
 		}), valibot.object({ 
-		/** Price multiplier when waiving the ownership of the field, applies to the company buying price. */
+		/** What fraction of company value owner receives when waiving the field, applies to company buying price. */
 waive_multiplier: valibot.number() })])),
 		restart: valibot.optional(valibot.object({ variants: valibot.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
 		russian_roulette: valibot.optional(valibot.object({ rewards: valibot.array(valibot.number()) })),
@@ -690,6 +696,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	START_CREDIT_COOLDOWN_ROUNDS: valibot.optional(valibot.number()),
 	MORTGAGE_ROUND_LIMIT: valibot.optional(valibot.number()),
 	coeff_mortgage: valibot.optional(valibot.number()),
+	coeff_reject_mortgaged: valibot.optional(valibot.number()),
 	coeff_unmortgage: valibot.optional(valibot.number()),
 	auction_mortgaged: valibot.optional(valibot.number()),
 	coeff_field_drop: valibot.optional(valibot.number()),

@@ -1,4 +1,4 @@
-import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-exSVwZIb.mjs";
+import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-DiGf19bp.mjs";
 import * as v from "valibot";
 //#region \0rolldown/runtime.js
 var __defProp = Object.defineProperty;
@@ -623,9 +623,10 @@ const valiM1DemoPacketStatusTurnSchema = v.pipe(v.object({
 			"loan.repay",
 			"mortgage.put",
 			"mortgage.buyback",
+			"mortgage.waive",
 			"mortgage.auction",
-			"movement.go",
 			"waive",
+			"movement.go",
 			"purchase",
 			"purchase.reject",
 			"purchase.buyout",
@@ -873,6 +874,7 @@ const action_list_mapping = {
 	credit_pay: "loan.repay",
 	mortgage: "mortgage.put",
 	unmortgage: "mortgage.buyback",
+	rejectMortgaged: "mortgage.waive",
 	auctionMortgaged: "mortgage.auction",
 	fieldDrop: "waive",
 	chooseFieldToMove: "movement.go",
@@ -1752,6 +1754,12 @@ const valiSchemas$11 = [
 	}),
 	v.object({
 		id: v.string(),
+		type: v.literal("mortgage.waive"),
+		user_id: v.number(),
+		field_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
 		type: v.literal("mortgage.expire"),
 		user_id: v.number(),
 		field_id: v.number()
@@ -1796,19 +1804,34 @@ const enrichments$9 = {
 		if (options.event.user_id === -1) options.event.user_id = options.status.fields.get(options.event.field_id).owner_user_id;
 		options.status.fields.delete(options.event.field_id);
 	},
-	waive(options) {
+	"mortgage.waive"(options) {
 		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
 		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
-		if (!("waive_multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
+		if (!("multiplier" in mechanics_mortgage)) throw new Error("Mechanics \"mortgage\" does not allow mortgaging in match config.");
+		if (mechanics_mortgage.waive_multiplier === void 0) throw new Error("Mechanics \"mortgage\" does not allow waiving the property ownership in match config.");
 		const field = options.status.fields.get(options.event.field_id);
 		options.status.fields.delete(options.event.field_id);
 		const field_setup = options.setup.config.fields[options.event.field_id];
 		if (!field_setup) throw new Error(`Field ${options.event.field_id} is not defined in match config.`);
 		if (field_setup.type !== "company") throw new Error(`Field ${field} is not a company`);
 		const { monopoly_id } = field_setup;
-		const mortgage_price = options.setup.config.monopolies.get(monopoly_id).buy_price * mechanics_mortgage.waive_multiplier;
+		const cash_to_receive = options.setup.config.monopolies.get(monopoly_id).buy_price * (1 - mechanics_mortgage.multiplier) * mechanics_mortgage.waive_multiplier;
 		const player = options.status.players.get(field.owner_user_id);
-		player.cash += mortgage_price;
+		player.cash += cash_to_receive;
+	},
+	waive(options) {
+		const mechanics_mortgage = options.setup.config.mechanics.mortgage;
+		if (!mechanics_mortgage) throw new Error("There is no \"mortgage\" mechanics defined in match config.");
+		if ("multiplier" in mechanics_mortgage) throw new Error("Mechanics \"mortgage\" requires that company be mortgaged before waiving ownership.");
+		const field = options.status.fields.get(options.event.field_id);
+		options.status.fields.delete(options.event.field_id);
+		const field_setup = options.setup.config.fields[options.event.field_id];
+		if (!field_setup) throw new Error(`Field ${options.event.field_id} is not defined in match config.`);
+		if (field_setup.type !== "company") throw new Error(`Field ${field} is not a company`);
+		const { monopoly_id } = field_setup;
+		const cash_to_receive = options.setup.config.monopolies.get(monopoly_id).buy_price * mechanics_mortgage.waive_multiplier;
+		const player = options.status.players.get(field.owner_user_id);
+		player.cash += cash_to_receive;
 	}
 };
 const valiV1Schemas$11 = [
@@ -1834,6 +1857,19 @@ const valiV1Schemas$11 = [
 		return {
 			id: value._id,
 			type: "mortgage.buyback",
+			user_id: value.user_id,
+			field_id: value.field
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rejectMortgaged"),
+		user_id: v.number(),
+		field: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "mortgage.waive",
 			user_id: value.user_id,
 			field_id: value.field
 		};
