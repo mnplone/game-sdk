@@ -5,6 +5,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
   /** Constants that define basic rules of the match. */readonly config: v.ObjectSchema<{
     readonly version: v.NumberSchema<undefined>;
     readonly board_size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
+    readonly start_cash: v.NumberSchema<undefined>;
     readonly timers: v.ObjectSchema<{
       readonly roll_dices: v.NumberSchema<undefined>;
     }, undefined>;
@@ -816,6 +817,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly config: v.ObjectSchema<{
       readonly version: v.NumberSchema<undefined>;
       readonly board_size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
+      readonly start_cash: v.NumberSchema<undefined>;
       readonly timers: v.ObjectSchema<{
         readonly roll_dices: v.NumberSchema<undefined>;
       }, undefined>;

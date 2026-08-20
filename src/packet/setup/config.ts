@@ -35,6 +35,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 	/** Version of the config. */
 	version: v.number(),
 	board_size: v.tuple([v.number(), v.number()]),
+	start_cash: v.number(),
 	timers: v.object({
 		roll_dices: v.number(),
 	}),
@@ -252,6 +253,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 	v.object({
 		version: v.number(),
 		size: v.tuple([v.number(), v.number()]),
+		startCash: v.number(),
 		fields: valiM1DemoPacketV1ConfigFieldsSchema,
 		groups: valiM1DemoPacketV1ConfigGroupsSchema,
 		// timers
@@ -355,6 +357,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		return {
 			version: value.version,
 			board_size: value.size,
+			start_cash: value.startCash,
 			timers: {
 				roll_dices: value.TIME_FOR_ROLL_DICES,
 			},

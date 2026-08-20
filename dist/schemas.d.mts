@@ -1,4 +1,4 @@
-import { a as valiM1DemoPacketV1ConfigSchema, i as valiM1DemoPacketSetupConfigSchema } from "./config-6I69_EMT.mjs";
+import { a as valiM1DemoPacketV1ConfigSchema, i as valiM1DemoPacketSetupConfigSchema } from "./config-gfH2kZIx.mjs";
 import * as v from "valibot";
 
 //#region src/utils/valibot.d.ts

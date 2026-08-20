@@ -1,4 +1,4 @@
-import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-ozZk_iFi.mjs";
+import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-BMHLh1Bj.mjs";
 import * as v from "valibot";
 //#region \0rolldown/runtime.js
 var __defProp = Object.defineProperty;

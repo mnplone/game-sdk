@@ -4,6 +4,7 @@ import * as v from "valibot";
 declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
   /** Version of the config. */readonly version: v.NumberSchema<undefined>;
   readonly board_size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
+  readonly start_cash: v.NumberSchema<undefined>;
   readonly timers: v.ObjectSchema<{
     readonly roll_dices: v.NumberSchema<undefined>;
   }, undefined>;
@@ -276,6 +277,7 @@ type M1DemoPacketSetupConfigMechanicsRules = M1DemoPacketSetupConfigMechanics['r
 declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly version: v.NumberSchema<undefined>;
   readonly size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
+  readonly startCash: v.NumberSchema<undefined>;
   readonly fields: v.SchemaWithPipe<readonly [v.ArraySchema<v.VariantSchema<"type", [v.ObjectSchema<{
     readonly design: v.LiteralSchema<"corner", undefined>;
     readonly type: v.LiteralSchema<"start", undefined>;
@@ -621,6 +623,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
 }, undefined>, v.TransformAction<{
   version: number;
   size: [number, number];
+  startCash: number;
   fields: ({
     readonly is_corner: true;
     readonly type: "jail" | "start";
@@ -798,6 +801,7 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
 }, {
   version: number;
   board_size: [number, number];
+  start_cash: number;
   timers: {
     roll_dices: number;
   };

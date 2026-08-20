@@ -546,6 +546,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 	/** Version of the config. */
 	version: valibot.number(),
 	board_size: valibot.tuple([valibot.number(), valibot.number()]),
+	start_cash: valibot.number(),
 	timers: valibot.object({ roll_dices: valibot.number() }),
 	fields: valiM1DemoPacketSetupConfigFieldsSchema,
 	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
@@ -662,6 +663,7 @@ const valiM1DemoPacketV1ConfigTaxBaseSchema = valibot.union([valibot.object({ ga
 const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	version: valibot.number(),
 	size: valibot.tuple([valibot.number(), valibot.number()]),
+	startCash: valibot.number(),
 	fields: valiM1DemoPacketV1ConfigFieldsSchema,
 	groups: valiM1DemoPacketV1ConfigGroupsSchema,
 	TIME_FOR_ROLL_DICES: valibot.number(),
@@ -716,6 +718,7 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	return {
 		version: value.version,
 		board_size: value.size,
+		start_cash: value.startCash,
 		timers: { roll_dices: value.TIME_FOR_ROLL_DICES },
 		fields: value.fields,
 		monopolies: value.groups,
