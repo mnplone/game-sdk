@@ -248,14 +248,21 @@ function getRolledDistance(
 				case 1: // number
 				case 2: // number
 				case 3: // number
-					// do nothing
+					if (dices[0] !== dices[1]) {
+						return 0;
+					}
+
+					// else do nothing
 					break;
+
 				case 4: // reroll
 				case 6: // taxi
 					return 0;
+
 				case 5: // doubling
 					distance *= 2;
 					break;
+
 				default:
 					throw new Error(`Invalid mini die value: ${dices[1]}`);
 			}

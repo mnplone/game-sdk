@@ -479,7 +479,7 @@ declare const valiM1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.Obj
     readonly amount: v.NumberSchema<undefined>;
   }, undefined>, undefined>; /** Fields on which player can move in this action. */
   readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
-    readonly source: v.PicklistSchema<["bus", "triple"], undefined>;
+    readonly source: v.PicklistSchema<["bus", "mini_die", "triple"], undefined>;
   }, undefined>, v.ObjectSchema<{
     readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
     readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
@@ -740,7 +740,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
       readonly amount: v.NumberSchema<undefined>;
     }, undefined>, undefined>;
     readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
-      readonly source: v.PicklistSchema<["bus", "triple"], undefined>;
+      readonly source: v.PicklistSchema<["bus", "mini_die", "triple"], undefined>;
     }, undefined>, v.ObjectSchema<{
       readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
       readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
@@ -1507,7 +1507,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
       readonly source: v.LiteralSchema<"wormhole", undefined>;
       readonly exit_count: v.NumberSchema<undefined>;
     }, undefined>, v.ObjectSchema<{
-      readonly source: v.PicklistSchema<["taxi", "triple"], undefined>;
+      readonly source: v.PicklistSchema<["mini_die", "taxi", "triple"], undefined>;
     }, undefined>], undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
@@ -1519,6 +1519,9 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly movement: v.VariantSchema<"source", [v.ObjectSchema<{
       readonly source: v.LiteralSchema<"bus", undefined>;
       readonly stop_id: v.PicklistSchema<[-1, 0, 1], undefined>;
+    }, undefined>, v.ObjectSchema<{
+      readonly source: v.LiteralSchema<"mini_die", undefined>;
+      readonly stop_id: v.PicklistSchema<[0, 1], undefined>;
     }, undefined>, v.ObjectSchema<{
       readonly source: v.PicklistSchema<["taxi", "triple", "wormhole"], undefined>;
     }, undefined>], undefined>;
@@ -1963,7 +1966,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         readonly amount: v.NumberSchema<undefined>;
       }, undefined>, undefined>;
       readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
-        readonly source: v.PicklistSchema<["bus", "triple"], undefined>;
+        readonly source: v.PicklistSchema<["bus", "mini_die", "triple"], undefined>;
       }, undefined>, v.ObjectSchema<{
         readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
         readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
@@ -2304,7 +2307,7 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
     readonly source: v.LiteralSchema<"wormhole", undefined>;
     readonly exit_count: v.NumberSchema<undefined>;
   }, undefined>, v.ObjectSchema<{
-    readonly source: v.PicklistSchema<["taxi", "triple"], undefined>;
+    readonly source: v.PicklistSchema<["mini_die", "taxi", "triple"], undefined>;
   }, undefined>], undefined>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
@@ -2316,6 +2319,9 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   readonly movement: v.VariantSchema<"source", [v.ObjectSchema<{
     readonly source: v.LiteralSchema<"bus", undefined>;
     readonly stop_id: v.PicklistSchema<[-1, 0, 1], undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly source: v.LiteralSchema<"mini_die", undefined>;
+    readonly stop_id: v.PicklistSchema<[0, 1], undefined>;
   }, undefined>, v.ObjectSchema<{
     readonly source: v.PicklistSchema<["taxi", "triple", "wormhole"], undefined>;
   }, undefined>], undefined>;

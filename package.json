@@ -48,7 +48,7 @@
 		"oxlint": "1.74.0",
 		"publint": "0.3.21",
 		"tsdown": "0.22.1",
-		"typescript": "6.0.3",
+		"typescript": "npm:typescript-native-bridge@6.0.3-bridge.13.tsgo.7.0.2",
 		"unplugin-unused": "0.5.7",
 		"vitest": "4.1.7"
 	},

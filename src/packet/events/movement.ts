@@ -12,13 +12,17 @@ const movementPickerMovementSchema = v.variant('source', [
 		exit_count: v.number(),
 	}),
 	v.object({
-		source: v.picklist(['taxi', 'triple']),
+		source: v.picklist(['mini_die', 'taxi', 'triple']),
 	}),
 ]);
 const movementGoMovementSchema = v.variant('source', [
 	v.object({
 		source: v.literal('bus'),
 		stop_id: v.picklist([-1, 0, 1]),
+	}),
+	v.object({
+		source: v.literal('mini_die'),
+		stop_id: v.picklist([0, 1]),
 	}),
 	v.object({
 		source: v.picklist(['taxi', 'triple', 'wormhole']),

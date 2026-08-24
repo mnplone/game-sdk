@@ -501,7 +501,9 @@ function getRolledDistance(dices, setup) {
 		if (typeof dices[1] === "number") switch (dices[1]) {
 			case 1:
 			case 2:
-			case 3: break;
+			case 3:
+				if (dices[0] !== dices[1]) return 0;
+				break;
 			case 4:
 			case 6: return 0;
 			case 5:
@@ -514,7 +516,11 @@ function getRolledDistance(dices, setup) {
 }
 //#endregion
 //#region src/packet/status/turn/movement.ts
-const m1DemoPacketStatusTurnMovementSchema = valibot.variant("source", [valibot.object({ source: valibot.picklist(["bus", "triple"]) }), valibot.object({
+const m1DemoPacketStatusTurnMovementSchema = valibot.variant("source", [valibot.object({ source: valibot.picklist([
+	"bus",
+	"mini_die",
+	"triple"
+]) }), valibot.object({
 	source: valibot.picklist(["taxi", "wormhole"]),
 	field_ids: valibot.array(valibot.number())
 })]);
@@ -552,6 +558,12 @@ function getMovementOptions(setup, status) {
 			});
 			return movement_options;
 		}
+		case "mini_die": return dices.map((dice, index) => {
+			return {
+				field_id: normalizeFieldId(setup, position + direction * dice),
+				stop_id: index
+			};
+		});
 		case "triple": {
 			const movement_options = [];
 			for (let field_id = 0; field_id < config.fields.length; field_id++) if (field_id !== position) movement_options.push({ field_id });
@@ -1906,20 +1918,31 @@ const movementPickerMovementSchema = valibot.variant("source", [
 		source: valibot.literal("wormhole"),
 		exit_count: valibot.number()
 	}),
-	valibot.object({ source: valibot.picklist(["taxi", "triple"]) })
+	valibot.object({ source: valibot.picklist([
+		"mini_die",
+		"taxi",
+		"triple"
+	]) })
 ]);
-const movementGoMovementSchema = valibot.variant("source", [valibot.object({
-	source: valibot.literal("bus"),
-	stop_id: valibot.picklist([
-		-1,
-		0,
-		1
-	])
-}), valibot.object({ source: valibot.picklist([
-	"taxi",
-	"triple",
-	"wormhole"
-]) })]);
+const movementGoMovementSchema = valibot.variant("source", [
+	valibot.object({
+		source: valibot.literal("bus"),
+		stop_id: valibot.picklist([
+			-1,
+			0,
+			1
+		])
+	}),
+	valibot.object({
+		source: valibot.literal("mini_die"),
+		stop_id: valibot.picklist([0, 1])
+	}),
+	valibot.object({ source: valibot.picklist([
+		"taxi",
+		"triple",
+		"wormhole"
+	]) })
+]);
 const valiSchemas$10 = [valibot.object({
 	id: valibot.string(),
 	type: valibot.literal("movement.picker"),

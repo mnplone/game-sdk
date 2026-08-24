@@ -5,7 +5,7 @@ import { normalizeFieldId } from '@/utils/table.js';
 
 export const m1DemoPacketStatusTurnMovementSchema = v.variant('source', [
 	v.object({
-		source: v.picklist(['bus', 'triple']),
+		source: v.picklist(['bus', 'mini_die', 'triple']),
 	}),
 	v.object({
 		// FIXME: right now, 'taxi' has field_ids, but we should move calculation from server to SDK
@@ -80,6 +80,14 @@ export function getMovementOptions(
 
 			return movement_options;
 		}
+
+		case 'mini_die':
+			return dices.map((dice, index) => {
+				return {
+					field_id: normalizeFieldId(setup, position + direction * dice),
+					stop_id: index,
+				};
+			});
 
 		// FIXME: right now, 'taxi' has field_ids, but we should move calculation from server to SDK
 		// case 'taxi':

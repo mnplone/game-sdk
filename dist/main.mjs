@@ -511,7 +511,9 @@ function getRolledDistance(dices, setup) {
 		if (typeof dices[1] === "number") switch (dices[1]) {
 			case 1:
 			case 2:
-			case 3: break;
+			case 3:
+				if (dices[0] !== dices[1]) return 0;
+				break;
 			case 4:
 			case 6: return 0;
 			case 5:
@@ -524,7 +526,11 @@ function getRolledDistance(dices, setup) {
 }
 //#endregion
 //#region src/packet/status/turn/movement.ts
-const m1DemoPacketStatusTurnMovementSchema = v.variant("source", [v.object({ source: v.picklist(["bus", "triple"]) }), v.object({
+const m1DemoPacketStatusTurnMovementSchema = v.variant("source", [v.object({ source: v.picklist([
+	"bus",
+	"mini_die",
+	"triple"
+]) }), v.object({
 	source: v.picklist(["taxi", "wormhole"]),
 	field_ids: v.array(v.number())
 })]);
@@ -562,6 +568,12 @@ function getMovementOptions(setup, status) {
 			});
 			return movement_options;
 		}
+		case "mini_die": return dices.map((dice, index) => {
+			return {
+				field_id: normalizeFieldId(setup, position + direction * dice),
+				stop_id: index
+			};
+		});
 		case "triple": {
 			const movement_options = [];
 			for (let field_id = 0; field_id < config.fields.length; field_id++) if (field_id !== position) movement_options.push({ field_id });
@@ -1916,20 +1928,31 @@ const movementPickerMovementSchema = v.variant("source", [
 		source: v.literal("wormhole"),
 		exit_count: v.number()
 	}),
-	v.object({ source: v.picklist(["taxi", "triple"]) })
+	v.object({ source: v.picklist([
+		"mini_die",
+		"taxi",
+		"triple"
+	]) })
 ]);
-const movementGoMovementSchema = v.variant("source", [v.object({
-	source: v.literal("bus"),
-	stop_id: v.picklist([
-		-1,
-		0,
-		1
-	])
-}), v.object({ source: v.picklist([
-	"taxi",
-	"triple",
-	"wormhole"
-]) })]);
+const movementGoMovementSchema = v.variant("source", [
+	v.object({
+		source: v.literal("bus"),
+		stop_id: v.picklist([
+			-1,
+			0,
+			1
+		])
+	}),
+	v.object({
+		source: v.literal("mini_die"),
+		stop_id: v.picklist([0, 1])
+	}),
+	v.object({ source: v.picklist([
+		"taxi",
+		"triple",
+		"wormhole"
+	]) })
+]);
 const valiSchemas$10 = [v.object({
 	id: v.string(),
 	type: v.literal("movement.picker"),
