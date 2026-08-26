@@ -177,7 +177,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
       readonly limit: v.NumberSchema<undefined>;
       readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
         readonly charges: v.NumberSchema<undefined>;
-        readonly no_cap: v.OptionalSchema<v.BooleanSchema<undefined>, false>;
+        readonly no_cap: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
       }, undefined>, undefined>;
     }, undefined>, undefined>;
     readonly field_level: v.OptionalSchema<v.ObjectSchema<{

@@ -74,7 +74,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 					v.string(),
 					v.object({
 						charges: v.number(),
-						no_cap: v.optional(v.boolean(), false),
+						no_cap: bit(false),
 					}),
 				),
 			}),

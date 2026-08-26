@@ -564,7 +564,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 			limit: valibot.number(),
 			features: valibot.record(valibot.string(), valibot.object({
 				charges: valibot.number(),
-				no_cap: valibot.optional(valibot.boolean(), false)
+				no_cap: bit(false)
 			}))
 		})),
 		field_level: valibot.optional(valibot.object({

@@ -97,8 +97,6 @@ export const valiM1DemoPacketStatusTurnSchema = v.pipe(
 						'russian-roulette.reject',
 						// Start
 						'start.tax.pay',
-						// Taxi
-						'taxi.move',
 						// Wormhole
 						'wormhole.use',
 						'wormhole.open',

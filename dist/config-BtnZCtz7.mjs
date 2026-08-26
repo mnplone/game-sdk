@@ -532,7 +532,7 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 			limit: v.number(),
 			features: v.record(v.string(), v.object({
 				charges: v.number(),
-				no_cap: v.optional(v.boolean(), false)
+				no_cap: bit(false)
 			}))
 		})),
 		field_level: v.optional(v.object({

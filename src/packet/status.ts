@@ -105,8 +105,6 @@ const action_list_mapping = {
 	russianRouletteDecline: 'russian-roulette.reject',
 	// Start
 	startBypassFee: 'start.tax.pay',
-	// Taxi
-	chooseTaxiStop: 'taxi.move',
 	// Wormhole
 	wormholeUse: 'wormhole.use',
 	wormholeOpen: 'wormhole.open',

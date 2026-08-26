@@ -16,6 +16,7 @@ import {
 import { bit } from './utils/valibot.js';
 
 export const valiM1DemoPacketSchema = v.object({
+	v: v.optional(v.literal(2)),
 	/** Various information about the match which is never changes. */
 	setup: v.optional(valiM1DemoPacketSetupSchema),
 	/** Events happened before game went to the "status". */

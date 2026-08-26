@@ -17,7 +17,6 @@ import * as events_rent from './events/rent.js';
 import * as events_roll_dices from './events/roll-dices.js';
 import * as events_russian_roulette from './events/russian-roulette.js';
 import * as events_start from './events/start.js';
-import * as events_taxi from './events/taxi.js';
 import * as events_tournament from './events/tournament.js';
 import * as events_wormhole from './events/wormhole.js';
 import type { M1DemoPacketEvent } from './events.js';
@@ -42,7 +41,6 @@ export const event_libs = [
 	events_roll_dices,
 	events_russian_roulette,
 	events_start,
-	events_taxi,
 	events_tournament,
 	events_wormhole,
 	events_other,

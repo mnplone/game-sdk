@@ -178,7 +178,7 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
         readonly limit: v.NumberSchema<undefined>;
         readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
           readonly charges: v.NumberSchema<undefined>;
-          readonly no_cap: v.OptionalSchema<v.BooleanSchema<undefined>, false>;
+          readonly no_cap: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
         }, undefined>, undefined>;
       }, undefined>, undefined>;
       readonly field_level: v.OptionalSchema<v.ObjectSchema<{
@@ -433,7 +433,7 @@ declare const valiM1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.Obj
   /** User ID of the player whose turn it is. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
   readonly action: v.ObjectSchema<{
     /** User ID of the player from which action is expected. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
-    readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "taxi.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
+    readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
   }, undefined>;
   readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
   readonly auction: v.OptionalSchema<v.ObjectSchema<{
@@ -694,7 +694,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
     readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
     readonly action: v.ObjectSchema<{
       readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
-      readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "taxi.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
+      readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
     }, undefined>;
     readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
     readonly auction: v.OptionalSchema<v.ObjectSchema<{
@@ -800,7 +800,6 @@ declare const action_list_mapping: {
   readonly russianRoulettePlay: "russian-roulette.play";
   readonly russianRouletteDecline: "russian-roulette.reject";
   readonly startBypassFee: "start.tax.pay";
-  readonly chooseTaxiStop: "taxi.move";
   readonly wormholeUse: "wormhole.use";
   readonly wormholeOpen: "wormhole.open";
   readonly wormholeJump: "wormhole.jump";
@@ -813,7 +812,8 @@ declare const packet_v1_action_mapping: Record<M1DemoPacketStatusTurnActionType 
 //#endregion
 //#region src/packet.d.ts
 declare const valiM1DemoPacketSchema: v.ObjectSchema<{
-  /** Various information about the match which is never changes. */readonly setup: v.OptionalSchema<v.ObjectSchema<{
+  readonly v: v.OptionalSchema<v.LiteralSchema<2, undefined>, undefined>; /** Various information about the match which is never changes. */
+  readonly setup: v.OptionalSchema<v.ObjectSchema<{
     readonly config: v.ObjectSchema<{
       readonly version: v.NumberSchema<undefined>;
       readonly board_size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
@@ -990,7 +990,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
           readonly limit: v.NumberSchema<undefined>;
           readonly features: v.RecordSchema<v.StringSchema<undefined>, v.ObjectSchema<{
             readonly charges: v.NumberSchema<undefined>;
-            readonly no_cap: v.OptionalSchema<v.BooleanSchema<undefined>, false>;
+            readonly no_cap: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
           }, undefined>, undefined>;
         }, undefined>, undefined>;
         readonly field_level: v.OptionalSchema<v.ObjectSchema<{
@@ -1646,26 +1646,6 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly user_id: v.NumberSchema<undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
-    readonly type: v.LiteralSchema<"taxi.select", undefined>;
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly limit: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-  }, undefined> | v.ObjectSchema<{
-    readonly id: v.StringSchema<undefined>;
-    readonly type: v.LiteralSchema<"taxi.move", undefined>;
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly selection: v.ObjectSchema<{
-      readonly stop_id: v.NumberSchema<undefined>;
-      readonly field_id: v.NumberSchema<undefined>;
-      readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-    }, undefined>;
-    readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined> | v.ObjectSchema<{
-    readonly id: v.StringSchema<undefined>;
-    readonly type: v.LiteralSchema<"taxi.fail", undefined>;
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined> | v.ObjectSchema<{
-    readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"tournament.drop", undefined>;
     readonly user_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
   }, undefined> | v.ObjectSchema<{
@@ -1920,7 +1900,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
       readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
       readonly action: v.ObjectSchema<{
         readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
-        readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "taxi.move", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "taxi.move" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
+        readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
       }, undefined>;
       readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
       readonly auction: v.OptionalSchema<v.ObjectSchema<{
@@ -2444,26 +2424,6 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"start.tax.pay", undefined>;
   readonly user_id: v.NumberSchema<undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"taxi.select", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly limit: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"taxi.move", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly selection: v.ObjectSchema<{
-    readonly stop_id: v.NumberSchema<undefined>;
-    readonly field_id: v.NumberSchema<undefined>;
-    readonly auto: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-}, undefined> | v.ObjectSchema<{
-  readonly id: v.StringSchema<undefined>;
-  readonly type: v.LiteralSchema<"taxi.fail", undefined>;
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"tournament.drop", undefined>;
