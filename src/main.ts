@@ -15,7 +15,7 @@ import { parse } from './utils/valibot.js';
 
 export class M1LiveDemo {
 	/** Packet versions in this game. Value `null` is a placeholder until first packet arrives. */
-	#packet_version: number | null = null;
+	packet_version: number | null = null;
 	#setup: M1DemoPacketSetup | null = null;
 	#field_id_jail: number | null = null;
 	#status_before: M1DemoPacketStatus | null = null;
@@ -26,10 +26,10 @@ export class M1LiveDemo {
 			throw new TypeError('Packet is not an object.');
 		}
 
-		this.#packet_version ??= typeof value.v === 'number' ? value.v : 1;
+		this.packet_version ??= typeof value.v === 'number' ? value.v : 1;
 
 		let packet: M1DemoPacket;
-		switch (this.#packet_version) {
+		switch (this.packet_version) {
 			case 2:
 				packet = parse(valiM1DemoPacketSchema, value);
 				break;
@@ -39,7 +39,7 @@ export class M1LiveDemo {
 				break;
 
 			default:
-				throw new Error(`Unsupported packet version ${this.#packet_version}.`);
+				throw new Error(`Unsupported packet version ${this.packet_version}.`);
 		}
 
 		if (packet.setup) {

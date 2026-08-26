@@ -335,7 +335,7 @@ const valiM1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valib
 		])
 	}),
 	valibot.object({
-		is_corner: valibot.pipe(valibot.undefined_(), valibot.transform(() => false)),
+		is_corner: valibot.pipe(valibot.optional(valibot.never()), valibot.transform(() => false)),
 		type: valibot.literal("company"),
 		monopoly_id: valibot.number(),
 		is_last: bit(false)

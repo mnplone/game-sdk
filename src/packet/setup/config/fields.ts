@@ -42,7 +42,7 @@ export const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(
 			// NEVER corners
 			v.object({
 				is_corner: v.pipe(
-					v.undefined_(),
+					v.optional(v.never()),
 					v.transform(() => false as const),
 				),
 				type: v.literal('company'),

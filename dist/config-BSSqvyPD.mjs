@@ -303,7 +303,7 @@ const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(v.array(v.union([
 		])
 	}),
 	v.object({
-		is_corner: v.pipe(v.undefined_(), v.transform(() => false)),
+		is_corner: v.pipe(v.optional(v.never()), v.transform(() => false)),
 		type: v.literal("company"),
 		monopoly_id: v.number(),
 		is_last: bit(false)

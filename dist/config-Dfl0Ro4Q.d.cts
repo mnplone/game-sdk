@@ -15,7 +15,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     readonly is_corner: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
     readonly type: v.PicklistSchema<["cash.pay", "cash.receive", "chance", "jackpot", "jail.goto", "park", "russian-roulette", "tax.income", "tax.luxury", "wormhole"], undefined>;
   }, undefined>, v.ObjectSchema<{
-    readonly is_corner: v.SchemaWithPipe<readonly [v.UndefinedSchema<undefined>, v.TransformAction<undefined, false>]>;
+    readonly is_corner: v.SchemaWithPipe<readonly [v.OptionalSchema<v.NeverSchema<undefined>, undefined>, v.TransformAction<undefined, false>]>;
     readonly type: v.LiteralSchema<"company", undefined>;
     readonly monopoly_id: v.NumberSchema<undefined>;
     readonly is_last: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
@@ -26,7 +26,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     is_corner: boolean;
     type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
-    is_corner: false;
+    is_corner?: false | undefined;
     type: "company";
     monopoly_id: number;
     is_last: boolean;
@@ -38,7 +38,7 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     type: "jackpot" | "wormhole" | "cash.pay" | "cash.receive" | "chance" | "jail.goto" | "park" | "russian-roulette" | "tax.income" | "tax.luxury";
   } | {
     item_proto_id: number;
-    is_corner: false;
+    is_corner?: false | undefined;
     type: "company";
     monopoly_id: number;
     is_last: boolean;

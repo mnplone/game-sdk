@@ -1,5 +1,5 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-const require_config = require("./config-xtAvq8IK.cjs");
+const require_config = require("./config-Dplv_HX-.cjs");
 let valibot = require("valibot");
 valibot = require_config.__toESM(valibot, 1);
 //#region src/packet/events/auction.ts
@@ -3134,22 +3134,22 @@ const valiM1DemoPacketV1Schema = valibot.intersect([valiM1DemoPacketV1TimeSchema
 //#region src/main.ts
 var M1LiveDemo = class {
 	/** Packet versions in this game. Value `null` is a placeholder until first packet arrives. */
-	#packet_version = null;
+	packet_version = null;
 	#setup = null;
 	#field_id_jail = null;
 	#status_before = null;
 	process(value) {
 		if (isRecord(value) !== true) throw new TypeError("Packet is not an object.");
-		this.#packet_version ??= typeof value.v === "number" ? value.v : 1;
+		this.packet_version ??= typeof value.v === "number" ? value.v : 1;
 		let packet;
-		switch (this.#packet_version) {
+		switch (this.packet_version) {
 			case 2:
 				packet = require_config.parse(valiM1DemoPacketSchema, value);
 				break;
 			case 1:
 				packet = require_config.parse(valiM1DemoPacketV1Schema, value);
 				break;
-			default: throw new Error(`Unsupported packet version ${this.#packet_version}.`);
+			default: throw new Error(`Unsupported packet version ${this.packet_version}.`);
 		}
 		if (packet.setup) {
 			this.#setup = packet.setup;
