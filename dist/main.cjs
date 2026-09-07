@@ -1,5 +1,5 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-const require_config = require("./config-Dplv_HX-.cjs");
+const require_config = require("./config-DeX3Rii9.cjs");
 let valibot = require("valibot");
 valibot = require_config.__toESM(valibot, 1);
 //#region src/packet/events/auction.ts

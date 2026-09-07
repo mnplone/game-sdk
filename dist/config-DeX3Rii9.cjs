@@ -321,9 +321,13 @@ const valiM1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valib
 	}),
 	valibot.object({
 		is_corner: bit(false),
+		type: valibot.picklist(["cash.pay", "cash.receive"]),
+		range: valibot.tuple([valibot.number(), valibot.number()]),
+		step: valibot.number()
+	}),
+	valibot.object({
+		is_corner: bit(false),
 		type: valibot.picklist([
-			"cash.pay",
-			"cash.receive",
 			"chance",
 			"jackpot",
 			"jail.goto",
@@ -367,9 +371,14 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.
 	valibot.object({
 		design: valibot.optional(valibot.literal("corner")),
 		type: valibot.literal("special"),
+		action: valibot.picklist(["cash_minus", "cash_plus"]),
+		range: valibot.tuple([valibot.number(), valibot.number()]),
+		rangeStep: valibot.number()
+	}),
+	valibot.object({
+		design: valibot.optional(valibot.literal("corner")),
+		type: valibot.literal("special"),
 		action: valibot.picklist([
-			"cash_minus",
-			"cash_plus",
 			"chance",
 			"goToJail",
 			"jackpot",
@@ -390,15 +399,14 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.
 	const indexes_by_group = /* @__PURE__ */ new Map();
 	return value.map((field) => {
 		if (field.type === "start" || field.type === "jail") {
-			const { type, design: _1, ...field_rest } = field;
+			const { type } = field;
 			return {
 				is_corner: true,
-				type,
-				...field_rest
+				type
 			};
 		}
 		if (field.type === "field") {
-			const { type: _type, design: _design, group: monopoly_id, ...field_rest } = field;
+			const { type: _1, design: _2, group: monopoly_id, ...field_rest } = field;
 			const index_in_group = indexes_by_group.get(monopoly_id) ?? 0;
 			indexes_by_group.set(monopoly_id, index_in_group + 1);
 			return {
@@ -410,15 +418,22 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.
 			};
 		}
 		if (field.type === "special") {
-			const { type: _1, action, design, ...field_rest } = field;
+			const { action, design } = field;
+			const is_corner = design === "corner";
 			let type_new;
 			switch (action) {
-				case "cash_minus":
-					type_new = "cash.pay";
-					break;
-				case "cash_plus":
-					type_new = "cash.receive";
-					break;
+				case "cash_minus": return {
+					is_corner,
+					type: "cash.pay",
+					range: field.range,
+					step: field.rangeStep
+				};
+				case "cash_plus": return {
+					is_corner,
+					type: "cash.receive",
+					range: field.range,
+					step: field.rangeStep
+				};
 				case "goToJail":
 					type_new = "jail.goto";
 					break;
@@ -440,9 +455,8 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.
 				default: type_new = action;
 			}
 			return {
-				is_corner: design === "corner",
-				type: type_new,
-				...field_rest
+				is_corner,
+				type: type_new
 			};
 		}
 		throw new Error("Should be unreachable.");

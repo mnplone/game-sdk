@@ -26,9 +26,13 @@ export const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(
 			// MAYBE corners
 			v.object({
 				is_corner: bit(false),
+				type: v.picklist(['cash.pay', 'cash.receive']),
+				range: v.tuple([v.number(), v.number()]),
+				step: v.number(),
+			}),
+			v.object({
+				is_corner: bit(false),
 				type: v.picklist([
-					'cash.pay',
-					'cash.receive',
 					'chance',
 					'jackpot',
 					'jail.goto',
@@ -97,9 +101,14 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 			v.object({
 				design: v.optional(v.literal('corner')),
 				type: v.literal('special'),
+				action: v.picklist(['cash_minus', 'cash_plus']),
+				range: v.tuple([v.number(), v.number()]),
+				rangeStep: v.number(),
+			}),
+			v.object({
+				design: v.optional(v.literal('corner')),
+				type: v.literal('special'),
 				action: v.picklist([
-					'cash_minus',
-					'cash_plus',
 					'chance',
 					'goToJail',
 					'jackpot',
@@ -125,24 +134,19 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 		return value.map((field) => {
 			// ALWAYS corners
 			if (field.type === 'start' || field.type === 'jail') {
-				const {
-					type, // extract and throw away
-					design: _1, // extract and throw away
-					...field_rest
-				} = field;
+				const { type } = field;
 
 				return {
 					is_corner: true,
 					type,
-					...field_rest,
 				} as const;
 			}
 
 			// NEVER corners
 			if (field.type === 'field') {
 				const {
-					type: _type, // extract and throw away
-					design: _design, // extract and throw away
+					type: _1, // extract and throw away
+					design: _2, // extract and throw away
 					group: monopoly_id,
 					...field_rest
 				} = field;
@@ -162,22 +166,26 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 
 			// MAYBE corners
 			if (field.type === 'special') {
-				const {
-					type: _1, // extract and throw away
-					action,
-					design,
-					...field_rest
-				} = field;
+				const { action, design } = field;
 
+				const is_corner = design === 'corner';
 				let type_new;
 				switch (action) {
 					case 'cash_minus':
-						type_new = 'cash.pay' as const;
-						break;
+						return {
+							is_corner,
+							type: 'cash.pay' as const,
+							range: field.range,
+							step: field.rangeStep,
+						};
 
 					case 'cash_plus':
-						type_new = 'cash.receive' as const;
-						break;
+						return {
+							is_corner,
+							type: 'cash.receive' as const,
+							range: field.range,
+							step: field.rangeStep,
+						};
 
 					case 'goToJail':
 						type_new = 'jail.goto' as const;
@@ -208,10 +216,9 @@ export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
 				}
 
 				return {
-					is_corner: design === 'corner',
+					is_corner,
 					type: type_new,
-					...field_rest,
-				} as const;
+				};
 			}
 
 			throw new Error('Should be unreachable.');
