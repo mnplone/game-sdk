@@ -1,4 +1,4 @@
-import { c as M1DemoPacketStatusTurnActionType, u as MapElement } from "./config-DB2PvEnb.cjs";
+import { c as M1DemoPacketStatusTurnActionType, u as MapElement } from "./config-DB2PvEnb.mjs";
 import * as v from "valibot";
 
 //#region src/packet/setup.d.ts
@@ -744,6 +744,7 @@ declare const action_list_mapping: {
 };
 declare const extra_actions_mapping: readonly [readonly ["leave", "leave"], readonly ["message", "message"], readonly ["pause.set", "pause"], readonly ["pause.end", "pauseRemove"], readonly ["contract.fallback", "contractFallback"]];
 declare const packet_v1_action_mapping: Record<M1DemoPacketStatusTurnActionType | (typeof extra_actions_mapping)[number][0], keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]>;
+type M1CallableAction = keyof typeof packet_v1_action_mapping;
 //#endregion
 //#region src/packet.d.ts
 declare const m1DemoPacketSchema: v.ObjectSchema<{
@@ -2973,4 +2974,4 @@ type ExtractM1DemoRichPacketEvent<T> = Extract<M1DemoRichPacketEvent, {
   type: T;
 }>;
 //#endregion
-export { M1DemoPacket as _, M1DemoPacketStatusPlayer as a, packet_v1_action_mapping as b, M1DemoPacketSetupPlayerEquippedCard as c, M1DemoPacketSetupConfigMonopoly as d, M1DemoPacketSetupConfigField as f, M1DemoPacketEventType as g, M1DemoPacketEvent as h, M1DemoPacketTime as i, M1DemoPacketSetupPlayerEquippedGenerator as l, M1DemoPacketSetupConfigChanceCardType as m, M1DemoRichPacket as n, M1DemoPacketStatusField as o, M1DemoPacketSetupConfigChanceCard as p, M1DemoRichPacketEvent as r, M1DemoPacketSetupPlayer as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketSetupPlayerEquippedJoke as u, M1DemoTransportPacket as v, M1DemoPacketSetup as x, M1DemoPacketStatus as y };
+export { M1DemoPacketSetup as S, M1DemoPacket as _, M1DemoPacketStatusPlayer as a, M1DemoPacketStatus as b, M1DemoPacketSetupPlayerEquippedCard as c, M1DemoPacketSetupConfigMonopoly as d, M1DemoPacketSetupConfigField as f, M1DemoPacketEventType as g, M1DemoPacketEvent as h, M1DemoPacketTime as i, M1DemoPacketSetupPlayerEquippedGenerator as l, M1DemoPacketSetupConfigChanceCardType as m, M1DemoRichPacket as n, M1DemoPacketStatusField as o, M1DemoPacketSetupConfigChanceCard as p, M1DemoRichPacketEvent as r, M1DemoPacketSetupPlayer as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketSetupPlayerEquippedJoke as u, M1DemoTransportPacket as v, packet_v1_action_mapping as x, M1CallableAction as y };

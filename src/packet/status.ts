@@ -128,6 +128,7 @@ export const packet_v1_action_mapping = Object.fromEntries([
 	M1DemoPacketStatusTurnActionType | (typeof extra_actions_mapping)[number][0],
 	keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]
 >;
+export type M1CallableAction = keyof typeof packet_v1_action_mapping;
 
 const m1DemoPacketV1StatusActiontypeSchema = v.array(
 	v.picklist(

@@ -44,6 +44,6 @@ export type {
 	M1DemoPacketStatusTurn,
 	M1DemoPacketStatusTurnActionType,
 } from './packet/status/turn.js';
-export type { M1DemoPacketStatus } from './packet/status.js';
+export type { M1CallableAction, M1DemoPacketStatus } from './packet/status.js';
 export type { M1DemoPacketTime } from './packet/time.js';
 export type { M1DemoPacket, M1DemoTransportPacket } from './packet.js';
