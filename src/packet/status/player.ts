@@ -1,8 +1,8 @@
 import * as v from 'valibot';
 import type { MapElement } from '../../utils/types.js';
-import { valiM1DemoPacketSetupConfigRestartVariantSchema } from '../setup/config.js';
+import { m1DemoPacketSetupConfigRestartVariantSchema } from '../setup/config.js';
 
-export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
+export const m1DemoPacketStatusPlayersSchema = v.pipe(
 	v.array(
 		v.pipe(
 			v.object({
@@ -47,9 +47,7 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 				]),
 				restart: v.optional(
 					v.object({
-						variant: v.nullable(
-							valiM1DemoPacketSetupConfigRestartVariantSchema,
-						),
+						variant: v.nullable(m1DemoPacketSetupConfigRestartVariantSchema),
 					}),
 				),
 				stat: v.object({
@@ -67,14 +65,14 @@ export const valiM1DemoPacketStatusPlayersSchema = v.pipe(
 );
 
 export type M1DemoPacketStatusPlayer = MapElement<
-	v.InferOutput<typeof valiM1DemoPacketStatusPlayersSchema>
+	v.InferOutput<typeof m1DemoPacketStatusPlayersSchema>
 >;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
+export const m1DemoPacketV1StatusPlayersSchema = v.array(
 	v.pipe(
 		v.object({
 			user_id: v.number(),
@@ -155,7 +153,7 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 						v.literal(0),
 						v.transform(() => null),
 					),
-					valiM1DemoPacketSetupConfigRestartVariantSchema,
+					m1DemoPacketSetupConfigRestartVariantSchema,
 				]),
 			),
 			// stat
@@ -238,5 +236,5 @@ export const valiM1DemoPacketV1StatusPlayersSchema = v.array(
 );
 
 type _M1DemoPacketV1StatusPlayer = v.InferOutput<
-	typeof valiM1DemoPacketV1StatusPlayersSchema
+	typeof m1DemoPacketV1StatusPlayersSchema
 >[number];

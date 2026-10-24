@@ -12,7 +12,7 @@ function createStockItemProtoId(monopoly_id: number, index_in_group: number) {
 	return -(0b1_0000_0000 | (monopoly_id << 3) | index_in_group);
 }
 
-export const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(
+export const m1DemoPacketSetupConfigFieldsSchema = v.pipe(
 	v.array(
 		v.union([
 			// ALWAYS corners
@@ -77,14 +77,14 @@ export const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(
 );
 
 export type M1DemoPacketSetupConfigField = v.InferOutput<
-	typeof valiM1DemoPacketSetupConfigFieldsSchema
+	typeof m1DemoPacketSetupConfigFieldsSchema
 >[0];
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(
+export const m1DemoPacketV1ConfigFieldsSchema = v.pipe(
 	v.array(
 		v.variant('type', [
 			// ALWAYS corners

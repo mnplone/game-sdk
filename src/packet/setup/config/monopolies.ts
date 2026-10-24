@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import type { MapElement } from '../../../utils/types.js';
 
-export const valiM1DemoPacketSetupConfigMonopoliesSchema = v.pipe(
+export const m1DemoPacketSetupConfigMonopoliesSchema = v.pipe(
 	v.record(
 		v.string(),
 		v.union([
@@ -54,14 +54,14 @@ export const valiM1DemoPacketSetupConfigMonopoliesSchema = v.pipe(
 );
 
 export type M1DemoPacketSetupConfigMonopoly = MapElement<
-	v.InferOutput<typeof valiM1DemoPacketSetupConfigMonopoliesSchema>
+	v.InferOutput<typeof m1DemoPacketSetupConfigMonopoliesSchema>
 >;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(
+export const m1DemoPacketV1ConfigGroupsSchema = v.pipe(
 	v.record(
 		v.string(),
 		v.union([

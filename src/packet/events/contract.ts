@@ -1,8 +1,8 @@
 import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 // import { type EventEnrichOptions } from '../events.all.js';
-import { valiM1DemoContractSchema } from '../status/turn.js';
-import { valiM1DemoPacketV1ContractSchema } from '../status.js';
+import { m1DemoContractSchema } from '../status/turn.js';
+import { m1DemoPacketV1ContractSchema } from '../status.js';
 
 export const valiSchemas = [
 	v.object({
@@ -15,7 +15,7 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('contract.accept'),
 		user_id: v.number(),
-		contract: valiM1DemoContractSchema,
+		contract: m1DemoContractSchema,
 	}),
 	v.object({
 		id: v.string(),
@@ -88,7 +88,7 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('contract_accepted'),
 			user_id: v.number(),
-			contract: valiM1DemoPacketV1ContractSchema,
+			contract: m1DemoPacketV1ContractSchema,
 		}),
 		v.transform((value) => {
 			return {

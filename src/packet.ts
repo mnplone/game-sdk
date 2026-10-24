@@ -1,44 +1,44 @@
 import * as v from 'valibot';
 import {
-	valiM1DemoPacketEventsSchema,
-	valiM1DemoPacketV1EventsSchema,
+	m1DemoPacketEventsSchema,
+	m1DemoPacketV1EventsSchema,
 } from './packet/events.js';
-import { valiM1DemoPacketV1ConfigSchema } from './packet/setup/config.js';
-import { valiM1DemoPacketSetupSchema } from './packet/setup.js';
+import { m1DemoPacketV1ConfigSchema } from './packet/setup/config.js';
+import { m1DemoPacketSetupSchema } from './packet/setup.js';
 import {
-	valiM1DemoPacketStatusSchema,
-	valiM1DemoPacketV1StatusSchema,
+	m1DemoPacketStatusSchema,
+	m1DemoPacketV1StatusSchema,
 } from './packet/status.js';
 import {
-	valiM1DemoPacketTimeSchema,
-	valiM1DemoPacketV1TimeSchema,
+	m1DemoPacketTimeSchema,
+	m1DemoPacketV1TimeSchema,
 } from './packet/time.js';
 import { bit } from './utils/valibot.js';
 
-export const valiM1DemoPacketSchema = v.object({
+export const m1DemoPacketSchema = v.object({
 	v: v.optional(v.literal(2)),
 	/** Various information about the match which is never changes. */
-	setup: v.optional(valiM1DemoPacketSetupSchema),
+	setup: v.optional(m1DemoPacketSetupSchema),
 	/** Events happened before game went to the "status". */
-	events: valiM1DemoPacketEventsSchema,
+	events: m1DemoPacketEventsSchema,
 	/** Current status of the match. */
-	status: v.optional(valiM1DemoPacketStatusSchema),
+	status: v.optional(m1DemoPacketStatusSchema),
 	/** Information about match time. */
-	time: valiM1DemoPacketTimeSchema,
+	time: m1DemoPacketTimeSchema,
 });
 
-export type M1DemoTransportPacket = v.InferInput<typeof valiM1DemoPacketSchema>;
-export type M1DemoPacket = v.InferOutput<typeof valiM1DemoPacketSchema>;
+export type M1DemoTransportPacket = v.InferInput<typeof m1DemoPacketSchema>;
+export type M1DemoPacket = v.InferOutput<typeof m1DemoPacketSchema>;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1Schema = v.intersect([
-	valiM1DemoPacketV1TimeSchema,
+export const m1DemoPacketV1Schema = v.intersect([
+	m1DemoPacketV1TimeSchema,
 	v.pipe(
 		v.object({
-			config: v.optional(valiM1DemoPacketV1ConfigSchema),
+			config: v.optional(m1DemoPacketV1ConfigSchema),
 			flags: v.optional(
 				v.object({
 					game_mode: v.number(),
@@ -47,8 +47,8 @@ export const valiM1DemoPacketV1Schema = v.intersect([
 					match_title: v.optional(v.string()),
 				}),
 			),
-			events: valiM1DemoPacketV1EventsSchema,
-			status: v.optional(valiM1DemoPacketV1StatusSchema),
+			events: m1DemoPacketV1EventsSchema,
+			status: v.optional(m1DemoPacketV1StatusSchema),
 		}),
 		v.transform((value) => {
 			const { config, flags, status, ...value_rest } = value;

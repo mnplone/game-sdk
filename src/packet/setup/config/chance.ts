@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import { crc32 } from '@/utils/crc.js';
 
-export const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({
+export const m1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({
 	cards: v.array(
 		v.union([
 			v.strictObject({
@@ -77,7 +77,7 @@ export const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({
 });
 
 export type M1DemoPacketSetupConfigChanceCard = v.InferOutput<
-	typeof valiM1DemoPacketSetupConfigMechanicsChanceSchema
+	typeof m1DemoPacketSetupConfigMechanicsChanceSchema
 >['cards'][0];
 export type M1DemoPacketSetupConfigChanceCardType =
 	M1DemoPacketSetupConfigChanceCard['type'];
@@ -86,7 +86,7 @@ export type M1DemoPacketSetupConfigChanceCardType =
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
+export const m1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
 	v.array(
 		v.union([
 			v.strictObject({
@@ -152,7 +152,7 @@ export const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(
 	),
 	v.transform((value) => {
 		const chance_cards_new: v.InferOutput<
-			typeof valiM1DemoPacketSetupConfigMechanicsChanceSchema
+			typeof m1DemoPacketSetupConfigMechanicsChanceSchema
 		>['cards'] = [];
 
 		for (const element of value) {

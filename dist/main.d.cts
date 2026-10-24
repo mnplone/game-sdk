@@ -1,4 +1,4 @@
-import { n as M1DemoRichPacket, y as packet_v1_action_mapping } from "./types-BM4SceQX.cjs";
+import { b as packet_v1_action_mapping, n as M1DemoRichPacket } from "./types-CbcdDeiN.cjs";
 //#region src/packet/status/turn/movement.d.ts
 type M1DemoMovementOptions = {
   field_id: number;

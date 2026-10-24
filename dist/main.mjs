@@ -1,24 +1,12 @@
-import { a as parse, i as bit, n as valiM1DemoPacketSetupConfigSchema, r as valiM1DemoPacketV1ConfigSchema, t as valiM1DemoPacketSetupConfigRestartVariantSchema } from "./config-DfJCQS9u.mjs";
+import { a as m1DemoPacketStatusTurnSchema, c as m1DemoDicesSchema, d as bit, f as parse, i as m1DemoContractSchema, l as roll_dices_exports, n as m1DemoPacketSetupConfigSchema, o as getMovementOptions, p as __exportAll, r as m1DemoPacketV1ConfigSchema, s as m1DemoPacketStatusTurnMovementSchema, t as m1DemoPacketSetupConfigRestartVariantSchema, u as normalizeFieldId } from "./config-DhZucRCe.mjs";
 import * as v from "valibot";
-//#region \0rolldown/runtime.js
-var __defProp = Object.defineProperty;
-var __exportAll = (all, no_symbols) => {
-	let target = {};
-	for (var name in all) __defProp(target, name, {
-		get: all[name],
-		enumerable: true
-	});
-	if (!no_symbols) __defProp(target, Symbol.toStringTag, { value: "Module" });
-	return target;
-};
-//#endregion
 //#region src/packet/events/auction.ts
 var auction_exports = /* @__PURE__ */ __exportAll({
-	enrichments: () => enrichments$17,
-	valiSchemas: () => valiSchemas$20,
-	valiV1Schemas: () => valiV1Schemas$20
+	enrichments: () => enrichments$16,
+	valiSchemas: () => valiSchemas$19,
+	valiV1Schemas: () => valiV1Schemas$19
 });
-const valiSchemas$20 = [
+const valiSchemas$19 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("auction.put"),
@@ -53,7 +41,7 @@ const valiSchemas$20 = [
 		price: v.optional(v.number())
 	})
 ];
-const enrichments$17 = {
+const enrichments$16 = {
 	"auction.win"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash -= options.event.price;
@@ -78,7 +66,7 @@ const enrichments$17 = {
 		}
 	}
 };
-const valiV1Schemas$20 = [
+const valiV1Schemas$19 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("toAuction"),
@@ -154,11 +142,11 @@ const valiV1Schemas$20 = [
 //#endregion
 //#region src/packet/events/bank.ts
 var bank_exports = /* @__PURE__ */ __exportAll({
-	enrichments: () => enrichments$16,
-	valiSchemas: () => valiSchemas$19,
-	valiV1Schemas: () => valiV1Schemas$19
+	enrichments: () => enrichments$15,
+	valiSchemas: () => valiSchemas$18,
+	valiV1Schemas: () => valiV1Schemas$18
 });
-const valiSchemas$19 = [
+const valiSchemas$18 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("bank.income"),
@@ -185,7 +173,7 @@ const valiSchemas$19 = [
 		amount: v.number()
 	})
 ];
-const enrichments$16 = {
+const enrichments$15 = {
 	"bank.income"(options) {
 		const player = options.status.players.get(options.event.user_id);
 		player.cash += options.event.amount;
@@ -199,7 +187,7 @@ const enrichments$16 = {
 		player.cash += options.event.amount;
 	}
 };
-const valiV1Schemas$19 = [
+const valiV1Schemas$18 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("cash_plus"),
@@ -262,11 +250,11 @@ const valiV1Schemas$19 = [
 //#endregion
 //#region src/packet/events/bus.ts
 var bus_exports = /* @__PURE__ */ __exportAll({
-	valiSchemas: () => valiSchemas$18,
-	valiV1Schemas: () => valiV1Schemas$18
+	valiSchemas: () => valiSchemas$17,
+	valiV1Schemas: () => valiV1Schemas$17
 });
-const valiSchemas$18 = [];
-const valiV1Schemas$18 = [v.pipe(v.object({
+const valiSchemas$17 = [];
+const valiV1Schemas$17 = [v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.literal("chooseBusStop"),
 	user_id: v.number(),
@@ -308,380 +296,8 @@ const valiV1Schemas$18 = [v.pipe(v.object({
 	};
 }))];
 //#endregion
-//#region src/utils/table.ts
-/**
-* Returns the field ID normalized to the range of the fields count.
-* @param setup -
-* @param field_id -
-* @returns -
-*/
-function normalizeFieldId(setup, field_id) {
-	const fields_count = setup.config.fields.length;
-	return (field_id + 10 * fields_count) % fields_count;
-}
-//#endregion
-//#region src/packet/events/roll-dices.ts
-var roll_dices_exports = /* @__PURE__ */ __exportAll({
-	enrichments: () => enrichments$15,
-	m1DemoDicesSchema: () => m1DemoDicesSchema,
-	valiSchemas: () => valiSchemas$17,
-	valiV1Schemas: () => valiV1Schemas$17
-});
-const m1DemoDicesSchema = v.union([
-	v.strictTuple([v.number()]),
-	v.strictTuple([v.number(), v.number()]),
-	v.strictTuple([
-		v.number(),
-		v.number(),
-		v.number()
-	])
-]);
-const valiSchemas$17 = [
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices"),
-		user_id: v.number(),
-		reroll: bit(false),
-		dices: m1DemoDicesSchema,
-		move_reversed: bit(false),
-		double_spent: bit(false)
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.doubling"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.jail.success"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.jail.fail"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.reroll"),
-		user_id: v.number()
-	}),
-	v.object({
-		id: v.string(),
-		type: v.literal("roll-dices.reroll.reject"),
-		user_id: v.number(),
-		move_reversed: bit(false),
-		position: v.number()
-	})
-];
-const enrichments$15 = {
-	"roll-dices"(options) {
-		const player = options.status.players.get(options.event.user_id);
-		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
-		const distance = player.jail || event_zero_distance ? 0 : getRolledDistance(options.event.dices, options.setup);
-		player.position = normalizeFieldId(options.setup, player.position + (options.event.move_reversed ? -1 : 1) * distance);
-	},
-	"roll-dices.jail.success"(options) {
-		options.status.players.get(options.event.user_id).jail = void 0;
-		const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
-		if (!event_roll_dices) throw new Error("Invalid state: no \"roll-dices\" event found before \"roll-dices.jail.success\".");
-		const player = options.status.players.get(options.event.user_id);
-		const distance = getRolledDistance(event_roll_dices.dices, options.setup);
-		player.position = normalizeFieldId(options.setup, player.position + distance);
-	},
-	"roll-dices.reroll.reject"(options) {
-		const player = options.status.players.get(options.event.user_id);
-		player.position = options.event.position;
-	}
-};
-const valiV1Schemas$17 = [
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDices"),
-		user_id: v.number(),
-		reroll: bit(false),
-		dices: v.union([
-			v.strictTuple([v.number()]),
-			v.strictTuple([v.number(), v.number()]),
-			v.strictTuple([
-				v.number(),
-				v.number(),
-				v.number()
-			])
-		]),
-		move_reverse: bit(false)
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices",
-			user_id: value.user_id,
-			reroll: value.reroll,
-			dices: value.dices,
-			move_reversed: value.move_reverse,
-			double_spent: false
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("doubleRolledOnDice"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.doubling",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("double_spended")
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: value.type
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesForUnjailSuccess"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.jail.success",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesForUnjailFail"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.jail.fail",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesReroll"),
-		user_id: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.reroll",
-			user_id: value.user_id
-		};
-	})),
-	v.pipe(v.object({
-		_id: v.optional(v.string()),
-		type: v.literal("rollDicesRerollCancel"),
-		user_id: v.number(),
-		move_reverse: bit(false),
-		mean_position: v.number()
-	}), v.transform((value) => {
-		return {
-			id: value._id,
-			type: "roll-dices.reroll.reject",
-			user_id: value.user_id,
-			move_reversed: value.move_reverse,
-			position: value.mean_position
-		};
-	}))
-];
-/**
-* Get distance by rolled dices.
-* @param dices - Rolled dices.
-* @param setup - Game setup.
-* @returns -
-*/
-function getRolledDistance(dices, setup) {
-	const { game_submode } = setup.flags;
-	let distance = dices[0];
-	if (game_submode === 2) {
-		distance += dices[1];
-		if (typeof dices[2] === "number") {
-			if (dices[2] <= 3) {
-				if (dices[0] === dices[1] && dices[1] === dices[2]) return 0;
-				distance += dices[2];
-			} else if (dices[2] === 4 || dices[2] === 6) return 0;
-		}
-	} else if (game_submode === 5) {
-		if (typeof dices[1] === "number") switch (dices[1]) {
-			case 1:
-			case 2:
-			case 3:
-				if (dices[0] !== dices[1]) return 0;
-				break;
-			case 4:
-			case 6: return 0;
-			case 5:
-				distance *= 2;
-				break;
-			default: throw new Error(`Invalid mini die value: ${dices[1]}`);
-		}
-	} else distance += dices[1];
-	return distance;
-}
-//#endregion
-//#region src/packet/status/turn/movement.ts
-const m1DemoPacketStatusTurnMovementSchema = v.variant("source", [v.object({ source: v.picklist([
-	"bus",
-	"mini_die",
-	"triple"
-]) }), v.object({
-	source: v.picklist(["taxi", "wormhole"]),
-	field_ids: v.array(v.number())
-})]);
-/** Returns movement options, building them from the game context. */
-function getMovementOptions(setup, status) {
-	if (status.turn.movement === void 0) return;
-	const { movement } = status.turn;
-	if ("field_ids" in movement) return movement.field_ids.map((field_id) => {
-		return { field_id };
-	});
-	const { config } = setup;
-	const action_user_id = status.turn.action.user_id;
-	if (action_user_id === null) throw new Error("Invalid demo state: no action player available.");
-	const { position } = status.players.get(action_user_id);
-	const { dices } = status.turn;
-	if (dices === void 0) return;
-	const direction = status.turn.move_reversed ? -1 : 1;
-	switch (movement.source) {
-		case "bus": {
-			const movement_options = [];
-			const dice_0 = dices[0];
-			movement_options.push({
-				field_id: normalizeFieldId(setup, position + direction * dice_0),
-				stop_id: 0
-			});
-			const dice_1 = dices[1];
-			if (dice_0 !== dice_1) movement_options.push({
-				field_id: normalizeFieldId(setup, position + direction * dice_1),
-				stop_id: 1
-			});
-			const dices_sum = dice_0 + dice_1;
-			movement_options.push({
-				field_id: normalizeFieldId(setup, position + direction * dices_sum),
-				stop_id: -1
-			});
-			return movement_options;
-		}
-		case "mini_die": return dices.map((dice, index) => {
-			return {
-				field_id: normalizeFieldId(setup, position + direction * dice),
-				stop_id: index
-			};
-		});
-		case "triple": {
-			const movement_options = [];
-			for (let field_id = 0; field_id < config.fields.length; field_id++) if (field_id !== position) movement_options.push({ field_id });
-			return movement_options;
-		}
-		default: throw new Error(`Unknown source for movement.picker event: ${movement.source}`);
-	}
-}
-//#endregion
-//#region src/packet/status/turn.ts
-const valiM1DemoContractSchema = v.pipe(v.tuple([v.object({
-	user_id: v.number(),
-	field_ids: v.array(v.number()),
-	cash: v.number()
-}), v.object({
-	user_id: v.number(),
-	field_ids: v.array(v.number()),
-	cash: v.number()
-})]), v.transform(([initiator, responder]) => {
-	return {
-		initiator: {
-			user_id: initiator.user_id,
-			field_ids: new Set(initiator.field_ids),
-			cash: initiator.cash
-		},
-		responder: {
-			user_id: responder.user_id,
-			field_ids: new Set(responder.field_ids),
-			cash: responder.cash
-		}
-	};
-}));
-const valiM1DemoPacketStatusTurnSchema = v.pipe(v.object({
-	/** User ID of the player whose turn it is. */
-	user_id: v.nullable(v.number()),
-	action: v.object({
-		/** User ID of the player from which action is expected. */
-		user_id: v.nullable(v.number()),
-		list: v.pipe(v.array(v.picklist([
-			"auction.put",
-			"auction.bid",
-			"auction.reject",
-			"bank.fee.pay",
-			"bus.move",
-			"contract.send",
-			"contract.accept",
-			"contract.reject",
-			"contract.review.approve",
-			"contract.review.object",
-			"contract.fallback",
-			"jackpot.reject",
-			"jackpot.play",
-			"jail.put",
-			"jail.release.pay",
-			"jail.stay",
-			"level.build",
-			"level.sell",
-			"loan.take",
-			"loan.repay",
-			"mortgage.put",
-			"mortgage.buyback",
-			"mortgage.waive",
-			"mortgage.auction",
-			"waive",
-			"movement.go",
-			"purchase",
-			"purchase.reject",
-			"purchase.buyout",
-			"purchase.buyout.reject",
-			"purchase.buyout.protect",
-			"rent.pay",
-			"roll-dices",
-			"roll-dices.reroll.reject",
-			"russian-roulette.play",
-			"russian-roulette.reject",
-			"start.tax.pay",
-			"wormhole.use",
-			"wormhole.open",
-			"wormhole.jump",
-			"wormhole.reject",
-			"restart",
-			"skip"
-		])), v.transform((value) => new Set(value)))
-	}),
-	move_reversed: bit(false),
-	auction: v.optional(v.object({
-		field_id: v.number(),
-		bid: v.number(),
-		user_ids_rejected: v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))
-	})),
-	contract: v.optional(valiM1DemoContractSchema),
-	contracts_sent: v.optional(v.number()),
-	dices: v.optional(m1DemoDicesSchema),
-	jackpot: v.optional(v.object({ superprize: v.number() })),
-	payment: v.optional(v.object({
-		to_user_id: v.optional(v.number()),
-		amount: v.number()
-	})),
-	/** Fields on which player can move in this action. */
-	movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
-	/** Fields on which player already built a level this turn. */
-	field_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
-	/** Fields which player already mortgaged this turn. */
-	field_ids_mortgaged: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value))))
-}));
-//#endregion
 //#region src/packet/status/fields.ts
-const valiM1DemoPacketStatusFieldsSchema = v.pipe(v.array(v.pipe(v.object({
+const m1DemoPacketStatusFieldsSchema = v.pipe(v.array(v.pipe(v.object({
 	field_id: v.number(),
 	owner_user_id: v.number(),
 	level: v.number(),
@@ -689,7 +305,7 @@ const valiM1DemoPacketStatusFieldsSchema = v.pipe(v.array(v.pipe(v.object({
 	last_rent_round: v.optional(v.number()),
 	protection: v.optional(v.number(), 0)
 }), v.transform((value) => value))), v.transform((value) => new Map(value.map((field) => [field.field_id, field]))));
-const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.object({
+const m1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.object({
 	owner: v.number(),
 	level: v.number(),
 	mortgaged: v.boolean(),
@@ -709,7 +325,7 @@ const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(v.record(v.string(), v.objec
 }))));
 //#endregion
 //#region src/packet/status/player.ts
-const valiM1DemoPacketStatusPlayersSchema = v.pipe(v.array(v.pipe(v.object({
+const m1DemoPacketStatusPlayersSchema = v.pipe(v.array(v.pipe(v.object({
 	/** User ID of the player. */
 	user_id: v.number(),
 	/**
@@ -736,13 +352,13 @@ const valiM1DemoPacketStatusPlayersSchema = v.pipe(v.array(v.pipe(v.object({
 		debt: v.number(),
 		return_round: v.number()
 	})]),
-	restart: v.optional(v.object({ variant: v.nullable(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
+	restart: v.optional(v.object({ variant: v.nullable(m1DemoPacketSetupConfigRestartVariantSchema) })),
 	stat: v.object({
 		rent_history: v.optional(v.number(), 0),
 		income_tax_base: v.optional(v.number(), 0)
 	})
 }), v.transform((value) => value))), v.transform((value) => new Map(value.map((player) => [player.user_id, player]))));
-const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
+const m1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	user_id: v.number(),
 	team: v.optional(v.picklist([0, 1])),
 	vip: v.optional(v.boolean(), false),
@@ -782,7 +398,7 @@ const valiM1DemoPacketV1StatusPlayersSchema = v.array(v.pipe(v.object({
 	credit_nextTakeRound: v.number(),
 	credit_payRound: v.union([v.literal(false), v.number()]),
 	credit_toPay: v.number(),
-	restart: v.optional(v.union([v.pipe(v.literal(0), v.transform(() => null)), valiM1DemoPacketSetupConfigRestartVariantSchema])),
+	restart: v.optional(v.union([v.pipe(v.literal(0), v.transform(() => null)), m1DemoPacketSetupConfigRestartVariantSchema])),
 	rent_last: v.optional(v.number(), 0),
 	income_tax_base: v.optional(v.number(), 0)
 }), v.transform((value) => {
@@ -845,15 +461,15 @@ const m1DemoPacketStatusTimerSchema = v.union([v.object({
 })]);
 //#endregion
 //#region src/packet/status.ts
-const valiM1DemoPacketStatusSchema = v.object({
+const m1DemoPacketStatusSchema = v.object({
 	/** Round number. */
 	round: v.number(),
 	/** Players. */
-	players: valiM1DemoPacketStatusPlayersSchema,
+	players: m1DemoPacketStatusPlayersSchema,
 	/** Current information about fields. */
-	fields: valiM1DemoPacketStatusFieldsSchema,
+	fields: m1DemoPacketStatusFieldsSchema,
 	/** Information about current turn. */
-	turn: valiM1DemoPacketStatusTurnSchema,
+	turn: m1DemoPacketStatusTurnSchema,
 	/**
 	* Info about timer.
 	*
@@ -915,8 +531,8 @@ const extra_actions_mapping = [
 	["contract.fallback", "contractFallback"]
 ];
 const packet_v1_action_mapping = Object.fromEntries([...Object.entries(action_list_mapping).map(([key, value]) => [value, key]), ...extra_actions_mapping]);
-const valiM1DemoPacketV1StatusActiontypeSchema = v.array(v.picklist(Object.keys(action_list_mapping)));
-const valiM1DemoPacketV1ContractSchema = v.pipe(v.object({
+const m1DemoPacketV1StatusActiontypeSchema = v.array(v.picklist(Object.keys(action_list_mapping)));
+const m1DemoPacketV1ContractSchema = v.pipe(v.object({
 	from: v.number(),
 	to: v.number(),
 	out_fields: v.array(v.number()),
@@ -937,14 +553,14 @@ const valiM1DemoPacketV1ContractSchema = v.pipe(v.object({
 		}
 	};
 }));
-const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
+const m1DemoPacketV1StatusSchema = v.pipe(v.object({
 	/** Round number. */
 	round: v.number(),
-	players: valiM1DemoPacketV1StatusPlayersSchema,
-	fields: valiM1DemoPacketV1StatusFieldsSchema,
+	players: m1DemoPacketV1StatusPlayersSchema,
+	fields: m1DemoPacketV1StatusFieldsSchema,
 	player_ownerOfMove: v.nullable(v.number()),
 	action_player: v.nullable(v.number()),
-	action_type: valiM1DemoPacketV1StatusActiontypeSchema,
+	action_type: m1DemoPacketV1StatusActiontypeSchema,
 	current_move: v.optional(v.object({
 		dices: v.optional(m1DemoDicesSchema),
 		move_reverse: v.optional(v.boolean(), false),
@@ -954,7 +570,7 @@ const valiM1DemoPacketV1StatusSchema = v.pipe(v.object({
 		players_auctionStatus: v.optional(v.pipe(v.record(v.string(), v.number()), v.transform((value) => new Set(Object.entries(value).filter(([_, status]) => status === 0).map(([user_id_string]) => Math.trunc(Number(user_id_string))))))),
 		field: v.optional(v.number()),
 		bet: v.optional(v.number()),
-		contract: v.optional(valiM1DemoPacketV1ContractSchema),
+		contract: v.optional(m1DemoPacketV1ContractSchema),
 		contracts: v.optional(v.number()),
 		jackpot_superprize_money: v.optional(v.number()),
 		movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
@@ -1053,7 +669,7 @@ const valiSchemas$16 = [
 		id: v.string(),
 		type: v.literal("contract.accept"),
 		user_id: v.number(),
-		contract: valiM1DemoContractSchema
+		contract: m1DemoContractSchema
 	}),
 	v.object({
 		id: v.string(),
@@ -1112,7 +728,7 @@ const valiV1Schemas$16 = [
 		_id: v.optional(v.string()),
 		type: v.literal("contract_accepted"),
 		user_id: v.number(),
-		contract: valiM1DemoPacketV1ContractSchema
+		contract: m1DemoPacketV1ContractSchema
 	}), v.transform((value) => {
 		return {
 			id: value._id,
@@ -2006,7 +1622,7 @@ var other_exports = /* @__PURE__ */ __exportAll({
 	valiSchemas: () => valiSchemas$8,
 	valiV1Schemas: () => valiV1Schemas$8
 });
-const valiChanceDataSchema = v.union([
+const chanceDataSchema = v.union([
 	v.strictObject({ amount: v.number() }),
 	v.strictObject({
 		field_id: v.number(),
@@ -2027,7 +1643,7 @@ const valiSchemas$8 = [
 		user_id: v.number(),
 		chance_index: v.number(),
 		shield: bit(false),
-		data: valiChanceDataSchema
+		data: v.optional(chanceDataSchema)
 	}),
 	v.object({
 		id: v.string(),
@@ -2685,7 +2301,8 @@ const valiSchemas$3 = [
 	v.object({
 		id: v.string(),
 		type: v.literal("start.bonus"),
-		user_id: v.number()
+		user_id: v.number(),
+		amount: v.number()
 	}),
 	v.object({
 		id: v.string(),
@@ -2706,7 +2323,7 @@ const enrichments$2 = {
 	},
 	"start.bonus"(options) {
 		const player = options.status.players.get(options.event.user_id);
-		player.cash += options.setup.config.mechanics.start.bonus_amount;
+		player.cash += options.event.amount;
 	}
 };
 const valiV1Schemas$3 = [
@@ -2724,12 +2341,14 @@ const valiV1Schemas$3 = [
 	v.pipe(v.object({
 		_id: v.optional(v.string()),
 		type: v.literal("start_bonus"),
-		user_id: v.number()
+		user_id: v.number(),
+		money: v.number()
 	}), v.transform((value) => {
 		return {
 			id: value._id,
 			type: "start.bonus",
-			user_id: value.user_id
+			user_id: value.user_id,
+			amount: value.money
 		};
 	})),
 	v.pipe(v.object({
@@ -2931,7 +2550,7 @@ function isRecord(value) {
 }
 //#endregion
 //#region src/packet/events.ts
-const valiM1DemoPacketEventsSchema = v.array(v.union([...valiSchemas, v.pipe(v.object({
+const m1DemoPacketEventsSchema = v.array(v.union([...valiSchemas, v.pipe(v.object({
 	id: v.string(),
 	type: v.string()
 }), v.transform(({ type, ...value_rest }) => {
@@ -2941,7 +2560,7 @@ const valiM1DemoPacketEventsSchema = v.array(v.union([...valiSchemas, v.pipe(v.o
 		...value_rest
 	};
 }))]));
-const valiM1DemoPacketV1EventElementSchema = v.union([...valiV1Schemas, v.pipe(v.object({
+const m1DemoPacketV1EventElementSchema = v.union([...valiV1Schemas, v.pipe(v.object({
 	_id: v.optional(v.string()),
 	type: v.string()
 }), v.transform(({ _id, type, ...value_rest }) => {
@@ -2952,7 +2571,7 @@ const valiM1DemoPacketV1EventElementSchema = v.union([...valiV1Schemas, v.pipe(v
 		...value_rest
 	};
 }))]);
-const valiM1DemoPacketV1EventsSchema = v.pipe(v.union([v.array(valiM1DemoPacketV1EventElementSchema), v.record(v.string(), valiM1DemoPacketV1EventElementSchema)]), v.transform((value) => {
+const m1DemoPacketV1EventsSchema = v.pipe(v.union([v.array(m1DemoPacketV1EventElementSchema), v.record(v.string(), m1DemoPacketV1EventElementSchema)]), v.transform((value) => {
 	if (isRecord(value)) return Object.entries(value).map(([_id, event]) => {
 		return {
 			_id,
@@ -2979,7 +2598,7 @@ const valiM1DemoPacketV1EventsSchema = v.pipe(v.union([v.array(valiM1DemoPacketV
 }));
 //#endregion
 //#region src/packet/setup/player.ts
-const valiM1DemoPacketSetupPlayerSchema = v.pipe(v.object({
+const m1DemoPacketSetupPlayerSchema = v.pipe(v.object({
 	user_id: v.number(),
 	team: v.optional(v.picklist([0, 1])),
 	is_vip: bit(false),
@@ -3006,16 +2625,16 @@ const valiM1DemoPacketSetupPlayerSchema = v.pipe(v.object({
 }));
 //#endregion
 //#region src/packet/setup.ts
-const valiM1DemoPacketSetupSchema = v.object({
+const m1DemoPacketSetupSchema = v.object({
 	/** Constants that define basic rules of the match. */
-	config: valiM1DemoPacketSetupConfigSchema,
+	config: m1DemoPacketSetupConfigSchema,
 	flags: v.object({
 		game_mode: v.number(),
 		game_submode: v.number(),
 		game_2x2: bit(false),
 		title: v.optional(v.string())
 	}),
-	players: v.pipe(v.array(valiM1DemoPacketSetupPlayerSchema), v.transform((value) => {
+	players: v.pipe(v.array(m1DemoPacketSetupPlayerSchema), v.transform((value) => {
 		const value_map = /* @__PURE__ */ new Map();
 		for (const [index, player] of value.entries()) {
 			player.index = index;
@@ -3026,7 +2645,7 @@ const valiM1DemoPacketSetupSchema = v.object({
 });
 //#endregion
 //#region src/packet/time.ts
-const valiM1DemoPacketTimeSchema = v.pipe(v.object({
+const m1DemoPacketTimeSchema = v.pipe(v.object({
 	/** Unix timestamp of the start of the game in **milliseconds**. */
 	ts_start: v.number(),
 	/** Unix timestamp of the packet in **milliseconds**. */
@@ -3042,9 +2661,9 @@ const valiM1DemoPacketTimeSchema = v.pipe(v.object({
 		delta: Date.now() - value.ts_now
 	};
 }));
-const valiM1DemoPacketV1TimeSchema = v.union([
-	v.object({ time: valiM1DemoPacketTimeSchema }),
-	v.pipe(v.object({ status: v.optional(v.object({ time: valiM1DemoPacketTimeSchema })) }), v.transform((value) => {
+const m1DemoPacketV1TimeSchema = v.union([
+	v.object({ time: m1DemoPacketTimeSchema }),
+	v.pipe(v.object({ status: v.optional(v.object({ time: m1DemoPacketTimeSchema })) }), v.transform((value) => {
 		if (!value.status) {
 			console.error("There is no time in the packet.", value);
 			throw new Error("There is no time in the packet.");
@@ -3082,27 +2701,27 @@ const valiM1DemoPacketV1TimeSchema = v.union([
 ]);
 //#endregion
 //#region src/packet.ts
-const valiM1DemoPacketSchema = v.object({
+const m1DemoPacketSchema = v.object({
 	v: v.optional(v.literal(2)),
 	/** Various information about the match which is never changes. */
-	setup: v.optional(valiM1DemoPacketSetupSchema),
+	setup: v.optional(m1DemoPacketSetupSchema),
 	/** Events happened before game went to the "status". */
-	events: valiM1DemoPacketEventsSchema,
+	events: m1DemoPacketEventsSchema,
 	/** Current status of the match. */
-	status: v.optional(valiM1DemoPacketStatusSchema),
+	status: v.optional(m1DemoPacketStatusSchema),
 	/** Information about match time. */
-	time: valiM1DemoPacketTimeSchema
+	time: m1DemoPacketTimeSchema
 });
-const valiM1DemoPacketV1Schema = v.intersect([valiM1DemoPacketV1TimeSchema, v.pipe(v.object({
-	config: v.optional(valiM1DemoPacketV1ConfigSchema),
+const m1DemoPacketV1Schema = v.intersect([m1DemoPacketV1TimeSchema, v.pipe(v.object({
+	config: v.optional(m1DemoPacketV1ConfigSchema),
 	flags: v.optional(v.object({
 		game_mode: v.number(),
 		game_submode: v.number(),
 		game_2x2: bit(false),
 		match_title: v.optional(v.string())
 	})),
-	events: valiM1DemoPacketV1EventsSchema,
-	status: v.optional(valiM1DemoPacketV1StatusSchema)
+	events: m1DemoPacketV1EventsSchema,
+	status: v.optional(m1DemoPacketV1StatusSchema)
 }), v.transform((value) => {
 	const { config, flags, status, ...value_rest } = value;
 	let status_new;
@@ -3154,10 +2773,10 @@ var M1LiveDemo = class {
 		let packet;
 		switch (this.packet_version) {
 			case 2:
-				packet = parse(valiM1DemoPacketSchema, value);
+				packet = parse(m1DemoPacketSchema, value);
 				break;
 			case 1:
-				packet = parse(valiM1DemoPacketV1Schema, value);
+				packet = parse(m1DemoPacketV1Schema, value);
 				break;
 			default: throw new Error(`Unsupported packet version ${this.packet_version}.`);
 		}

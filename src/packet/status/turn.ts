@@ -4,7 +4,7 @@ import { bit } from '../../utils/valibot.js';
 import { m1DemoDicesSchema } from '../events/roll-dices.js';
 import { m1DemoPacketStatusTurnMovementSchema } from './turn/movement.js';
 
-export const valiM1DemoContractSchema = v.pipe(
+export const m1DemoContractSchema = v.pipe(
 	v.tuple([
 		v.object({
 			user_id: v.number(),
@@ -31,10 +31,17 @@ export const valiM1DemoContractSchema = v.pipe(
 			},
 		};
 	}),
+	v.check(
+		(value) =>
+			Number.isSafeInteger(value.initiator.cash)
+			&& value.initiator.cash >= 0
+			&& Number.isSafeInteger(value.responder.cash)
+			&& value.responder.cash >= 0,
+	),
 );
-export type M1DemoContract = v.InferOutput<typeof valiM1DemoContractSchema>;
+export type M1DemoContract = v.InferOutput<typeof m1DemoContractSchema>;
 
-export const valiM1DemoPacketStatusTurnSchema = v.pipe(
+export const m1DemoPacketStatusTurnSchema = v.pipe(
 	v.object({
 		/** User ID of the player whose turn it is. */
 		user_id: v.nullable(v.number()),
@@ -121,7 +128,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.pipe(
 				),
 			}),
 		),
-		contract: v.optional(valiM1DemoContractSchema),
+		contract: v.optional(m1DemoContractSchema),
 		contracts_sent: v.optional(v.number()),
 		dices: v.optional(m1DemoDicesSchema),
 		jackpot: v.optional(
@@ -155,7 +162,7 @@ export const valiM1DemoPacketStatusTurnSchema = v.pipe(
 );
 
 export type M1DemoPacketStatusTurn = v.InferOutput<
-	typeof valiM1DemoPacketStatusTurnSchema
+	typeof m1DemoPacketStatusTurnSchema
 >;
 export type M1DemoPacketStatusTurnActionType = SetElement<
 	M1DemoPacketStatusTurn['action']['list']

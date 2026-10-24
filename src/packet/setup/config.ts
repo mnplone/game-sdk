@@ -1,26 +1,26 @@
 import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import {
-	valiM1DemoPacketSetupConfigMechanicsChanceSchema,
-	valiM1DemoPacketV1ConfigChanceCardsSchema,
+	m1DemoPacketSetupConfigMechanicsChanceSchema,
+	m1DemoPacketV1ConfigChanceCardsSchema,
 } from './config/chance.js';
 import {
-	valiM1DemoPacketSetupConfigFieldsSchema,
-	valiM1DemoPacketV1ConfigFieldsSchema,
+	m1DemoPacketSetupConfigFieldsSchema,
+	m1DemoPacketV1ConfigFieldsSchema,
 } from './config/fields.js';
 import {
-	valiM1DemoPacketSetupConfigMonopoliesSchema,
-	valiM1DemoPacketV1ConfigGroupsSchema,
+	m1DemoPacketSetupConfigMonopoliesSchema,
+	m1DemoPacketV1ConfigGroupsSchema,
 } from './config/monopolies.js';
 
-export const valiM1DemoPacketSetupConfigRestartVariantSchema = v.object({
+export const m1DemoPacketSetupConfigRestartVariantSchema = v.object({
 	round_from: v.number(),
 	round_to: v.number(),
 	count: v.number(),
 	price: v.number(),
 });
 
-const valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema = v.union([
+const m1DemoPacketSetupConfigMechanicsRuleBaseSchema = v.union([
 	v.object({
 		/** Match time in **milliseconds**. */
 		time: v.number(),
@@ -31,7 +31,7 @@ const valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema = v.union([
 	}),
 ]);
 
-export const valiM1DemoPacketSetupConfigSchema = v.object({
+export const m1DemoPacketSetupConfigSchema = v.object({
 	/** Version of the config. */
 	version: v.number(),
 	board_size: v.tuple([v.number(), v.number()]),
@@ -39,8 +39,8 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 	timers: v.object({
 		roll_dices: v.number(),
 	}),
-	fields: valiM1DemoPacketSetupConfigFieldsSchema,
-	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
+	fields: m1DemoPacketSetupConfigFieldsSchema,
+	monopolies: m1DemoPacketSetupConfigMonopoliesSchema,
 	mechanics: v.object({
 		auction: v.optional(
 			v.object({
@@ -55,7 +55,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 				bank_premium: v.optional(v.number()),
 			}),
 		),
-		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		chance: v.optional(m1DemoPacketSetupConfigMechanicsChanceSchema),
 		charges: v.optional(
 			v.object({
 				default: v.number(),
@@ -184,7 +184,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 		),
 		restart: v.optional(
 			v.object({
-				variants: v.array(valiM1DemoPacketSetupConfigRestartVariantSchema),
+				variants: v.array(m1DemoPacketSetupConfigRestartVariantSchema),
 			}),
 		),
 		russian_roulette: v.optional(
@@ -194,12 +194,17 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 		),
 		start: v.object({
 			income_amount: v.number(),
-			bonus_amount: v.optional(v.number(), 0),
+			bonus: v.optional(
+				v.object({
+					amount: v.number(),
+					chance: v.number(),
+				}),
+			),
 		}),
 		/** Rules of the match that are based on the match time. */
 		rules: v.array(
 			v.intersect([
-				valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema,
+				m1DemoPacketSetupConfigMechanicsRuleBaseSchema,
 				v.variant('type', [
 					v.object({
 						type: v.literal('start.income.off'),
@@ -229,7 +234,7 @@ export const valiM1DemoPacketSetupConfigSchema = v.object({
 });
 
 export type M1DemoPacketSetupConfig = v.InferOutput<
-	typeof valiM1DemoPacketSetupConfigSchema
+	typeof m1DemoPacketSetupConfigSchema
 >;
 export type M1DemoPacketSetupConfigMechanics =
 	M1DemoPacketSetupConfig['mechanics'];
@@ -240,7 +245,7 @@ export type M1DemoPacketSetupConfigMechanicsRules =
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-const valiM1DemoPacketV1ConfigTaxBaseSchema = v.union([
+const m1DemoPacketV1ConfigTaxBaseSchema = v.union([
 	v.object({
 		game_time: v.number(),
 	}),
@@ -249,13 +254,13 @@ const valiM1DemoPacketV1ConfigTaxBaseSchema = v.union([
 	}),
 ]);
 
-export const valiM1DemoPacketV1ConfigSchema = v.pipe(
+export const m1DemoPacketV1ConfigSchema = v.pipe(
 	v.object({
 		version: v.number(),
 		size: v.tuple([v.number(), v.number()]),
 		startCash: v.number(),
-		fields: valiM1DemoPacketV1ConfigFieldsSchema,
-		groups: valiM1DemoPacketV1ConfigGroupsSchema,
+		fields: m1DemoPacketV1ConfigFieldsSchema,
+		groups: m1DemoPacketV1ConfigGroupsSchema,
 		// timers
 		TIME_FOR_ROLL_DICES: v.number(),
 		// mechanics: auction
@@ -264,7 +269,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		buyout_premium: v.optional(v.number()),
 		buyout_premium_bank: v.optional(v.number()),
 		// mechanics: chance
-		chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+		chance_cards: v.optional(m1DemoPacketV1ConfigChanceCardsSchema),
 		// mechanics: charges
 		charges: v.optional(
 			v.object({
@@ -317,18 +322,19 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		coeff_field_drop: v.optional(v.number()),
 		// mechanics: restart
 		restart_variants: v.optional(
-			v.array(valiM1DemoPacketSetupConfigRestartVariantSchema),
+			v.array(m1DemoPacketSetupConfigRestartVariantSchema),
 		),
 		// mechanics: russian_roulette
 		russian_roulette_rewards: v.optional(v.array(v.number())),
 		// mechanics: start_bonus
 		roundCash: v.number(),
-		START_BONUS_SUM: v.optional(v.number(), 0),
+		START_BONUS_SUM: v.optional(v.number()),
+		START_BONUS_CHANCE: v.optional(v.number()),
 		// mechanics: rules
 		roundTaxes: v.optional(
 			v.array(
 				v.intersect([
-					valiM1DemoPacketV1ConfigTaxBaseSchema,
+					m1DemoPacketV1ConfigTaxBaseSchema,
 					v.object({
 						tax: v.number(),
 					}),
@@ -339,7 +345,7 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 		incomeTaxes: v.optional(
 			v.array(
 				v.intersect([
-					valiM1DemoPacketV1ConfigTaxBaseSchema,
+					m1DemoPacketV1ConfigTaxBaseSchema,
 					v.object({
 						tax_rate: v.number(),
 					}),
@@ -490,7 +496,14 @@ export const valiM1DemoPacketV1ConfigSchema = v.pipe(
 					: undefined,
 				start: {
 					income_amount: value.roundCash,
-					bonus_amount: value.START_BONUS_SUM,
+					bonus:
+						value.START_BONUS_SUM !== undefined
+						&& value.START_BONUS_CHANCE !== undefined
+							? {
+									amount: value.START_BONUS_SUM,
+									chance: value.START_BONUS_CHANCE,
+								}
+							: undefined,
 				},
 				rules: (() => {
 					const rules: M1DemoPacketSetupConfigMechanicsRules = [];

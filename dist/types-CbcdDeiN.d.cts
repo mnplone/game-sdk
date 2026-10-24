@@ -1,7 +1,8 @@
+import { c as M1DemoPacketStatusTurnActionType, u as MapElement } from "./config-DB2PvEnb.cjs";
 import * as v from "valibot";
 
 //#region src/packet/setup.d.ts
-declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
+declare const m1DemoPacketSetupSchema: v.ObjectSchema<{
   /** Constants that define basic rules of the match. */readonly config: v.ObjectSchema<{
     readonly version: v.NumberSchema<undefined>;
     readonly board_size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
@@ -260,7 +261,10 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
       }, undefined>, undefined>;
       readonly start: v.ObjectSchema<{
         readonly income_amount: v.NumberSchema<undefined>;
-        readonly bonus_amount: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
+        readonly bonus: v.OptionalSchema<v.ObjectSchema<{
+          readonly amount: v.NumberSchema<undefined>;
+          readonly chance: v.NumberSchema<undefined>;
+        }, undefined>, undefined>;
       }, undefined>;
       readonly rules: v.ArraySchema<v.IntersectSchema<[v.UnionSchema<[v.ObjectSchema<{
         readonly time: v.NumberSchema<undefined>;
@@ -408,105 +412,10 @@ declare const valiM1DemoPacketSetupSchema: v.ObjectSchema<{
     };
   }>>]>;
 }, undefined>;
-type M1DemoPacketSetup = v.InferOutput<typeof valiM1DemoPacketSetupSchema>;
-//#endregion
-//#region src/utils/types.d.ts
-type SetElement<T> = T extends Set<infer V> ? V : never;
-type MapElement<T> = T extends Map<infer _, infer V> ? V : never;
-//#endregion
-//#region src/packet/status/turn.d.ts
-declare const valiM1DemoContractSchema: v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-  readonly cash: v.NumberSchema<undefined>;
-}, undefined>, v.ObjectSchema<{
-  readonly user_id: v.NumberSchema<undefined>;
-  readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-  readonly cash: v.NumberSchema<undefined>;
-}, undefined>], undefined>, v.TransformAction<[{
-  user_id: number;
-  field_ids: number[];
-  cash: number;
-}, {
-  user_id: number;
-  field_ids: number[];
-  cash: number;
-}], {
-  initiator: {
-    user_id: number;
-    field_ids: Set<number>;
-    cash: number;
-  };
-  responder: {
-    user_id: number;
-    field_ids: Set<number>;
-    cash: number;
-  };
-}>]>;
-type M1DemoContract = v.InferOutput<typeof valiM1DemoContractSchema>;
-declare const valiM1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
-  /** User ID of the player whose turn it is. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
-  readonly action: v.ObjectSchema<{
-    /** User ID of the player from which action is expected. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
-    readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
-  }, undefined>;
-  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  readonly auction: v.OptionalSchema<v.ObjectSchema<{
-    readonly field_id: v.NumberSchema<undefined>;
-    readonly bid: v.NumberSchema<undefined>;
-    readonly user_ids_rejected: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>;
-  }, undefined>, undefined>;
-  readonly contract: v.OptionalSchema<v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-    readonly cash: v.NumberSchema<undefined>;
-  }, undefined>, v.ObjectSchema<{
-    readonly user_id: v.NumberSchema<undefined>;
-    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-    readonly cash: v.NumberSchema<undefined>;
-  }, undefined>], undefined>, v.TransformAction<[{
-    user_id: number;
-    field_ids: number[];
-    cash: number;
-  }, {
-    user_id: number;
-    field_ids: number[];
-    cash: number;
-  }], {
-    initiator: {
-      user_id: number;
-      field_ids: Set<number>;
-      cash: number;
-    };
-    responder: {
-      user_id: number;
-      field_ids: Set<number>;
-      cash: number;
-    };
-  }>]>, undefined>;
-  readonly contracts_sent: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-  readonly dices: v.OptionalSchema<v.UnionSchema<[v.StrictTupleSchema<[v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>], undefined>, undefined>;
-  readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
-    readonly superprize: v.NumberSchema<undefined>;
-  }, undefined>, undefined>;
-  readonly payment: v.OptionalSchema<v.ObjectSchema<{
-    readonly to_user_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
-    readonly amount: v.NumberSchema<undefined>;
-  }, undefined>, undefined>; /** Fields on which player can move in this action. */
-  readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
-    readonly source: v.PicklistSchema<["bus", "mini_die", "triple"], undefined>;
-  }, undefined>, v.ObjectSchema<{
-    readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
-    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-  }, undefined>], undefined>, undefined>; /** Fields on which player already built a level this turn. */
-  readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>; /** Fields which player already mortgaged this turn. */
-  readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
-}, undefined>]>;
-type M1DemoPacketStatusTurn = v.InferOutput<typeof valiM1DemoPacketStatusTurnSchema>;
-type M1DemoPacketStatusTurnActionType = SetElement<M1DemoPacketStatusTurn['action']['list']>;
+type M1DemoPacketSetup = v.InferOutput<typeof m1DemoPacketSetupSchema>;
 //#endregion
 //#region src/packet/status.d.ts
-declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
+declare const m1DemoPacketStatusSchema: v.ObjectSchema<{
   /** Round number. */readonly round: v.NumberSchema<undefined>; /** Players. */
   readonly players: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
     readonly user_id: v.NumberSchema<undefined>;
@@ -744,7 +653,18 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
         field_ids: Set<number>;
         cash: number;
       };
-    }>]>, undefined>;
+    }>, v.CheckAction<{
+      initiator: {
+        user_id: number;
+        field_ids: Set<number>;
+        cash: number;
+      };
+      responder: {
+        user_id: number;
+        field_ids: Set<number>;
+        cash: number;
+      };
+    }, undefined>]>, undefined>;
     readonly contracts_sent: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
     readonly dices: v.OptionalSchema<v.UnionSchema<[v.StrictTupleSchema<[v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>], undefined>, undefined>;
     readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
@@ -777,7 +697,7 @@ declare const valiM1DemoPacketStatusSchema: v.ObjectSchema<{
   }, undefined>], undefined>, undefined>; /** Number of viewers. */
   readonly viewers_count: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
 }, undefined>;
-type M1DemoPacketStatus = v.InferOutput<typeof valiM1DemoPacketStatusSchema>;
+type M1DemoPacketStatus = v.InferOutput<typeof m1DemoPacketStatusSchema>;
 declare const action_list_mapping: {
   readonly toAuction: "auction.put";
   readonly auctionAccept: "auction.bid";
@@ -826,7 +746,7 @@ declare const extra_actions_mapping: readonly [readonly ["leave", "leave"], read
 declare const packet_v1_action_mapping: Record<M1DemoPacketStatusTurnActionType | (typeof extra_actions_mapping)[number][0], keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]>;
 //#endregion
 //#region src/packet.d.ts
-declare const valiM1DemoPacketSchema: v.ObjectSchema<{
+declare const m1DemoPacketSchema: v.ObjectSchema<{
   readonly v: v.OptionalSchema<v.LiteralSchema<2, undefined>, undefined>; /** Various information about the match which is never changes. */
   readonly setup: v.OptionalSchema<v.ObjectSchema<{
     readonly config: v.ObjectSchema<{
@@ -1087,7 +1007,10 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         }, undefined>, undefined>;
         readonly start: v.ObjectSchema<{
           readonly income_amount: v.NumberSchema<undefined>;
-          readonly bonus_amount: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
+          readonly bonus: v.OptionalSchema<v.ObjectSchema<{
+            readonly amount: v.NumberSchema<undefined>;
+            readonly chance: v.NumberSchema<undefined>;
+          }, undefined>, undefined>;
         }, undefined>;
         readonly rules: v.ArraySchema<v.IntersectSchema<[v.UnionSchema<[v.ObjectSchema<{
           readonly time: v.NumberSchema<undefined>;
@@ -1246,12 +1169,12 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly user_id: v.NumberSchema<undefined>;
     readonly chance_index: v.NumberSchema<undefined>;
     readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-    readonly data: v.UnionSchema<[v.StrictObjectSchema<{
+    readonly data: v.OptionalSchema<v.UnionSchema<[v.StrictObjectSchema<{
       readonly amount: v.NumberSchema<undefined>;
     }, undefined>, v.StrictObjectSchema<{
       readonly field_id: v.NumberSchema<undefined>;
       readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-    }, undefined>, v.UndefinedSchema<undefined>], undefined>;
+    }, undefined>, v.UndefinedSchema<undefined>], undefined>, undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"game-over", undefined>;
@@ -1367,7 +1290,18 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
         field_ids: Set<number>;
         cash: number;
       };
-    }>]>;
+    }>, v.CheckAction<{
+      initiator: {
+        user_id: number;
+        field_ids: Set<number>;
+        cash: number;
+      };
+      responder: {
+        user_id: number;
+        field_ids: Set<number>;
+        cash: number;
+      };
+    }, undefined>]>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"contract.reject", undefined>;
@@ -1665,6 +1599,7 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"start.bonus", undefined>;
     readonly user_id: v.NumberSchema<undefined>;
+    readonly amount: v.NumberSchema<undefined>;
   }, undefined> | v.ObjectSchema<{
     readonly id: v.StringSchema<undefined>;
     readonly type: v.LiteralSchema<"start.tax", undefined>;
@@ -1965,7 +1900,18 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
           field_ids: Set<number>;
           cash: number;
         };
-      }>]>, undefined>;
+      }>, v.CheckAction<{
+        initiator: {
+          user_id: number;
+          field_ids: Set<number>;
+          cash: number;
+        };
+        responder: {
+          user_id: number;
+          field_ids: Set<number>;
+          cash: number;
+        };
+      }, undefined>]>, undefined>;
       readonly contracts_sent: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
       readonly dices: v.OptionalSchema<v.UnionSchema<[v.StrictTupleSchema<[v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>], undefined>, undefined>;
       readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
@@ -2011,11 +1957,11 @@ declare const valiM1DemoPacketSchema: v.ObjectSchema<{
     ts_inactive?: number | undefined;
   }>]>;
 }, undefined>;
-type M1DemoTransportPacket = v.InferInput<typeof valiM1DemoPacketSchema>;
-type M1DemoPacket = v.InferOutput<typeof valiM1DemoPacketSchema>;
+type M1DemoTransportPacket = v.InferInput<typeof m1DemoPacketSchema>;
+type M1DemoPacket = v.InferOutput<typeof m1DemoPacketSchema>;
 //#endregion
 //#region src/packet/events.d.ts
-declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.ObjectSchema<{
+declare const m1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"bankrupt", undefined>;
   readonly user_id: v.NumberSchema<undefined>;
@@ -2026,12 +1972,12 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   readonly user_id: v.NumberSchema<undefined>;
   readonly chance_index: v.NumberSchema<undefined>;
   readonly shield: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  readonly data: v.UnionSchema<[v.StrictObjectSchema<{
+  readonly data: v.OptionalSchema<v.UnionSchema<[v.StrictObjectSchema<{
     readonly amount: v.NumberSchema<undefined>;
   }, undefined>, v.StrictObjectSchema<{
     readonly field_id: v.NumberSchema<undefined>;
     readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
-  }, undefined>, v.UndefinedSchema<undefined>], undefined>;
+  }, undefined>, v.UndefinedSchema<undefined>], undefined>, undefined>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"game-over", undefined>;
@@ -2147,7 +2093,18 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
       field_ids: Set<number>;
       cash: number;
     };
-  }>]>;
+  }>, v.CheckAction<{
+    initiator: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+    responder: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+  }, undefined>]>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"contract.reject", undefined>;
@@ -2445,6 +2402,7 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"start.bonus", undefined>;
   readonly user_id: v.NumberSchema<undefined>;
+  readonly amount: v.NumberSchema<undefined>;
 }, undefined> | v.ObjectSchema<{
   readonly id: v.StringSchema<undefined>;
   readonly type: v.LiteralSchema<"start.tax", undefined>;
@@ -2507,12 +2465,12 @@ declare const valiM1DemoPacketEventsSchema: v.ArraySchema<v.UnionSchema<[...(v.O
   type: "_unknown";
   type_received: string;
 }>]>], undefined>, undefined>;
-type M1DemoPacketEvents = v.InferOutput<typeof valiM1DemoPacketEventsSchema>;
+type M1DemoPacketEvents = v.InferOutput<typeof m1DemoPacketEventsSchema>;
 type M1DemoPacketEvent = M1DemoPacketEvents[number];
 type M1DemoPacketEventType = M1DemoPacketEvent['type'];
 //#endregion
 //#region src/packet/setup/config/chance.d.ts
-declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: v.StrictObjectSchema<{
+declare const m1DemoPacketSetupConfigMechanicsChanceSchema: v.StrictObjectSchema<{
   readonly cards: v.ArraySchema<v.UnionSchema<[v.StrictObjectSchema<{
     readonly type: v.LiteralSchema<"income", undefined>;
     readonly text_id: v.NumberSchema<undefined>;
@@ -2570,11 +2528,11 @@ declare const valiM1DemoPacketSetupConfigMechanicsChanceSchema: v.StrictObjectSc
     readonly text_id: v.NumberSchema<undefined>;
   }, undefined>], undefined>, undefined>;
 }, undefined>;
-type M1DemoPacketSetupConfigChanceCard = v.InferOutput<typeof valiM1DemoPacketSetupConfigMechanicsChanceSchema>['cards'][0];
+type M1DemoPacketSetupConfigChanceCard = v.InferOutput<typeof m1DemoPacketSetupConfigMechanicsChanceSchema>['cards'][0];
 type M1DemoPacketSetupConfigChanceCardType = M1DemoPacketSetupConfigChanceCard['type'];
 //#endregion
 //#region src/packet/setup/config/fields.d.ts
-declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.UnionSchema<[v.ObjectSchema<{
+declare const m1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.UnionSchema<[v.ObjectSchema<{
   readonly is_corner: v.SchemaWithPipe<readonly [v.LiteralSchema<1, undefined>, v.TransformAction<1, true>]>;
   readonly type: v.PicklistSchema<["start", "jail"], undefined>;
 }, undefined>, v.ObjectSchema<{
@@ -2624,10 +2582,10 @@ declare const valiM1DemoPacketSetupConfigFieldsSchema: v.SchemaWithPipe<readonly
   monopoly_id: number;
   is_last: boolean;
 })[]>]>;
-type M1DemoPacketSetupConfigField = v.InferOutput<typeof valiM1DemoPacketSetupConfigFieldsSchema>[0];
+type M1DemoPacketSetupConfigField = v.InferOutput<typeof m1DemoPacketSetupConfigFieldsSchema>[0];
 //#endregion
 //#region src/packet/setup/config/monopolies.d.ts
-declare const valiM1DemoPacketSetupConfigMonopoliesSchema: v.SchemaWithPipe<readonly [v.RecordSchema<v.StringSchema<undefined>, v.UnionSchema<[v.ObjectSchema<{
+declare const m1DemoPacketSetupConfigMonopoliesSchema: v.SchemaWithPipe<readonly [v.RecordSchema<v.StringSchema<undefined>, v.UnionSchema<[v.ObjectSchema<{
   readonly buy_price: v.NumberSchema<undefined>;
   readonly rent_by_level: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
   readonly level_cost: v.NumberSchema<undefined>;
@@ -2690,10 +2648,10 @@ declare const valiM1DemoPacketSetupConfigMonopoliesSchema: v.SchemaWithPipe<read
     max: number;
   };
 }>>]>;
-type M1DemoPacketSetupConfigMonopoly = MapElement<v.InferOutput<typeof valiM1DemoPacketSetupConfigMonopoliesSchema>>;
+type M1DemoPacketSetupConfigMonopoly = MapElement<v.InferOutput<typeof m1DemoPacketSetupConfigMonopoliesSchema>>;
 //#endregion
 //#region src/packet/setup/player.d.ts
-declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
+declare const m1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly user_id: v.NumberSchema<undefined>;
   readonly team: v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, undefined>;
   readonly is_vip: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
@@ -2768,13 +2726,13 @@ declare const valiM1DemoPacketSetupPlayerSchema: v.SchemaWithPipe<readonly [v.Ob
     } | undefined;
   };
 }>]>;
-type M1DemoPacketSetupPlayer = v.InferOutput<typeof valiM1DemoPacketSetupPlayerSchema>;
+type M1DemoPacketSetupPlayer = v.InferOutput<typeof m1DemoPacketSetupPlayerSchema>;
 type M1DemoPacketSetupPlayerEquippedCard = MapElement<M1DemoPacketSetupPlayer['equipment']['cards']>;
 type M1DemoPacketSetupPlayerEquippedGenerator = Exclude<M1DemoPacketSetupPlayer['equipment']['generator'], undefined>;
 type M1DemoPacketSetupPlayerEquippedJoke = Exclude<M1DemoPacketSetupPlayer['equipment']['joke'], undefined>;
 //#endregion
 //#region src/packet/status/fields.d.ts
-declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
+declare const m1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly field_id: v.NumberSchema<undefined>;
   readonly owner_user_id: v.NumberSchema<undefined>;
   readonly level: v.NumberSchema<undefined>;
@@ -2820,10 +2778,10 @@ declare const valiM1DemoPacketStatusFieldsSchema: v.SchemaWithPipe<readonly [v.A
   last_rent_round?: number | undefined;
   protection: number;
 }>>]>;
-type M1DemoPacketStatusField = MapElement<v.InferOutput<typeof valiM1DemoPacketStatusFieldsSchema>>;
+type M1DemoPacketStatusField = MapElement<v.InferOutput<typeof m1DemoPacketStatusFieldsSchema>>;
 //#endregion
 //#region src/packet/status/player.d.ts
-declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
+declare const m1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
   /** User ID of the player. */readonly user_id: v.NumberSchema<undefined>;
   /**
    * Player status:
@@ -2979,10 +2937,10 @@ declare const valiM1DemoPacketStatusPlayersSchema: v.SchemaWithPipe<readonly [v.
     income_tax_base: number;
   };
 }>>]>;
-type M1DemoPacketStatusPlayer = MapElement<v.InferOutput<typeof valiM1DemoPacketStatusPlayersSchema>>;
+type M1DemoPacketStatusPlayer = MapElement<v.InferOutput<typeof m1DemoPacketStatusPlayersSchema>>;
 //#endregion
 //#region src/packet/time.d.ts
-declare const valiM1DemoPacketTimeSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
+declare const m1DemoPacketTimeSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   /** Unix timestamp of the start of the game in **milliseconds**. */readonly ts_start: v.NumberSchema<undefined>; /** Unix timestamp of the packet in **milliseconds**. */
   readonly ts_now: v.NumberSchema<undefined>; /** Total length of all pauses in the game excluding one that is currently active in **milliseconds**. */
   readonly inactive: v.NumberSchema<undefined>; /** Unix timestamp of the start of the current pause in **milliseconds**. */
@@ -2999,7 +2957,7 @@ declare const valiM1DemoPacketTimeSchema: v.SchemaWithPipe<readonly [v.ObjectSch
   inactive: number;
   ts_inactive?: number | undefined;
 }>]>;
-type M1DemoPacketTime = v.InferOutput<typeof valiM1DemoPacketTimeSchema>;
+type M1DemoPacketTime = v.InferOutput<typeof m1DemoPacketTimeSchema>;
 //#endregion
 //#region src/types.d.ts
 type M1DemoRichPacket = M1DemoPacket & {
@@ -3015,4 +2973,4 @@ type ExtractM1DemoRichPacketEvent<T> = Extract<M1DemoRichPacketEvent, {
   type: T;
 }>;
 //#endregion
-export { M1DemoPacketSetup as S, M1DemoTransportPacket as _, M1DemoPacketStatusPlayer as a, M1DemoContract as b, M1DemoPacketSetupPlayerEquippedCard as c, M1DemoPacketSetupConfigMonopoly as d, M1DemoPacketSetupConfigField as f, M1DemoPacket as g, M1DemoPacketEventType as h, M1DemoPacketTime as i, M1DemoPacketSetupPlayerEquippedGenerator as l, M1DemoPacketEvent as m, M1DemoRichPacket as n, M1DemoPacketStatusField as o, M1DemoPacketSetupConfigChanceCardType as p, M1DemoRichPacketEvent as r, M1DemoPacketSetupPlayer as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketSetupPlayerEquippedJoke as u, M1DemoPacketStatus as v, M1DemoPacketStatusTurn as x, packet_v1_action_mapping as y };
+export { M1DemoPacket as _, M1DemoPacketStatusPlayer as a, packet_v1_action_mapping as b, M1DemoPacketSetupPlayerEquippedCard as c, M1DemoPacketSetupConfigMonopoly as d, M1DemoPacketSetupConfigField as f, M1DemoPacketEventType as g, M1DemoPacketEvent as h, M1DemoPacketTime as i, M1DemoPacketSetupPlayerEquippedGenerator as l, M1DemoPacketSetupConfigChanceCardType as m, M1DemoRichPacket as n, M1DemoPacketStatusField as o, M1DemoPacketSetupConfigChanceCard as p, M1DemoRichPacketEvent as r, M1DemoPacketSetupPlayer as s, ExtractM1DemoRichPacketEvent as t, M1DemoPacketSetupPlayerEquippedJoke as u, M1DemoTransportPacket as v, M1DemoPacketSetup as x, M1DemoPacketStatus as y };

@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import type { MapElement } from '../../utils/types.js';
 
-export const valiM1DemoPacketStatusFieldsSchema = v.pipe(
+export const m1DemoPacketStatusFieldsSchema = v.pipe(
 	v.array(
 		v.pipe(
 			v.object({
@@ -25,14 +25,14 @@ export const valiM1DemoPacketStatusFieldsSchema = v.pipe(
 );
 
 export type M1DemoPacketStatusField = MapElement<
-	v.InferOutput<typeof valiM1DemoPacketStatusFieldsSchema>
+	v.InferOutput<typeof m1DemoPacketStatusFieldsSchema>
 >;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(
+export const m1DemoPacketV1StatusFieldsSchema = v.pipe(
 	v.record(
 		v.string(),
 		v.object({
@@ -71,5 +71,5 @@ export const valiM1DemoPacketV1StatusFieldsSchema = v.pipe(
 );
 
 type _M1DemoPacketV1StatusField = MapElement<
-	v.InferOutput<typeof valiM1DemoPacketV1StatusFieldsSchema>
+	v.InferOutput<typeof m1DemoPacketV1StatusFieldsSchema>
 >;

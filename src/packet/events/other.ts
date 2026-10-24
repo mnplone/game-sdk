@@ -2,7 +2,7 @@ import * as v from 'valibot';
 import { bit } from '../../utils/valibot.js';
 import type { EventEnrichOptions } from '../events.all.js';
 
-const valiChanceDataSchema = v.union([
+const chanceDataSchema = v.union([
 	// cash_in, cash_out, repair, insurance, birthday
 	v.strictObject({
 		amount: v.number(),
@@ -29,7 +29,7 @@ export const valiSchemas = [
 		user_id: v.number(),
 		chance_index: v.number(),
 		shield: bit(false),
-		data: valiChanceDataSchema,
+		data: v.optional(chanceDataSchema),
 	}),
 	v.object({
 		id: v.string(),
@@ -163,7 +163,7 @@ export const valiV1Schemas = [
 			mean_position: v.optional(v.number()),
 		}),
 		v.transform((value) => {
-			let data: v.InferOutput<typeof valiChanceDataSchema>;
+			let data: v.InferOutput<typeof chanceDataSchema>;
 			// More complex structures first.
 			// teleport, move_undo
 			if (typeof value.mean_position === 'number') {

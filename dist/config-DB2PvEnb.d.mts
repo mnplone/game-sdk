@@ -1,7 +1,124 @@
 import * as v from "valibot";
 
+//#region src/utils/types.d.ts
+type SetElement<T> = T extends Set<infer V> ? V : never;
+type MapElement<T> = T extends Map<infer _, infer V> ? V : never;
+//#endregion
+//#region src/packet/status/turn.d.ts
+declare const m1DemoContractSchema: v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  readonly cash: v.NumberSchema<undefined>;
+}, undefined>, v.ObjectSchema<{
+  readonly user_id: v.NumberSchema<undefined>;
+  readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  readonly cash: v.NumberSchema<undefined>;
+}, undefined>], undefined>, v.TransformAction<[{
+  user_id: number;
+  field_ids: number[];
+  cash: number;
+}, {
+  user_id: number;
+  field_ids: number[];
+  cash: number;
+}], {
+  initiator: {
+    user_id: number;
+    field_ids: Set<number>;
+    cash: number;
+  };
+  responder: {
+    user_id: number;
+    field_ids: Set<number>;
+    cash: number;
+  };
+}>, v.CheckAction<{
+  initiator: {
+    user_id: number;
+    field_ids: Set<number>;
+    cash: number;
+  };
+  responder: {
+    user_id: number;
+    field_ids: Set<number>;
+    cash: number;
+  };
+}, undefined>]>;
+type M1DemoContract = v.InferOutput<typeof m1DemoContractSchema>;
+declare const m1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
+  /** User ID of the player whose turn it is. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
+  readonly action: v.ObjectSchema<{
+    /** User ID of the player from which action is expected. */readonly user_id: v.NullableSchema<v.NumberSchema<undefined>, undefined>;
+    readonly list: v.SchemaWithPipe<readonly [v.ArraySchema<v.PicklistSchema<["auction.put", "auction.bid", "auction.reject", "bank.fee.pay", "bus.move", "contract.send", "contract.accept", "contract.reject", "contract.review.approve", "contract.review.object", "contract.fallback", "jackpot.reject", "jackpot.play", "jail.put", "jail.release.pay", "jail.stay", "level.build", "level.sell", "loan.take", "loan.repay", "mortgage.put", "mortgage.buyback", "mortgage.waive", "mortgage.auction", "waive", "movement.go", "purchase", "purchase.reject", "purchase.buyout", "purchase.buyout.reject", "purchase.buyout.protect", "rent.pay", "roll-dices", "roll-dices.reroll.reject", "russian-roulette.play", "russian-roulette.reject", "start.tax.pay", "wormhole.use", "wormhole.open", "wormhole.jump", "wormhole.reject", "restart", "skip"], undefined>, undefined>, v.TransformAction<("restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip")[], Set<"restart" | "auction.put" | "auction.bid" | "auction.reject" | "bank.fee.pay" | "bus.move" | "contract.send" | "contract.accept" | "contract.reject" | "contract.review.approve" | "contract.review.object" | "contract.fallback" | "jackpot.reject" | "jackpot.play" | "jail.put" | "jail.release.pay" | "jail.stay" | "level.build" | "level.sell" | "loan.take" | "loan.repay" | "mortgage.put" | "mortgage.buyback" | "mortgage.waive" | "mortgage.auction" | "waive" | "movement.go" | "purchase" | "purchase.reject" | "purchase.buyout" | "purchase.buyout.reject" | "purchase.buyout.protect" | "rent.pay" | "roll-dices" | "roll-dices.reroll.reject" | "russian-roulette.play" | "russian-roulette.reject" | "start.tax.pay" | "wormhole.use" | "wormhole.open" | "wormhole.jump" | "wormhole.reject" | "skip">>]>;
+  }, undefined>;
+  readonly move_reversed: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
+  readonly auction: v.OptionalSchema<v.ObjectSchema<{
+    readonly field_id: v.NumberSchema<undefined>;
+    readonly bid: v.NumberSchema<undefined>;
+    readonly user_ids_rejected: v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>;
+  }, undefined>, undefined>;
+  readonly contract: v.OptionalSchema<v.SchemaWithPipe<readonly [v.TupleSchema<[v.ObjectSchema<{
+    readonly user_id: v.NumberSchema<undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    readonly cash: v.NumberSchema<undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly user_id: v.NumberSchema<undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+    readonly cash: v.NumberSchema<undefined>;
+  }, undefined>], undefined>, v.TransformAction<[{
+    user_id: number;
+    field_ids: number[];
+    cash: number;
+  }, {
+    user_id: number;
+    field_ids: number[];
+    cash: number;
+  }], {
+    initiator: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+    responder: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+  }>, v.CheckAction<{
+    initiator: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+    responder: {
+      user_id: number;
+      field_ids: Set<number>;
+      cash: number;
+    };
+  }, undefined>]>, undefined>;
+  readonly contracts_sent: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly dices: v.OptionalSchema<v.UnionSchema<[v.StrictTupleSchema<[v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>, v.StrictTupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>], undefined>, undefined>;
+  readonly jackpot: v.OptionalSchema<v.ObjectSchema<{
+    readonly superprize: v.NumberSchema<undefined>;
+  }, undefined>, undefined>;
+  readonly payment: v.OptionalSchema<v.ObjectSchema<{
+    readonly to_user_id: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+    readonly amount: v.NumberSchema<undefined>;
+  }, undefined>, undefined>; /** Fields on which player can move in this action. */
+  readonly movement: v.OptionalSchema<v.VariantSchema<"source", [v.ObjectSchema<{
+    readonly source: v.PicklistSchema<["bus", "mini_die", "triple"], undefined>;
+  }, undefined>, v.ObjectSchema<{
+    readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
+    readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
+  }, undefined>], undefined>, undefined>; /** Fields on which player already built a level this turn. */
+  readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>; /** Fields which player already mortgaged this turn. */
+  readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
+}, undefined>]>;
+type M1DemoPacketStatusTurn = v.InferOutput<typeof m1DemoPacketStatusTurnSchema>;
+type M1DemoPacketStatusTurnActionType = SetElement<M1DemoPacketStatusTurn['action']['list']>;
+//#endregion
 //#region src/packet/setup/config.d.ts
-declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
+declare const m1DemoPacketSetupConfigSchema: v.ObjectSchema<{
   /** Version of the config. */readonly version: v.NumberSchema<undefined>;
   readonly board_size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
   readonly start_cash: v.NumberSchema<undefined>;
@@ -264,7 +381,10 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     }, undefined>, undefined>;
     readonly start: v.ObjectSchema<{
       readonly income_amount: v.NumberSchema<undefined>;
-      readonly bonus_amount: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
+      readonly bonus: v.OptionalSchema<v.ObjectSchema<{
+        readonly amount: v.NumberSchema<undefined>;
+        readonly chance: v.NumberSchema<undefined>;
+      }, undefined>, undefined>;
     }, undefined>; /** Rules of the match that are based on the match time. */
     readonly rules: v.ArraySchema<v.IntersectSchema<[v.UnionSchema<[v.ObjectSchema<{
       /** Match time in **milliseconds**. */readonly time: v.NumberSchema<undefined>;
@@ -286,10 +406,10 @@ declare const valiM1DemoPacketSetupConfigSchema: v.ObjectSchema<{
     }, undefined>, undefined>;
   }, undefined>;
 }, undefined>;
-type M1DemoPacketSetupConfig = v.InferOutput<typeof valiM1DemoPacketSetupConfigSchema>;
+type M1DemoPacketSetupConfig = v.InferOutput<typeof m1DemoPacketSetupConfigSchema>;
 type M1DemoPacketSetupConfigMechanics = M1DemoPacketSetupConfig['mechanics'];
 type M1DemoPacketSetupConfigMechanicsRules = M1DemoPacketSetupConfigMechanics['rules'];
-declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
+declare const m1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.ObjectSchema<{
   readonly version: v.NumberSchema<undefined>;
   readonly size: v.TupleSchema<[v.NumberSchema<undefined>, v.NumberSchema<undefined>], undefined>;
   readonly startCash: v.NumberSchema<undefined>;
@@ -646,7 +766,8 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   }, undefined>, undefined>, undefined>;
   readonly russian_roulette_rewards: v.OptionalSchema<v.ArraySchema<v.NumberSchema<undefined>, undefined>, undefined>;
   readonly roundCash: v.NumberSchema<undefined>;
-  readonly START_BONUS_SUM: v.OptionalSchema<v.NumberSchema<undefined>, 0>;
+  readonly START_BONUS_SUM: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
+  readonly START_BONUS_CHANCE: v.OptionalSchema<v.NumberSchema<undefined>, undefined>;
   readonly roundTaxes: v.OptionalSchema<v.ArraySchema<v.IntersectSchema<[v.UnionSchema<[v.ObjectSchema<{
     readonly game_time: v.NumberSchema<undefined>;
   }, undefined>, v.ObjectSchema<{
@@ -840,7 +961,8 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   }[] | undefined;
   russian_roulette_rewards?: number[] | undefined;
   roundCash: number;
-  START_BONUS_SUM: number;
+  START_BONUS_SUM?: number | undefined;
+  START_BONUS_CHANCE?: number | undefined;
   roundTaxes: (({
     game_time: number;
   } | {
@@ -1079,7 +1201,10 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
     } | undefined;
     start: {
       income_amount: number;
-      bonus_amount: number;
+      bonus: {
+        amount: number;
+        chance: number;
+      } | undefined;
     };
     rules: (({
       time: number;
@@ -1102,4 +1227,4 @@ declare const valiM1DemoPacketV1ConfigSchema: v.SchemaWithPipe<readonly [v.Objec
   };
 }>]>;
 //#endregion
-export { valiM1DemoPacketV1ConfigSchema as a, valiM1DemoPacketSetupConfigSchema as i, M1DemoPacketSetupConfigMechanics as n, M1DemoPacketSetupConfigMechanicsRules as r, M1DemoPacketSetupConfig as t };
+export { m1DemoPacketV1ConfigSchema as a, M1DemoPacketStatusTurnActionType as c, m1DemoPacketSetupConfigSchema as i, m1DemoContractSchema as l, M1DemoPacketSetupConfigMechanics as n, M1DemoContract as o, M1DemoPacketSetupConfigMechanicsRules as r, M1DemoPacketStatusTurn as s, M1DemoPacketSetupConfig as t, MapElement as u };

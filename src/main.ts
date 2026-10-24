@@ -5,8 +5,8 @@ import { getMovementOptions } from './packet/status/turn/movement.js';
 import type { M1DemoPacketStatus } from './packet/status.js';
 import {
 	type M1DemoPacket,
-	valiM1DemoPacketSchema,
-	valiM1DemoPacketV1Schema,
+	m1DemoPacketSchema,
+	m1DemoPacketV1Schema,
 } from './packet.js';
 import type { M1DemoRichPacket, M1DemoRichPacketEvent } from './types.js';
 import { isRecord } from './utils/guards.js';
@@ -31,11 +31,11 @@ export class M1LiveDemo {
 		let packet: M1DemoPacket;
 		switch (this.packet_version) {
 			case 2:
-				packet = parse(valiM1DemoPacketSchema, value);
+				packet = parse(m1DemoPacketSchema, value);
 				break;
 
 			case 1:
-				packet = parse(valiM1DemoPacketV1Schema, value);
+				packet = parse(m1DemoPacketV1Schema, value);
 				break;
 
 			default:

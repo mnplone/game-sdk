@@ -1,4 +1,16 @@
 import * as v from "valibot";
+//#region \0rolldown/runtime.js
+var __defProp = Object.defineProperty;
+var __exportAll = (all, no_symbols) => {
+	let target = {};
+	for (var name in all) __defProp(target, name, {
+		get: all[name],
+		enumerable: true
+	});
+	if (!no_symbols) __defProp(target, Symbol.toStringTag, { value: "Module" });
+	return target;
+};
+//#endregion
 //#region src/utils/valibot.ts
 /**
 * Creates bit schema.
@@ -21,6 +33,378 @@ function parser(schema) {
 		}
 	};
 }
+//#endregion
+//#region src/utils/table.ts
+/**
+* Returns the field ID normalized to the range of the fields count.
+* @param setup -
+* @param field_id -
+* @returns -
+*/
+function normalizeFieldId(setup, field_id) {
+	const fields_count = setup.config.fields.length;
+	return (field_id + 10 * fields_count) % fields_count;
+}
+//#endregion
+//#region src/packet/events/roll-dices.ts
+var roll_dices_exports = /* @__PURE__ */ __exportAll({
+	enrichments: () => enrichments,
+	m1DemoDicesSchema: () => m1DemoDicesSchema,
+	valiSchemas: () => valiSchemas,
+	valiV1Schemas: () => valiV1Schemas
+});
+const m1DemoDicesSchema = v.union([
+	v.strictTuple([v.number()]),
+	v.strictTuple([v.number(), v.number()]),
+	v.strictTuple([
+		v.number(),
+		v.number(),
+		v.number()
+	])
+]);
+const valiSchemas = [
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices"),
+		user_id: v.number(),
+		reroll: bit(false),
+		dices: m1DemoDicesSchema,
+		move_reversed: bit(false),
+		double_spent: bit(false)
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.doubling"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.jail.success"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.jail.fail"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.reroll"),
+		user_id: v.number()
+	}),
+	v.object({
+		id: v.string(),
+		type: v.literal("roll-dices.reroll.reject"),
+		user_id: v.number(),
+		move_reversed: bit(false),
+		position: v.number()
+	})
+];
+const enrichments = {
+	"roll-dices"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
+		const distance = player.jail || event_zero_distance ? 0 : getRolledDistance(options.event.dices, options.setup);
+		player.position = normalizeFieldId(options.setup, player.position + (options.event.move_reversed ? -1 : 1) * distance);
+	},
+	"roll-dices.jail.success"(options) {
+		options.status.players.get(options.event.user_id).jail = void 0;
+		const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
+		if (!event_roll_dices) throw new Error("Invalid state: no \"roll-dices\" event found before \"roll-dices.jail.success\".");
+		const player = options.status.players.get(options.event.user_id);
+		const distance = getRolledDistance(event_roll_dices.dices, options.setup);
+		player.position = normalizeFieldId(options.setup, player.position + distance);
+	},
+	"roll-dices.reroll.reject"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.position;
+	}
+};
+const valiV1Schemas = [
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDices"),
+		user_id: v.number(),
+		reroll: bit(false),
+		dices: v.union([
+			v.strictTuple([v.number()]),
+			v.strictTuple([v.number(), v.number()]),
+			v.strictTuple([
+				v.number(),
+				v.number(),
+				v.number()
+			])
+		]),
+		move_reverse: bit(false)
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices",
+			user_id: value.user_id,
+			reroll: value.reroll,
+			dices: value.dices,
+			move_reversed: value.move_reverse,
+			double_spent: false
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("doubleRolledOnDice"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.doubling",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("double_spended")
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: value.type
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesForUnjailSuccess"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.jail.success",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesForUnjailFail"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.jail.fail",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesReroll"),
+		user_id: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll",
+			user_id: value.user_id
+		};
+	})),
+	v.pipe(v.object({
+		_id: v.optional(v.string()),
+		type: v.literal("rollDicesRerollCancel"),
+		user_id: v.number(),
+		move_reverse: bit(false),
+		mean_position: v.number()
+	}), v.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll.reject",
+			user_id: value.user_id,
+			move_reversed: value.move_reverse,
+			position: value.mean_position
+		};
+	}))
+];
+/**
+* Get distance by rolled dices.
+* @param dices - Rolled dices.
+* @param setup - Game setup.
+* @returns -
+*/
+function getRolledDistance(dices, setup) {
+	const { game_submode } = setup.flags;
+	let distance = dices[0];
+	if (game_submode === 2) {
+		distance += dices[1];
+		if (typeof dices[2] === "number") {
+			if (dices[2] <= 3) {
+				if (dices[0] === dices[1] && dices[1] === dices[2]) return 0;
+				distance += dices[2];
+			} else if (dices[2] === 4 || dices[2] === 6) return 0;
+		}
+	} else if (game_submode === 5) {
+		if (typeof dices[1] === "number") switch (dices[1]) {
+			case 1:
+			case 2:
+			case 3:
+				if (dices[0] !== dices[1]) return 0;
+				break;
+			case 4:
+			case 6: return 0;
+			case 5:
+				distance *= 2;
+				break;
+			default: throw new Error(`Invalid mini die value: ${dices[1]}`);
+		}
+	} else distance += dices[1];
+	return distance;
+}
+//#endregion
+//#region src/packet/status/turn/movement.ts
+const m1DemoPacketStatusTurnMovementSchema = v.variant("source", [v.object({ source: v.picklist([
+	"bus",
+	"mini_die",
+	"triple"
+]) }), v.object({
+	source: v.picklist(["taxi", "wormhole"]),
+	field_ids: v.array(v.number())
+})]);
+/** Returns movement options, building them from the game context. */
+function getMovementOptions(setup, status) {
+	if (status.turn.movement === void 0) return;
+	const { movement } = status.turn;
+	if ("field_ids" in movement) return movement.field_ids.map((field_id) => {
+		return { field_id };
+	});
+	const { config } = setup;
+	const action_user_id = status.turn.action.user_id;
+	if (action_user_id === null) throw new Error("Invalid demo state: no action player available.");
+	const { position } = status.players.get(action_user_id);
+	const { dices } = status.turn;
+	if (dices === void 0) return;
+	const direction = status.turn.move_reversed ? -1 : 1;
+	switch (movement.source) {
+		case "bus": {
+			const movement_options = [];
+			const dice_0 = dices[0];
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dice_0),
+				stop_id: 0
+			});
+			const dice_1 = dices[1];
+			if (dice_0 !== dice_1) movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dice_1),
+				stop_id: 1
+			});
+			const dices_sum = dice_0 + dice_1;
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dices_sum),
+				stop_id: -1
+			});
+			return movement_options;
+		}
+		case "mini_die": return dices.map((dice, index) => {
+			return {
+				field_id: normalizeFieldId(setup, position + direction * dice),
+				stop_id: index
+			};
+		});
+		case "triple": {
+			const movement_options = [];
+			for (let field_id = 0; field_id < config.fields.length; field_id++) if (field_id !== position) movement_options.push({ field_id });
+			return movement_options;
+		}
+		default: throw new Error(`Unknown source for movement.picker event: ${movement.source}`);
+	}
+}
+//#endregion
+//#region src/packet/status/turn.ts
+const m1DemoContractSchema = v.pipe(v.tuple([v.object({
+	user_id: v.number(),
+	field_ids: v.array(v.number()),
+	cash: v.number()
+}), v.object({
+	user_id: v.number(),
+	field_ids: v.array(v.number()),
+	cash: v.number()
+})]), v.transform(([initiator, responder]) => {
+	return {
+		initiator: {
+			user_id: initiator.user_id,
+			field_ids: new Set(initiator.field_ids),
+			cash: initiator.cash
+		},
+		responder: {
+			user_id: responder.user_id,
+			field_ids: new Set(responder.field_ids),
+			cash: responder.cash
+		}
+	};
+}), v.check((value) => Number.isSafeInteger(value.initiator.cash) && value.initiator.cash >= 0 && Number.isSafeInteger(value.responder.cash) && value.responder.cash >= 0));
+const m1DemoPacketStatusTurnSchema = v.pipe(v.object({
+	/** User ID of the player whose turn it is. */
+	user_id: v.nullable(v.number()),
+	action: v.object({
+		/** User ID of the player from which action is expected. */
+		user_id: v.nullable(v.number()),
+		list: v.pipe(v.array(v.picklist([
+			"auction.put",
+			"auction.bid",
+			"auction.reject",
+			"bank.fee.pay",
+			"bus.move",
+			"contract.send",
+			"contract.accept",
+			"contract.reject",
+			"contract.review.approve",
+			"contract.review.object",
+			"contract.fallback",
+			"jackpot.reject",
+			"jackpot.play",
+			"jail.put",
+			"jail.release.pay",
+			"jail.stay",
+			"level.build",
+			"level.sell",
+			"loan.take",
+			"loan.repay",
+			"mortgage.put",
+			"mortgage.buyback",
+			"mortgage.waive",
+			"mortgage.auction",
+			"waive",
+			"movement.go",
+			"purchase",
+			"purchase.reject",
+			"purchase.buyout",
+			"purchase.buyout.reject",
+			"purchase.buyout.protect",
+			"rent.pay",
+			"roll-dices",
+			"roll-dices.reroll.reject",
+			"russian-roulette.play",
+			"russian-roulette.reject",
+			"start.tax.pay",
+			"wormhole.use",
+			"wormhole.open",
+			"wormhole.jump",
+			"wormhole.reject",
+			"restart",
+			"skip"
+		])), v.transform((value) => new Set(value)))
+	}),
+	move_reversed: bit(false),
+	auction: v.optional(v.object({
+		field_id: v.number(),
+		bid: v.number(),
+		user_ids_rejected: v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))
+	})),
+	contract: v.optional(m1DemoContractSchema),
+	contracts_sent: v.optional(v.number()),
+	dices: v.optional(m1DemoDicesSchema),
+	jackpot: v.optional(v.object({ superprize: v.number() })),
+	payment: v.optional(v.object({
+		to_user_id: v.optional(v.number()),
+		amount: v.number()
+	})),
+	/** Fields on which player can move in this action. */
+	movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
+	/** Fields on which player already built a level this turn. */
+	field_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
+	/** Fields which player already mortgaged this turn. */
+	field_ids_mortgaged: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value))))
+}));
 //#endregion
 //#region src/utils/crc.ts
 const table = new Uint32Array(256);
@@ -46,7 +430,7 @@ function crc32(data) {
 }
 //#endregion
 //#region src/packet/setup/config/chance.ts
-const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({ cards: v.array(v.union([
+const m1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({ cards: v.array(v.union([
 	v.strictObject({
 		type: v.literal("income"),
 		text_id: v.number(),
@@ -116,7 +500,7 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = v.strictObject({ cards:
 		text_id: v.number()
 	})
 ])) });
-const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
+const m1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
 	v.strictObject({
 		type: v.literal("cash_in"),
 		text: v.string(),
@@ -282,7 +666,7 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = v.pipe(v.array(v.union([
 function createStockItemProtoId(monopoly_id, index_in_group) {
 	return -(256 | monopoly_id << 3 | index_in_group);
 }
-const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(v.array(v.union([
+const m1DemoPacketSetupConfigFieldsSchema = v.pipe(v.array(v.union([
 	v.object({
 		is_corner: v.pipe(v.literal(1), v.transform(() => true)),
 		type: v.picklist(["start", "jail"])
@@ -327,7 +711,7 @@ const valiM1DemoPacketSetupConfigFieldsSchema = v.pipe(v.array(v.union([
 		return field;
 	});
 }));
-const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(v.array(v.variant("type", [
+const m1DemoPacketV1ConfigFieldsSchema = v.pipe(v.array(v.variant("type", [
 	v.object({
 		design: v.literal("corner"),
 		type: v.literal("start")
@@ -432,7 +816,7 @@ const valiM1DemoPacketV1ConfigFieldsSchema = v.pipe(v.array(v.variant("type", [
 }));
 //#endregion
 //#region src/packet/setup/config/monopolies.ts
-const valiM1DemoPacketSetupConfigMonopoliesSchema = v.pipe(v.record(v.string(), v.union([
+const m1DemoPacketSetupConfigMonopoliesSchema = v.pipe(v.record(v.string(), v.union([
 	v.object({
 		buy_price: v.number(),
 		rent_by_level: v.array(v.number()),
@@ -458,7 +842,7 @@ const valiM1DemoPacketSetupConfigMonopoliesSchema = v.pipe(v.record(v.string(), 
 		})
 	})
 ])), v.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
-const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(v.record(v.string(), v.union([
+const m1DemoPacketV1ConfigGroupsSchema = v.pipe(v.record(v.string(), v.union([
 	v.object({
 		buy: v.number(),
 		levels: v.array(v.number()),
@@ -513,25 +897,25 @@ const valiM1DemoPacketV1ConfigGroupsSchema = v.pipe(v.record(v.string(), v.union
 }))));
 //#endregion
 //#region src/packet/setup/config.ts
-const valiM1DemoPacketSetupConfigRestartVariantSchema = v.object({
+const m1DemoPacketSetupConfigRestartVariantSchema = v.object({
 	round_from: v.number(),
 	round_to: v.number(),
 	count: v.number(),
 	price: v.number()
 });
-const valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema = v.union([v.object({ 
+const m1DemoPacketSetupConfigMechanicsRuleBaseSchema = v.union([v.object({ 
 /** Match time in **milliseconds**. */
 time: v.number() }), v.object({ 
 /** Round number when rule applies, inclusive. */
 round: v.number() })]);
-const valiM1DemoPacketSetupConfigSchema = v.object({
+const m1DemoPacketSetupConfigSchema = v.object({
 	/** Version of the config. */
 	version: v.number(),
 	board_size: v.tuple([v.number(), v.number()]),
 	start_cash: v.number(),
 	timers: v.object({ roll_dices: v.number() }),
-	fields: valiM1DemoPacketSetupConfigFieldsSchema,
-	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
+	fields: m1DemoPacketSetupConfigFieldsSchema,
+	monopolies: m1DemoPacketSetupConfigMonopoliesSchema,
 	mechanics: v.object({
 		auction: v.optional(v.object({ bid_increment: v.number() })),
 		buyout: v.optional(v.object({
@@ -540,7 +924,7 @@ const valiM1DemoPacketSetupConfigSchema = v.object({
 			/** Premium for total cost to buy out given field, given to bank. */
 			bank_premium: v.optional(v.number())
 		})),
-		chance: v.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		chance: v.optional(m1DemoPacketSetupConfigMechanicsChanceSchema),
 		charges: v.optional(v.object({
 			default: v.number(),
 			limit: v.number(),
@@ -614,14 +998,17 @@ waive_multiplier: v.number() })
 		])]), v.object({ 
 		/** What fraction of company value owner receives when waiving the field, applies to company buying price. */
 waive_multiplier: v.number() })])),
-		restart: v.optional(v.object({ variants: v.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
+		restart: v.optional(v.object({ variants: v.array(m1DemoPacketSetupConfigRestartVariantSchema) })),
 		russian_roulette: v.optional(v.object({ rewards: v.array(v.number()) })),
 		start: v.object({
 			income_amount: v.number(),
-			bonus_amount: v.optional(v.number(), 0)
+			bonus: v.optional(v.object({
+				amount: v.number(),
+				chance: v.number()
+			}))
 		}),
 		/** Rules of the match that are based on the match time. */
-		rules: v.array(v.intersect([valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema, v.variant("type", [
+		rules: v.array(v.intersect([m1DemoPacketSetupConfigMechanicsRuleBaseSchema, v.variant("type", [
 			v.object({ type: v.literal("start.income.off") }),
 			v.object({
 				type: v.literal("start.tax"),
@@ -641,18 +1028,18 @@ waive_multiplier: v.number() })])),
 		}))
 	})
 });
-const valiM1DemoPacketV1ConfigTaxBaseSchema = v.union([v.object({ game_time: v.number() }), v.object({ round: v.number() })]);
-const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
+const m1DemoPacketV1ConfigTaxBaseSchema = v.union([v.object({ game_time: v.number() }), v.object({ round: v.number() })]);
+const m1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	version: v.number(),
 	size: v.tuple([v.number(), v.number()]),
 	startCash: v.number(),
-	fields: valiM1DemoPacketV1ConfigFieldsSchema,
-	groups: valiM1DemoPacketV1ConfigGroupsSchema,
+	fields: m1DemoPacketV1ConfigFieldsSchema,
+	groups: m1DemoPacketV1ConfigGroupsSchema,
 	TIME_FOR_ROLL_DICES: v.number(),
 	AUCTION_BET_STEP: v.optional(v.number()),
 	buyout_premium: v.optional(v.number()),
 	buyout_premium_bank: v.optional(v.number()),
-	chance_cards: v.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+	chance_cards: v.optional(m1DemoPacketV1ConfigChanceCardsSchema),
 	charges: v.optional(v.object({
 		default: v.number(),
 		limit: v.number(),
@@ -688,12 +1075,13 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	coeff_unmortgage: v.optional(v.number()),
 	auction_mortgaged: v.optional(v.number()),
 	coeff_field_drop: v.optional(v.number()),
-	restart_variants: v.optional(v.array(valiM1DemoPacketSetupConfigRestartVariantSchema)),
+	restart_variants: v.optional(v.array(m1DemoPacketSetupConfigRestartVariantSchema)),
 	russian_roulette_rewards: v.optional(v.array(v.number())),
 	roundCash: v.number(),
-	START_BONUS_SUM: v.optional(v.number(), 0),
-	roundTaxes: v.optional(v.array(v.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, v.object({ tax: v.number() })])), () => []),
-	incomeTaxes: v.optional(v.array(v.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, v.object({ tax_rate: v.number() })])), () => []),
+	START_BONUS_SUM: v.optional(v.number()),
+	START_BONUS_CHANCE: v.optional(v.number()),
+	roundTaxes: v.optional(v.array(v.intersect([m1DemoPacketV1ConfigTaxBaseSchema, v.object({ tax: v.number() })])), () => []),
+	incomeTaxes: v.optional(v.array(v.intersect([m1DemoPacketV1ConfigTaxBaseSchema, v.object({ tax_rate: v.number() })])), () => []),
 	WORMHOLE_DIRECTLY: v.optional(bit(false)),
 	WORMHOLE_EXTRA_DESTINATION_COST: v.optional(v.number())
 }), v.transform((value) => {
@@ -772,7 +1160,10 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 			russian_roulette: value.russian_roulette_rewards ? { rewards: [0, ...value.russian_roulette_rewards] } : void 0,
 			start: {
 				income_amount: value.roundCash,
-				bonus_amount: value.START_BONUS_SUM
+				bonus: value.START_BONUS_SUM !== void 0 && value.START_BONUS_CHANCE !== void 0 ? {
+					amount: value.START_BONUS_SUM,
+					chance: value.START_BONUS_CHANCE
+				} : void 0
 			},
 			rules: (() => {
 				const rules = [];
@@ -815,4 +1206,4 @@ const valiM1DemoPacketV1ConfigSchema = v.pipe(v.object({
 	};
 }));
 //#endregion
-export { parse as a, bit as i, valiM1DemoPacketSetupConfigSchema as n, valiM1DemoPacketV1ConfigSchema as r, valiM1DemoPacketSetupConfigRestartVariantSchema as t };
+export { m1DemoPacketStatusTurnSchema as a, m1DemoDicesSchema as c, bit as d, parse as f, m1DemoContractSchema as i, roll_dices_exports as l, m1DemoPacketSetupConfigSchema as n, getMovementOptions as o, __exportAll as p, m1DemoPacketV1ConfigSchema as r, m1DemoPacketStatusTurnMovementSchema as s, m1DemoPacketSetupConfigRestartVariantSchema as t, normalizeFieldId as u };

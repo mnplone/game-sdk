@@ -11,6 +11,7 @@ export const valiSchemas = [
 		id: v.string(),
 		type: v.literal('start.bonus'),
 		user_id: v.number(),
+		amount: v.number(),
 	}),
 	v.object({
 		id: v.string(),
@@ -32,7 +33,7 @@ export const enrichments = {
 	},
 	'start.bonus'(options: EventEnrichOptions<'start.bonus'>) {
 		const player = options.status.players.get(options.event.user_id)!;
-		player.cash += options.setup.config.mechanics.start.bonus_amount;
+		player.cash += options.event.amount;
 	},
 	// 'start.tax.pay'(options: EventEnrichOptions<'start.tax.pay'>) {
 	// 	// we don't know amount paid, also we don't know time when player crossed start
@@ -59,12 +60,14 @@ export const valiV1Schemas = [
 			_id: v.optional(v.string()),
 			type: v.literal('start_bonus'),
 			user_id: v.number(),
+			money: v.number(),
 		}),
 		v.transform((value) => {
 			return {
 				id: value._id,
 				type: 'start.bonus' as const,
 				user_id: value.user_id,
+				amount: value.money,
 			};
 		}),
 	),

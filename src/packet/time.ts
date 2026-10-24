@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-export const valiM1DemoPacketTimeSchema = v.pipe(
+export const m1DemoPacketTimeSchema = v.pipe(
 	v.object({
 		/** Unix timestamp of the start of the game in **milliseconds**. */
 		ts_start: v.number(),
@@ -20,23 +20,23 @@ export const valiM1DemoPacketTimeSchema = v.pipe(
 	}),
 );
 
-export type M1DemoPacketTime = v.InferOutput<typeof valiM1DemoPacketTimeSchema>;
+export type M1DemoPacketTime = v.InferOutput<typeof m1DemoPacketTimeSchema>;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-export const valiM1DemoPacketV1TimeSchema = v.union([
+export const m1DemoPacketV1TimeSchema = v.union([
 	// new format
 	v.object({
-		time: valiM1DemoPacketTimeSchema,
+		time: m1DemoPacketTimeSchema,
 	}),
 	// new format with stupid mistake — status can be omitted sometimes so packet has no time at all.
 	v.pipe(
 		v.object({
 			status: v.optional(
 				v.object({
-					time: valiM1DemoPacketTimeSchema,
+					time: m1DemoPacketTimeSchema,
 				}),
 			),
 		}),

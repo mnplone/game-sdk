@@ -54,6 +54,378 @@ function parser(schema) {
 	};
 }
 //#endregion
+//#region src/utils/table.ts
+/**
+* Returns the field ID normalized to the range of the fields count.
+* @param setup -
+* @param field_id -
+* @returns -
+*/
+function normalizeFieldId(setup, field_id) {
+	const fields_count = setup.config.fields.length;
+	return (field_id + 10 * fields_count) % fields_count;
+}
+//#endregion
+//#region src/packet/events/roll-dices.ts
+var roll_dices_exports = /* @__PURE__ */ __exportAll({
+	enrichments: () => enrichments,
+	m1DemoDicesSchema: () => m1DemoDicesSchema,
+	valiSchemas: () => valiSchemas,
+	valiV1Schemas: () => valiV1Schemas
+});
+const m1DemoDicesSchema = valibot.union([
+	valibot.strictTuple([valibot.number()]),
+	valibot.strictTuple([valibot.number(), valibot.number()]),
+	valibot.strictTuple([
+		valibot.number(),
+		valibot.number(),
+		valibot.number()
+	])
+]);
+const valiSchemas = [
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices"),
+		user_id: valibot.number(),
+		reroll: bit(false),
+		dices: m1DemoDicesSchema,
+		move_reversed: bit(false),
+		double_spent: bit(false)
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices.doubling"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices.jail.success"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices.jail.fail"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices.reroll"),
+		user_id: valibot.number()
+	}),
+	valibot.object({
+		id: valibot.string(),
+		type: valibot.literal("roll-dices.reroll.reject"),
+		user_id: valibot.number(),
+		move_reversed: bit(false),
+		position: valibot.number()
+	})
+];
+const enrichments = {
+	"roll-dices"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		const event_zero_distance = options.events_after.find((event) => event.type === "jail.put.double");
+		const distance = player.jail || event_zero_distance ? 0 : getRolledDistance(options.event.dices, options.setup);
+		player.position = normalizeFieldId(options.setup, player.position + (options.event.move_reversed ? -1 : 1) * distance);
+	},
+	"roll-dices.jail.success"(options) {
+		options.status.players.get(options.event.user_id).jail = void 0;
+		const event_roll_dices = options.events_before.find((event) => event.type === "roll-dices");
+		if (!event_roll_dices) throw new Error("Invalid state: no \"roll-dices\" event found before \"roll-dices.jail.success\".");
+		const player = options.status.players.get(options.event.user_id);
+		const distance = getRolledDistance(event_roll_dices.dices, options.setup);
+		player.position = normalizeFieldId(options.setup, player.position + distance);
+	},
+	"roll-dices.reroll.reject"(options) {
+		const player = options.status.players.get(options.event.user_id);
+		player.position = options.event.position;
+	}
+};
+const valiV1Schemas = [
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("rollDices"),
+		user_id: valibot.number(),
+		reroll: bit(false),
+		dices: valibot.union([
+			valibot.strictTuple([valibot.number()]),
+			valibot.strictTuple([valibot.number(), valibot.number()]),
+			valibot.strictTuple([
+				valibot.number(),
+				valibot.number(),
+				valibot.number()
+			])
+		]),
+		move_reverse: bit(false)
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices",
+			user_id: value.user_id,
+			reroll: value.reroll,
+			dices: value.dices,
+			move_reversed: value.move_reverse,
+			double_spent: false
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("doubleRolledOnDice"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.doubling",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("double_spended")
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: value.type
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("rollDicesForUnjailSuccess"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.jail.success",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("rollDicesForUnjailFail"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.jail.fail",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("rollDicesReroll"),
+		user_id: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll",
+			user_id: value.user_id
+		};
+	})),
+	valibot.pipe(valibot.object({
+		_id: valibot.optional(valibot.string()),
+		type: valibot.literal("rollDicesRerollCancel"),
+		user_id: valibot.number(),
+		move_reverse: bit(false),
+		mean_position: valibot.number()
+	}), valibot.transform((value) => {
+		return {
+			id: value._id,
+			type: "roll-dices.reroll.reject",
+			user_id: value.user_id,
+			move_reversed: value.move_reverse,
+			position: value.mean_position
+		};
+	}))
+];
+/**
+* Get distance by rolled dices.
+* @param dices - Rolled dices.
+* @param setup - Game setup.
+* @returns -
+*/
+function getRolledDistance(dices, setup) {
+	const { game_submode } = setup.flags;
+	let distance = dices[0];
+	if (game_submode === 2) {
+		distance += dices[1];
+		if (typeof dices[2] === "number") {
+			if (dices[2] <= 3) {
+				if (dices[0] === dices[1] && dices[1] === dices[2]) return 0;
+				distance += dices[2];
+			} else if (dices[2] === 4 || dices[2] === 6) return 0;
+		}
+	} else if (game_submode === 5) {
+		if (typeof dices[1] === "number") switch (dices[1]) {
+			case 1:
+			case 2:
+			case 3:
+				if (dices[0] !== dices[1]) return 0;
+				break;
+			case 4:
+			case 6: return 0;
+			case 5:
+				distance *= 2;
+				break;
+			default: throw new Error(`Invalid mini die value: ${dices[1]}`);
+		}
+	} else distance += dices[1];
+	return distance;
+}
+//#endregion
+//#region src/packet/status/turn/movement.ts
+const m1DemoPacketStatusTurnMovementSchema = valibot.variant("source", [valibot.object({ source: valibot.picklist([
+	"bus",
+	"mini_die",
+	"triple"
+]) }), valibot.object({
+	source: valibot.picklist(["taxi", "wormhole"]),
+	field_ids: valibot.array(valibot.number())
+})]);
+/** Returns movement options, building them from the game context. */
+function getMovementOptions(setup, status) {
+	if (status.turn.movement === void 0) return;
+	const { movement } = status.turn;
+	if ("field_ids" in movement) return movement.field_ids.map((field_id) => {
+		return { field_id };
+	});
+	const { config } = setup;
+	const action_user_id = status.turn.action.user_id;
+	if (action_user_id === null) throw new Error("Invalid demo state: no action player available.");
+	const { position } = status.players.get(action_user_id);
+	const { dices } = status.turn;
+	if (dices === void 0) return;
+	const direction = status.turn.move_reversed ? -1 : 1;
+	switch (movement.source) {
+		case "bus": {
+			const movement_options = [];
+			const dice_0 = dices[0];
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dice_0),
+				stop_id: 0
+			});
+			const dice_1 = dices[1];
+			if (dice_0 !== dice_1) movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dice_1),
+				stop_id: 1
+			});
+			const dices_sum = dice_0 + dice_1;
+			movement_options.push({
+				field_id: normalizeFieldId(setup, position + direction * dices_sum),
+				stop_id: -1
+			});
+			return movement_options;
+		}
+		case "mini_die": return dices.map((dice, index) => {
+			return {
+				field_id: normalizeFieldId(setup, position + direction * dice),
+				stop_id: index
+			};
+		});
+		case "triple": {
+			const movement_options = [];
+			for (let field_id = 0; field_id < config.fields.length; field_id++) if (field_id !== position) movement_options.push({ field_id });
+			return movement_options;
+		}
+		default: throw new Error(`Unknown source for movement.picker event: ${movement.source}`);
+	}
+}
+//#endregion
+//#region src/packet/status/turn.ts
+const m1DemoContractSchema = valibot.pipe(valibot.tuple([valibot.object({
+	user_id: valibot.number(),
+	field_ids: valibot.array(valibot.number()),
+	cash: valibot.number()
+}), valibot.object({
+	user_id: valibot.number(),
+	field_ids: valibot.array(valibot.number()),
+	cash: valibot.number()
+})]), valibot.transform(([initiator, responder]) => {
+	return {
+		initiator: {
+			user_id: initiator.user_id,
+			field_ids: new Set(initiator.field_ids),
+			cash: initiator.cash
+		},
+		responder: {
+			user_id: responder.user_id,
+			field_ids: new Set(responder.field_ids),
+			cash: responder.cash
+		}
+	};
+}), valibot.check((value) => Number.isSafeInteger(value.initiator.cash) && value.initiator.cash >= 0 && Number.isSafeInteger(value.responder.cash) && value.responder.cash >= 0));
+const m1DemoPacketStatusTurnSchema = valibot.pipe(valibot.object({
+	/** User ID of the player whose turn it is. */
+	user_id: valibot.nullable(valibot.number()),
+	action: valibot.object({
+		/** User ID of the player from which action is expected. */
+		user_id: valibot.nullable(valibot.number()),
+		list: valibot.pipe(valibot.array(valibot.picklist([
+			"auction.put",
+			"auction.bid",
+			"auction.reject",
+			"bank.fee.pay",
+			"bus.move",
+			"contract.send",
+			"contract.accept",
+			"contract.reject",
+			"contract.review.approve",
+			"contract.review.object",
+			"contract.fallback",
+			"jackpot.reject",
+			"jackpot.play",
+			"jail.put",
+			"jail.release.pay",
+			"jail.stay",
+			"level.build",
+			"level.sell",
+			"loan.take",
+			"loan.repay",
+			"mortgage.put",
+			"mortgage.buyback",
+			"mortgage.waive",
+			"mortgage.auction",
+			"waive",
+			"movement.go",
+			"purchase",
+			"purchase.reject",
+			"purchase.buyout",
+			"purchase.buyout.reject",
+			"purchase.buyout.protect",
+			"rent.pay",
+			"roll-dices",
+			"roll-dices.reroll.reject",
+			"russian-roulette.play",
+			"russian-roulette.reject",
+			"start.tax.pay",
+			"wormhole.use",
+			"wormhole.open",
+			"wormhole.jump",
+			"wormhole.reject",
+			"restart",
+			"skip"
+		])), valibot.transform((value) => new Set(value)))
+	}),
+	move_reversed: bit(false),
+	auction: valibot.optional(valibot.object({
+		field_id: valibot.number(),
+		bid: valibot.number(),
+		user_ids_rejected: valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value)))
+	})),
+	contract: valibot.optional(m1DemoContractSchema),
+	contracts_sent: valibot.optional(valibot.number()),
+	dices: valibot.optional(m1DemoDicesSchema),
+	jackpot: valibot.optional(valibot.object({ superprize: valibot.number() })),
+	payment: valibot.optional(valibot.object({
+		to_user_id: valibot.optional(valibot.number()),
+		amount: valibot.number()
+	})),
+	/** Fields on which player can move in this action. */
+	movement: valibot.optional(m1DemoPacketStatusTurnMovementSchema),
+	/** Fields on which player already built a level this turn. */
+	field_ids_level_built: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value)))),
+	/** Fields which player already mortgaged this turn. */
+	field_ids_mortgaged: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value))))
+}));
+//#endregion
 //#region src/utils/crc.ts
 const table = new Uint32Array(256);
 for (let index = 256; index--;) {
@@ -78,7 +450,7 @@ function crc32(data) {
 }
 //#endregion
 //#region src/packet/setup/config/chance.ts
-const valiM1DemoPacketSetupConfigMechanicsChanceSchema = valibot.strictObject({ cards: valibot.array(valibot.union([
+const m1DemoPacketSetupConfigMechanicsChanceSchema = valibot.strictObject({ cards: valibot.array(valibot.union([
 	valibot.strictObject({
 		type: valibot.literal("income"),
 		text_id: valibot.number(),
@@ -148,7 +520,7 @@ const valiM1DemoPacketSetupConfigMechanicsChanceSchema = valibot.strictObject({ 
 		text_id: valibot.number()
 	})
 ])) });
-const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(valibot.union([
+const m1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(valibot.union([
 	valibot.strictObject({
 		type: valibot.literal("cash_in"),
 		text: valibot.string(),
@@ -314,7 +686,7 @@ const valiM1DemoPacketV1ConfigChanceCardsSchema = valibot.pipe(valibot.array(val
 function createStockItemProtoId(monopoly_id, index_in_group) {
 	return -(256 | monopoly_id << 3 | index_in_group);
 }
-const valiM1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valibot.union([
+const m1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valibot.union([
 	valibot.object({
 		is_corner: valibot.pipe(valibot.literal(1), valibot.transform(() => true)),
 		type: valibot.picklist(["start", "jail"])
@@ -359,7 +731,7 @@ const valiM1DemoPacketSetupConfigFieldsSchema = valibot.pipe(valibot.array(valib
 		return field;
 	});
 }));
-const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.variant("type", [
+const m1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.variant("type", [
 	valibot.object({
 		design: valibot.literal("corner"),
 		type: valibot.literal("start")
@@ -464,7 +836,7 @@ const valiM1DemoPacketV1ConfigFieldsSchema = valibot.pipe(valibot.array(valibot.
 }));
 //#endregion
 //#region src/packet/setup/config/monopolies.ts
-const valiM1DemoPacketSetupConfigMonopoliesSchema = valibot.pipe(valibot.record(valibot.string(), valibot.union([
+const m1DemoPacketSetupConfigMonopoliesSchema = valibot.pipe(valibot.record(valibot.string(), valibot.union([
 	valibot.object({
 		buy_price: valibot.number(),
 		rent_by_level: valibot.array(valibot.number()),
@@ -490,7 +862,7 @@ const valiM1DemoPacketSetupConfigMonopoliesSchema = valibot.pipe(valibot.record(
 		})
 	})
 ])), valibot.transform((value) => new Map(Object.entries(value).map(([monopoly_id, monopoly]) => [Number(monopoly_id), monopoly]))));
-const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot.string(), valibot.union([
+const m1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot.string(), valibot.union([
 	valibot.object({
 		buy: valibot.number(),
 		levels: valibot.array(valibot.number()),
@@ -545,25 +917,25 @@ const valiM1DemoPacketV1ConfigGroupsSchema = valibot.pipe(valibot.record(valibot
 }))));
 //#endregion
 //#region src/packet/setup/config.ts
-const valiM1DemoPacketSetupConfigRestartVariantSchema = valibot.object({
+const m1DemoPacketSetupConfigRestartVariantSchema = valibot.object({
 	round_from: valibot.number(),
 	round_to: valibot.number(),
 	count: valibot.number(),
 	price: valibot.number()
 });
-const valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema = valibot.union([valibot.object({ 
+const m1DemoPacketSetupConfigMechanicsRuleBaseSchema = valibot.union([valibot.object({ 
 /** Match time in **milliseconds**. */
 time: valibot.number() }), valibot.object({ 
 /** Round number when rule applies, inclusive. */
 round: valibot.number() })]);
-const valiM1DemoPacketSetupConfigSchema = valibot.object({
+const m1DemoPacketSetupConfigSchema = valibot.object({
 	/** Version of the config. */
 	version: valibot.number(),
 	board_size: valibot.tuple([valibot.number(), valibot.number()]),
 	start_cash: valibot.number(),
 	timers: valibot.object({ roll_dices: valibot.number() }),
-	fields: valiM1DemoPacketSetupConfigFieldsSchema,
-	monopolies: valiM1DemoPacketSetupConfigMonopoliesSchema,
+	fields: m1DemoPacketSetupConfigFieldsSchema,
+	monopolies: m1DemoPacketSetupConfigMonopoliesSchema,
 	mechanics: valibot.object({
 		auction: valibot.optional(valibot.object({ bid_increment: valibot.number() })),
 		buyout: valibot.optional(valibot.object({
@@ -572,7 +944,7 @@ const valiM1DemoPacketSetupConfigSchema = valibot.object({
 			/** Premium for total cost to buy out given field, given to bank. */
 			bank_premium: valibot.optional(valibot.number())
 		})),
-		chance: valibot.optional(valiM1DemoPacketSetupConfigMechanicsChanceSchema),
+		chance: valibot.optional(m1DemoPacketSetupConfigMechanicsChanceSchema),
 		charges: valibot.optional(valibot.object({
 			default: valibot.number(),
 			limit: valibot.number(),
@@ -646,14 +1018,17 @@ waive_multiplier: valibot.number() })
 		])]), valibot.object({ 
 		/** What fraction of company value owner receives when waiving the field, applies to company buying price. */
 waive_multiplier: valibot.number() })])),
-		restart: valibot.optional(valibot.object({ variants: valibot.array(valiM1DemoPacketSetupConfigRestartVariantSchema) })),
+		restart: valibot.optional(valibot.object({ variants: valibot.array(m1DemoPacketSetupConfigRestartVariantSchema) })),
 		russian_roulette: valibot.optional(valibot.object({ rewards: valibot.array(valibot.number()) })),
 		start: valibot.object({
 			income_amount: valibot.number(),
-			bonus_amount: valibot.optional(valibot.number(), 0)
+			bonus: valibot.optional(valibot.object({
+				amount: valibot.number(),
+				chance: valibot.number()
+			}))
 		}),
 		/** Rules of the match that are based on the match time. */
-		rules: valibot.array(valibot.intersect([valiM1DemoPacketSetupConfigMechanicsRuleBaseSchema, valibot.variant("type", [
+		rules: valibot.array(valibot.intersect([m1DemoPacketSetupConfigMechanicsRuleBaseSchema, valibot.variant("type", [
 			valibot.object({ type: valibot.literal("start.income.off") }),
 			valibot.object({
 				type: valibot.literal("start.tax"),
@@ -673,18 +1048,18 @@ waive_multiplier: valibot.number() })])),
 		}))
 	})
 });
-const valiM1DemoPacketV1ConfigTaxBaseSchema = valibot.union([valibot.object({ game_time: valibot.number() }), valibot.object({ round: valibot.number() })]);
-const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
+const m1DemoPacketV1ConfigTaxBaseSchema = valibot.union([valibot.object({ game_time: valibot.number() }), valibot.object({ round: valibot.number() })]);
+const m1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	version: valibot.number(),
 	size: valibot.tuple([valibot.number(), valibot.number()]),
 	startCash: valibot.number(),
-	fields: valiM1DemoPacketV1ConfigFieldsSchema,
-	groups: valiM1DemoPacketV1ConfigGroupsSchema,
+	fields: m1DemoPacketV1ConfigFieldsSchema,
+	groups: m1DemoPacketV1ConfigGroupsSchema,
 	TIME_FOR_ROLL_DICES: valibot.number(),
 	AUCTION_BET_STEP: valibot.optional(valibot.number()),
 	buyout_premium: valibot.optional(valibot.number()),
 	buyout_premium_bank: valibot.optional(valibot.number()),
-	chance_cards: valibot.optional(valiM1DemoPacketV1ConfigChanceCardsSchema),
+	chance_cards: valibot.optional(m1DemoPacketV1ConfigChanceCardsSchema),
 	charges: valibot.optional(valibot.object({
 		default: valibot.number(),
 		limit: valibot.number(),
@@ -720,12 +1095,13 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 	coeff_unmortgage: valibot.optional(valibot.number()),
 	auction_mortgaged: valibot.optional(valibot.number()),
 	coeff_field_drop: valibot.optional(valibot.number()),
-	restart_variants: valibot.optional(valibot.array(valiM1DemoPacketSetupConfigRestartVariantSchema)),
+	restart_variants: valibot.optional(valibot.array(m1DemoPacketSetupConfigRestartVariantSchema)),
 	russian_roulette_rewards: valibot.optional(valibot.array(valibot.number())),
 	roundCash: valibot.number(),
-	START_BONUS_SUM: valibot.optional(valibot.number(), 0),
-	roundTaxes: valibot.optional(valibot.array(valibot.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, valibot.object({ tax: valibot.number() })])), () => []),
-	incomeTaxes: valibot.optional(valibot.array(valibot.intersect([valiM1DemoPacketV1ConfigTaxBaseSchema, valibot.object({ tax_rate: valibot.number() })])), () => []),
+	START_BONUS_SUM: valibot.optional(valibot.number()),
+	START_BONUS_CHANCE: valibot.optional(valibot.number()),
+	roundTaxes: valibot.optional(valibot.array(valibot.intersect([m1DemoPacketV1ConfigTaxBaseSchema, valibot.object({ tax: valibot.number() })])), () => []),
+	incomeTaxes: valibot.optional(valibot.array(valibot.intersect([m1DemoPacketV1ConfigTaxBaseSchema, valibot.object({ tax_rate: valibot.number() })])), () => []),
 	WORMHOLE_DIRECTLY: valibot.optional(bit(false)),
 	WORMHOLE_EXTRA_DESTINATION_COST: valibot.optional(valibot.number())
 }), valibot.transform((value) => {
@@ -804,7 +1180,10 @@ const valiM1DemoPacketV1ConfigSchema = valibot.pipe(valibot.object({
 			russian_roulette: value.russian_roulette_rewards ? { rewards: [0, ...value.russian_roulette_rewards] } : void 0,
 			start: {
 				income_amount: value.roundCash,
-				bonus_amount: value.START_BONUS_SUM
+				bonus: value.START_BONUS_SUM !== void 0 && value.START_BONUS_CHANCE !== void 0 ? {
+					amount: value.START_BONUS_SUM,
+					chance: value.START_BONUS_CHANCE
+				} : void 0
 			},
 			rules: (() => {
 				const rules = [];
@@ -865,27 +1244,69 @@ Object.defineProperty(exports, "bit", {
 		return bit;
 	}
 });
+Object.defineProperty(exports, "getMovementOptions", {
+	enumerable: true,
+	get: function() {
+		return getMovementOptions;
+	}
+});
+Object.defineProperty(exports, "m1DemoContractSchema", {
+	enumerable: true,
+	get: function() {
+		return m1DemoContractSchema;
+	}
+});
+Object.defineProperty(exports, "m1DemoDicesSchema", {
+	enumerable: true,
+	get: function() {
+		return m1DemoDicesSchema;
+	}
+});
+Object.defineProperty(exports, "m1DemoPacketSetupConfigRestartVariantSchema", {
+	enumerable: true,
+	get: function() {
+		return m1DemoPacketSetupConfigRestartVariantSchema;
+	}
+});
+Object.defineProperty(exports, "m1DemoPacketSetupConfigSchema", {
+	enumerable: true,
+	get: function() {
+		return m1DemoPacketSetupConfigSchema;
+	}
+});
+Object.defineProperty(exports, "m1DemoPacketStatusTurnMovementSchema", {
+	enumerable: true,
+	get: function() {
+		return m1DemoPacketStatusTurnMovementSchema;
+	}
+});
+Object.defineProperty(exports, "m1DemoPacketStatusTurnSchema", {
+	enumerable: true,
+	get: function() {
+		return m1DemoPacketStatusTurnSchema;
+	}
+});
+Object.defineProperty(exports, "m1DemoPacketV1ConfigSchema", {
+	enumerable: true,
+	get: function() {
+		return m1DemoPacketV1ConfigSchema;
+	}
+});
+Object.defineProperty(exports, "normalizeFieldId", {
+	enumerable: true,
+	get: function() {
+		return normalizeFieldId;
+	}
+});
 Object.defineProperty(exports, "parse", {
 	enumerable: true,
 	get: function() {
 		return parse;
 	}
 });
-Object.defineProperty(exports, "valiM1DemoPacketSetupConfigRestartVariantSchema", {
+Object.defineProperty(exports, "roll_dices_exports", {
 	enumerable: true,
 	get: function() {
-		return valiM1DemoPacketSetupConfigRestartVariantSchema;
-	}
-});
-Object.defineProperty(exports, "valiM1DemoPacketSetupConfigSchema", {
-	enumerable: true,
-	get: function() {
-		return valiM1DemoPacketSetupConfigSchema;
-	}
-});
-Object.defineProperty(exports, "valiM1DemoPacketV1ConfigSchema", {
-	enumerable: true,
-	get: function() {
-		return valiM1DemoPacketV1ConfigSchema;
+		return roll_dices_exports;
 	}
 });

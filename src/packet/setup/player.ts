@@ -2,7 +2,7 @@ import * as v from 'valibot';
 import type { MapElement } from '../../utils/types.js';
 import { bit } from '../../utils/valibot.js';
 
-export const valiM1DemoPacketSetupPlayerSchema = v.pipe(
+export const m1DemoPacketSetupPlayerSchema = v.pipe(
 	v.object({
 		user_id: v.number(),
 		team: v.optional(v.picklist([0, 1])),
@@ -47,7 +47,7 @@ export const valiM1DemoPacketSetupPlayerSchema = v.pipe(
 );
 
 export type M1DemoPacketSetupPlayer = v.InferOutput<
-	typeof valiM1DemoPacketSetupPlayerSchema
+	typeof m1DemoPacketSetupPlayerSchema
 >;
 export type M1DemoPacketSetupPlayerEquippedCard = MapElement<
 	M1DemoPacketSetupPlayer['equipment']['cards']

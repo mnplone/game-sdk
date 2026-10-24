@@ -19,7 +19,10 @@ export type {
 	M1DemoPacketEvent,
 	M1DemoPacketEventType,
 } from './packet/events.js';
-export type { M1DemoPacketSetupConfigChanceCardType } from './packet/setup/config/chance.js';
+export type {
+	M1DemoPacketSetupConfigChanceCard,
+	M1DemoPacketSetupConfigChanceCardType,
+} from './packet/setup/config/chance.js';
 export type { M1DemoPacketSetupConfigField } from './packet/setup/config/fields.js';
 export type { M1DemoPacketSetupConfigMonopoly } from './packet/setup/config/monopolies.js';
 export type {
@@ -39,6 +42,7 @@ export type { M1DemoPacketStatusPlayer } from './packet/status/player.js';
 export type {
 	M1DemoContract,
 	M1DemoPacketStatusTurn,
+	M1DemoPacketStatusTurnActionType,
 } from './packet/status/turn.js';
 export type { M1DemoPacketStatus } from './packet/status.js';
 export type { M1DemoPacketTime } from './packet/time.js';

@@ -1,12 +1,12 @@
 import * as v from 'valibot';
 import { m1DemoDicesSchema } from './events/roll-dices.js';
 import {
-	valiM1DemoPacketStatusFieldsSchema,
-	valiM1DemoPacketV1StatusFieldsSchema,
+	m1DemoPacketStatusFieldsSchema,
+	m1DemoPacketV1StatusFieldsSchema,
 } from './status/fields.js';
 import {
-	valiM1DemoPacketStatusPlayersSchema,
-	valiM1DemoPacketV1StatusPlayersSchema,
+	m1DemoPacketStatusPlayersSchema,
+	m1DemoPacketV1StatusPlayersSchema,
 } from './status/player.js';
 import type { M1DemoPacketStatusTimer } from './status/timer.js';
 import { m1DemoPacketStatusTimerSchema } from './status/timer.js';
@@ -16,19 +16,19 @@ import {
 	type M1DemoContract,
 	type M1DemoPacketStatusTurn,
 	type M1DemoPacketStatusTurnActionType,
-	valiM1DemoPacketStatusTurnSchema,
+	m1DemoPacketStatusTurnSchema,
 } from './status/turn.js';
 // import { normalizeFieldId } from '@/js/table/.tools.js';
 
-export const valiM1DemoPacketStatusSchema = v.object({
+export const m1DemoPacketStatusSchema = v.object({
 	/** Round number. */
 	round: v.number(),
 	/** Players. */
-	players: valiM1DemoPacketStatusPlayersSchema,
+	players: m1DemoPacketStatusPlayersSchema,
 	/** Current information about fields. */
-	fields: valiM1DemoPacketStatusFieldsSchema,
+	fields: m1DemoPacketStatusFieldsSchema,
 	/** Information about current turn. */
-	turn: valiM1DemoPacketStatusTurnSchema,
+	turn: m1DemoPacketStatusTurnSchema,
 	/**
 	 * Info about timer.
 	 *
@@ -39,9 +39,7 @@ export const valiM1DemoPacketStatusSchema = v.object({
 	viewers_count: v.optional(v.number(), 0),
 });
 
-export type M1DemoPacketStatus = v.InferOutput<
-	typeof valiM1DemoPacketStatusSchema
->;
+export type M1DemoPacketStatus = v.InferOutput<typeof m1DemoPacketStatusSchema>;
 
 // -------------------------------------------------
 // --------------- TRANSFORM FROM V1 ---------------
@@ -131,16 +129,16 @@ export const packet_v1_action_mapping = Object.fromEntries([
 	keyof typeof action_list_mapping | (typeof extra_actions_mapping)[number][1]
 >;
 
-const valiM1DemoPacketV1StatusActiontypeSchema = v.array(
+const m1DemoPacketV1StatusActiontypeSchema = v.array(
 	v.picklist(
 		Object.keys(action_list_mapping) as (keyof typeof action_list_mapping)[],
 	),
 );
 type M1DemoPacketV1StatusActionType = v.InferOutput<
-	typeof valiM1DemoPacketV1StatusActiontypeSchema
+	typeof m1DemoPacketV1StatusActiontypeSchema
 >;
 
-export const valiM1DemoPacketV1ContractSchema = v.pipe(
+export const m1DemoPacketV1ContractSchema = v.pipe(
 	v.object({
 		from: v.number(),
 		to: v.number(),
@@ -167,16 +165,16 @@ export const valiM1DemoPacketV1ContractSchema = v.pipe(
 	}),
 );
 
-export const valiM1DemoPacketV1StatusSchema = v.pipe(
+export const m1DemoPacketV1StatusSchema = v.pipe(
 	v.object({
 		/** Round number. */
 		round: v.number(),
-		players: valiM1DemoPacketV1StatusPlayersSchema,
-		fields: valiM1DemoPacketV1StatusFieldsSchema,
+		players: m1DemoPacketV1StatusPlayersSchema,
+		fields: m1DemoPacketV1StatusFieldsSchema,
 		// turn
 		player_ownerOfMove: v.nullable(v.number()),
 		action_player: v.nullable(v.number()),
-		action_type: valiM1DemoPacketV1StatusActiontypeSchema,
+		action_type: m1DemoPacketV1StatusActiontypeSchema,
 		current_move: v.optional(
 			v.object({
 				dices: v.optional(m1DemoDicesSchema),
@@ -203,7 +201,7 @@ export const valiM1DemoPacketV1StatusSchema = v.pipe(
 				field: v.optional(v.number()),
 				bet: v.optional(v.number()),
 				// contract
-				contract: v.optional(valiM1DemoPacketV1ContractSchema),
+				contract: v.optional(m1DemoPacketV1ContractSchema),
 				contracts: v.optional(v.number()),
 				// jackpot
 				jackpot_superprize_money: v.optional(v.number()),

@@ -2,7 +2,7 @@ import * as v from 'valibot';
 import { isRecord } from '../utils/guards.js';
 import { valiSchemas, valiV1Schemas } from './events.all.js';
 
-export const valiM1DemoPacketEventsSchema = v.array(
+export const m1DemoPacketEventsSchema = v.array(
 	v.union([
 		...valiSchemas,
 		v.pipe(
@@ -21,9 +21,7 @@ export const valiM1DemoPacketEventsSchema = v.array(
 	]),
 );
 
-export type M1DemoPacketEvents = v.InferOutput<
-	typeof valiM1DemoPacketEventsSchema
->;
+export type M1DemoPacketEvents = v.InferOutput<typeof m1DemoPacketEventsSchema>;
 export type M1DemoPacketEvent = M1DemoPacketEvents[number];
 export type M1DemoPacketEventType = M1DemoPacketEvent['type'];
 
@@ -31,7 +29,7 @@ export type M1DemoPacketEventType = M1DemoPacketEvent['type'];
 // --------------- TRANSFORM FROM V1 ---------------
 // -------------------------------------------------
 
-const valiM1DemoPacketV1EventElementSchema = v.union([
+const m1DemoPacketV1EventElementSchema = v.union([
 	...valiV1Schemas,
 	v.pipe(
 		v.object({
@@ -49,10 +47,10 @@ const valiM1DemoPacketV1EventElementSchema = v.union([
 	),
 ]);
 
-export const valiM1DemoPacketV1EventsSchema = v.pipe(
+export const m1DemoPacketV1EventsSchema = v.pipe(
 	v.union([
-		v.array(valiM1DemoPacketV1EventElementSchema),
-		v.record(v.string(), valiM1DemoPacketV1EventElementSchema),
+		v.array(m1DemoPacketV1EventElementSchema),
+		v.record(v.string(), m1DemoPacketV1EventElementSchema),
 	]),
 	v.transform((value) => {
 		if (isRecord(value)) {
