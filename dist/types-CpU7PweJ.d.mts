@@ -1,4 +1,4 @@
-import { c as M1DemoPacketStatusTurnActionType, u as MapElement } from "./config-DB2PvEnb.cjs";
+import { c as M1DemoPacketStatusTurnActionType, u as MapElement } from "./config-DB2PvEnb.mjs";
 import * as v from "valibot";
 
 //#region src/packet/setup.d.ts
@@ -291,6 +291,7 @@ declare const m1DemoPacketSetupSchema: v.ObjectSchema<{
     readonly game_submode: v.NumberSchema<undefined>;
     readonly game_2x2: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
     readonly title: v.OptionalSchema<v.StringSchema<undefined>, undefined>;
+    readonly emotes_restricted: v.OptionalSchema<v.StringSchema<undefined>, undefined>;
   }, undefined>;
   readonly players: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
     readonly user_id: v.NumberSchema<undefined>;
@@ -1038,6 +1039,7 @@ declare const m1DemoPacketSchema: v.ObjectSchema<{
       readonly game_submode: v.NumberSchema<undefined>;
       readonly game_2x2: v.SchemaWithPipe<readonly [v.OptionalSchema<v.PicklistSchema<[0, 1], undefined>, 0 | 1>, v.TransformAction<0 | 1, boolean>]>;
       readonly title: v.OptionalSchema<v.StringSchema<undefined>, undefined>;
+      readonly emotes_restricted: v.OptionalSchema<v.StringSchema<undefined>, undefined>;
     }, undefined>;
     readonly players: v.SchemaWithPipe<readonly [v.ArraySchema<v.SchemaWithPipe<readonly [v.ObjectSchema<{
       readonly user_id: v.NumberSchema<undefined>;

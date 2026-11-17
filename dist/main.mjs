@@ -2632,7 +2632,8 @@ const m1DemoPacketSetupSchema = v.object({
 		game_mode: v.number(),
 		game_submode: v.number(),
 		game_2x2: bit(false),
-		title: v.optional(v.string())
+		title: v.optional(v.string()),
+		emotes_restricted: v.optional(v.string())
 	}),
 	players: v.pipe(v.array(m1DemoPacketSetupPlayerSchema), v.transform((value) => {
 		const value_map = /* @__PURE__ */ new Map();
@@ -2718,7 +2719,8 @@ const m1DemoPacketV1Schema = v.intersect([m1DemoPacketV1TimeSchema, v.pipe(v.obj
 		game_mode: v.number(),
 		game_submode: v.number(),
 		game_2x2: bit(false),
-		match_title: v.optional(v.string())
+		match_title: v.optional(v.string()),
+		emotes_restricted: v.optional(v.string())
 	})),
 	events: m1DemoPacketV1EventsSchema,
 	status: v.optional(m1DemoPacketV1StatusSchema)
@@ -2745,7 +2747,8 @@ const m1DemoPacketV1Schema = v.intersect([m1DemoPacketV1TimeSchema, v.pipe(v.obj
 				game_mode: flags.game_mode,
 				game_submode: flags.game_submode,
 				game_2x2: flags.game_2x2,
-				title: flags.match_title
+				title: flags.match_title,
+				emotes_restricted: flags.emotes_restricted
 			},
 			players: new Map(status.players.map((player) => [player.user_id, {
 				user_id: player.user_id,

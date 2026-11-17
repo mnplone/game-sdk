@@ -11,6 +11,7 @@ export const m1DemoPacketSetupSchema = v.object({
 		game_submode: v.number(),
 		game_2x2: bit(false),
 		title: v.optional(v.string()),
+		emotes_restricted: v.optional(v.string()),
 	}),
 	players: v.pipe(
 		v.array(m1DemoPacketSetupPlayerSchema),

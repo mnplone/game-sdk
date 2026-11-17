@@ -45,6 +45,7 @@ export const m1DemoPacketV1Schema = v.intersect([
 					game_submode: v.number(),
 					game_2x2: bit(false),
 					match_title: v.optional(v.string()),
+					emotes_restricted: v.optional(v.string()),
 				}),
 			),
 			events: m1DemoPacketV1EventsSchema,
@@ -92,6 +93,7 @@ export const m1DemoPacketV1Schema = v.intersect([
 						game_submode: flags.game_submode,
 						game_2x2: flags.game_2x2,
 						title: flags.match_title,
+						emotes_restricted: flags.emotes_restricted,
 					},
 					players: new Map(
 						status.players.map((player) => [

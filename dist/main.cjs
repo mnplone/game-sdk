@@ -2634,7 +2634,8 @@ const m1DemoPacketSetupSchema = valibot.object({
 		game_mode: valibot.number(),
 		game_submode: valibot.number(),
 		game_2x2: require_config.bit(false),
-		title: valibot.optional(valibot.string())
+		title: valibot.optional(valibot.string()),
+		emotes_restricted: valibot.optional(valibot.string())
 	}),
 	players: valibot.pipe(valibot.array(m1DemoPacketSetupPlayerSchema), valibot.transform((value) => {
 		const value_map = /* @__PURE__ */ new Map();
@@ -2720,7 +2721,8 @@ const m1DemoPacketV1Schema = valibot.intersect([m1DemoPacketV1TimeSchema, valibo
 		game_mode: valibot.number(),
 		game_submode: valibot.number(),
 		game_2x2: require_config.bit(false),
-		match_title: valibot.optional(valibot.string())
+		match_title: valibot.optional(valibot.string()),
+		emotes_restricted: valibot.optional(valibot.string())
 	})),
 	events: m1DemoPacketV1EventsSchema,
 	status: valibot.optional(m1DemoPacketV1StatusSchema)
@@ -2747,7 +2749,8 @@ const m1DemoPacketV1Schema = valibot.intersect([m1DemoPacketV1TimeSchema, valibo
 				game_mode: flags.game_mode,
 				game_submode: flags.game_submode,
 				game_2x2: flags.game_2x2,
-				title: flags.match_title
+				title: flags.match_title,
+				emotes_restricted: flags.emotes_restricted
 			},
 			players: new Map(status.players.map((player) => [player.user_id, {
 				user_id: player.user_id,
