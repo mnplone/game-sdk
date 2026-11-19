@@ -1,4 +1,4 @@
-import { c as M1DemoPacketStatusTurnActionType, u as MapElement } from "./config-DB2PvEnb.mjs";
+import { c as M1DemoPacketStatusTurnActionType, u as MapElement } from "./config-op2wOjeg.cjs";
 import * as v from "valibot";
 
 //#region src/packet/setup.d.ts
@@ -681,7 +681,7 @@ declare const m1DemoPacketStatusSchema: v.ObjectSchema<{
       readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
       readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
     }, undefined>], undefined>, undefined>;
-    readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
+    readonly monopoly_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
     readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
   }, undefined>]>;
   /**
@@ -1930,7 +1930,7 @@ declare const m1DemoPacketSchema: v.ObjectSchema<{
         readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
         readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
       }, undefined>], undefined>, undefined>;
-      readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
+      readonly monopoly_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
       readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
     }, undefined>]>;
     readonly timer: v.OptionalSchema<v.UnionSchema<[v.ObjectSchema<{

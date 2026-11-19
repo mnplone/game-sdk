@@ -103,8 +103,11 @@ export const valiV1Schemas = [
 				user_id: value.user_id,
 				user_id_receiver: value.to,
 				field_id: value.field,
-				amount: value.money,
-				amount_received: value.money_received,
+				amount: Math.round(value.money),
+				amount_received:
+					value.money_received === undefined
+						? undefined
+						: Math.round(value.money_received),
 			};
 		}),
 	),

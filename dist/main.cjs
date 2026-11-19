@@ -1,5 +1,5 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-const require_config = require("./config-DcREmBiw.cjs");
+const require_config = require("./config-DwA7QoB2.cjs");
 let valibot = require("valibot");
 valibot = require_config.__toESM(valibot, 1);
 //#region src/packet/events/auction.ts
@@ -635,7 +635,7 @@ const m1DemoPacketV1StatusSchema = valibot.pipe(valibot.object({
 				to_user_id: current_move?.payTo
 			} : void 0,
 			movement,
-			field_ids_level_built: current_move?.levelUpped ? new Set(current_move.levelUpped) : void 0,
+			monopoly_ids_level_built: current_move?.levelUpped ? new Set(current_move.levelUpped) : void 0,
 			field_ids_mortgaged: current_move?.mortgaged ? new Set(current_move.mortgaged) : void 0
 		},
 		timer: timeout_ts < -1e6 ? {
@@ -2111,8 +2111,8 @@ const valiV1Schemas$5 = [
 			user_id: value.user_id,
 			user_id_receiver: value.to,
 			field_id: value.field,
-			amount: value.money,
-			amount_received: value.money_received
+			amount: Math.round(value.money),
+			amount_received: value.money_received === void 0 ? void 0 : Math.round(value.money_received)
 		};
 	})),
 	valibot.pipe(valibot.object({

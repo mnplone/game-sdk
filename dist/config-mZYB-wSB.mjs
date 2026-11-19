@@ -400,8 +400,8 @@ const m1DemoPacketStatusTurnSchema = v.pipe(v.object({
 	})),
 	/** Fields on which player can move in this action. */
 	movement: v.optional(m1DemoPacketStatusTurnMovementSchema),
-	/** Fields on which player already built a level this turn. */
-	field_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
+	/** Monopoly IDs on which player already built a level this turn. */
+	monopoly_ids_level_built: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value)))),
 	/** Fields which player already mortgaged this turn. */
 	field_ids_mortgaged: v.optional(v.pipe(v.array(v.number()), v.transform((value) => new Set(value))))
 }));

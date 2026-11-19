@@ -333,7 +333,7 @@ export const m1DemoPacketV1StatusSchema = v.pipe(
 							}
 						: undefined,
 				movement,
-				field_ids_level_built: current_move?.levelUpped
+				monopoly_ids_level_built: current_move?.levelUpped
 					? new Set(current_move.levelUpped)
 					: undefined,
 				field_ids_mortgaged: current_move?.mortgaged

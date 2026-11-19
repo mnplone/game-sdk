@@ -1,4 +1,4 @@
-import { a as m1DemoPacketStatusTurnSchema, c as m1DemoDicesSchema, d as bit, f as parse, i as m1DemoContractSchema, l as roll_dices_exports, n as m1DemoPacketSetupConfigSchema, o as getMovementOptions, p as __exportAll, r as m1DemoPacketV1ConfigSchema, s as m1DemoPacketStatusTurnMovementSchema, t as m1DemoPacketSetupConfigRestartVariantSchema, u as normalizeFieldId } from "./config-DhZucRCe.mjs";
+import { a as m1DemoPacketStatusTurnSchema, c as m1DemoDicesSchema, d as bit, f as parse, i as m1DemoContractSchema, l as roll_dices_exports, n as m1DemoPacketSetupConfigSchema, o as getMovementOptions, p as __exportAll, r as m1DemoPacketV1ConfigSchema, s as m1DemoPacketStatusTurnMovementSchema, t as m1DemoPacketSetupConfigRestartVariantSchema, u as normalizeFieldId } from "./config-mZYB-wSB.mjs";
 import * as v from "valibot";
 //#region src/packet/events/auction.ts
 var auction_exports = /* @__PURE__ */ __exportAll({
@@ -633,7 +633,7 @@ const m1DemoPacketV1StatusSchema = v.pipe(v.object({
 				to_user_id: current_move?.payTo
 			} : void 0,
 			movement,
-			field_ids_level_built: current_move?.levelUpped ? new Set(current_move.levelUpped) : void 0,
+			monopoly_ids_level_built: current_move?.levelUpped ? new Set(current_move.levelUpped) : void 0,
 			field_ids_mortgaged: current_move?.mortgaged ? new Set(current_move.mortgaged) : void 0
 		},
 		timer: timeout_ts < -1e6 ? {
@@ -2109,8 +2109,8 @@ const valiV1Schemas$5 = [
 			user_id: value.user_id,
 			user_id_receiver: value.to,
 			field_id: value.field,
-			amount: value.money,
-			amount_received: value.money_received
+			amount: Math.round(value.money),
+			amount_received: value.money_received === void 0 ? void 0 : Math.round(value.money_received)
 		};
 	})),
 	v.pipe(v.object({

@@ -1,5 +1,5 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-const require_config = require("./config-DcREmBiw.cjs");
+const require_config = require("./config-DwA7QoB2.cjs");
 exports.bit = require_config.bit;
 exports.m1DemoContractSchema = require_config.m1DemoContractSchema;
 exports.m1DemoPacketSetupConfigSchema = require_config.m1DemoPacketSetupConfigSchema;

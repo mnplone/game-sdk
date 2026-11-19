@@ -420,8 +420,8 @@ const m1DemoPacketStatusTurnSchema = valibot.pipe(valibot.object({
 	})),
 	/** Fields on which player can move in this action. */
 	movement: valibot.optional(m1DemoPacketStatusTurnMovementSchema),
-	/** Fields on which player already built a level this turn. */
-	field_ids_level_built: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value)))),
+	/** Monopoly IDs on which player already built a level this turn. */
+	monopoly_ids_level_built: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value)))),
 	/** Fields which player already mortgaged this turn. */
 	field_ids_mortgaged: valibot.optional(valibot.pipe(valibot.array(valibot.number()), valibot.transform((value) => new Set(value))))
 }));

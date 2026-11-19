@@ -110,8 +110,8 @@ declare const m1DemoPacketStatusTurnSchema: v.SchemaWithPipe<readonly [v.ObjectS
   }, undefined>, v.ObjectSchema<{
     readonly source: v.PicklistSchema<["taxi", "wormhole"], undefined>;
     readonly field_ids: v.ArraySchema<v.NumberSchema<undefined>, undefined>;
-  }, undefined>], undefined>, undefined>; /** Fields on which player already built a level this turn. */
-  readonly field_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>; /** Fields which player already mortgaged this turn. */
+  }, undefined>], undefined>, undefined>; /** Monopoly IDs on which player already built a level this turn. */
+  readonly monopoly_ids_level_built: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>; /** Fields which player already mortgaged this turn. */
   readonly field_ids_mortgaged: v.OptionalSchema<v.SchemaWithPipe<readonly [v.ArraySchema<v.NumberSchema<undefined>, undefined>, v.TransformAction<number[], Set<number>>]>, undefined>;
 }, undefined>]>;
 type M1DemoPacketStatusTurn = v.InferOutput<typeof m1DemoPacketStatusTurnSchema>;
